@@ -12,7 +12,8 @@ class Unit extends BaseModel
 
     protected $primaryKey = 'unitID';
 
-    public $timestamps = false;
+    const CREATED_AT = 'createdDateTime';
+    const UPDATED_AT = 'lastUpdatedDateTime';
 
     public static function boot()
     {

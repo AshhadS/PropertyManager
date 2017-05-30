@@ -82,20 +82,7 @@
                 <textarea class="form-control" name="comments" rows="2" placeholder="Comments"></textarea>
               </div>
             </div>                                
-            <div class="form-group">
-              <label name="propertyType" class="col-sm-2 control-label">Company Name</label>
-              <div class="col-sm-10">
-                <select class="form-control" name="company">
-                </select>
-              </div>
-            </div>  
-            <div class="form-group">
-              <label name="propertyType" class="col-sm-2 control-label">Document</label>
-              <div class="col-sm-10">
-                <select class="form-control" name="document">
-                </select>
-              </div>
-            </div>                                
+                                           
             
           </div>
           <!-- /.box-body -->

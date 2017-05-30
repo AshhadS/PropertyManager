@@ -56,7 +56,7 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="inputEmail3" name="propertyType" class="col-sm-2 control-label">Property Name</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label">Property Name </label>
                     <div class="col-sm-10">
                       <select name="PropertiesID" class="form-control" >
                           @foreach ($properties as $property)
@@ -96,6 +96,9 @@
             </thead>
         </table>
     </div>
+    @foreach ($properties as $property)
+      <p>{{ $property->PropertiesID}} - {{ $property->pPropertyName}}</p>
+    @endforeach
 </div>
 @endsection
 

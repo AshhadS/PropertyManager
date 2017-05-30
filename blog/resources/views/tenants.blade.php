@@ -109,29 +109,27 @@
         Tenants
     </div>
     <div class="panel-body">
-        @if (count($tenants) > 0)
-            <table class="table table-striped task-table" id="tenants-table">
+        <table class="table table-striped task-table" id="tenants-table">
 
-                <!-- Table Headings -->
-                <thead>
-                    <tr>
-                          <th>First ame</th>
-                          <th>Last Name</th> 
-                          <th>dateOfBirth</th>
-                          <th>Email</th>
-                          <th>Phone Number</th>
-                          <th>Office Number</th>
-                          <th>Country</th>
-                          <th>Address</th>
-                          <th>City</th>
-                          <th>Comments</th>
-                          <th>View</th>
-                        </tr>
-                </thead>
+            <!-- Table Headings -->
+            <thead>
+                <tr>
+                      <th>First ame</th>
+                      <th>Last Name</th> 
+                      <th>dateOfBirth</th>
+                      <th>Email</th>
+                      <th>Phone Number</th>
+                      <th>Office Number</th>
+                      <th>Country</th>
+                      <th>Address</th>
+                      <th>City</th>
+                      <th>Comments</th>
+                      <th>View</th>
+                    </tr>
+            </thead>
 
-                       
-            </table>
-        @endif
+                   
+        </table>
     </div>
 </div>    
 @endsection

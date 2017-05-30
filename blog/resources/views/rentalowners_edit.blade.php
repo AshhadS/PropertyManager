@@ -65,14 +65,6 @@
                         <b><p class="col-sm-2 control-label">Comments</p></b>
                         <p class='col-sm-10 conrol-label'>{{ $rentalowner->comments}}</p>
                       </div><br/>  
-                      <div class="row">
-                        <b><p name="property2ype" class="col-sm-2 control-label">Company Name</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $rentalowner->rentalOwnerID}}</p>
-                      </div><br/>  
-                      <div class="row">
-                        <b><p name="property2ype" class="col-sm-2 control-label">Document</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $rentalowner->rentalOwnerID}}</p>
-                      </div><br/>  
                     
                   </div>
             </div>

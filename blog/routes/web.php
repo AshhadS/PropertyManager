@@ -19,12 +19,18 @@ Route::post('/register', 'RegistrationController@postRegister');
 Route::get('/login', 'LoginController@show');
 Route::post('/login', 'LoginController@login');
 Route::get('/logout', 'LoginController@logout');
-Route::get('/', function () {
-    return view('admin_template');
-});
 
 
 Route::group(['middleware' => ['CustomAuth']], function () {
+	/**
+	 * Dashboard
+	 */
+	Route::get('/', function () {
+	    return view('admin_template');
+	});
+
+	Route::get('/', 'DashboardController@index');
+
 	
 	/**
 	 * Units

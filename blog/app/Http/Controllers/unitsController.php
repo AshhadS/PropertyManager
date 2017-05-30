@@ -5,13 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\Unit;
 use App\Model\Property;
+use Debugbar;
 use Datatables;
+use Sentinel;
+use Redirect;
 use Illuminate\Support\Facades\DB;
-class unitsController extends Controller
+
+class UnitsController extends Controller
 {
     function index() {
+    	// $units = Unit::where('companyID', Sentinel::getUser()->companyID)->get();
+    	// $properties = Property::where('companyID', Sentinel::getUser()->companyID)->get();
     	$units = Unit::all();
     	$properties = Property::all();
+    	
 	    return view('units', [
 	        'units' => $units,
 	        'properties' => $properties,
@@ -20,9 +27,9 @@ class unitsController extends Controller
 
     function data(){
     	$t = DB::table('units')
-			->leftJoin('properties', 'units.PropertiesID', '=', 'units.PropertiesID')
-	    	->select('unitID', 'unitNumber', 'units.description', 'size', 'marketRent', 'properties.pPropertyName');
-	    	// dd(Datatables::of($t)->make(true));
+			->leftJoin('properties', 'units.PropertiesID', '=', 'properties.PropertiesID')
+	    	->select('unitID', 'unitNumber', 'units.description', 'size', 'marketRent', 'properties.pPropertyName');		
+	    	// ->where('units.companyID', Sentinel::getUser()->companyID);
     	return Datatables::of($t)->make(true);
     }
 
@@ -31,16 +38,22 @@ class unitsController extends Controller
 	    $units->unitNumber  = $request->unitNumber;
 	    $units->size        = $request->size;
 	    $units->description = $request->description;
+	    $units->PropertiesID = $request->PropertiesID;
 	    $units->marketRent = $request->marketRent;
+	    // $units->companyID = Sentinel::getUser()->companyID;
+
 	    $units->save();
 
-	    return $this->index();
+	    return Redirect::to('units');
     }
 
     function edit(Unit $unit){
     	$unit = Unit::find($unit->unitID);
+    	// $properties = Property::where('companyID', Sentinel::getUser()->companyID)->get();
+    	$properties = Property::all();
 	    return view('units_edit', [
 	        'unit' => $unit,
+	        'properties' => $properties,
 	    ]);
     }
 
@@ -50,13 +63,14 @@ class unitsController extends Controller
 	    $unit->size        = $request->size;
 	    $unit->description = $request->description;
 	    $unit->marketRent = $request->marketRent;
-	    $unit->PropertiesID = $request->propertyType;
+	    $unit->PropertiesID = $request->PropertiesID;
 	    $unit->save();
-	    return $this->index();
+	    
+	    return Redirect::to('units');
     }
 
     function delete(Unit $unit){
 	    $unit->delete();
-	    return $this->index();
+	    return Redirect::to('units');
     }
 }

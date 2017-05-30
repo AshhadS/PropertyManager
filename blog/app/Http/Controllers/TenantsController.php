@@ -12,10 +12,8 @@ use Redirect;
 class TenantsController extends Controller
 {
     function index() {
-    	$tenants = Tenant::all();
     	$countries = Country::all();
 	    return view('tenants', [
-	        'tenants' => $tenants,
 	        'countries' => $countries,
 	    ]);
     }
@@ -23,7 +21,8 @@ class TenantsController extends Controller
     function data(){
     	$t = DB::table('tenants')
     		->leftJoin('countries', 'tenants.country', '=', 'countries.id')
-	    	->select('tenantsID', 'firstName', 'lastName', 'dateOfBirth', 'email', 'phoneNumber', 'officeNumber', 'countries.countryName', 'address', 'city', 'comments', 'companyID');
+	    	->select('tenantsID', 'firstName', 'lastName', 'dateOfBirth', 'email', 'phoneNumber', 'officeNumber', 'countries.countryName', 'address', 'city', 'comments', 'companyID')
+	    	->where('tenants.companyID', Sentinel::getUser()->companyID);
     	return Datatables::of($t)->make(true);
 
     	// return Datatables::of(Tenant::query())->make(true);
@@ -41,11 +40,11 @@ class TenantsController extends Controller
 	    $tenant->address = $request->address;
 	    $tenant->city = $request->city;
 	    $tenant->comments = $request->comments;
-	    $tenant->companyID = $request->company;
+	    $tenant->companyID = $request->companyID;
 	
 	    $tenant->save();
 
-	    return $this->index();
+	    return Redirect::to('tenants');
     }
 
     function edit(Tenant $tenant){
@@ -71,7 +70,7 @@ class TenantsController extends Controller
 	    $tenant->address = $request->address;
 	    $tenant->city = $request->city;
 	    $tenant->comments = $request->comments;
-	    $tenant->companyID = $request->company;
+	    $tenant->companyID = $request->companyID;
 
 	    $tenant->save();
 	    return Redirect::to('tenants');
@@ -79,6 +78,6 @@ class TenantsController extends Controller
 
     function delete(Tenant $tenant){
 	    $tenant->delete();
-	    return $this->index();
+	    return Redirect::to('tenants');
     }
 }

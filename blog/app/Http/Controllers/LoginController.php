@@ -13,24 +13,18 @@ class LoginController extends Controller
 		return view('customauth.login');
 	}
 
-    // public function login(Request $request){
-    // 	Debugbar::info($request->all());
-    // 	Sentinel::authenticate($request->all());
-    //         echo "string";
-    //         exit;
-    // 	if(Sentinel::check()){
+    public function login(Request $request){
+    	Debugbar::info($request->all());
+    	Sentinel::authenticate($request->all());
+    	if(Sentinel::check()){
 
-	   //  	return redirect('dashboard');
-    // 	}
-    // }
-    // 
+	    	return redirect('/props');
+    	}
+    }
+    
 
     public function logout(){
         Sentinel::logout();
         return Redirect::to('login');
-    }
-    public function login(){
-    	// Sentinel::logout();
-    	return Redirect::to('dashboard');
     }
 }
