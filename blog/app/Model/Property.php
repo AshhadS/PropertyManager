@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Property extends Model{
+class Property extends BaseModel{
 
 
 	 /**
@@ -19,7 +19,7 @@ class Property extends Model{
      *
      * @var array
      */
-    protected $fillable = ['custom'];
+    protected $fillable = ['propertyImage'];
 
     
     protected $primaryKey = 'PropertiesID';

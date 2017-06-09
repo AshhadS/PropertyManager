@@ -25,12 +25,40 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	/**
 	 * Dashboard
 	 */
-	Route::get('/', function () {
-	    return view('admin_template');
-	});
-
 	Route::get('/', 'DashboardController@index');
+	Route::get('/dashboard', 'DashboardController@index');
 
+	Route::get('/agreement',function () {
+	    return view('agreement');
+	});
+	Route::get('/todo', function () {
+	    return view('todo');
+	});
+	
+	/**
+	 * Attachments
+	 */
+	Route::post('/attachment',  'AttachmentsController@create');
+	Route::post('/attachment/update',  'AttachmentsController@update');
+	Route::get('/attachments/{filename}',  'AttachmentsController@getFile');
+	Route::get('/attachment/edit/{attachment}',  'AttachmentsController@edit');
+	Route::delete('/attachment/{attachment}', 'AttachmentsController@delete');	
+
+
+	/**
+	 * Files
+	 */
+	Route::get('/images/uploads/{filename}',  'FilesController@getFile');
+
+	/**
+	 * Users
+	 */
+	Route::get('/users',  'UsersController@index');
+	Route::get('/user/edit/{user}',  'UsersController@edit');
+	Route::post('/users',  'UsersController@create');
+	Route::post('/users/update',  'UsersController@update');
+	Route::delete('/user/{user}', 'UsersController@delete');
+	Route::post('/user/all', 'UsersController@data');
 	
 	/**
 	 * Units

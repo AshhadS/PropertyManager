@@ -2,13 +2,7 @@
 
 @section('content')
 
-    <button type="button" class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#myModal">
-      <i class='fa fa-plus'></i> Add
-    </button>
-
-    <br />
-    <br />
-
+    <meta name="_token_del" content="{{ csrf_token() }}">
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
@@ -79,27 +73,37 @@
         </div>
       </div>
     </div>
+    
+<div class="page-header container-fluid">
+  <section class="content-header pull-left">
+      <h1>Units</h1>
+  </section>
 
-<div class="row">
-    <div class="col-md-12">
-        <table class="table table-bordered" id="units-table">
-            <thead>
-                <tr>
-                    <th>Unit Number</th>
-                    <th>Description</th>
-                    <th>Size</th>
-                    <th>Market Rent</th>
-                    <th>Property Name</th>
-                    <th>View</th>
 
-                </tr>
-            </thead>
-        </table>
-    </div>
-    @foreach ($properties as $property)
-      <p>{{ $property->PropertiesID}} - {{ $property->pPropertyName}}</p>
-    @endforeach
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
+    <i class="fa fa-plus"></i> <b>Add Unit</b>
+  </button>
 </div>
+
+<div class="panel panel-default give-space">
+    <div class="panel-body">
+      <table class="table table-bordered table-striped" id="units-table">
+
+          <!-- Table Headings -->
+          <thead>
+            <tr>
+              <th>Unit Number</th>
+              <th>Description</th>
+              <th>Size</th>
+              <th>Market Rent</th>
+              <th>Property Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+      </table>
+    </div>
+</div>   
 @endsection
 
 @push('scripts')
@@ -108,11 +112,32 @@ $(function() {
     $('#units-table').DataTable({
         processing: true,
         serverSide: true,
+        ordering: false,
         ajax: {
           'url' : 'unit/all',
           'type': 'POST' ,
           'headers' : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
         },
+        "initComplete": function(settings, json) {
+         $('.delete-btn').on('click', function(e){
+          e.preventDefault();
+          btn = this;
+          if($(btn).hasClass('activate')){
+            console.log('Now delete!'); 
+            $(btn).closest('form.delete-form').submit();
+          } else{
+            $(btn).addClass('activate');
+            setTimeout(function(){
+              $(btn).removeClass('activate');
+            }, 5000);
+
+          }
+
+         })
+        },
+        "columnDefs": [
+          { "width": "10%", "targets": 5 }
+        ],
         columns: [
             { data: 'unitNumber', name: 'unitNumber' },
             { data: 'description', name: 'units.description' },
@@ -124,7 +149,15 @@ $(function() {
                 className: 'edit-button',
                 orderable: false,
                 render: function ( data, type, full, meta ) {
-                  return '<a href="unit/edit/'+data+'">View</a>';
+                  // Create action buttons
+                  var action = '<div class="inner"><a class="btn btn-info btn-sm" href="unit/edit/'+data+'"><i class="fa fa-eye" aria-hidden="true"></i>View</a>';
+                  action += '<form class="delete-form" method="POST" action="unit/'+data+'">';
+                  action += '<a href="" class="delete-btn btn btn-danger btn-sm button--winona"><span>';
+                  action += '<i class="fa fa-trash" aria-hidden="true"></i> Delete</span><span class="after">Sure?</span></a>';
+                  action += '<input type="hidden" name="_method" value="DELETE"> ';
+                  action += '<input type="hidden" name="_token" value="'+ $('meta[name="_token_del"]').attr('content') +'">';
+                  action += '</form></div>';
+                  return action;
                 }
             }     
         ]

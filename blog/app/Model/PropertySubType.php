@@ -15,6 +15,8 @@ class PropertySubType extends Model
 
     protected $primaryKey = 'propertySubTypeID';
 
+    public $timestamp = false;
+
     public function propertyType(){
         return $this->hasOne('App\PropertyType', 'propertyTypeID');
     }

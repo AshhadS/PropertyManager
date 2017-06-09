@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\Property;
 use App\Model\PropertyType;
+use App\Model\Country;
 use App\Model\PropertySubType;
+use App\Model\Attachment;
+use App\Model\DocumentMaster;
 use App\Model\RentalOwner;
 use Datatables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Debugbar;
+use Sentinel;
 use Redirect;
     	// Debugbar::info($property); 
 
@@ -21,6 +26,7 @@ class PropertyController extends Controller
 	    $propSubTypes = PropertySubType::all();
 	    $propTypes = PropertyType::all();
     	$rentalowners = RentalOwner::all();
+    	$countries = Country::all();
 
 
 	    return view('prop', [
@@ -28,11 +34,16 @@ class PropertyController extends Controller
 	        'propSubTypes' => $propSubTypes,
 	        'propTypes' => $propTypes,
 	        'rentalowners' => $rentalowners,
+	        'countries' => $countries,
 	    ]);
     }
     
     function data(){
-    	$t = DB::table('properties')->select('PropertiesID', 'companyID', 'documentID', 'pPropertyName', 'description', 'propertyTypeID', 'propertySubTypeID', 'numberOfUnits', 'rentalOwnerID', 'address', 'city', 'forRentOrOwn');
+    	$t = DB::table('properties')
+			->leftJoin('propertysubtypeid', 'properties.propertySubTypeID', '=', 'propertysubtypeid.propertySubTypeID')
+			->leftJoin('rentalowners', 'properties.rentalOwnerID', '=', 'rentalowners.rentalOwnerID')
+			->leftJoin('countries', 'properties.country', '=', 'countries.id')
+    		->select('PropertiesID', 'pPropertyName', 'description', 'countries.countryName', 'propertysubtypeid.propertySubTypeDescription', 'numberOfUnits', 'rentalowners.firstName', 'properties.address', 'properties.city', 'forRentOrOwn');
     	return Datatables::of($t)->make(true);
 
 
@@ -40,34 +51,60 @@ class PropertyController extends Controller
     }
 
     function create(Request $request) {
-    	Debugbar::info($request);
-	    $prop = new Property;
+    	// dd($file);
+	    // dd(file_get_contents($request->file('propertyImage')));
+
+	    $prop = Property::create();
 	    $prop->pPropertyName = $request->pPropertyName;
 	    $prop->description = $request->description;
 	    $prop->propertySubTypeID = $request->propertySubTypeID;
 	    $prop->numberOfUnits = $request->numberOfUnits;
 	    $prop->rentalOwnerID = $request->rentalOwnerID;
-	    $prop->address =$request->address;
-	    $prop->city =$request->city;
-	    $prop->forRentOrOwn =$request->forRentOrOwn;
-	    $prop->documentID =$request->documentID;
+	    $prop->address = $request->address;
+	    $prop->city = $request->city;
+	    $prop->forRentOrOwn = $request->forRentOrOwn;
+	    $prop->country = $request->country;
+	    $prop->companyID = Sentinel::getUser()->companyID;
+	    $prop->documentID = 1; 
 
-	
+
+
+
+	    // File upload
+	    if($request->hasFile('propertyImage')){
+		    $file = $request->file('propertyImage');
+		    $prop->propertyImage = $prop->PropertiesID.'_'. $prop->documentID .'.'. $file->getClientOriginalExtension();
+		    Storage::put('uploads/'.$prop->propertyImage, file_get_contents($file));
+		}
 	    $prop->save();
 
 	    return Redirect::to('props');
     }
 
     function edit(Property $property){
-    	$props = Property::find($property->PropertiesID);
+    	$prop = Property::find($property->PropertiesID);
 	    $propSubTypes = PropertySubType::all();
     	$rentalowners = RentalOwner::all();
+    	$countries = Country::all();
+    	$documentmaster = DocumentMaster::all();
+    	$attachments = Attachment::where('documentAutoID', $property->PropertiesID)->where('documentID', 1)->get();
 	    
 
+    	$property_type_name = (isset($prop->propertySubTypeID)) ? PropertySubType::find($prop->propertySubTypeID)->propertySubTypeDescription : '';
+    	$rental_owner_name = (isset($prop->rentalOwnerID)) ? RentalOwner::find($prop->rentalOwnerID)->firstName : '';
+    	$rent_or_own = ($prop->forRentOrOwn == 1) ? 'Rent' : 'Own';
+    	$countryName = (isset($prop->country)) ? Country::find($prop->country)->countryName : '';
 	    return view('props_edit', [
-	        'props' => $props,
+	        'props' => $prop,
 	        'propSubTypes' => $propSubTypes,
 	        'rentalowners' => $rentalowners,
+	        'documentmaster' => $documentmaster,
+	        'attachments' => $attachments,
+	        'countries' => $countries,
+	        'property_type_name' => $property_type_name,
+	        'rental_owner_name' => $rental_owner_name,
+	        'rent_or_own' => $rent_or_own,
+	        'countryName' => $countryName,
 
 	    ]);
     }
@@ -83,14 +120,16 @@ class PropertyController extends Controller
 	    $prop->address =$request->address;
 	    $prop->city =$request->city;
 	    $prop->forRentOrOwn =$request->forRentOrOwn;
-	    $prop->documentID =$request->documentID;
+	    $prop->country = $request->country;
+
 
 	    $prop->save();
 	    return Redirect::to('props');
     }
 
-    function delete(Property $prop){
-	    $prop->delete();
+    function delete(Property $property){
+    	$property = Property::find($property->PropertiesID);
+	    $property->delete();
 	    return Redirect::to('props');
     }
 }

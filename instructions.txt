@@ -1,0 +1,11 @@
+Conrollers folder
+Web.php
+Views
+css
+Model folder
+custom.js
+
+
+will the users crud have roles? like tenants and property owners
+
+if we are changing teneants to users then do we not need the tenants crud?

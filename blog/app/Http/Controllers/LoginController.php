@@ -18,7 +18,7 @@ class LoginController extends Controller
     	Sentinel::authenticate($request->all());
     	if(Sentinel::check()){
 
-	    	return redirect('/props');
+	    	return redirect('/');
     	}
     }
     

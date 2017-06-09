@@ -1,18 +1,19 @@
 @extends('admin_template')
 
 @section('content')
+<meta name="_token_del" content="{{ csrf_token() }}">
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        <h4 class="modal-title" id="myModalLabel">Property Ownners</h4>
       </div>
       <div class="modal-body">
         <div class="box box-info">
         <div class="box-header with-border">
-          <h3 class="box-title">Add rentalowner</h3>
+          <h3 class="box-title">Add Property Owner</h3>
         </div>
         <!-- /.box-header -->
         <!-- form start -->
@@ -34,9 +35,9 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Date of birth</label>
               <div class="col-sm-10">
-                <input type="text" name="dob" class="form-control"  placeholder="tenant Number">
+                <input type="text" id="datepicker" name="dob" class="form-control"  placeholder="Date of birth">
               </div>
-            </div>
+            </div>           
             <div class="form-group">
               <label class="col-sm-2 control-label">Email</label>
               <div class="col-sm-10">
@@ -58,8 +59,10 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Country</label>
               <div class="col-sm-10">
-                <select name="country" >
-                  <option value="1">Sri lanka</option>
+                <select name="country" class="form-control">
+                    @foreach ($countries as $country)
+                        <option value="{{$country->id}}">{{ $country->countryName }}</option>
+                    @endforeach
                 </select>
               </div>
             </div>
@@ -98,25 +101,29 @@
   </div>
 </div>
 
-    
-<div class="panel panel-default">
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#myModal">
-      <i class="fa fa-plus"> Add rentalowner</i>
-    </button>
-    <div class="panel-heading">
-        rentalowner
-    </div>
+<div class="page-header container-fluid">
+  <section class="content-header pull-left">
+      <h1> Proeperty Owners</h1>
+  </section>
+
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
+    <i class="fa fa-plus"></i> <b>Add Property Owner</b>
+  </button>
+</div>
+
+
+<div class="panel panel-default give-space">
     <div class="panel-body">
         @if (count($rentalowners) > 0)
-            <table class="table table-striped task-table" id="rentalowners-table">
+            <table class="table table-bordered table-hover table-striped" id="rentalowners-table">
 
                 <!-- Table Headings -->
                 <thead>
                     <tr>
-                          <th>First ame</th>
+                          <th>First Name</th>
                           <th>Last Name</th> 
-                          <th>dateOfBirth</th>
+                          <th>Date of birth</th>
                           <th>Email</th>
                           <th>Phone Number</th>
                           <th>Office Number</th>
@@ -124,7 +131,7 @@
                           <th>Address</th>
                           <th>City</th>
                           <th>Comments</th>
-                          <th>View</th>
+                          <th>Actions</th>
                         </tr>
                 </thead>
 
@@ -140,11 +147,32 @@ $(function() {
     $('#rentalowners-table').DataTable({
         processing: true,
         serverSide: true,
+        ordering: false,
         ajax: {
           'url' : 'rentalowners/all',
           'type': 'POST' ,
           'headers' : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
         },
+        "initComplete": function(settings, json) {
+         $('.delete-btn').on('click', function(e){
+          e.preventDefault();
+          btn = this;
+          if($(btn).hasClass('activate')){
+            console.log('Now delete!'); 
+            $(btn).closest('form.delete-form').submit();
+          } else{
+            $(btn).addClass('activate');
+            setTimeout(function(){
+              $(btn).removeClass('activate');
+            }, 5000);
+
+          }
+
+         })
+        },
+        "columnDefs": [
+          { "width": "10%", "targets": 10 }
+        ],
         columns: [
             { data: 'firstName', name: 'firstName'},  
             { data: 'lastName', name: 'lastName'},  
@@ -161,7 +189,15 @@ $(function() {
                 className: 'edit-button',
                 orderable: false,
                 render: function ( data, type, full, meta ) {
-                  return '<a href="tenant/edit/'+data+'">View</a>';
+                    // Create action buttons
+                  var action = '<div class="inner"><a class="btn btn-info btn-sm" href="rentalowner/edit/'+data+'"><i class="fa fa-eye" aria-hidden="true"></i>View</a>';
+                  action += '<form class="delete-form" method="POST" action="rentalowner/'+data+'">';
+                  action += '<a href="" class="delete-btn btn btn-danger btn-sm button--winona"><span>';
+                  action += '<i class="fa fa-trash" aria-hidden="true"></i> Delete</span><span class="after">Sure?</span></a>';
+                  action += '<input type="hidden" name="_method" value="DELETE"> ';
+                  action += '<input type="hidden" name="_token" value="'+ $('meta[name="_token_del"]').attr('content') +'">';
+                  action += '</form></div>';
+                  return action;
                 }
             }      
         ]

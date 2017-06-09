@@ -1,7 +1,10 @@
 @extends('admin_template')
 
 @section('content')
-
+  <section class="content-header">
+      <h1>Jobcard</h1>
+  </section>
+  <br /><br />
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
@@ -16,9 +19,6 @@
      <div class="row">
         <div class="col-md-12">
             <div class="box box-info">
-                <div class="box-header with-border">
-                  <h3 class="box-title">jobcard</h3>
-                </div>
                 <!-- /.box-header -->
                 <!-- form start -->
                     
@@ -33,23 +33,19 @@
                       </div>
                       <div class="row">
                         <b><p class="col-sm-2 control-label">Status</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $jobcard->jobcardStatusID}}</p>
+                        <p class='col-sm-10 conrol-label'>{{ $jobcard->jobcardStatusID }}</p>
                       </div>
                       <div class="row">
                         <b><p class="col-sm-2 control-label">Property name</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $jobcard->PropertiesID}}</p>
-                      </div>
-                      <div class="row">
-                        <b><p class="col-sm-2 control-label">Property Owner name</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $jobcard->rentalOwnerID}}</p>
+                        <p class='col-sm-10 conrol-label'>{{ $property_name }}</p>
                       </div>
                       <div class="row">
                         <b><p class="col-sm-2 control-label">Tenant name</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $jobcard->tenantsID}}</p>
+                        <p class='col-sm-10 conrol-label'>{{ $tenant_name }}</p>
                       </div>
                       <div class="row">
                         <b><p class="col-sm-2 control-label">Unit</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $jobcard->unitID}}</p>
+                        <p class='col-sm-10 conrol-label'>{{ $unit_number }}</p>
                       </div>
                       <br/> <br/>  
                     
@@ -89,8 +85,13 @@
               <label class="col-sm-2 control-label">Property Name</label>
               <div class="col-sm-10">
                 <select class="form-control" name="PropertiesID" value="{{ $jobcard->PropertiesID}}" >
+                        <option value="">Select a property</option>
                     @foreach ($properties as $property)
-                        <option value="{{$property->PropertiesID}}">{{ $property->pPropertyName }}</option>
+                        @if ($jobcard->PropertiesID == $property->PropertiesID)
+                          <option value="{{$property->PropertiesID}}" selected="selected">{{ $property->pPropertyName }}</option>
+                        @else
+                          <option value="{{$property->PropertiesID}}">{{ $property->pPropertyName }}</option>
+                        @endif
                     @endforeach
                 </select>
               </div>
@@ -100,8 +101,13 @@
               <label name="tenant" class="col-sm-2 control-label">Tenant Name</label>
               <div class="col-sm-10">
                 <select class="form-control" name="tenantsID" value="{{ $jobcard->tenantsID}}">
+                        <option value="">Select a tenant</option> 
                     @foreach ($tenants as $tenant)
-                        <option value="{{$tenant->tenantsID}}">{{ $tenant->firstName }}</option>
+                        @if ($jobcard->tenantsID == $tenant->tenantsID)
+                          <option value="{{$tenant->tenantsID}}" selected="selected">{{ $tenant->firstName }}</option>
+                        @else
+                          <option value="{{$tenant->tenantsID}}">{{ $tenant->firstName }}</option>
+                        @endif
                     @endforeach
                 </select>
               </div>
@@ -111,8 +117,13 @@
               <label name="unit" class="col-sm-2 control-label">Unit</label>
               <div class="col-sm-10">
                 <select class="form-control" name="unitID" value="{{ $jobcard->unitID}}">
+                        <option value="">Select a unit</option>
                     @foreach ($units as $unit)
-                        <option value="{{$unit->unitID}}">{{ $unit->unitNumber }}</option>
+                        @if ($unit->unitID == $jobcard->unitID)
+                          <option value="{{$unit->unitID}}" selected="selected">{{ $unit->unitNumber }}</option>
+                        @else
+                          <option value="{{$unit->unitID}}">{{ $unit->unitNumber }}</option>
+                        @endif
                     @endforeach
                 </select>
               </div>
@@ -122,9 +133,17 @@
               <label name="propertyType" class="col-sm-2 control-label">Status</label>
               <div class="col-sm-10">
                 <select class="form-control" name="jobcardStatusID" value="{{ $jobcard->jobcardStatusID}}">
-                  <option value="1">In Progress</option>
-                  <option value="2">Completed</option>
-                  <option value="3">deffered</option>
+                  <!-- <option value="1" {{ $jobcard->jobcardStatusID == 1 ? "Selected='selected'" : "" }} >In Progress</option>
+                  <option value="2" {{ $jobcard->jobcardStatusID == 2 ? "Selected='selected'" : "" }} >Completed</option>
+                  <option value="3" {{ $jobcard->jobcardStatusID == 3 ? "Selected='selected'" : "" }} >deffered</option> -->
+
+                  @foreach ($jobcardstatuss as $jobcardstatus)
+                        @if ($jobcardstatus->jobcardStatusID == $jobcard->jobcardStatusID)
+                          <option value="{{$jobcardstatus->jobcardStatusID}}" selected="selected">{{ $jobcardstatus->statusDescription }}</option>
+                        @else
+                          <option value="{{$jobcardstatus->jobcardStatusID}}">{{ $jobcardstatus->statusDescription }}</option>
+                        @endif
+                  @endforeach
                 </select>
               </div>
             </div>                               
@@ -142,8 +161,92 @@
       </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="attachments">
-      <h2>Attachments</h2>
+    <br/>
+      <div class="container-fluid">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
+          <i class="fa fa-plus"></i> <b>Add Attachment</b>
+        </button>
+        <br/><br/><br/>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Attachment</h4>
+              </div>
+              <div class="modal-body">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">Add Attachment</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal" action="/attachment" method="POST" enctype="multipart/form-data">
+                      {{ csrf_field() }}
+                      <div class="box-body">
+                        <input type="hidden" name="documentAutoID" class="form-control" value="{{ $jobcard->jobcardID}}"  placeholder="Subject">
+                        <input type="hidden" name="documentID" class="form-control" value="5" >
+                
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label">File Name</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="fileNameCustom" class="form-control input-req"  placeholder="Name">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label">File Description</label>
+                          <div class="col-sm-10">
+                            <textarea class="form-control" name="description" rows="2" value="" placeholder="Description"></textarea>
+                          </div>
+                        </div> 
+                        <div class="form-group">
+                          <label name="tenant" class="col-sm-2 control-label">Document</label>
+                          <div class="col-sm-10">
+                            <input type="file" name="attachmentFile" accept="image/*">
+                          </div>
+                        </div>
+                      </div>
+                      <!-- /.box-body -->
+                      <div class="box-footer">
+                        <input type="reset" class="btn btn-default" value="Reset" />
+                        <button type="submit" class="btn btn-info pull-right">Save</button>
+                      </div>
+                      <!-- /.box-footer -->
+                    </form>
+                </div>
+              </div>    
+            </div>
+          </div>
+        </div>
+        <div class="box box-info attachments-rows">
+          @foreach ($attachments as $attachment)
+              <div class="attacment-item">
+                <a href="/attachments/{{$attachment->fileNameSlug}}">{{$attachment->fileNameCustom}}</a>
+                <p>{{$attachment->attachmentDescription}}</p>
+                <div class="edit-button">
+                  <button class="btn btn-info btn-sm edit-attachment" data-id='{{ $attachment->attachmentID }}' data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button>
+
+                  <input type="hidden" class='data-defined' data-id='{{ $attachment->attachmentID }}' data-documentAutoID='{{ $jobcard->jobcardID }}' data-description='{{ $attachment->attachmentDescription }}' data-fileNameCustom='{{ $attachment->fileNameCustom }}' data-fileNameSlug='{{ $attachment->fileNameSlug }}' data-documentID='{{ $attachment->documentID }}'>
+
+                  <form class="delete-form" action="/attachment/{{ $attachment->attachmentID }}" method="POST">
+                    {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
+                    <!-- <input type="submit" value="Delete" class="btn btn-danger btn-small"> -->
+                    <a href="" class="delete-btn btn btn-danger btn-sm button--winona">
+                      <span><i class="fa fa-trash" aria-hidden="true"></i> Delete</span>
+                      <span class="after">Sure?</span>
+                    </a>
+                  </form>
+                </div>
+
+              </div>
+          @endforeach
+        </div>
+          @component('attachments_edit')
+
+          @endcomponent
+      </div>
     </div>
   </div>
-
 @endsection

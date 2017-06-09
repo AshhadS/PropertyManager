@@ -4,11 +4,11 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RentalOwner extends Model
+class RentalOwner extends BaseModel
 {
     protected $table = 'rentalowners';
 
-    protected $primaryKey = 'rentalownerID';
+    protected $primaryKey = 'rentalOwnerID';
 
     
     const CREATED_AT = 'createdDateTime';

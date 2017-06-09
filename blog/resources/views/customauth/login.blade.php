@@ -17,17 +17,19 @@
 		<div class="grad"></div>
 			<div class="form">
 			      
-			      <ul class="tab-group">
+			      <!-- <ul class="tab-group">
 			        <li class="tab active"><a href="#signup">Sign Up</a></li>
-			        <li class="tab"><a href="#login">Log In</a></li>
-			      </ul>
+			        <li class="tab active"><a href="#login">Log In</a></li>
+			      </ul> -->
 			      
+			          <!-- 
 			      <div class="tab-content">
 			        <div id="signup">   
 			          <h1>Property Management</h1>
+			          <p>Registration has been closed please contact site admin</p>
 			          
 			          <form action="/register" method="post">
-			           {{ csrf_field() }}
+			           {{-- csrf_field() --}}
 			          <div class="top-row">
 			            <div class="field-wrap">
 			              <label>
@@ -60,9 +62,10 @@
 			          
 			          <button type="submit" class="button button-block"/>Register</button>
 			          
-			          </form>
+			          </form> 
 
 			        </div>
+			          -->
 			        
 			        <div id="login">   
 			          <h1>Welcome Back!</h1>
