@@ -39,6 +39,10 @@
                           <p class='col-sm-10 conrol-label'>{{ $unit->marketRent}}</p>
                         </div>
                         <div class="row">
+                          <b><p class="col-sm-2 control-label">Currency</p></b>
+                          <p class='col-sm-10 conrol-label'>{{ $currencyName}}</p>
+                        </div>
+                        <div class="row">
                           <b><p class="col-sm-2 control-label">Property</p></b>
                           <p class='col-sm-10 conrol-label'>{{ $property_name}}</p>
                         </div>
@@ -101,7 +105,22 @@
                                   @endforeach
                               </select>
                             </div>
-                          </div>                                
+                          </div> 
+
+                          <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">Curreny</label>
+                            <div class="col-sm-10">
+                              <select name="currencyID" class="form-control" >
+                                  @foreach ($currencies as $currency)
+                                      @if ($unit->currencyID == $currency->currencyID)
+                                        <option value="{{$currency->currencyID}}" selected="selected" >{{ $currency->currencyCode }}</option>
+                                      @else
+                                        <option value="{{$currency->currencyID}}">{{ $currency->currencyCode }}</option>
+                                      @endif
+                                  @endforeach
+                              </select>
+                            </div>
+                          </div>                                 
                           
                         </div>
                         <!-- /.box-body -->
@@ -177,7 +196,7 @@
         <div class="box box-info attachments-rows">
           @foreach ($attachments as $attachment)
               <div class="attacment-item">
-                <a href="/attachments/{{$attachment->fileNameSlug}}">{{$attachment->fileNameCustom}}</a>
+                <a href="/blog/storage/app/uploads/attachments/{{$attachment->fileNameSlug}}">{{$attachment->fileNameCustom}}</a>
                 <p>{{$attachment->attachmentDescription}}</p>
                 <div class="edit-button">
                   <button class="btn btn-info btn-sm edit-attachment" data-id='{{ $attachment->attachmentID }}' data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button>

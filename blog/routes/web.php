@@ -79,6 +79,8 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	Route::post('props/update',  'PropertyController@update');
 	Route::delete('prop/{property}', 'PropertyController@delete');
 	Route::post('props/all', 'PropertyController@data');
+    Route::post('prop/subtypelist/{propertyTypeID}',  'PropertyController@getSubtypeList');
+
 
 	/**
 	 * Tenants
@@ -109,4 +111,7 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	Route::post('jobcards/update',  'JobCardsController@update');
 	Route::delete('jobcard/{jobcard}', 'JobCardsController@delete');
 	Route::post('jobcards/all', 'JobCardsController@data');
+	Route::get('jobcard/getunit/{propertyId}',  'JobCardsController@getUnitsForProperty');
+	Route::post('jobcard/getunit/{propertyId}',  'JobCardsController@getUnitsForProperty');
+
 });

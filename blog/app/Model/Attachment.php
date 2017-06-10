@@ -10,7 +10,19 @@ class Attachment extends Model
 
     protected $primaryKey = 'attachmentID';
 
-    
-    const CREATED_AT = 'uploadedDateTime';
-    const UPDATED_AT = 'updatedDateTime';
+    // Remove all timestamps
+    public $timestamps = false;
+
+	// Saving only the uploaded at time
+ //    public static function boot()
+ //    {
+	//     static::creating( function ($model) {
+	//         $model->setCreatedAt($model->freshTimestamp());
+	//     });
+
+	// }
+	// define column for created at
+    // const CREATED_AT = 'uploadedDateTime';
+    // 
+    protected $fillable = ['companyID'];
 }

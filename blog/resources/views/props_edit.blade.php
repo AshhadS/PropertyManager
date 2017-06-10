@@ -23,45 +23,53 @@
                 <!-- form start -->
                     
                   <div class="box-body">
+                    <div class="image-column col-md-4">
                       <div class="row">
-                        <b><p class="col-sm-2 control-label">Name</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $props->pPropertyName}}</p>
+                        <b><p class="col-sm-4 control-label">Name</p></b>
+                        <p class='col-sm-4 conrol-label'>{{ $props->pPropertyName}}</p>
                       </div>
                       <div class="row">
-                        <b><p class="col-sm-2 control-label">Description</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $props->description}}</p>
+                        <b><p class="col-sm-4 control-label">Description</p></b>
+                        <p class='col-sm-4 conrol-label'>{{ $props->description}}</p>
                       </div>
                       <div class="row">
-                        <b><p class="col-sm-2 control-label">Property Type</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $property_type_name}}</p>
+                        <b><p class="col-sm-4 control-label">Property Sub Type</p></b>
+                        <p class='col-sm-4 conrol-label'>{{ $property_type_name}}</p>
                       </div>
                       <div class="row">
-                        <b><p class="col-sm-2 control-label">Number of units</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $props->numberOfUnits}}</p>
+                        <b><p class="col-sm-4 control-label">Property Type</p></b>
+                        <p class='col-sm-4 conrol-label'>{{ $property_type_name}}</p>
                       </div>
                       <div class="row">
-                        <b><p class="col-sm-2 control-label">Property Owner name</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $rental_owner_name }}</p>
+                        <b><p class="col-sm-4 control-label">Number of units</p></b>
+                        <p class='col-sm-4 conrol-label'>{{ $props->numberOfUnits}}</p>
                       </div>
                       <div class="row">
-                        <b><p class="col-sm-2 control-label">Address</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $props->address}}</p>
+                        <b><p class="col-sm-4 control-label">Property Owner name</p></b>
+                        <p class='col-sm-4 conrol-label'>{{ $rental_owner_name }}</p>
                       </div>
                       <div class="row">
-                        <b><p class="col-sm-2 control-label">Country</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $countryName}}</p>
+                        <b><p class="col-sm-4 control-label">Address</p></b>
+                        <p class='col-sm-4 conrol-label'>{{ $props->address}}</p>
+                      </div>
+                      <div class="row">
+                        <b><p class="col-sm-4 control-label">Country</p></b>
+                        <p class='col-sm-4 conrol-label'>{{ $countryName}}</p>
                       </div><br/> 
                       <div class="row">
-                        <b><p class="col-sm-2 control-label">City</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $props->city}}</p>
+                        <b><p class="col-sm-4 control-label">City</p></b>
+                        <p class='col-sm-4 conrol-label'>{{ $props->city}}</p>
                       </div>
                       <div class="row">
-                        <b><p class="col-sm-2 control-label">Rent / Own</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $rent_or_own }}</p>
+                        <b><p class="col-sm-4 control-label">Rent / Own</p></b>
+                        <p class='col-sm-4 conrol-label'>{{ $rent_or_own }}</p>
                       </div>
-                      <div class="row">
-                        <b><p class="col-sm-2 control-label">Property Image</p></b>
-                        <img class='show-image' src="{{asset('images/uploads/'.$props->propertyImage)}}" alt="Property Image">
+                    </div>
+                      <div class="image-column col-md-6">
+                        <div class="row">
+                          <b><p class="col-sm-2 control-label">Property Image</p></b>
+                          <img class='show-image' src="/blog/storage/app/uploads/{{$props->propertyImage}}" alt="Property Image">
+                        </div>
                       </div>
                       <br/> <br/>  
                     
@@ -76,7 +84,7 @@
             <div class="box box-info"> 
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form class="form-horizontal" action="/props/update" method="POST">
+                <form class="form-horizontal" action="/props/update" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
           <div class="box-body">
                 <input type="hidden" name="PropertiesID" class="form-control" value="{{ $props->PropertiesID}}"  placeholder="Subject">
@@ -131,7 +139,22 @@
             <div class="form-group">
               <label for="inputEmail3" class="col-sm-2 control-label">Property Type</label>
               <div class="col-sm-10">
-                <select class="form-control" name="propertySubTypeID" value="{{ $props->propertySubTypeID }}">
+                <select class="form-control selection-parent-item" name="propertySubTypeID" value="{{ $props->propertySubTypeID }}">
+                    @foreach ($propTypes as $prop)
+                        @if ($props->propertyTypeID == $prop->propertyTypeID)
+                          <option value="{{$prop->propertyTypeID}}" selected="selected">{{ $prop->propertyDescription }}</option>
+                        @else
+                          <option value="{{$prop->propertyTypeID}}">{{ $prop->propertyDescription }}</option>
+                        @endif
+                    @endforeach
+                </select>
+              </div>
+            </div> 
+
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">Property Sub Type</label>
+              <div class="col-sm-10">
+                <select class="form-control selection-child-item" name="propertySubTypeID" value="{{ $props->propertySubTypeID }}">
                     @foreach ($propSubTypes as $prop)
                         @if ($props->propertySubTypeID == $prop->propertySubTypeID)
                           <option value="{{$prop->propertySubTypeID}}" selected="selected">{{ $prop->propertySubTypeDescription }}</option>
@@ -235,7 +258,7 @@
                         <div class="form-group">
                           <label name="tenant" class="col-sm-2 control-label">Document</label>
                           <div class="col-sm-10">
-                            <input type="file" name="attachmentFile" accept="image/*">
+                            <input type="file" name="attachmentFile" required="required" accept="image/*">
                           </div>
                         </div>
                       </div>
@@ -254,7 +277,7 @@
         <div class="box box-info attachments-rows">
           @foreach ($attachments as $attachment)
               <div class="attacment-item">
-                <a href="/attachments/{{$attachment->fileNameSlug}}">{{$attachment->fileNameCustom}}</a>
+                <a href="/blog/storage/app/uploads/attachments/{{$attachment->fileNameSlug}}">{{$attachment->fileNameCustom}}</a>
                 <p>{{$attachment->attachmentDescription}}</p>
                 <div class="edit-button">
                   <button class="btn btn-info btn-sm edit-attachment" data-id='{{ $attachment->attachmentID }}' data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button>
@@ -285,3 +308,29 @@
   </div>
 
 @endsection
+@push('scripts')
+<script>
+$(function() {
+    // Load content based on previous selection
+    $('.selection-parent-item').on('change', function(){
+      $.ajax({
+          url: "/prop/subtypelist/"+$(this).val()+"",
+          context: document.body,
+          method: 'POST',
+          headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
+      })
+      .done(function(data) {            
+        $('.selection-child-item').html(function(){
+            // Generate the seletect list
+            var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
+            data.forEach(function( index, element ){
+                output += '<option value="'+data[element].propertySubTypeID+'">'+data[element].propertySubTypeDescription+'</option>';
+            });
+            output += '</select>';
+            return output;
+        });
+      });
+    });
+});
+</script>
+@endpush

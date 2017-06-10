@@ -77,14 +77,14 @@
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-                        <li><a href="/admin"> <i class="fa fa-home" aria-hidden="true"></i> Home</a></li>                     
-                        <li><a href="/rentalowners"> <i class="fa fa-user-secret" aria-hidden="true"></i> Property Owner</a></li>                
-                        <li><a href="/props"> <i class="fa fa-building" aria-hidden="true"></i> Properties</a></li>
-                        <li><a href="/units"> <i class="fa fa-university" aria-hidden="true"></i> Units</a></li>
-                        <li><a href="/tenants"> <i class="fa fa-users" aria-hidden="true"></i> Tenants</a></li>                     
-                        <li><a href="/users"> <i class="fa fa-user" aria-hidden="true"></i> Users</a></li>                     
-                        <li><a href="#"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Reports</a></li>                     
-                        <li><a href="/logout">Logout <i class="fa fa-sign-out" aria-hidden="true"></i> </a></li>                     
+                            <li class=""><a href="/admin"> <i class="fa fa-home" aria-hidden="true"></i> Home</a></li>                     
+                            <li class=""><a href="/rentalowners"> <i class="fa fa-user-secret" aria-hidden="true"></i> Property Owner</a></li>                
+                            <li class=""><a href="/props"> <i class="fa fa-building" aria-hidden="true"></i> Properties</a></li>
+                            <li class=""><a href="/units"> <i class="fa fa-university" aria-hidden="true"></i> Units</a></li>
+                            <li class=""><a href="/tenants"> <i class="fa fa-users" aria-hidden="true"></i> Tenants</a></li>                     
+                            <li class=""><a href="/users"> <i class="fa fa-user" aria-hidden="true"></i> Users</a></li>                     
+                            <li class=""><a href="#"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Reports</a></li>                     
+                            <li class=""><a href="/logout">Logout <i class="fa fa-sign-out" aria-hidden="true"></i> </a></li>                     
                     </ul>
                 </div>
             </nav>

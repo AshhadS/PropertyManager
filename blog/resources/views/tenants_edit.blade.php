@@ -197,21 +197,11 @@
                           <div class="col-sm-10">
                             <textarea class="form-control" name="description" rows="2" value="" placeholder="Description"></textarea>
                           </div>
-                        </div>                    
-                        <div class="form-group">
-                          <label class="col-sm-2 control-label">Document type</label>
-                          <div class="col-sm-10">
-                            <select class="form-control" name="documentmaster">
-                                @foreach ($documentmaster as $documenttype)
-                                  <option value="{{$documenttype->documentID}}">{{ $documenttype->documentDescription }}</option>
-                                @endforeach
-                            </select>
-                          </div>
-                        </div>
+                        </div>  
                         <div class="form-group">
                           <label name="tenant" class="col-sm-2 control-label">Document</label>
                           <div class="col-sm-10">
-                            <input type="file" name="attachmentFile" accept="image/*">
+                            <input type="file" name="attachmentFile" required="required" accept="image/*">
                           </div>
                         </div>
                       </div>
@@ -230,7 +220,7 @@
         <div class="box box-info attachments-rows">
           @foreach ($attachments as $attachment)
               <div class="attacment-item ">
-                <a href="/attachments/{{$attachment->fileNameSlug}}">{{$attachment->fileNameCustom}}</a>
+                <a href="/blog/storage/app/uploads/attachments/{{$attachment->fileNameSlug}}">{{$attachment->fileNameCustom}}</a>
                 <p>{{$attachment->attachmentDescription}}</p>
                 <div class="edit-button">
                   <button class="btn btn-info btn-sm edit-attachment" data-id='{{ $attachment->attachmentID }}' data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button>

@@ -285,6 +285,16 @@ table.dataTable thead .sorting_desc_disabled:after {
   padding: 0;
 }
 
+.buttons.container-fluid {
+  margin: 15px 0;
+  float: left;
+  width: 100%;
+}
+
+.buttons .col-md-2 {
+  margin: 15px 0;
+}
+
 /* Action Buttons */
 th.edit-button {
   text-align: center;
@@ -341,6 +351,10 @@ th.edit-button {
 
 .small-box > .inner {
   padding: 0 10px;
+}
+
+.content-header {
+  display: inline-block;
 }
 
 /*@media screen (min-width: 1200px) { 

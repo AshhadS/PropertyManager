@@ -85,18 +85,14 @@ $(function() {
 
 
     // Property Image
-    // $('.image-edit').on('load', function(){
-        if($('.image-edit').hasClass('image-true')){
-            console.log('image'); 
-            $('.file-input').addClass('hide-element');
-        }else{
-            console.log('no'); 
-            $('.image-exists').addClass('hide-element');
-            $('.remove-image').addClass('hide-element');
-        }
-
-
-    // })
+    if($('.image-edit').hasClass('image-true')){
+        console.log('image'); 
+        $('.file-input').addClass('hide-element');
+    }else{
+        console.log('no'); 
+        $('.image-exists').addClass('hide-element');
+        $('.remove-image').addClass('hide-element');
+    }
 });
         
 //     window.setTimeout(deleteButtons(), 50000);

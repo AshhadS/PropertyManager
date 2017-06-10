@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\Property;
 use App\Model\PropertyType;
-use App\Model\Country;
 use App\Model\PropertySubType;
+use App\Model\Country;
 use App\Model\Attachment;
 use App\Model\DocumentMaster;
 use App\Model\RentalOwner;
@@ -54,7 +54,10 @@ class PropertyController extends Controller
     	// dd($file);
 	    // dd(file_get_contents($request->file('propertyImage')));
 
-	    $prop = Property::create();
+		// $prop = new Property();
+
+		$prop =  Property::create();
+	    $prop->companyID = Sentinel::getUser()->companyID;
 	    $prop->pPropertyName = $request->pPropertyName;
 	    $prop->description = $request->description;
 	    $prop->propertySubTypeID = $request->propertySubTypeID;
@@ -64,11 +67,8 @@ class PropertyController extends Controller
 	    $prop->city = $request->city;
 	    $prop->forRentOrOwn = $request->forRentOrOwn;
 	    $prop->country = $request->country;
-	    $prop->companyID = Sentinel::getUser()->companyID;
 	    $prop->documentID = 1; 
-
-
-
+	    // dd($prop->PropertiesID);
 
 	    // File upload
 	    if($request->hasFile('propertyImage')){
@@ -83,6 +83,7 @@ class PropertyController extends Controller
 
     function edit(Property $property){
     	$prop = Property::find($property->PropertiesID);
+	    $propTypes = PropertyType::all();
 	    $propSubTypes = PropertySubType::all();
     	$rentalowners = RentalOwner::all();
     	$countries = Country::all();
@@ -96,6 +97,7 @@ class PropertyController extends Controller
     	$countryName = (isset($prop->country)) ? Country::find($prop->country)->countryName : '';
 	    return view('props_edit', [
 	        'props' => $prop,
+	        'propTypes' => $propTypes,
 	        'propSubTypes' => $propSubTypes,
 	        'rentalowners' => $rentalowners,
 	        'documentmaster' => $documentmaster,
@@ -123,6 +125,17 @@ class PropertyController extends Controller
 	    $prop->country = $request->country;
 
 
+		// File upload
+	    if($request->hasFile('propertyImage')){
+	    	if(isset($prop->propertyImage)){
+		    	Storage::delete('uploads/'.$prop->propertyImage);
+	    	}
+
+		    $file = $request->file('propertyImage');
+		    $prop->propertyImage = $request->PropertiesID.'_'. $prop->documentID .'.'. $file->getClientOriginalExtension();
+		    Storage::put('uploads/'.$prop->propertyImage, file_get_contents($file));
+		}
+
 	    $prop->save();
 	    return Redirect::to('props');
     }
@@ -131,6 +144,13 @@ class PropertyController extends Controller
     	$property = Property::find($property->PropertiesID);
 	    $property->delete();
 	    return Redirect::to('props');
+    }
+
+
+    function getSubtypeList($propertyTypeID){
+    	$subtype = PropertySubType::where('propertyTypeID', $propertyTypeID)->get();
+    	return $subtype;
+
     }
 }
 

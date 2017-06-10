@@ -58,7 +58,18 @@
                           @endforeach
                       </select>
                     </div>
-                  </div>                                
+                  </div>    
+
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Curreny</label>
+                    <div class="col-sm-10">
+                      <select name="currencyID" class="form-control" >
+                          @foreach ($currencies as $currency)
+                              <option value="{{$currency->currencyID}}">{{ $currency->currencyCode }}</option>
+                          @endforeach
+                      </select>
+                    </div>
+                  </div>                            
                   
                 </div>
                 <!-- /.box-body -->
@@ -97,6 +108,7 @@
               <th>Description</th>
               <th>Size</th>
               <th>Market Rent</th>
+              <th>Currency</th>
               <th>Property Name</th>
               <th>Actions</th>
             </tr>
@@ -136,13 +148,14 @@ $(function() {
          })
         },
         "columnDefs": [
-          { "width": "10%", "targets": 5 }
+          { "width": "10%", "targets": 6 }
         ],
         columns: [
             { data: 'unitNumber', name: 'unitNumber' },
             { data: 'description', name: 'units.description' },
             { data: 'size', name: 'size' },
             { data: 'marketRent', name: 'marketRent' },
+            { data: 'currencyCode', name: 'currencymaster.currencyCode' },
             { data: 'pPropertyName', name: 'properties.pPropertyName'},
             {  
                 data: 'unitID',

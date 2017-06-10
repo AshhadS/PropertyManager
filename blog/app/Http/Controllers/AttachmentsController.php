@@ -37,18 +37,19 @@ class AttachmentsController extends Controller
 	}
 
 	function create(Request $request){
-		$attachment = Attachment::create();
+		$attachment = new Attachment();
 		$attachment->attachmentDescription = $request->description;
 		$attachment->documentID  = $request->documentID;
 		$attachment->documentAutoID = $request->documentAutoID;
 		$attachment->fileNameCustom = $request->fileNameCustom;
 		$attachment->uploadedByUserID = Sentinel::getUser()->id;
+		$attachment->companyID = Sentinel::getUser()->companyID;
 
 		// File upload
 	    if($request->hasFile('attachmentFile')){
 		    $file = $request->file('attachmentFile');
 		    $attachment->fileName = $file->getClientOriginalName();
-			$attachment->fileNameSlug = $attachment->attachmentID . '_' . $request->documentAutoID . '.' . $file->getClientOriginalExtension();
+			$attachment->fileNameSlug = $request->documentID . '_' . $request->documentAutoID .'_'.time().'.' . $file->getClientOriginalExtension();
 		    Storage::put('uploads/attachments/'.$attachment->fileNameSlug, file_get_contents($file));
 		}
 
@@ -76,9 +77,10 @@ class AttachmentsController extends Controller
 
 		// New file has been uploaded
 	    if($request->hasFile('attachmentFile')){
+	    	Storage::delete('uploads/attachments/'.$attachment->fileNameSlug);
 		    $file = $request->file('attachmentFile');
 		    $attachment->fileName = $file->getClientOriginalName();
-			$attachment->fileNameSlug = $attachment->attachmentID . '_' . $request->documentAutoID . '.' . $file->getClientOriginalExtension();
+			$attachment->fileNameSlug = $request->documentID . '_' . $request->documentAutoID .'_'.time().'.' . $file->getClientOriginalExtension();
 		    Storage::put('uploads/attachments/'.$attachment->fileNameSlug, file_get_contents($file));
 		}
 

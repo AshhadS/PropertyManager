@@ -66,9 +66,20 @@
             <div class="form-group">
               <label for="inputEmail3" class="col-sm-2 control-label">Property Type</label>
               <div class="col-sm-10">
-                <select class="form-control" name="propertySubTypeID">
+                <select class="form-control selection-parent-item" name="propertyTypeID" ">
+                    @foreach ($propTypes as $prop)
+                      <option value="{{$prop->propertyTypeID}}">{{ $prop->propertyDescription }}</option>
+                    @endforeach
+                </select>
+              </div>
+            </div> 
+
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">Property Sub Type</label>
+              <div class="col-sm-10">
+                <select class="form-control selection-child-item" name="propertySubTypeID">
                     @foreach ($propSubTypes as $prop)
-                        <option value="{{$prop->propertySubTypeID}}">{{ $prop->propertySubTypeDescription }}</option>
+                      <option value="{{$prop->propertySubTypeID}}">{{ $prop->propertySubTypeDescription }}</option>
                     @endforeach
                 </select>
               </div>
@@ -225,6 +236,28 @@ $(function() {
                 }
             }      
         ]
+    });
+
+  
+    // Load content based on previous selection
+    $('.selection-parent-item').on('change', function(){
+      $.ajax({
+          url: "/prop/subtypelist/"+$(this).val()+"",
+          context: document.body,
+          method: 'POST',
+          headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
+      })
+      .done(function(data) {            
+        $('.selection-child-item').html(function(){
+            // Generate the seletect list
+            var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
+            data.forEach(function( index, element ){
+                output += '<option value="'+data[element].propertySubTypeID+'">'+data[element].propertySubTypeDescription+'</option>';
+            });
+            output += '</select>';
+            return output;
+        });
+      });
     });
 });
 </script>
