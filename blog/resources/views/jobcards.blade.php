@@ -36,7 +36,7 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Property Name</label>
               <div class="col-sm-10">
-                <select name="PropertiesID" class="form-control" >
+                <select name="PropertiesID" class="form-control selection-parent-item" >
                         <option value="">Select a property</option>
                     @foreach ($properties as $property)
                         <option value="{{$property->PropertiesID}}">{{ $property->pPropertyName }}</option>
@@ -60,12 +60,13 @@
             <div class="form-group">
               <label name="unit" class="col-sm-2 control-label">Unit</label>
               <div class="col-sm-10">
-                <select class="form-control" name="unitID">
+                <select class="form-control selection-child-item" name="unitID">
                         <option value="">Select a unit</option>
                     @foreach ($units as $unit)
                         <option value="{{$unit->unitID}}">{{ $unit->unitNumber }}</option>
                     @endforeach
                 </select>
+                <p class="no-units">No units belonging to this property</p>
               </div>
             </div>
 
@@ -113,8 +114,8 @@
                     <tr>
                           <th>Subject</th>
                           <th>Description</th> 
-                          <th>Status</th>
                           <th>Property Name</th>
+                          <th>Status</th>
                           <th>Tenant Name</th>
                           <th>Unit</th>
                           <th>Actions</th>
@@ -161,21 +162,8 @@ $(function() {
         columns: [
             { data: 'subject', name: 'jobcard.subject'},  
             { data: 'description', name: 'jobcard.description'},  
-            { 
-              data: 'jobcardStatusID',
-              name: 'jobcardStatusID',
-              render: function ( data, type, full, meta ) {
-                if(data == 1)
-                  return 'In Progress';
-
-                if(data == 2)
-                  return 'Completed';
-
-                if(data == 3)
-                  return 'Deferred';
-              }
-            },  
             { data: 'pPropertyName', name: 'Properties.pPropertyName'},  
+            { data: 'statusDescription', name: 'jobcardstatus.statusDescription'},  
             { data: 'firstName', name: 'tenats.firstName'},  
             { data: 'unitNumber', name: 'units.unitNumber'},  
             {
@@ -196,6 +184,38 @@ $(function() {
             }      
         ]
     });
+    
+      $('.no-units').hide();
+      // Load content based on previous selection
+      $('.selection-parent-item').on('change', function(){
+        $.ajax({
+            url: "/jobcard/getunit/"+$(this).val()+"",
+            context: document.body,
+            method: 'POST',
+            headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
+        })
+        .done(function(data) {
+          console.log(data.length); 
+        if (data.length) {
+          $('.selection-child-item').show();
+          $('.no-units').hide();
+
+          $('.selection-child-item').html(function(){
+              // Generate the seletect list
+              var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
+              output += '<option value="">Select a unit</option>';
+              data.forEach(function( index, element ){
+                  output += '<option value="'+data[element].unitID+'">'+data[element].unitNumber+'</option>';
+              });
+              output += '</select>';
+              return output;
+          });
+        }else{
+          $('.selection-child-item').hide();
+          $('.no-units').show();
+        }           
+        });
+      });
 });
 </script>
 @endpush

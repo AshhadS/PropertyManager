@@ -40,13 +40,15 @@ class JobCardsController extends Controller
     		->leftJoin('tenants', 'jobcard.tenantsID', '=', 'tenants.tenantsID')
     		->leftJoin('units', 'jobcard.unitID', '=', 'units.unitID')
     		->leftJoin('properties', 'jobcard.PropertiesID', '=', 'properties.PropertiesID')
-    		->select('jobcard.jobcardID', 'jobcard.subject', 'jobcard.description', 'properties.pPropertyName', 'units.unitNumber' ,'jobcardStatusID', 'tenants.firstName');
+    		->leftJoin('jobcardstatus', 'jobcard.jobcardStatusID', '=', 'jobcardstatus.jobcardStatusID')
+    		->select('jobcard.jobcardID', 'jobcard.subject', 'jobcard.description', 'properties.pPropertyName', 'jobcardstatus.statusDescription', 'units.unitNumber' , 'tenants.firstName');
     	return Datatables::of($t)->make(true);
 
     }
 
     function create(Request $request) {
 	    $jobcard = new JobCard;
+	    // dd(Sentinel::getUser()->companyID);
 	    $jobcard->subject = $request->subject;
 	    $jobcard->description = $request->description;
 	    $jobcard->jobcardStatusID = $request->jobcardStatusID;
@@ -70,10 +72,10 @@ class JobCardsController extends Controller
     	$jobcardstatuss = JobCardStatus::all();
     	$documentmaster = DocumentMaster::all();
     	$attachments = Attachment::where('documentAutoID', $jobcard->jobcardID)->where('documentID', 5)->get();
-
-    	$tenant_name = Tenant::find($jobcard->tenantsID)->firstName;
-    	$unit_number = Unit::find($jobcard->unitID)->unitNumber;
-    	$property_name = Property::find($jobcard->PropertiesID)->pPropertyName;
+    	$tenant_name = ($jobcard->tenantsID ) ? Tenant::find($jobcard->tenantsID)->firstName : '';
+    	$unit_number = (Unit::find($jobcard->unitID)) ? Unit::find($jobcard->unitID)->unitNumber : '';
+    	$property_name = (Property::find($jobcard->PropertiesID) ) ? Property::find($jobcard->PropertiesID)->pPropertyName : '';
+    	$jobcardstatussName = (JobCardStatus::where('jobcardStatusID' )) ? JobCardStatus::where('jobcardStatusID', $jobcard->jobcardStatusID)->first()->statusDescription : '';
 	    return view('jobcards_edit', [
 	        'jobcard' => $jobcard,
 	        'units' => $units,
@@ -85,6 +87,7 @@ class JobCardsController extends Controller
 	        'unit_number' => $unit_number,
 	        'property_name' => $property_name,
 	        'jobcardstatuss' => $jobcardstatuss,
+	        'jobcardstatussName' => $jobcardstatussName,
 	    ]);
     }
 
@@ -100,6 +103,11 @@ class JobCardsController extends Controller
 
 	    $jobcard->save();
 	    return Redirect::to('jobcards');
+    }
+
+    function getUnitsForProperty($propertyId){
+    	$units = Unit::where('propertiesID', $propertyId)->get(['unitID', 'unitNumber']);
+    	return $units;
     }
 
     function delete(JobCard $jobcard){

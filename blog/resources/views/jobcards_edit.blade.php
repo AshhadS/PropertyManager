@@ -33,7 +33,7 @@
                       </div>
                       <div class="row">
                         <b><p class="col-sm-2 control-label">Status</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $jobcard->jobcardStatusID }}</p>
+                        <p class='col-sm-10 conrol-label'>{{ $jobcardstatussName }}</p>
                       </div>
                       <div class="row">
                         <b><p class="col-sm-2 control-label">Property name</p></b>
@@ -84,7 +84,7 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Property Name</label>
               <div class="col-sm-10">
-                <select class="form-control" name="PropertiesID" value="{{ $jobcard->PropertiesID}}" >
+                <select class="form-control selection-parent-item" name="PropertiesID" value="{{ $jobcard->PropertiesID}}" >
                         <option value="">Select a property</option>
                     @foreach ($properties as $property)
                         @if ($jobcard->PropertiesID == $property->PropertiesID)
@@ -116,7 +116,7 @@
             <div class="form-group">
               <label name="unit" class="col-sm-2 control-label">Unit</label>
               <div class="col-sm-10">
-                <select class="form-control" name="unitID" value="{{ $jobcard->unitID}}">
+                <select class="form-control selection-child-item" name="unitID" value="{{ $jobcard->unitID}}">
                         <option value="">Select a unit</option>
                     @foreach ($units as $unit)
                         @if ($unit->unitID == $jobcard->unitID)
@@ -126,6 +126,7 @@
                         @endif
                     @endforeach
                 </select>
+                <p class="no-units">No units belonging to this property</p>
               </div>
             </div>
 
@@ -136,7 +137,6 @@
                   <!-- <option value="1" {{ $jobcard->jobcardStatusID == 1 ? "Selected='selected'" : "" }} >In Progress</option>
                   <option value="2" {{ $jobcard->jobcardStatusID == 2 ? "Selected='selected'" : "" }} >Completed</option>
                   <option value="3" {{ $jobcard->jobcardStatusID == 3 ? "Selected='selected'" : "" }} >deffered</option> -->
-
                   @foreach ($jobcardstatuss as $jobcardstatus)
                         @if ($jobcardstatus->jobcardStatusID == $jobcard->jobcardStatusID)
                           <option value="{{$jobcardstatus->jobcardStatusID}}" selected="selected">{{ $jobcardstatus->statusDescription }}</option>
@@ -203,7 +203,7 @@
                         <div class="form-group">
                           <label name="tenant" class="col-sm-2 control-label">Document</label>
                           <div class="col-sm-10">
-                            <input type="file" name="attachmentFile" accept="image/*">
+                            <input type="file" name="attachmentFile" required="required" accept="image/*">
                           </div>
                         </div>
                       </div>
@@ -222,7 +222,7 @@
         <div class="box box-info attachments-rows">
           @foreach ($attachments as $attachment)
               <div class="attacment-item">
-                <a href="/attachments/{{$attachment->fileNameSlug}}">{{$attachment->fileNameCustom}}</a>
+                <a href="/blog/storage/app/uploads/attachments/{{$attachment->fileNameSlug}}">{{$attachment->fileNameCustom}}</a>
                 <p>{{$attachment->attachmentDescription}}</p>
                 <div class="edit-button">
                   <button class="btn btn-info btn-sm edit-attachment" data-id='{{ $attachment->attachmentID }}' data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button>
@@ -250,3 +250,41 @@
     </div>
   </div>
 @endsection
+
+@push('scripts')
+<script>
+$(function() {
+    // Load content based on previous selection
+    $('.no-units').hide();
+    $('.selection-parent-item').on('change', function(){
+      $.ajax({
+          url: "/jobcard/getunit/"+$(this).val()+"",
+          context: document.body,
+          method: 'POST',
+          headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
+      })
+      .done(function(data) {
+        console.log(data.length); 
+      if (data.length) {
+        $('.selection-child-item').show();
+        $('.no-units').hide();
+
+        $('.selection-child-item').html(function(){
+            // Generate the seletect list
+            var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
+            output += '<option value="">Select a unit</option>';
+            data.forEach(function( index, element ){
+                output += '<option value="'+data[element].unitID+'">'+data[element].unitNumber+'</option>';
+            });
+            output += '</select>';
+            return output;
+        });
+      }else{
+        $('.selection-child-item').hide();
+        $('.no-units').show();
+      }           
+      });
+    });
+});
+</script>
+@endpush
