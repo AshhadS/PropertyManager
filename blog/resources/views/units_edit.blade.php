@@ -74,28 +74,29 @@
                           <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">Description</label>
                             <div class="col-sm-10">
-                              <textarea class="form-control" name="description" rows="2" placeholder="Description">{{ $unit->description}}</textarea>
+                              <textarea class="form-control input-req" name="description" rows="2" placeholder="Description">{{ $unit->description}}</textarea>
                             </div>
                           </div>
                           
                           <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">Size</label>
                             <div class="col-sm-10">
-                              <input type="text" name="size" value="{{ $unit->size}}" class="form-control" id="inputEmail3" placeholder="Size">
+                              <input type="text" name="size" value="{{ $unit->size}}" class="form-control input-req" id="inputEmail3" placeholder="Size">
                             </div>
                           </div>
                           
                           <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">Market Rent</label>
                             <div class="col-sm-10">
-                              <input type="text" name="marketRent" value="{{ $unit->marketRent}}" class="form-control" id="inputEmail3" placeholder="Market Rent">
+                              <input type="text" name="marketRent" value="{{ $unit->marketRent}}" class="form-control input-req" id="inputEmail3" placeholder="Market Rent">
                             </div>
                           </div>
 
                           <div class="form-group">
                             <label for="inputEmail3" name="propertyType" value="{{ $unit->PropertiesID}}" class="col-sm-2 control-label">Property Name</label>
                             <div class="col-sm-10">
-                              <select class="form-control" name="PropertiesID" >
+                              <select class="form-control input-req" name="PropertiesID" >
+                                  <option value="">Select a property</option>
                                   @foreach ($properties as $prop)
                                       @if ($unit->PropertiesID === $prop->PropertiesID)
                                         <option value="{{$prop->PropertiesID}}" selected="selected">{{ $prop->pPropertyName }}</option>
@@ -110,7 +111,8 @@
                           <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">Curreny</label>
                             <div class="col-sm-10">
-                              <select name="currencyID" class="form-control" >
+                              <select name="currencyID" class="form-control input-req" >
+                                  <option value="">Select a currency</option>
                                   @foreach ($currencies as $currency)
                                       @if ($unit->currencyID == $currency->currencyID)
                                         <option value="{{$currency->currencyID}}" selected="selected" >{{ $currency->currencyCode }}</option>

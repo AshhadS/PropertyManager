@@ -172,6 +172,7 @@
               <label for="inputEmail3" name="forRentOrOwn" value="{{ $props->forRentOrOwn }}" class="col-sm-2 control-label">Rent / Own</label>
               <div class="col-sm-10">
                 <select class="form-control" name="forRentOrOwn">
+                    <option value="">Select an ownership type</option>
                     <option value="1" {{ $props->forRentOrOwn == 1 ? "Selected='selected'" : "" }}>Rent</option>
                     <option value="2" {{ $props->forRentOrOwn == 2 ? "Selected='selected'" : "" }}>Own</option>
                 </select>
@@ -183,6 +184,7 @@
               <label name="tenant"  class="col-sm-2 control-label">Rental Owner</label>
               <div class="col-sm-10">
                 <select class="form-control" name="rentalOwnerID" value="{{ $props->rentalOwnerID }}">
+                    <option value="">Select a rental owner</option>
                     @foreach ($rentalowners as $rentalowner)
                         @if ($props->rentalOwnerID == $rentalowner->rentalOwnerID)
                           <option value="{{$rentalowner->rentalOwnerID}}" selected="selected" >{{ $rentalowner->firstName }}</option>

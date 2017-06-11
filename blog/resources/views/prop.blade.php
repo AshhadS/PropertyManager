@@ -91,6 +91,7 @@
               <label for="inputEmail3" name="forRentOrOwn" class="col-sm-2 control-label">Rent / Own</label>
               <div class="col-sm-10">
                 <select class="form-control" name="forRentOrOwn">
+                    <option value="">Select an ownership type</option>
                     <option value="1">Rent</option>
                     <option value="2">Own</option>
                 </select>
@@ -101,6 +102,7 @@
               <label name="tenant" class="col-sm-2 control-label">Rental Owner</label>
               <div class="col-sm-10">
                 <select class="form-control" name="rentalOwnerID">
+                    <option value="">Select an rental owner</option>
                   @foreach ($rentalowners as $rentalowner)
                         <option value="{{$rentalowner->RentalOwnerID}}">{{ $rentalowner->firstName }}</option>
                     @endforeach
