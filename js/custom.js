@@ -102,9 +102,14 @@ $(function() {
           return ("0" + date.getDate()).slice(-2) +'/'+ ("0" + (date.getMonth() + 1)).slice(-2) +'/'+ date.getFullYear();
         }else{
           // retun empty string if not selected
-          return data;
+          return '';
         }
     });
+
+    // Hamburger
+    $('.nav-toggle .fa-bars').on('click', function(){
+        $('.nav-items').slideToggle();
+    })
              
 });
         

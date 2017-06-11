@@ -414,3 +414,64 @@ th.edit-button {
   float: left;
   width: 100%;
 }
+
+.nav-toggle {
+  display: none;
+}
+
+/* Hamburger menu */
+@media (max-width: 992px) {
+  .menu-item {
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-toggle {
+    display: block;
+    border: 2px solid white;
+    padding: 2px 6px;
+    border-radius: 20%;
+    margin-right: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+
+  .hidden-sm.logo {
+    display: none;
+  }
+
+  .nav-items {
+    display: none;
+  }
+
+  .main-header .logo, .main-header .navbar {
+    width: 100%;
+    float: none;
+  }
+
+  .main-header .logo, .main-header .navbar {
+    width: 100%;
+    float: none;
+  }
+
+  .main-header .logo {
+    height: auto;
+  }
+}
+
+@media (max-width: 768px) {}
+
+.main-header .navbar {
+  margin-left: 0;
+}
+
+@media (min-width: 992px) {
+  .main-header .navbar {
+    margin-left: 230px;
+  }
+}
+
+span.fa.fa-bars {
+  font-size: 20px;
+  color: white;
+}

@@ -46,7 +46,7 @@
         <header class="main-header">
 
             <!-- Logo -->
-            <a href="/" class="logo"><b>IDSS</b></a>
+            <a href="/" class="logo"><b>IDSS</b> <span ><br />Property Management</span></a>
             
 
             <!-- Header Navbar -->
@@ -66,28 +66,36 @@
                                 <!-- The user image in the navbar-->
                                 <img src="{{ asset("/bower_components/admin-lte/dist/img/idss-defualt.png") }}" class="user-image" alt="User Image"/>
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                <span class="hidden-xs">{{ Sentinel::getUser()->email }}</span>
+                                <span class="">{{ Sentinel::getUser()->email }}</span>
                             </a>
+                        </li>
+                        <li>
+                             <div class="nav-toggle">
+                                <span class="fa fa-bars"></span>
+                                <!-- <span class="fa fa-times"></span> -->
+                            </div>
                         </li>
                     </ul>
                 </div>
             </nav>
-            <a href="/" class="logo">Property Management</a>
-             <nav class="navbar navbar-static-top" role="navigation">
+            <a href="/" class="logo hidden-sm">Property Management</a>
+             <nav class="navbar navbar-static-top  nav-items" role="navigation">
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-                            <li class=""><a href="/"> <i class="fa fa-home" aria-hidden="true"></i> Home</a></li>                     
-                            <li class=""><a href="/rentalowners"> <i class="fa fa-user-secret" aria-hidden="true"></i> Property Owner</a></li>                
-                            <li class=""><a href="/props"> <i class="fa fa-building" aria-hidden="true"></i> Properties</a></li>
-                            <li class=""><a href="/units"> <i class="fa fa-university" aria-hidden="true"></i> Units</a></li>
-                            <li class=""><a href="/tenants"> <i class="fa fa-users" aria-hidden="true"></i> Tenants</a></li>                     
-                            <li class=""><a href="/users"> <i class="fa fa-user" aria-hidden="true"></i> Users</a></li>                     
-                            <li class=""><a href="#"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Reports</a></li>                     
-                            <li class=""><a href="/logout">Logout <i class="fa fa-sign-out" aria-hidden="true"></i> </a></li>                     
+                        <li class="menu-item"><a href="/"> <i class="fa fa-home" aria-hidden="true"></i> Home</a></li>                     
+                        <li class="menu-item"><a href="/rentalowners"> <i class="fa fa-user-secret" aria-hidden="true"></i> Property Owner</a></li>                
+                        <li class="menu-item"><a href="/props"> <i class="fa fa-building" aria-hidden="true"></i> Properties</a></li>
+                        <li class="menu-item"><a href="/units"> <i class="fa fa-university" aria-hidden="true"></i> Units</a></li>
+                        <li class="menu-item"><a href="/tenants"> <i class="fa fa-users" aria-hidden="true"></i> Tenants</a></li>                     
+                        <li class="menu-item"><a href="/users"> <i class="fa fa-user" aria-hidden="true"></i> Users</a></li>                     
+                        <li class="menu-item"><a href="#"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Reports</a></li>                     
+                        <li class="menu-item"><a href="/logout">Logout <i class="fa fa-sign-out" aria-hidden="true"></i> </a></li>                     
                     </ul>
                 </div>
             </nav>
+
+           
         </header>
         
         <!-- Content Wrapper. Contains page content -->
