@@ -41,7 +41,9 @@ class JobCardsController extends Controller
     		->leftJoin('units', 'jobcard.unitID', '=', 'units.unitID')
     		->leftJoin('properties', 'jobcard.PropertiesID', '=', 'properties.PropertiesID')
     		->leftJoin('jobcardstatus', 'jobcard.jobcardStatusID', '=', 'jobcardstatus.jobcardStatusID')
-    		->select('jobcard.jobcardID', 'jobcard.subject', 'jobcard.description', 'properties.pPropertyName', 'jobcardstatus.statusDescription', 'units.unitNumber' , 'tenants.firstName');
+    		->leftJoin('users', 'jobcard.createdByUserID', '=', 'users.id')
+    		->select('jobcard.jobcardID', 'jobcard.subject', 'jobcard.description', 'properties.pPropertyName', 'jobcardstatus.statusDescription', 'units.unitNumber' , 'tenants.firstName', 'jobcard.createdDateTime', 'users.first_name');
+    		// Debugbar::info($t);
     	return Datatables::of($t)->make(true);
 
     }
@@ -58,6 +60,7 @@ class JobCardsController extends Controller
 	    $jobcard->unitID =$request->unitID;
 	    $jobcard->companyID = Sentinel::getUser()->companyID;
 	    $jobcard->documentID = 5;
+
 	
 	    $jobcard->save();
 
@@ -76,6 +79,8 @@ class JobCardsController extends Controller
     	$unit_number = (Unit::find($jobcard->unitID)) ? Unit::find($jobcard->unitID)->unitNumber : '';
     	$property_name = (Property::find($jobcard->PropertiesID) ) ? Property::find($jobcard->PropertiesID)->pPropertyName : '';
     	$jobcardstatussName = (JobCardStatus::where('jobcardStatusID' )) ? JobCardStatus::where('jobcardStatusID', $jobcard->jobcardStatusID)->first()->statusDescription : '';
+    	$created_at = $jobcard->createdDateTime;
+    	$created_by = Sentinel::findById($jobcard->createdByUserID)->first_name;
 	    return view('jobcards_edit', [
 	        'jobcard' => $jobcard,
 	        'units' => $units,
@@ -88,6 +93,8 @@ class JobCardsController extends Controller
 	        'property_name' => $property_name,
 	        'jobcardstatuss' => $jobcardstatuss,
 	        'jobcardstatussName' => $jobcardstatussName,
+	        'created_at' => $created_at,
+	        'created_by' => $created_by,
 	    ]);
     }
 

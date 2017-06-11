@@ -120,6 +120,8 @@
                           <th>Status</th>
                           <th>Tenant Name</th>
                           <th>Unit</th>
+                          <th>Created by</th>
+                          <th>Created on</th>
                           <th>Actions</th>
                         </tr>
                 </thead>
@@ -159,7 +161,7 @@ $(function() {
          })
         },
         "columnDefs": [
-          { "width": "10%", "targets": 6 }
+          { "width": "10%", "targets": 8 }
         ],
         columns: [
             { data: 'subject', name: 'jobcard.subject'},  
@@ -168,6 +170,8 @@ $(function() {
             { data: 'statusDescription', name: 'jobcardstatus.statusDescription'},  
             { data: 'firstName', name: 'tenats.firstName'},  
             { data: 'unitNumber', name: 'units.unitNumber'},  
+            { data: 'first_name', name: 'users.first_name'},  
+            { data: 'createdDateTime', name: 'jobcard.createdDateTime'},  
             {
                 data: 'jobcardID',
                 className: 'edit-button',

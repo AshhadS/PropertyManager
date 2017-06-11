@@ -47,6 +47,14 @@
                         <b><p class="col-sm-2 control-label">Unit</p></b>
                         <p class='col-sm-10 conrol-label'>{{ $unit_number }}</p>
                       </div>
+                      <div class="row">
+                        <b><p class="col-sm-2 control-label">Created by</p></b>
+                        <p class='col-sm-10 conrol-label'>{{ $created_by }}</p>
+                      </div>
+                      <div class="row">
+                        <b><p class="col-sm-2 control-label">Created on</p></b>
+                        <p class='col-sm-10 conrol-label format-date'>{{ $created_at }}</p>
+                      </div>
                       <br/> <br/>  
                     
                   </div>
