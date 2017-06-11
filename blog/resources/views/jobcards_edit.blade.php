@@ -264,6 +264,7 @@ $(function() {
       });
 
       function childSelection(elem){
+        var prev_selection = $('.selection-child-item').val();
         if ($(elem).val() != 0) {
           $('.selection-child-item').show();
           $('.no-units').hide();
@@ -281,7 +282,11 @@ $(function() {
                     var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
                     output += '<option value="">Select a unit</option>';
                     data.forEach(function( index, element ){
-                        output += '<option value="'+data[element].unitID+'">'+data[element].unitNumber+'</option>';
+                        if(prev_selection == data[element].unitID){
+                          output += '<option value="'+data[element].unitID+'" selected="selected">'+data[element].unitNumber+'</option>';
+                        }else{
+                          output += '<option value="'+data[element].unitID+'">'+data[element].unitNumber+'</option>';
+                        }
                     });
                     output += '</select>';
                     return output;

@@ -322,6 +322,7 @@ $(function() {
     });
 
     function childSelection(elem){
+      var prev_selection = $('.selection-child-item').val();
       if($(elem).val() != 0){
         $('.selection-child-item').parent().parent('.form-group').show();
         $.ajax({
@@ -335,7 +336,11 @@ $(function() {
               // Generate the seletect list
               var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
               data.forEach(function( index, element ){
-                  output += '<option value="'+data[element].propertySubTypeID+'">'+data[element].propertySubTypeDescription+'</option>';
+                  if(prev_selection == data[element].propertySubTypeID){
+                    output += '<option value="'+data[element].propertySubTypeID+'" selected="selected">'+data[element].propertySubTypeDescription+'</option>';
+                  }else{
+                    output += '<option value="'+data[element].propertySubTypeID+'">'+data[element].propertySubTypeDescription+'</option>';
+                  }
               });
               output += '</select>';
               return output;
