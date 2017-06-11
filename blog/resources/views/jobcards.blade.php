@@ -171,7 +171,21 @@ $(function() {
             { data: 'firstName', name: 'tenats.firstName'},  
             { data: 'unitNumber', name: 'units.unitNumber'},  
             { data: 'first_name', name: 'users.first_name'},  
-            { data: 'createdDateTime', name: 'jobcard.createdDateTime'},  
+            // { data: 'createdDateTime', name: 'jobcard.createdDateTime'}, 
+            { 
+              data: 'createdDateTime',
+              name: 'jobcard.createdDateTime',
+              render: function( data, type, full, meta ){
+                var date = new Date(data);
+                if(!isNaN(date.getTime())){
+                  // return the two digit date and month
+                  return ("0" + date.getDate()).slice(-2) +'/'+ ("0" + (date.getMonth() + 1)).slice(-2) +'/'+ date.getFullYear();
+                }else{
+                  // retun empty string if not selected
+                  return data;
+                }
+              }
+            },  
             {
                 data: 'jobcardID',
                 className: 'edit-button',
