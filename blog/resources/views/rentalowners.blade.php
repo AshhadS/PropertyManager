@@ -178,7 +178,19 @@ $(function() {
         columns: [
             { data: 'firstName', name: 'firstName'},  
             { data: 'lastName', name: 'lastName'},  
-            { data: 'dateOfBirth', name: 'dateOfBirth'},  
+            { 
+              data: 'dateOfBirth',
+              render: function( data, type, full, meta ){
+                var date = new Date(data);
+                if(!isNaN(date.getTime())){
+                  // return the two digit date and month
+                  return ("0" + date.getDate()).slice(-2) +'/'+ ("0" + (date.getMonth() + 1)).slice(-2) +'/'+ date.getFullYear();
+                }else{
+                  // retun empty string if not selected
+                  return data;
+                }
+              }
+            },  
             { data: 'email', name: 'email'},  
             { data: 'phoneNumber', name: 'phoneNumber'},  
             { data: 'officeNumber', name: 'officeNumber'},  

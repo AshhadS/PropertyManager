@@ -93,6 +93,19 @@ $(function() {
         $('.image-exists').addClass('hide-element');
         $('.remove-image').addClass('hide-element');
     }
+
+    // Format date
+    $('.format-date').text(function(){
+        var date = new Date($(this).text());
+        if(!isNaN(date.getTime())){
+          // return the two digit date and month
+          return ("0" + date.getDate()).slice(-2) +'/'+ ("0" + (date.getMonth() + 1)).slice(-2) +'/'+ date.getFullYear();
+        }else{
+          // retun empty string if not selected
+          return data;
+        }
+    });
+             
 });
         
 //     window.setTimeout(deleteButtons(), 50000);

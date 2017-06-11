@@ -38,11 +38,11 @@
                       </div>
                       <div class="row">
                         <b><p class="col-sm-2 control-label">Created On</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $user->created_at}}</p>
+                        <p class='col-sm-10 conrol-label format-date'>{{ $user->created_at}}</p>
                       </div>
                       <div class="row">
                         <b><p class="col-sm-2 control-label">Last Logged In</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $user->last_login}}</p>
+                        <p class='col-sm-10 conrol-label format-date'>{{ $user->last_login}}</p>
                       </div>
                       <br/> <br/>  
                     

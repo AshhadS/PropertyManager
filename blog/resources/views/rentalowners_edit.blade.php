@@ -33,7 +33,7 @@
                       </div><br/>  
                       <div class="row">
                         <b><p class="col-sm-2 control-label">Date of Birth</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $rentalowner->dateOfBirth}}</p>
+                        <p class='col-sm-10 conrol-label format-date'>{{ $rentalowner->dateOfBirth}}</p>
                       </div><br/>  
                       <div class="row">
                         <b><p class="col-sm-2 control-label">Email</p></b>

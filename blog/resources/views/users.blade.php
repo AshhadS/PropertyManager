@@ -146,8 +146,32 @@ $(function() {
             { data: 'first_name', name: 'first_name'},  
             { data: 'last_name', name: 'last_name'},  
             { data: 'email', name: 'email'},  
-            { data: 'created_at', name: 'created_at'},  
-            { data: 'last_login', name: 'last_login'},  
+            { 
+              data: 'created_at',
+              render: function( data, type, full, meta ){
+                var date = new Date(data);
+                if(!isNaN(date.getTime())){
+                  // return the two digit date and month
+                  return ("0" + date.getDate()).slice(-2) +'/'+ ("0" + (date.getMonth() + 1)).slice(-2) +'/'+ date.getFullYear();
+                }else{
+                  // retun empty string if not selected
+                  return data;
+                }
+              }
+            },  
+            { 
+              data: 'last_login',
+              render: function( data, type, full, meta ){
+                var date = new Date(data);
+                if(!isNaN(date.getTime())){
+                  // return the two digit date and month
+                  return ("0" + date.getDate()).slice(-2) +'/'+ ("0" + (date.getMonth() + 1)).slice(-2) +'/'+ date.getFullYear();
+                }else{
+                  // retun empty string if not selected
+                  return data;
+                }
+              }
+            },  
             {
                 data: 'id',
                 className: 'edit-button',
