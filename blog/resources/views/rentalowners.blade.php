@@ -90,8 +90,10 @@
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
-            <input type="reset" class="btn btn-default" value="Reset" />
-            <button type="submit" class="btn btn-info pull-right">Save</button>
+            <div class="form-buttons">
+              <input type="reset" class="btn btn-default" value="Reset" />
+              <button type="submit" class="btn btn-info pull-right">Save</button>
+            </div>
           </div>
           <!-- /.box-footer -->
         </form>
