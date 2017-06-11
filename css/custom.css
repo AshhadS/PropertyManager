@@ -3,6 +3,11 @@
   display: none;
 }
 
+.form-buttons {
+  width: 130px;
+  float: right;
+}
+
 .show-element {
   display: block;
 }
