@@ -61,6 +61,7 @@ class PropertyController extends Controller
 	    $prop->pPropertyName = $request->pPropertyName;
 	    $prop->description = $request->description;
 	    $prop->propertySubTypeID = $request->propertySubTypeID;
+	    $prop->propertyTypeID = $request->propertyTypeID;
 	    $prop->numberOfUnits = $request->numberOfUnits;
 	    $prop->rentalOwnerID = $request->rentalOwnerID;
 	    $prop->address = $request->address;
@@ -92,6 +93,7 @@ class PropertyController extends Controller
 	    
 
     	$property_type_name = (isset($prop->propertySubTypeID)) ? PropertySubType::find($prop->propertySubTypeID)->propertySubTypeDescription : '';
+    	$property_parent_type_name = (isset($prop->propertyTypeID)) ? PropertyType::find($prop->propertyTypeID)->propertyDescription : '';
     	$rental_owner_name = (isset($prop->rentalOwnerID)) ? RentalOwner::find($prop->rentalOwnerID)->firstName : '';
     	$rent_or_own = ($prop->forRentOrOwn == 1) ? 'Rent' : 'Own';
     	$countryName = (isset($prop->country)) ? Country::find($prop->country)->countryName : '';
@@ -104,6 +106,7 @@ class PropertyController extends Controller
 	        'attachments' => $attachments,
 	        'countries' => $countries,
 	        'property_type_name' => $property_type_name,
+	        'property_parent_type_name' => $property_parent_type_name,
 	        'rental_owner_name' => $rental_owner_name,
 	        'rent_or_own' => $rent_or_own,
 	        'countryName' => $countryName,
@@ -116,6 +119,7 @@ class PropertyController extends Controller
     	$prop = Property::find($request->PropertiesID);
     	$prop->pPropertyName = $request->pPropertyName;
 	    $prop->description = $request->description;
+	    $prop->propertyTypeID = $request->propertyTypeID;
 	    $prop->propertySubTypeID = $request->propertySubTypeID;
 	    $prop->numberOfUnits = $request->numberOfUnits;
 	    $prop->rentalOwnerID = $request->rentalOwnerID;

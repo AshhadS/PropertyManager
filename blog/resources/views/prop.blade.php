@@ -67,6 +67,7 @@
               <label for="inputEmail3" class="col-sm-2 control-label">Property Type</label>
               <div class="col-sm-10">
                 <select class="form-control selection-parent-item" name="propertyTypeID" ">
+                      <option value="0">Select a type</option>
                     @foreach ($propTypes as $prop)
                       <option value="{{$prop->propertyTypeID}}">{{ $prop->propertyDescription }}</option>
                     @endforeach
@@ -78,6 +79,7 @@
               <label for="inputEmail3" class="col-sm-2 control-label">Property Sub Type</label>
               <div class="col-sm-10">
                 <select class="form-control selection-child-item" name="propertySubTypeID">
+                      <option value="0">Select a type</option>
                     @foreach ($propSubTypes as $prop)
                       <option value="{{$prop->propertySubTypeID}}">{{ $prop->propertySubTypeDescription }}</option>
                     @endforeach
@@ -238,9 +240,11 @@ $(function() {
         ]
     });
 
+    $('.selection-child-item').parent().parent('.form-group').hide();
   
     // Load content based on previous selection
     $('.selection-parent-item').on('change', function(){
+      $('.selection-child-item').parent().parent('.form-group').show();
       $.ajax({
           url: "/prop/subtypelist/"+$(this).val()+"",
           context: document.body,

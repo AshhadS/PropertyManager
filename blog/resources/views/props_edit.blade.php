@@ -38,7 +38,7 @@
                       </div>
                       <div class="row">
                         <b><p class="col-sm-4 control-label">Property Type</p></b>
-                        <p class='col-sm-4 conrol-label'>{{ $property_type_name}}</p>
+                        <p class='col-sm-4 conrol-label'>{{ $property_parent_type_name}}</p>
                       </div>
                       <div class="row">
                         <b><p class="col-sm-4 control-label">Number of units</p></b>
@@ -139,7 +139,8 @@
             <div class="form-group">
               <label for="inputEmail3" class="col-sm-2 control-label">Property Type</label>
               <div class="col-sm-10">
-                <select class="form-control selection-parent-item" name="propertySubTypeID" value="{{ $props->propertySubTypeID }}">
+                <select class="form-control selection-parent-item" name="propertyTypeID">
+                        <option value="0">Select a type</option>
                     @foreach ($propTypes as $prop)
                         @if ($props->propertyTypeID == $prop->propertyTypeID)
                           <option value="{{$prop->propertyTypeID}}" selected="selected">{{ $prop->propertyDescription }}</option>
@@ -154,7 +155,8 @@
             <div class="form-group">
               <label for="inputEmail3" class="col-sm-2 control-label">Property Sub Type</label>
               <div class="col-sm-10">
-                <select class="form-control selection-child-item" name="propertySubTypeID" value="{{ $props->propertySubTypeID }}">
+                <select class="form-control selection-child-item" name="propertySubTypeID" >
+                        <option value="0">Select a type</option>
                     @foreach ($propSubTypes as $prop)
                         @if ($props->propertySubTypeID == $prop->propertySubTypeID)
                           <option value="{{$prop->propertySubTypeID}}" selected="selected">{{ $prop->propertySubTypeDescription }}</option>
@@ -311,26 +313,39 @@
 @push('scripts')
 <script>
 $(function() {
+      // filter child selection on page load
+      childSelection($('.selection-parent-item'));
+    
     // Load content based on previous selection
     $('.selection-parent-item').on('change', function(){
-      $.ajax({
-          url: "/prop/subtypelist/"+$(this).val()+"",
-          context: document.body,
-          method: 'POST',
-          headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
-      })
-      .done(function(data) {            
-        $('.selection-child-item').html(function(){
-            // Generate the seletect list
-            var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
-            data.forEach(function( index, element ){
-                output += '<option value="'+data[element].propertySubTypeID+'">'+data[element].propertySubTypeDescription+'</option>';
-            });
-            output += '</select>';
-            return output;
-        });
-      });
+      childSelection(this);
     });
+
+    function childSelection(elem){
+      console.log($(elem).val());
+      if($(elem).val() != 0){
+        $('.selection-child-item').parent().parent('.form-group').show();
+        $.ajax({
+            url: "/prop/subtypelist/"+$(elem).val()+"",
+            context: document.body,
+            method: 'POST',
+            headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
+        })
+        .done(function(data) {            
+          $('.selection-child-item').html(function(){
+              // Generate the seletect list
+              var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
+              data.forEach(function( index, element ){
+                  output += '<option value="'+data[element].propertySubTypeID+'">'+data[element].propertySubTypeDescription+'</option>';
+              });
+              output += '</select>';
+              return output;
+          });
+        });
+      }else {
+        $('.selection-child-item').parent().parent('.form-group').hide();
+      }
+    }
 });
 </script>
 @endpush
