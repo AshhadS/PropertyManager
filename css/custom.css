@@ -291,13 +291,19 @@ table.dataTable thead .sorting_desc_disabled:after {
 }
 
 .buttons.container-fluid {
-  margin: 15px 0;
+  margin: 0 0 5px;
   float: left;
   width: 100%;
 }
 
 .buttons .col-md-2 {
-  margin: 15px 0;
+  margin: 0 0 15px;
+}
+
+@media (max-width: 992px) {
+  .buttons .col-md-2 {
+    margin: 15px 0;
+  }
 }
 
 /* Action Buttons */
