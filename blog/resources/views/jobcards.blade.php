@@ -37,7 +37,7 @@
               <label class="col-sm-2 control-label">Property Name</label>
               <div class="col-sm-10">
                 <select name="PropertiesID" class="form-control selection-parent-item" >
-                        <option value="">Select a property</option>
+                        <option value="0">Select a property</option>
                     @foreach ($properties as $property)
                         <option value="{{$property->PropertiesID}}">{{ $property->pPropertyName }}</option>
                     @endforeach
@@ -61,7 +61,7 @@
               <label name="unit" class="col-sm-2 control-label">Unit</label>
               <div class="col-sm-10">
                 <select class="form-control selection-child-item" name="unitID">
-                        <option value="">Select a unit</option>
+                        <option value="0">Select a unit</option>
                     @foreach ($units as $unit)
                         <option value="{{$unit->unitID}}">{{ $unit->unitNumber }}</option>
                     @endforeach
@@ -184,38 +184,48 @@ $(function() {
             }      
         ]
     });
-    
-      $('.no-units').hide();
+      // filter child selection on page load
+      childSelection($('.selection-parent-item'));
+
+      // $('.no-units').hide();
       // Load content based on previous selection
       $('.selection-parent-item').on('change', function(){
-        $.ajax({
-            url: "/jobcard/getunit/"+$(this).val()+"",
-            context: document.body,
-            method: 'POST',
-            headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
-        })
-        .done(function(data) {
-          console.log(data.length); 
-        if (data.length) {
+        childSelection(this)
+      });
+
+      function childSelection(elem){
+        if ($(elem).val() != 0) {
           $('.selection-child-item').show();
           $('.no-units').hide();
-
-          $('.selection-child-item').html(function(){
-              // Generate the seletect list
-              var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
-              output += '<option value="">Select a unit</option>';
-              data.forEach(function( index, element ){
-                  output += '<option value="'+data[element].unitID+'">'+data[element].unitNumber+'</option>';
-              });
-              output += '</select>';
-              return output;
+          $.ajax({
+              url: "/jobcard/getunit/"+$(elem).val()+"",
+              context: document.body,
+              method: 'POST',
+              headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
+          })
+          .done(function(data) {
+              // show message if no units for the selected property
+              if(data.length){
+                $('.selection-child-item').html(function(){
+                    // Generate the seletect list
+                    var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
+                    output += '<option value="">Select a unit</option>';
+                    data.forEach(function( index, element ){
+                        output += '<option value="'+data[element].unitID+'">'+data[element].unitNumber+'</option>';
+                    });
+                    output += '</select>';
+                    return output;
+                });
+              }else{
+                $('.selection-child-item').hide();
+                $('.no-units').show();
+              }         
           });
         }else{
           $('.selection-child-item').hide();
           $('.no-units').show();
         }           
-        });
-      });
+      }
 });
 </script>
 @endpush

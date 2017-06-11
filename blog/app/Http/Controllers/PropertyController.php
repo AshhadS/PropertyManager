@@ -61,7 +61,7 @@ class PropertyController extends Controller
 	    $prop->pPropertyName = $request->pPropertyName;
 	    $prop->description = $request->description;
 	    $prop->propertySubTypeID = $request->propertySubTypeID;
-	    $prop->propertyTypeID = $request->propertyTypeID;
+	    ($request->propertyTypeID) ? $prop->propertyTypeID = $request->propertyTypeID : false; // do not save if 0 was selected
 	    $prop->numberOfUnits = $request->numberOfUnits;
 	    $prop->rentalOwnerID = $request->rentalOwnerID;
 	    $prop->address = $request->address;
@@ -119,7 +119,7 @@ class PropertyController extends Controller
     	$prop = Property::find($request->PropertiesID);
     	$prop->pPropertyName = $request->pPropertyName;
 	    $prop->description = $request->description;
-	    $prop->propertyTypeID = $request->propertyTypeID;
+	    ($request->propertyTypeID != 0) ? $prop->propertyTypeID = $request->propertyTypeID : false; // do not save if 0 was selected
 	    $prop->propertySubTypeID = $request->propertySubTypeID;
 	    $prop->numberOfUnits = $request->numberOfUnits;
 	    $prop->rentalOwnerID = $request->rentalOwnerID;

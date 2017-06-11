@@ -313,8 +313,8 @@
 @push('scripts')
 <script>
 $(function() {
-      // filter child selection on page load
-      childSelection($('.selection-parent-item'));
+    // filter child selection on page load
+    childSelection($('.selection-parent-item'));
     
     // Load content based on previous selection
     $('.selection-parent-item').on('change', function(){
@@ -322,7 +322,6 @@ $(function() {
     });
 
     function childSelection(elem){
-      console.log($(elem).val());
       if($(elem).val() != 0){
         $('.selection-child-item').parent().parent('.form-group').show();
         $.ajax({

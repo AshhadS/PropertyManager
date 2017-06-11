@@ -254,37 +254,48 @@
 @push('scripts')
 <script>
 $(function() {
-    // Load content based on previous selection
-    $('.no-units').hide();
-    $('.selection-parent-item').on('change', function(){
-      $.ajax({
-          url: "/jobcard/getunit/"+$(this).val()+"",
-          context: document.body,
-          method: 'POST',
-          headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
-      })
-      .done(function(data) {
-        console.log(data.length); 
-      if (data.length) {
-        $('.selection-child-item').show();
-        $('.no-units').hide();
+       // filter child selection on page load
+      childSelection($('.selection-parent-item'));
 
-        $('.selection-child-item').html(function(){
-            // Generate the seletect list
-            var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
-            output += '<option value="">Select a unit</option>';
-            data.forEach(function( index, element ){
-                output += '<option value="'+data[element].unitID+'">'+data[element].unitNumber+'</option>';
-            });
-            output += '</select>';
-            return output;
-        });
-      }else{
-        $('.selection-child-item').hide();
-        $('.no-units').show();
-      }           
+      // $('.no-units').hide();
+      // Load content based on previous selection
+      $('.selection-parent-item').on('change', function(){
+        childSelection(this)
       });
-    });
+
+      function childSelection(elem){
+        if ($(elem).val() != 0) {
+          $('.selection-child-item').show();
+          $('.no-units').hide();
+          $.ajax({
+              url: "/jobcard/getunit/"+$(elem).val()+"",
+              context: document.body,
+              method: 'POST',
+              headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
+          })
+          .done(function(data) {
+              // show message if no units for the selected property
+              if(data.length){
+                $('.selection-child-item').html(function(){
+                    // Generate the seletect list
+                    var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
+                    output += '<option value="">Select a unit</option>';
+                    data.forEach(function( index, element ){
+                        output += '<option value="'+data[element].unitID+'">'+data[element].unitNumber+'</option>';
+                    });
+                    output += '</select>';
+                    return output;
+                });
+              }else{
+                $('.selection-child-item').hide();
+                $('.no-units').show();
+              }         
+          });
+        }else{
+          $('.selection-child-item').hide();
+          $('.no-units').show();
+        }           
+      }
 });
 </script>
 @endpush

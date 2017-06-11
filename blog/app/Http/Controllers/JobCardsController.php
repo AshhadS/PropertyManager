@@ -52,7 +52,7 @@ class JobCardsController extends Controller
 	    $jobcard->subject = $request->subject;
 	    $jobcard->description = $request->description;
 	    $jobcard->jobcardStatusID = $request->jobcardStatusID;
-	    $jobcard->PropertiesID = $request->PropertiesID;
+	    ($request->PropertiesID != 0) ? $jobcard->PropertiesID = $request->PropertiesID : false; // do not save if 0 was selected
 	    $jobcard->rentalOwnerID = $request->rentalOwnerID;
 	    $jobcard->tenantsID = $request->tenantsID;
 	    $jobcard->unitID =$request->unitID;
