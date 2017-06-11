@@ -32,7 +32,7 @@
                         <p class='col-sm-10 conrol-label'>{{ $rentalowner->lastName}}</p>
                       </div><br/>  
                       <div class="row">
-                        <b><p class="col-sm-2 control-label">Date of birth</p></b>
+                        <b><p class="col-sm-2 control-label">Date of Birth</p></b>
                         <p class='col-sm-10 conrol-label'>{{ $rentalowner->dateOfBirth}}</p>
                       </div><br/>  
                       <div class="row">
@@ -96,7 +96,7 @@
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-sm-2 control-label">Date of birth</label>
+                      <label class="col-sm-2 control-label">Date of Birth</label>
                       <div class="col-sm-10">
                         <input type="text" name="dob" value="{{ $rentalowner->dateOfBirth}}" class="form-control"  placeholder="rentalowner Number">
                       </div>

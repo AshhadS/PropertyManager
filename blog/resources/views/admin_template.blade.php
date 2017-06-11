@@ -77,7 +77,7 @@
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-                            <li class=""><a href="/admin"> <i class="fa fa-home" aria-hidden="true"></i> Home</a></li>                     
+                            <li class=""><a href="/"> <i class="fa fa-home" aria-hidden="true"></i> Home</a></li>                     
                             <li class=""><a href="/rentalowners"> <i class="fa fa-user-secret" aria-hidden="true"></i> Property Owner</a></li>                
                             <li class=""><a href="/props"> <i class="fa fa-building" aria-hidden="true"></i> Properties</a></li>
                             <li class=""><a href="/units"> <i class="fa fa-university" aria-hidden="true"></i> Units</a></li>

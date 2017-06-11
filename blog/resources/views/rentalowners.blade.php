@@ -33,9 +33,9 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-2 control-label">Date of birth</label>
+              <label class="col-sm-2 control-label">Date of Birth</label>
               <div class="col-sm-10">
-                <input type="text" id="datepicker" name="dob" class="form-control"  placeholder="Date of birth">
+                <input type="text" id="datepicker" name="dob" class="form-control"  placeholder="Date of Birth">
               </div>
             </div>           
             <div class="form-group">
@@ -123,7 +123,7 @@
                     <tr>
                           <th>First Name</th>
                           <th>Last Name</th> 
-                          <th>Date of birth</th>
+                          <th>Date of Birth</th>
                           <th>Email</th>
                           <th>Phone Number</th>
                           <th>Office Number</th>
