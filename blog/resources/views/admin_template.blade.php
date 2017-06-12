@@ -122,7 +122,7 @@
                         <div class="col-md-2"><a href="/units"><button type="button" class="btn btn-primary btn-lg btn-block"><i class="fa fa-university" aria-hidden="true"></i> Units</button></a></div>
                         <!-- <div class="col-md-2"><a href="/tenants"><button type="button" class="btn btn-primary btn-lg btn-block">Tenants</button></a></div> -->
                         <div class="col-md-2"><a href="/todo"><button type="button" class="btn btn-primary btn-lg btn-block"> <i class="fa fa-tasks" aria-hidden="true"></i> To Do</button></a></div>
-                        <div class="col-md-2"><a href="/agreement"><button type="button" class="btn btn-primary btn-lg btn-block"> <i class="fa fa-file-text" aria-hidden="true"></i> Create Agreement</button></a></div>
+                        <div class="col-md-2"><a href="/agreements"><button type="button" class="btn btn-primary btn-lg btn-block"> <i class="fa fa-file-text" aria-hidden="true"></i> Create Agreement</button></a></div>
                     </div>
                 </div>
                 <br/>

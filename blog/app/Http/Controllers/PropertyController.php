@@ -51,7 +51,7 @@ class PropertyController extends Controller
     }
 
     function create(Request $request) {
-    	// dd($file);
+    	dd($request);
 	    // dd(file_get_contents($request->file('propertyImage')));
 
 		// $prop = new Property();

@@ -99,12 +99,12 @@
             </div>             
 
             <div class="form-group">
-              <label name="tenant" class="col-sm-2 control-label">Rental Owner</label>
+              <label class="col-sm-2 control-label">Rental Owner</label>
               <div class="col-sm-10">
-                <select class="form-control" name="rentalOwnerID">
-                    <option value="">Select an rental owner</option>
-                  @foreach ($rentalowners as $rentalowner)
-                        <option value="{{$rentalowner->RentalOwnerID}}">{{ $rentalowner->firstName }}</option>
+                <select class="form-control" name="rentalOwnerID" >
+                    <option value="">Select a rental owner</option>
+                    @foreach ($rentalowners as $rentalowner)
+                      <option value="{{$rentalowner->rentalOwnerID}}">{{ $rentalowner->firstName }}</option>
                     @endforeach
                 </select>
               </div>

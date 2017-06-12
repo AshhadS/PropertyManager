@@ -29,7 +29,8 @@ $(function() {
 
     //Date picker
     $('.datepicker').datepicker({
-      autoclose: true
+      autoclose: true,
+      format: 'yy-mm-dd',
     });
 
     // Confirm on delete

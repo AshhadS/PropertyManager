@@ -28,12 +28,19 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	Route::get('/', 'DashboardController@index');
 	Route::get('/dashboard', 'DashboardController@index');
 
-	Route::get('/agreement',function () {
-	    return view('agreement');
-	});
 	Route::get('/todo', function () {
 	    return view('todo');
 	});
+	/**
+	 * Agreements
+	 */
+	Route::get('/agreements','AgreementsController@index');
+	Route::post('/agreement',  'AgreementsController@create');
+	Route::post('/agreement/update',  'AgreementsController@update');
+	Route::post('/agreement/all',  'AgreementsController@data');
+	Route::delete('/agreement/{agreementid}',  'AgreementsController@delete');
+	Route::get('/agreement/getfields/{agreementid}','AgreementsController@getFields');
+
 	
 	/**
 	 * Attachments

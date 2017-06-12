@@ -3,6 +3,10 @@
   display: none;
 }
 
+.content-wrapper, .right-side {
+  background-color: #fff;
+}
+
 .form-buttons {
   width: 130px;
   float: right;
