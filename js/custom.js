@@ -28,7 +28,7 @@ $(function() {
     $( "span.input-req" ).append('<span class="input-req-inner"></span>');
 
     //Date picker
-    $('#datepicker').datepicker({
+    $('.datepicker').datepicker({
       autoclose: true
     });
 
