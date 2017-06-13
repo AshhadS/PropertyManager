@@ -94,7 +94,8 @@ class AgreementsController extends Controller
 
     
 
-    function delete(Agreement $agreement){
+    function delete($agreement){
+        $agreement = Agreement::find($agreement);
 	    $agreement->delete();
 	    return Redirect::to('agreements');
     }

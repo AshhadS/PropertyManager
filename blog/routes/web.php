@@ -38,7 +38,7 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	Route::post('/agreement',  'AgreementsController@create');
 	Route::post('/agreement/update',  'AgreementsController@update');
 	Route::post('/agreement/all',  'AgreementsController@data');
-	Route::delete('/agreement/{agreementid}',  'AgreementsController@delete');
+	Route::delete('/agreement/{agreement}',  'AgreementsController@delete');
 	Route::get('/agreement/getfields/{agreementid}','AgreementsController@getFields');
 
 	
