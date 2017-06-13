@@ -485,3 +485,31 @@ span.fa.fa-bars {
   font-size: 20px;
   color: white;
 }
+
+/* Data tables pagination t- to look like bootstrap */
+div.dataTables_wrapper div.dataTables_info {
+  float: left;
+}
+
+div.dataTables_wrapper div.dataTables_paginate {
+  float: right;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 5PX;
+  background: #fafafa;
+}
+
+a.paginate_button {
+  padding: 5px 10px;
+  border-left: 1px solid #ddd;
+  float: left;
+  background: #fafafa;
+  color: #666;
+}
+
+a.paginate_button.current {
+  background-color: #337ab7;
+  color: #fff;
+  border-color: #337ab7;
+}
