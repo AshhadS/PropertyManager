@@ -49,7 +49,7 @@
                     <div class="form-group">
                       <label name="unit" class="col-sm-2 control-label">Unit</label>
                       <div class="col-sm-10">
-                        <select class="form-control selection-child-item" name="unitID">
+                        <select class="form-control selection-child-item edit" name="unitID">
                                 <option value="0">Select a unit</option>
                             @foreach ($units as $unit)
                                 <option value="{{$unit->unitID}}">{{ $unit->unitNumber }}</option>

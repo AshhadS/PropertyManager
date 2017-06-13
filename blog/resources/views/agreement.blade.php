@@ -191,17 +191,18 @@ $(function() {
               })
               .done(function(data) {
                 var agreement = data[0]; 
-                console.log(agreement.tenantID); 
                 $('.agreement-edit [name="agreementID"]').val(agreement.agreementID);
                 $('.agreement-edit [name="PropertiesID"] option[value='+ agreement.PropertiesID +']').attr('selected', 'selected');
                 $('.agreement-edit [name="tenantsID"] option[value='+ agreement.tenantID +']').attr('selected', 'selected');
-                $('.agreement-edit [name="unitID"] option[value='+ agreement.unitID +']').attr('selected', 'selected');
                 $('.agreement-edit [name="actualRent"]').val(agreement.actualRent);
                 $('.agreement-edit [name="marketRent"]').val(agreement.marketRent);
                 $('.agreement-edit [name="dateFrom"]').val(agreement.dateFrom);
                 $('.agreement-edit [name="dateTo"]').val(agreement.dateTo);
                 $('.agreement-edit [name="paymentTypeID"] option[value='+ agreement.paymentTypeID +']').attr('selected', 'selected');
-                $('.agreement-edit [name="isPDCYN"]')
+                $('.agreement-edit [name="isPDCYN"]');
+                $('.agreement-edit [name="unitID"] option[value='+ agreement.unitID +']').attr('selected', 'selected');
+
+                childSelection($('.agreement-edit .selection-parent-item'))
 
                 $('#agreement-editModal').modal('show');
               });
@@ -268,6 +269,7 @@ $(function() {
     });
       // filter child selection on page load
       childSelection($('.selection-parent-item'));
+      
 
       // $('.no-units').hide();
       // Load content based on previous selection
@@ -276,6 +278,8 @@ $(function() {
       });
 
       function childSelection(elem){
+        var prev_selection = $('.selection-child-item.edit').val();
+        console.log(prev_selection); 
         if ($(elem).val() != 0) {
           $('.selection-child-item').show();
           $('.no-units').hide();
@@ -293,7 +297,11 @@ $(function() {
                     var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
                     output += '<option value="">Select a unit</option>';
                     data.forEach(function( index, element ){
-                        output += '<option value="'+data[element].unitID+'">'+data[element].unitNumber+'</option>';
+                        if(prev_selection == data[element].unitID){
+                          output += '<option value="'+data[element].unitID+'" selected="selected">'+data[element].unitNumber+'</option>';
+                        }else{
+                          output += '<option value="'+data[element].unitID+'">'+data[element].unitNumber+'</option>';
+                        }
                     });
                     output += '</select>';
                     return output;
@@ -306,7 +314,8 @@ $(function() {
         }else{
           $('.selection-child-item').hide();
           $('.no-units').show();
-        }           
+        }      
+
       }
 
       
