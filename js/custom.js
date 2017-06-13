@@ -110,7 +110,13 @@ $(function() {
     // Hamburger
     $('.nav-toggle .fa-bars').on('click', function(){
         $('.nav-items').slideToggle();
-    })
+    });
+
+    // Phone number validation
+    $("input[type=tel]").oninvalid = function () {
+        this.setCustomValidity("This field required 10 digits.");
+        this.setCustomValidity("");
+    };
              
 });
         

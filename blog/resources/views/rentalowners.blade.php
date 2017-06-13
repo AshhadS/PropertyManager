@@ -47,13 +47,13 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Phone</label>
               <div class="col-sm-10">
-                <input type="tel" name="phone" class="form-control"  placeholder="Phone">
+                <input type="tel"  pattern="[0-9]{10}" name="phone" class="form-control"  placeholder="Please enter 10 digits">
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-2 control-label">Office Phone</label>
               <div class="col-sm-10">
-                <input type="tel" name="officephone" class="form-control"  placeholder="Office Phone">
+                <input type="tel" name="officephone" class="form-control"  placeholder="Please enter 10 digits">
               </div>
             </div>
             <div class="form-group">
