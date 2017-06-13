@@ -1,4 +1,4 @@
-Please enter 10 digits@extends('admin_template')
+@extends('admin_template')
 
 @section('content')
 <meta name="_token_del" content="{{ csrf_token() }}">

@@ -1,4 +1,4 @@
-Please enter 10 digits@extends('admin_template')
+@extends('admin_template')
 
 @section('content')
   <section class="content-header">
@@ -107,13 +107,13 @@ Please enter 10 digits@extends('admin_template')
                     <div class="form-group">
                       <label class="col-sm-2 control-label">Phone</label>
                       <div class="col-sm-10">
-                        <input type="tel" name="phone" value="{{ $tenant->phoneNumber}}" class="form-control"  placeholder="Please enter 10 digits">
+                        ">
                       </div>
                     </div>
                     <div class="form-group">
                       <label class="col-sm-2 control-label">Office Phone</label>
                       <div class="col-sm-10">
-                        <input type="tel" name="officephone" value="{{ $tenant->officeNumber}}" class="form-control"  placeholder="Please enter 10 digits">
+                        ">
                       </div>
                     </div>
                     <div class="form-group">
