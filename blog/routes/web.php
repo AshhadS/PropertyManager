@@ -88,6 +88,13 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	Route::post('props/all', 'PropertyController@data');
     Route::post('prop/subtypelist/{propertyTypeID}',  'PropertyController@getSubtypeList');
 
+    /**
+     * Notes
+     */
+	Route::post('note',  'NotesController@create');
+	Route::post('note/update',  'NotesController@update');
+	Route::delete('note/{note}',  'NotesController@delete');
+
 
 	/**
 	 * Tenants

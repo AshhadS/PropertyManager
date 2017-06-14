@@ -10,6 +10,7 @@ use App\Model\Country;
 use App\Model\Attachment;
 use App\Model\DocumentMaster;
 use App\Model\RentalOwner;
+use App\Model\Note;
 use Datatables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -89,6 +90,7 @@ class PropertyController extends Controller
     	$countries = Country::all();
     	$documentmaster = DocumentMaster::all();
     	$attachments = Attachment::where('documentAutoID', $property->PropertiesID)->where('documentID', 1)->get();
+    	$notes = Note::where('documentAutoID', $property->PropertiesID)->where('documentID', 1)->get();
 	    
 
     	$property_type_name = (isset($prop->propertySubTypeID)) ? PropertySubType::find($prop->propertySubTypeID)->propertySubTypeDescription : '';
@@ -109,6 +111,7 @@ class PropertyController extends Controller
 	        'rental_owner_name' => $rental_owner_name,
 	        'rent_or_own' => $rent_or_own,
 	        'countryName' => $countryName,
+	        'notes' => $notes,
 
 	    ]);
     }

@@ -84,6 +84,10 @@
             </div>
         </div>
       </div>
+
+      @component('notes', ['documentID' => $props->documentID, 'documentAutoID' => $props->PropertiesID, 'notes' => $notes])
+
+      @endcomponent
     </div>
     <div role="tabpanel" class="tab-pane" id="edit">
      <div class="row">
