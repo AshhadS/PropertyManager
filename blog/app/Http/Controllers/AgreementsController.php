@@ -56,9 +56,8 @@ class AgreementsController extends Controller
         $agreement->dateFrom =  $request->dateFrom;
         $agreement->dateTo =  $request->dateTo;
         $agreement->paymentTypeID  = $request->paymentTypeID;
-	    $agreement->isPDCYN  = $request->isPDCYN ;
 	    $agreement->companyID = Sentinel::getUser()->companyID;
-        $agreement->isPDCYN  = (isset($request->isPDCYN)) ? $request->isPDCYN : '0';
+        $agreement->isPDCYN  = (isset($request->pdcyn)) ? $request->pdcyn : '0';
 
 	
 	    $agreement->save();
@@ -83,7 +82,7 @@ class AgreementsController extends Controller
         $agreement->dateFrom =  $request->dateFrom;
         $agreement->dateTo =  $request->dateTo;
         $agreement->paymentTypeID  = $request->paymentTypeID;
-        $agreement->isPDCYN  = (isset($request->isPDCYN)) ? $request->isPDCYN : '0';
+        $agreement->isPDCYN  = (isset($request->pdcyn)) ? $request->pdcyn : '0';
 
     
         $agreement->save();

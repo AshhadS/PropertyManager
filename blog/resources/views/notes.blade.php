@@ -35,7 +35,7 @@
     <div class="box-footer">
       <form class="form-horizontal" action="/note" method="POST" enctype="multipart/form-data">
         {{ csrf_field() }}
-        <input type="text" class="form-control" name='notes' placeholder="Type your notes here...">
+        <input type="text" class="form-control" name='notes' placeholder="Type your notes here and press enter...">
         <input type="hidden" class="form-control" name="documentID" value="{{$documentID}}">
         <input type="hidden" class="form-control" name="documentAutoID" value="{{$documentAutoID}}">
       </form>

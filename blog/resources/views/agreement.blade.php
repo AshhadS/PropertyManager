@@ -199,7 +199,7 @@ $(function() {
                 $('.agreement-edit [name="dateFrom"]').val(agreement.dateFrom);
                 $('.agreement-edit [name="dateTo"]').val(agreement.dateTo);
                 $('.agreement-edit [name="paymentTypeID"] option[value='+ agreement.paymentTypeID +']').attr('selected', 'selected');
-                $('.agreement-edit [name="isPDCYN"]');
+                (agreement.isPDCYN ) ? $('.agreement-edit [name="pdcyn"]').prop('checked', true) : false;
                 $('.agreement-edit [name="unitID"] option[value='+ agreement.unitID +']').attr('selected', 'selected');
 
                 childSelection($('.agreement-edit .selection-parent-item'))
