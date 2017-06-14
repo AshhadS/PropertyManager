@@ -113,6 +113,12 @@ $(function() {
     });
 
     // Phone number validation
+    $('[type="tel"]').keyup(function () { 
+        this.value = this.value.replace(/[^0-9\.]/g,'');
+    });
+
+    $("input[type=tel]").attr('maxlength', '10');
+
     $("input[type=tel]").oninvalid = function () {
         this.setCustomValidity("This field required 10 digits.");
         this.setCustomValidity("");
