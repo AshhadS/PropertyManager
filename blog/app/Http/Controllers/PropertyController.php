@@ -11,6 +11,8 @@ use App\Model\Attachment;
 use App\Model\DocumentMaster;
 use App\Model\RentalOwner;
 use App\Model\Note;
+use App\Model\Unit;
+use App\Model\JobCard;
 use Datatables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -98,6 +100,9 @@ class PropertyController extends Controller
     	$rental_owner_name = (isset($prop->rentalOwnerID)) ? RentalOwner::find($prop->rentalOwnerID)->firstName : '';
     	$rent_or_own = ($prop->forRentOrOwn == 1) ? 'Rent' : 'Own';
     	$countryName = (isset($prop->country)) ? Country::find($prop->country)->countryName : '';
+
+    	$property_units = Unit::where('PropertiesID', $property->PropertiesID)->get();
+    	$property_jobcards = JobCard::where('PropertiesID', $property->PropertiesID)->get();
 	    return view('props_edit', [
 	        'props' => $prop,
 	        'propTypes' => $propTypes,
@@ -112,6 +117,8 @@ class PropertyController extends Controller
 	        'rent_or_own' => $rent_or_own,
 	        'countryName' => $countryName,
 	        'notes' => $notes,
+	        'property_units' => $property_units,
+	        'property_jobcards' => $property_jobcards,
 
 	    ]);
     }

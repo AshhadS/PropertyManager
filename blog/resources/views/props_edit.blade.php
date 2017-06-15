@@ -11,7 +11,7 @@
     <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab">Summary</a></li>
     <li role="presentation"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Edit</a></li>
     <li role="presentation"><a href="#units" aria-controls="units" role="tab" data-toggle="tab">Units</a></li>
-    <li role="presentation"><a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab">Jobs</a></li>
+    <li role="presentation"><a href="#jobcards" aria-controls="jobcards" role="tab" data-toggle="tab">Jobs</a></li>
   </ul>
 
   <!-- Tab panes -->
@@ -19,20 +19,20 @@
     <div role="tabpanel" class="tab-pane active" id="view">
      <div class="row">
         <div class="col-md-12">
-            <div class="box box-info"> 
+            <div class=""> 
                 <!-- /.box-header -->
                 <!-- form start -->
                     
                   <div class="box-body">
-                    <div class="image-column col-md-4">
+                    <div class="image-column col-md-3">
                       <h2 class='conrol-label'>{{ $props->pPropertyName}}</h2>
                       <img class='show-image' src="/blog/storage/app/uploads/{{$props->propertyImage}}" alt="Property Image">
                       <br />
                       <br />
                       <p class='description'>{{ $props->description}}</p>
                     </div>
-                    <div class="details col-md-3">
-                    <br /><br />
+                    <div class="details col-md-4">
+                      <br /><br />
                       <div class="row">
                         <b><p class="col-md-6 control-label">Property Sub Type</p></b>
                         <p class='col-md-6 conrol-label'>{{ $property_type_name}}</p>
@@ -66,15 +66,12 @@
                         <p class='col-md-6 conrol-label'>{{ $rent_or_own }}</p>
                       </div>
                     </div>
-                      
+                    <div class="col-md-3 att-column">
+                      <br/> <br/>  
+                      @component('attachments', ['props' => $props, 'attachments' => $attachments])
 
-                      <div class="col-md-3 att-column">
-                        <br/> <br/>  
-                        @component('attachments', ['props' => $props, 'attachments' => $attachments])
-
-                        @endcomponent
-                      </div>
-                    
+                      @endcomponent
+                    </div>
                   </div>
             </div>
         </div>
@@ -87,7 +84,7 @@
     <div role="tabpanel" class="tab-pane" id="edit">
      <div class="row">
         <div class="col-md-12">
-            <div class="box box-info"> 
+            <div class=""> 
                 <!-- /.box-header -->
                 <!-- form start -->
                 <form class="form-horizontal" action="/props/update" method="POST" enctype="multipart/form-data">
@@ -219,7 +216,7 @@
           <div class="box-footer">
             <div class="form-buttons">
               <input type="reset" class="btn btn-default" value="Reset" />
-              <button type="submit" class="btn btn-info pull-right">Save</button>
+              <button type="submit" class="btn btn-info pull-right">Update</button>
             </div>
           </div>
           <!-- /.box-footer -->
@@ -227,12 +224,52 @@
             </div>
         </div>
       </div>
-    <div role="tabpanel" class="tab-pane" id="attachments">
-    <br/>
-      <div class="container-fluid">
-        
+      <div role="tabpanel" class="tab-pane" id="units">
+        <div class="container-fluid">
+          <h2>Units</h2>
+            <hr/>
+            <div class="unit-item">
+              @foreach ($property_units as $unit)
+                  <h3>{{$unit->unitNumber}}</h3>
+                  <p>{{$unit->description}}</p>
+                  <p><b>Size:</b> {{$unit->size}}  <b>| Market Rent:</b> {{$unit->size}}</p>
+                  <hr/>
+              @endforeach
+            </div>
+        </div>
       </div>
-    </div>
+      <div role="tabpanel" class="tab-pane" id="jobcards">
+        <div class="container-fluid">
+          <h2>Jobcards</h2>
+          <hr/>
+            <div class="jobcard-item">
+              @foreach ($property_jobcards as $jobcard)
+                  <h3>{{$jobcard->subject}}</h3>
+                  <p>{{$jobcard->description}}</p>
+                  @isset($jobcard->jobcardStatusID)
+                    <span class="label label-warning">{{App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription }}</span>
+                  @endisset
+
+                  <p>
+                    @isset($jobcard->rentalOwnerID)
+                      <b>Property Owner:</b> {{ App\Model\RentalOwner::find($jobcard->rentalOwnerID)->firstName}}  
+                      <b>|</b>
+                    @endisset
+
+                    @isset($jobcard->unitId)
+                      <b>Unit:</b> {{App\Model\Unit::find($jobcard->unitId)->unitNumber}} 
+                      <b>|</b>
+                    @endisset
+
+                    @isset($jobcard->tenantsID)
+                      <b>Tenant:</b> {{App\Model\Tenant::find($jobcard->tenantsID)->firstName}}
+                    @endisset
+                  </p>
+                  <hr/>
+              @endforeach
+            </div>
+        </div>
+      </div>
     </div>
     
   </div>
