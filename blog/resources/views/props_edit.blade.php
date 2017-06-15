@@ -9,9 +9,9 @@
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab">Summary</a></li>
+    <li role="presentation"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Edit</a></li>
     <li role="presentation"><a href="#units" aria-controls="units" role="tab" data-toggle="tab">Units</a></li>
     <li role="presentation"><a href="#jobs" aria-controls="jobs" role="tab" data-toggle="tab">Jobs</a></li>
-    <li role="presentation"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Edit</a></li>
   </ul>
 
   <!-- Tab panes -->
@@ -24,15 +24,15 @@
                 <!-- form start -->
                     
                   <div class="box-body">
-                    <div class="image-column col-md-3">
-                      <div class="row">
-                        <b><p class="col-md-6 control-label">Name</p></b>
-                        <p class='col-md-6 conrol-label'>{{ $props->pPropertyName}}</p>
-                      </div>
-                      <div class="row">
-                        <b><p class="col-md-6 control-label">Description</p></b>
-                        <p class='col-md-6 conrol-label'>{{ $props->description}}</p>
-                      </div>
+                    <div class="image-column col-md-4">
+                      <h2 class='conrol-label'>{{ $props->pPropertyName}}</h2>
+                      <img class='show-image' src="/blog/storage/app/uploads/{{$props->propertyImage}}" alt="Property Image">
+                      <br />
+                      <br />
+                      <p class='description'>{{ $props->description}}</p>
+                    </div>
+                    <div class="details col-md-3">
+                    <br /><br />
                       <div class="row">
                         <b><p class="col-md-6 control-label">Property Sub Type</p></b>
                         <p class='col-md-6 conrol-label'>{{ $property_type_name}}</p>
@@ -66,19 +66,14 @@
                         <p class='col-md-6 conrol-label'>{{ $rent_or_own }}</p>
                       </div>
                     </div>
-                      <div class="image-column col-md-4">
-                        <div class="row">
-                          <b><p class="col-sm-2 control-label">Property Image</p></b>
-                          <img class='show-image' src="/blog/storage/app/uploads/{{$props->propertyImage}}" alt="Property Image">
-                        </div>
-                      </div>
+                      
 
                       <div class="col-md-3 att-column">
+                        <br/> <br/>  
                         @component('attachments', ['props' => $props, 'attachments' => $attachments])
 
                         @endcomponent
                       </div>
-                      <br/> <br/>  
                     
                   </div>
             </div>

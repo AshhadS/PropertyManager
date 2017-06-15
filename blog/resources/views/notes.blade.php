@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
   <div class="box box-widget">
     <div class="box-header with-border">
       <h2>Notes</h2>
