@@ -7,6 +7,10 @@
   background-color: #fff;
 }
 
+.modal-dialog.wide {
+  width: 800px;
+}
+
 .form-buttons {
   width: 130px;
   float: right;
