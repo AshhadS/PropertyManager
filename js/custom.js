@@ -73,7 +73,6 @@ $(function() {
             $('.edit-form .remove-attachment').addClass('hide-element');
             $('[name="attachmentFile"]').attr('required', 'required');
         }
-
     });
 
 
@@ -123,6 +122,13 @@ $(function() {
         this.setCustomValidity("This field required 10 digits.");
         this.setCustomValidity("");
     };
+
+    $(document).ajaxComplete(function() {
+        // Adding the required indicator and property to block form submit
+        $( ".input-req" ).wrap( "<span class='input-req'></span>" );
+        $( ".input-req" ).attr( "required", true );
+        $( "span.input-req" ).append('<span class="input-req-inner"></span>');
+    });
              
 });
         

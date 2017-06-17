@@ -11,5 +11,5 @@ class Currency extends Model
     protected $primaryKey = 'currencyID';
 
     
-    public $timestamp = false;
+    public $timestamps = false;
 }

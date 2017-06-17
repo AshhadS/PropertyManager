@@ -28,6 +28,7 @@
         -->
         <link href="{{ asset("/bower_components/admin-lte/dist/css/skins/skin-blue.min.css")}}" rel="stylesheet" type="text/css" />
 
+        <link href="{{ asset("/css/components.css")}}" rel="stylesheet" type="text/css" />
         <link href="{{ asset("/css/custom.css")}}" rel="stylesheet" type="text/css" />
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -90,6 +91,7 @@
                         <li class="menu-item"><a href="/tenants"> <i class="fa fa-users" aria-hidden="true"></i> Tenants</a></li>                     
                         <li class="menu-item"><a href="/users"> <i class="fa fa-user" aria-hidden="true"></i> Users</a></li>                     
                         <li class="menu-item"><a href="#"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Reports</a></li>                     
+                        <li class="menu-item"><a href="/admin"> <i class="fa fa-bar-cog" aria-hidden="true"></i> Admin</a></li>                     
                         <li class="menu-item"><a href="/logout">Logout <i class="fa fa-sign-out" aria-hidden="true"></i> </a></li>                     
                     </ul>
                 </div>

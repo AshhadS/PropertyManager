@@ -10,6 +10,6 @@ class PaymentType extends Model
 
     protected $primaryKey = 'paymentTypeID';
 
-    public $timestamp = false;
+    public $timestamps = false;
     
 }

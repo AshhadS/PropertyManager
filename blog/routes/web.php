@@ -31,6 +31,10 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	Route::get('/todo', function () {
 	    return view('todo');
 	});
+
+	Route::get('/admin', function () {
+	    return view('admin_page');
+	});
 	/**
 	 * Agreements
 	 */
@@ -127,5 +131,48 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	Route::post('jobcards/all', 'JobCardsController@data');
 	Route::get('jobcard/getunit/{propertyId}',  'JobCardsController@getUnitsForProperty');
 	Route::post('jobcard/getunit/{propertyId}',  'JobCardsController@getUnitsForProperty');
+
+	/**
+	 * Settings
+	 */
+		/**
+		 * Property Types
+		 */		
+		Route::get('/propertytypes', 'SettingsController@showPropertyTypes');
+		Route::post('/propertytype', 'SettingsController@createPropertyType');
+		Route::post('update/propertytype', 'SettingsController@editPropertyType');
+		Route::delete('/propertytype/{propertytype}', 'SettingsController@deletePropertyType');
+
+		/**
+		 * Property Sub Types
+		 */		
+		Route::get('/propertysubtypes', 'SettingsController@showPropertysubTypes');
+		Route::post('/propertysubtype', 'SettingsController@createPropertysubType');
+		Route::post('update/propertysubtype', 'SettingsController@editPropertysubType');
+		Route::delete('/propertysubtype/{propertysubtype}', 'SettingsController@deletePropertysubType');
+
+		/**
+		 * Property Sub Types
+		 */		
+		Route::get('/currency', 'SettingsController@showCurrency');
+		Route::post('/currency', 'SettingsController@createCurrency');
+		Route::post('update/currency', 'SettingsController@editCurrency');
+		Route::delete('/currency/{currency}', 'SettingsController@deleteCurrency');
+
+		/**
+		 * Payment Type
+		 */		
+		Route::get('/paymenttype', 'SettingsController@showPaymentType');
+		Route::post('/paymenttype', 'SettingsController@createPaymentType');
+		Route::post('update/paymenttype', 'SettingsController@editPaymentType');
+		Route::delete('/paymenttype/{paymenttype}', 'SettingsController@deletePaymentType');
+
+		/**
+		 * Payment Type
+		 */		
+		Route::get('/roles', 'SettingsController@showRoles');
+		Route::post('/role', 'SettingsController@createRole');
+		Route::post('update/role', 'SettingsController@editRole');
+		Route::delete('/role/{role}', 'SettingsController@deleteRole');
 
 });

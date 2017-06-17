@@ -24,7 +24,7 @@
                 <!-- form start -->
                     
                   <div class="box-body">
-                    <div class="image-column col-md-3">
+                    <div class="image-column col-md-4">
                       <h2 class='conrol-label'>{{ $props->pPropertyName}}</h2>
                       <img class='show-image' src="/blog/storage/app/uploads/{{$props->propertyImage}}" alt="Property Image">
                       <br />
@@ -247,7 +247,7 @@
                   <h3>{{$jobcard->subject}}</h3>
                   <p>{{$jobcard->description}}</p>
                   @isset($jobcard->jobcardStatusID)
-                    <span class="label label-warning">{{App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription }}</span>
+                    <h4><span class="label label-warning">{{App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription }}</span></h4>
                   @endisset
 
                   <p>
