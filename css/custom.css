@@ -487,3 +487,14 @@ a.paginate_button.current {
   color: #000;
   font-weight: bold;
 }
+
+/* Custom Box  */
+.blue.box-solid {
+  border: 2px solid #3c8dbc;
+}
+
+.blue > .box-header.with-border {
+  border-bottom: 1px solid #3c8dbc;
+  background: #3c8dbc;
+  color: #fff;
+}

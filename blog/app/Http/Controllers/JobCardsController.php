@@ -5,16 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\JobCard;
 use App\Model\JobCardStatus;
+use App\Model\JobCardComment;
+use App\Model\JobCardType;
+use App\Model\JobCardLog;
+use App\Model\JobCardPriority;
 use App\Model\Unit;
 use App\Model\Property;
 use App\Model\Tenant;
 use App\Model\Attachment;
 use App\Model\DocumentMaster;
+use App\Model\User;
 use Datatables;
 use Illuminate\Support\Facades\DB;
 use Debugbar;
 use Redirect;
 use Sentinel;
+use Carbon\Carbon;
 
 class JobCardsController extends Controller
 {
@@ -24,6 +30,10 @@ class JobCardsController extends Controller
     	$properties = Property::all();
     	$tenants = Tenant::all();
     	$jobcardstatuss = JobCardStatus::all();
+        $jobcardcomments = JobCardComment::all();//---------------
+        $jobcardlog = JobCardLog::all();//-------------------
+        $jobcardprioritys = JobCardPriority::all();
+        $jobcardtypes = JobCardType::all();
     	
     	// Debugbar::info($tenants);
 	    return view('jobcards', [
@@ -31,7 +41,11 @@ class JobCardsController extends Controller
 	        'units' => $units,
 	        'properties' => $properties,
 	        'tenants' => $tenants,
-	        'jobcardstatuss' => $jobcardstatuss,
+            'jobcardstatuss' => $jobcardstatuss,
+            'jobcardcomments' => $jobcardcomments,
+            'jobcardlog' => $jobcardlog,
+            'jobcardprioritys' => $jobcardprioritys,
+	        'jobcardtypes' => $jobcardtypes,
 	    ]);
     }
     
@@ -78,9 +92,14 @@ class JobCardsController extends Controller
     	$tenant_name = ($jobcard->tenantsID ) ? Tenant::find($jobcard->tenantsID)->firstName : '';
     	$unit_number = (Unit::find($jobcard->unitID)) ? Unit::find($jobcard->unitID)->unitNumber : '';
     	$property_name = (Property::find($jobcard->PropertiesID) ) ? Property::find($jobcard->PropertiesID)->pPropertyName : '';
-    	$jobcardstatussName = (JobCardStatus::where('jobcardStatusID' )) ? JobCardStatus::where('jobcardStatusID', $jobcard->jobcardStatusID)->first()->statusDescription : '';
     	$created_at = $jobcard->createdDateTime;
     	$created_by = Sentinel::findById($jobcard->createdByUserID)->first_name;
+        $jobcardtypes = JobCardType::all();
+        $jobcardpriority = JobCardPriority::all();
+
+        $users = User::where('companyID', Sentinel::getUser()->companyID)->get();
+
+        $logs = JobCardLog::where('jobCardID', $jobcard->jobcardID)->get();
 	    return view('jobcards_edit', [
 	        'jobcard' => $jobcard,
 	        'units' => $units,
@@ -94,11 +113,39 @@ class JobCardsController extends Controller
 	        'jobcardstatuss' => $jobcardstatuss,
 	        'jobcardstatussName' => $jobcardstatussName,
 	        'created_at' => $created_at,
-	        'created_by' => $created_by,
+            'created_by' => $created_by,
+            'logs' => $logs,
+            'jobcardtypes' => $jobcardtypes,
+            'jobcardpriority' => $jobcardpriority,
+	        'users' => $users,
 	    ]);
     }
 
-    function update(Request $request){	
+    function update(Request $request){  
+        $jobcard = JobCard::find($request->pk);
+
+        $log = new JobCardLog;
+        $log->originalValue = $jobcard->{$request->name}; //old value
+        $log->field = $request->field;
+        $log->newValue = $request->value;
+        $log->jobCardID = $request->pk;
+        $log->updatedByEmpID = Sentinel::getUser()->id;
+        $log->updatedByEmpName = Sentinel::getUser()->first_name;
+        $log->timestamp = Carbon::now(); //formatted date time
+        $log->updatedTime = Carbon::now(); //formatted date time
+        $log->pageLink = 'jobcard/edit/' . $request->pk; //formatted date time
+        $log->history = " has changed the " . $request->field . " to " . $request->value;
+
+        $jobcard->{$request->name} = $request->value;
+
+        $log->save();
+        $jobcard->save();
+
+    }
+
+
+    function old_update(Request $request){	
+        dd($request);
     	$jobcard = JobCard::find($request->jobcardID);
     	$jobcard->subject = $request->subject;
 	    $jobcard->description = $request->description;
@@ -121,5 +168,10 @@ class JobCardsController extends Controller
 	    $jobcard->delete();
 	    return Redirect::to('jobcards');
     }
+
+
+    // function jobcardLogMessage(){
+
+    // }
 }
 

@@ -14,6 +14,8 @@
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <!-- Bootstrap data tables -->
         <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- Bootstrap X-Editable -->
+        <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
         <!-- Ionicons -->
         <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />
         <!-- Theme style -->
@@ -91,7 +93,7 @@
                         <li class="menu-item"><a href="/tenants"> <i class="fa fa-users" aria-hidden="true"></i> Tenants</a></li>                     
                         <li class="menu-item"><a href="/users"> <i class="fa fa-user" aria-hidden="true"></i> Users</a></li>                     
                         <li class="menu-item"><a href="#"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Reports</a></li>                     
-                        <li class="menu-item"><a href="/admin"> <i class="fa fa-bar-cog" aria-hidden="true"></i> Admin</a></li>                     
+                        <li class="menu-item"><a href="/admin"> <i class="fa fa-cog" aria-hidden="true"></i> Admin</a></li>                     
                         <li class="menu-item"><a href="/logout">Logout <i class="fa fa-sign-out" aria-hidden="true"></i> </a></li>                     
                     </ul>
                 </div>
@@ -138,7 +140,7 @@
         <footer class="main-footer">
             <!-- To the right -->
             <div class="pull-right hidden-xs">
-                Anything you want
+                Anything you want <a class="pUpdate" data-pk="12">200</a>
             </div>
             <!-- Default to the left -->
             <strong>Copyright © 2015 <a href="#">IDSS</a>.</strong> All rights reserved.
@@ -166,6 +168,9 @@
         <!-- AdminLTE App -->
         <script src="{{ asset ("/bower_components/admin-lte/dist/js/app.min.js") }}" type="text/javascript"></script>
 
+
+        <!-- Bootstrap X-Editable -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 
         <!-- Date Picker -->
         <script src="/bower_components/admin-lte/plugins/datepicker/bootstrap-datepicker.js"></script>

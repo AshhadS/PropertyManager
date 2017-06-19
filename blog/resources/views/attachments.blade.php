@@ -20,8 +20,8 @@
                     <form class="form-horizontal" action="/attachment" method="POST" enctype="multipart/form-data">
                       {{ csrf_field() }}
                       <div class="box-body">
-                        <input type="hidden" name="documentAutoID" class="form-control" value="{{ $props->PropertiesID}}"  placeholder="Subject">
-                        <input type="hidden" name="documentID" class="form-control" value="1" >
+                        <input type="hidden" name="documentAutoID" class="form-control" value="{{ $entity_id }}"  placeholder="Subject">
+                        <input type="hidden" name="documentID" class="form-control" value="{{ $document_id }}" >
                 
                         <div class="form-group">
                           <label class="col-sm-2 control-label">File Name</label>
@@ -63,7 +63,7 @@
                   <div class="edit-button">
                     <button class="btn btn-info btn-sm edit-attachment" data-id='{{ $attachment->attachmentID }}' data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button>
 
-                    <input type="hidden" class='data-defined' data-id='{{ $attachment->attachmentID }}' data-documentAutoID='{{ $props->PropertiesID }}' data-description='{{ $attachment->attachmentDescription }}' data-fileNameCustom='{{ $attachment->fileNameCustom }}' data-fileNameSlug='{{ $attachment->fileNameSlug }}' data-documentID='{{ $attachment->documentID }}'>
+                    <input type="hidden" class='data-defined' data-id='{{ $attachment->attachmentID }}' data-documentAutoID='{{ $attachment->documentAutoID }}' data-description='{{ $attachment->attachmentDescription }}' data-fileNameCustom='{{ $attachment->fileNameCustom }}' data-fileNameSlug='{{ $attachment->fileNameSlug }}' data-documentID='{{ $attachment->documentID }}'>
 
                     <form class="delete-form" action="/attachment/{{ $attachment->attachmentID }}" method="POST">
                       {{ csrf_field() }}

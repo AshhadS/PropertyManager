@@ -68,7 +68,7 @@
                     </div>
                     <div class="col-md-3 att-column">
                       <br/> <br/>  
-                      @component('attachments', ['props' => $props, 'attachments' => $attachments])
+                      @component('attachments', ['entity_id' => $props->PropertiesID, 'document_id' => $props->documentID, 'attachments' => $attachments])
 
                       @endcomponent
                     </div>

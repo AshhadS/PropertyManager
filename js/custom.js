@@ -123,6 +123,25 @@ $(function() {
         this.setCustomValidity("");
     };
 
+
+    // //edit form style - popup or inline
+    // $.fn.editable.defaults.mode = 'inline';
+    // $('.item-editable').editable({
+    //     validate: function(value) {
+    //         if($.trim(value) == '') 
+    //             return 'Value is required.';
+    //     },
+    //         type: 'text',
+    //         method: 'POST'
+    //         url:'jobcards/update',  
+    //         title: 'Edit',
+    //         placement: 'top', 
+    //         send:'always',
+    //         ajaxOptions: {
+    //         dataType: 'json'
+    //     }
+    // });
+
     $(document).ajaxComplete(function() {
         // Adding the required indicator and property to block form submit
         $( ".input-req" ).wrap( "<span class='input-req'></span>" );
@@ -132,6 +151,3 @@ $(function() {
              
 });
         
-//     window.setTimeout(deleteButtons(), 50000);
-
-        // "<input type='hidden' class='data-defined' data-id='{{ $attachment->attachmentID }}' data-documentAutoID='{{ $unit->unitID }}' data-description='{{ $attachment->attachmentDescription }}' data-fileNameCustom='{{ $attachment->fileNameCustom }}' data-fileNameSlug='{{ $attachment->fileNameSlug }}' data-documentID='{{ $attachment->documentID }}'>"
