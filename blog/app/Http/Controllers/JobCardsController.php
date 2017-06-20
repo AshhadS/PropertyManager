@@ -111,7 +111,6 @@ class JobCardsController extends Controller
 	        'unit_number' => $unit_number,
 	        'property_name' => $property_name,
 	        'jobcardstatuss' => $jobcardstatuss,
-	        'jobcardstatussName' => $jobcardstatussName,
 	        'created_at' => $created_at,
             'created_by' => $created_by,
             'logs' => $logs,

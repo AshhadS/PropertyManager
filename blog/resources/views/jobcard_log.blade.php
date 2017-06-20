@@ -1,14 +1,6 @@
 <!-- The timeline -->
 <ul class="timeline timeline-inverse">
-  <!-- timeline time label -->
-  <li class="time-label">
-    <span class="bg-red">
-      10 Feb. 2014
-    </span>
-  </li>
-  <!-- /.timeline-label -->
-
-
+  
     @foreach ($logs as $log)
       <!-- timeline item -->
       @if($log->field == 'Comment')
@@ -43,14 +35,6 @@
 
       <!-- END timeline item -->    
     @endforeach
-
-  <!-- timeline time label -->
-  <li class="time-label">
-    <span class="bg-green">
-      3 Jan. 2014
-    </span>
-  </li>
-  <!-- /.timeline-label -->
   <li>
     <i class="fa fa-clock-o bg-gray"></i>
   </li>

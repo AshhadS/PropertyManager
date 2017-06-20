@@ -15,6 +15,7 @@ use Sentinel;
 class TenantsController extends Controller
 {
     function index() {
+    	
     	$countries = Country::all();
 	    return view('tenants', [
 	        'countries' => $countries,
@@ -45,9 +46,9 @@ class TenantsController extends Controller
 	    $tenant->companyID = Sentinel::getUser()->companyID;
 	    $tenant->documentID = 4;
 
-		$usableDate = date("Y-m-d", strtotime($request->dob));
-	    $tenant->dateOfBirth = $usableDate;
-	
+	    if($request->dob)
+		    $tenant->dateOfBirth = date_create_from_format("j/m/Y", $request->dob)->format('Y-m-d');
+
 	    $tenant->save();
 
 	    return Redirect::to('tenants');
@@ -85,9 +86,9 @@ class TenantsController extends Controller
 	    $tenant->comments = $request->comments;
 	    $tenant->companyID = $request->companyID;
 	    
-	    $usableDate = date("Y-m-d", strtotime($request->dob));
-	    $tenant->dateOfBirth = $usableDate;
-
+	    if($request->dob)
+		    $tenant->dateOfBirth = date_create_from_format("j/m/Y", $request->dob)->format('Y-m-d');
+	
 	    $tenant->save();
 	    return Redirect::to('tenants');
     }

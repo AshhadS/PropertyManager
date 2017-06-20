@@ -4,7 +4,7 @@
 <meta name="_token_del" content="{{ csrf_token() }}">
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog wide" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -62,13 +62,13 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Market Rent</label>
               <div class="col-sm-10">
-                <input type="text" name="marketRent" class="form-control" placeholder="Market Rent">
+                <input type="tel" name="marketRent" class="form-control" placeholder="Market Rent">
               </div>
             </div>
              <div class="form-group">
               <label class="col-sm-2 control-label">Actual Rent</label>
               <div class="col-sm-10">
-                <input type="text" name="actualRent" class="form-control"  placeholder="Actual Rent">
+                <input type="tel" name="actualRent" class="form-control"  placeholder="Actual Rent">
               </div>
             </div>
             <div class="form-group">

@@ -47,10 +47,9 @@ class RentalOwnersController extends Controller
 	    $rentalowner->companyID = Sentinel::getUser()->companyID;
 	    $rentalowner->documentID = 2;
 
-	    $usableDate = date("Y-m-d", strtotime($request->dob));
-	    $rentalowner->dateOfBirth = $usableDate;
-
-	
+	    if($request->dob)
+		    $rentalowner->dateOfBirth = date_create_from_format("j/m/Y", $request->dob)->format('Y-m-d');
+	    		
 	    $rentalowner->save();
 
 	    return Redirect::to('rentalowners');
@@ -87,8 +86,9 @@ class RentalOwnersController extends Controller
 	    $rentalowner->comments = $request->comments;
 	    $rentalowner->companyID = $request->company;
 
-	    $usableDate = date("Y-m-d", strtotime($request->dob));
-	    $rentalowner->dateOfBirth = $usableDate;
+	    	dd($request->dob);
+	    if($request->dob)
+		    $rentalowner->dateOfBirth = date_create_from_format("j/m/Y", $request->dob)->format('Y-m-d');
 
 	    $rentalowner->save();
 	    return Redirect::to('rentalowners');

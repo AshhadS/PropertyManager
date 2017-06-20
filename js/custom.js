@@ -30,7 +30,7 @@ $(function() {
     //Date picker
     $('.datepicker').datepicker({
       autoclose: true,
-      format: 'yy-mm-dd',
+      format: 'dd/mm/yyyy',
     });
 
     // Confirm on delete
@@ -147,6 +147,21 @@ $(function() {
         $( ".input-req" ).wrap( "<span class='input-req'></span>" );
         $( ".input-req" ).attr( "required", true );
         $( "span.input-req" ).append('<span class="input-req-inner"></span>');
+
+        // Confirm on delete
+        $('.delete-btn').on('click', function(e){
+            e.preventDefault();
+                btn = this;
+                if($(btn).hasClass('activate')){
+                console.log('Now delete!'); 
+                $(btn).closest('form.delete-form').submit();
+            } else{
+                $(btn).addClass('activate');
+                setTimeout(function(){
+                  $(btn).removeClass('activate');
+                }, 5000);
+            }
+        });
     });
              
 });
