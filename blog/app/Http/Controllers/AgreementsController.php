@@ -53,12 +53,15 @@ class AgreementsController extends Controller
         $agreement->unitID = $request->unitID;
         $agreement->actualRent = $request->actualRent;
         $agreement->marketRent = $request->marketRent;
-        $agreement->dateFrom =  $request->dateFrom;
-        $agreement->dateTo =  $request->dateTo;
         $agreement->paymentTypeID  = $request->paymentTypeID;
-	    $agreement->companyID = Sentinel::getUser()->companyID;
+        $agreement->companyID = Sentinel::getUser()->companyID;
         $agreement->isPDCYN  = (isset($request->pdcyn)) ? $request->pdcyn : '0';
 
+        if($request->dateFrom)
+            $agreement->dateFrom = date_create_from_format("j/m/Y", $request->dateFrom)->format('Y-m-d');
+        
+        if($request->dateTo)
+            $agreement->dateTo = date_create_from_format("j/m/Y", $request->dateTo)->format('Y-m-d');
 	
 	    $agreement->save();
 
@@ -79,10 +82,14 @@ class AgreementsController extends Controller
         $agreement->unitID = $request->unitID;
         $agreement->actualRent = $request->actualRent;
         $agreement->marketRent = $request->marketRent;
-        $agreement->dateFrom =  $request->dateFrom;
-        $agreement->dateTo =  $request->dateTo;
         $agreement->paymentTypeID  = $request->paymentTypeID;
         $agreement->isPDCYN  = (isset($request->pdcyn)) ? $request->pdcyn : '0';
+
+        if($request->dateFrom)
+            $agreement->dateFrom = date_create_from_format("j/m/Y", $request->dateFrom)->format('Y-m-d');
+        
+        if($request->dateTo)
+            $agreement->dateTo = date_create_from_format("j/m/Y", $request->dateTo)->format('Y-m-d');
 
     
         $agreement->save();

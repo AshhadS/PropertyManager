@@ -98,7 +98,7 @@
                     <div class="form-group">
                       <label class="col-sm-2 control-label">Date of Birth</label>
                       <div class="col-sm-10">
-                        <input type="text" name="dob" value="{{ $rentalowner->dateOfBirth}}" class="form-control datepicker"  placeholder="Date of Birth">
+                        <input type="text" name="dob" value="{{ date_create_from_format('Y-m-d', $rentalowner->dateOfBirth)->format('j/m/Y') }}" class="form-control datepicker"  placeholder="Date of Birth">
                       </div>
                     </div>
                     <div class="form-group">

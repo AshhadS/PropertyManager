@@ -167,20 +167,6 @@ $(function() {
           'headers' : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
         },
         "initComplete": function(settings, json) {
-         $('.delete-btn').on('click', function(e){
-          e.preventDefault();
-          btn = this;
-          if($(btn).hasClass('activate')){
-            console.log('Now delete!'); 
-            $(btn).closest('form.delete-form').submit();
-          } else{
-            $(btn).addClass('activate');
-            setTimeout(function(){
-              $(btn).removeClass('activate');
-            }, 5000);
-          }
-         });
-
          $('.attachment-edit-btn').on('click', function(){
             var id = $(this).data('id');
             $.ajax({
@@ -191,13 +177,19 @@ $(function() {
               })
               .done(function(data) {
                 var agreement = data[0]; 
+                var f_from = new Date(agreement.dateFrom);
+                f_from = ("0" + f_from.getDate()).slice(-2) +'/'+ ("0" + (f_from.getMonth() + 1)).slice(-2) +'/'+ f_from.getFullYear();
+
+                var f_to = new Date(agreement.dateTo);
+                f_to = ("0" + f_to.getDate()).slice(-2) +'/'+ ("0" + (f_to.getMonth() + 1)).slice(-2) +'/'+ f_to.getFullYear();
+
                 $('.agreement-edit [name="agreementID"]').val(agreement.agreementID);
                 $('.agreement-edit [name="PropertiesID"] option[value='+ agreement.PropertiesID +']').attr('selected', 'selected');
                 $('.agreement-edit [name="tenantsID"] option[value='+ agreement.tenantID +']').attr('selected', 'selected');
                 $('.agreement-edit [name="actualRent"]').val(agreement.actualRent);
                 $('.agreement-edit [name="marketRent"]').val(agreement.marketRent);
-                $('.agreement-edit [name="dateFrom"]').val(agreement.dateFrom);
-                $('.agreement-edit [name="dateTo"]').val(agreement.dateTo);
+                $('.agreement-edit [name="dateFrom"]').val(f_from);
+                $('.agreement-edit [name="dateTo"]').val(f_to);
                 $('.agreement-edit [name="paymentTypeID"] option[value='+ agreement.paymentTypeID +']').attr('selected', 'selected');
                 (agreement.isPDCYN ) ? $('.agreement-edit [name="pdcyn"]').prop('checked', true) : false;
                 $('.agreement-edit [name="unitID"] option[value='+ agreement.unitID +']').attr('selected', 'selected');

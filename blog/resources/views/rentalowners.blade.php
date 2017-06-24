@@ -155,23 +155,6 @@ $(function() {
           'type': 'POST' ,
           'headers' : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
         },
-        "initComplete": function(settings, json) {
-         $('.delete-btn').on('click', function(e){
-          e.preventDefault();
-          btn = this;
-          if($(btn).hasClass('activate')){
-            console.log('Now delete!'); 
-            $(btn).closest('form.delete-form').submit();
-          } else{
-            $(btn).addClass('activate');
-            setTimeout(function(){
-              $(btn).removeClass('activate');
-            }, 5000);
-
-          }
-
-         })
-        },
         "columnDefs": [
           { "width": "10%", "targets": 10 }
         ],
