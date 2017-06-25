@@ -1,14 +1,10 @@
 @extends('admin_template')
 @section('content')
-<section class="content-header">
-  <h1>Jobcard</h1>
-</section>
-<br /><br />
 <!-- Nav tabs -->
-<ul class="nav nav-tabs" role="tablist">
+<!-- <ul class="nav nav-tabs" role="tablist">
   <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab">View</a></li>
   <li role="presentation"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Edit</a></li>
-</ul>
+</ul> -->
 <!-- Tab panes -->
 <div class="tab-content">
   <div role="tabpanel" class="tab-pane active" id="view">
@@ -19,79 +15,196 @@
           <!-- form start -->          
           <div class="box-body">
             <div class="row">
-              <div class="col-md-4">
-                <h2 class='conrol-label item-editable' data-type="text" jcfield="Subject" data-name="subject" data-pk="{{$jobcard->jobcardID}}" >{{ $jobcard->subject}}</h2>
+              <div class="col-md-12">
+                <h2> <i class="fa fa-briefcase" aria-hidden="true"></i> Jobcard -  [  {{$jobcard->jobCardCode}}]</h2>
+                
               </div>
             </div>
             <div class="row">
               <div class="col-md-4">
-                <div class="box box-solid blue  ">
+                <h2 class='conrol-label item-editable' data-type="text" jcfield="Subject" data-name="subject" data-pk="{{$jobcard->jobcardID}}" >{{ $jobcard->subject}}</h2>
+                <br/>
+              </div>
+
+              <div class="col-md-4">
+                <div class="btn-group col-md-12 jc-status" role="group" aria-label="...">
+                  <span class="status-log hide-element">{{$jobcard->jobcardStatusID}}</span><br />
+                  <button type="button" status="2" statusID class="btn btn-default jc-status hide-element">In Progress</button>
+                  <button type="button" status="6" class="btn btn-default jc-status hide-element">Pending</button>
+                  <button type="button" status="5" class="btn btn-default jc-status hide-element">Deferred</button>
+                  <button type="button" status="4" class="btn btn-default jc-status hide-element">Completed</button>
+                  <button type="button" status="3" class="btn btn-default jc-status hide-element">Resolved</button>
+                  <button type="button" status="1" class="btn btn-default jc-status hide-element">Reopen</button>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-8">                
+                <div class="box box-solid blue">
                   <div class="box-header with-border">
-                    <h3 class="box-title">Description</h3>
+                    <h3 class="box-title"> <i class="fa fa-list" aria-hidden="true"></i> Details</h3>
                   </div>
                   <!-- /.box-header -->
                   <div class="box-body">
-                    <p class="item-editable" data-type="textarea" jcfield="Description" data-name="description" data-pk="{{$jobcard->jobcardID}}" data-tpl="<textarea></textarea>">{{ $jobcard->description}}</p>
+                    <div class="col-md-6">                      
+                      <div class="row">
+                        <b><p class="col-sm-4 control-label">Status</p></b>
+                          <p class='col-sm-6 conrol-label status' jcfield="Status">
+                            @if($jobcard->jobcardStatusID && $jobcard->jobcardStatusID != 0)
+                              {{ App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription }}
+                            @endif
+                          </p>
+                      </div>
+                      <div class="row">
+                        <b><p class="col-sm-4 control-label">Jobcard Type</p></b>
+                          <p class='col-sm-6 conrol-label jc-type' jcfield="Type">
+                          @if($jobcard->jobcardTypeID && $jobcard->jobcardTypeID != 0)
+                            {{ App\Model\JobCardType::find($jobcard->jobcardTypeID)->jobcardTypeDescription }}
+                          @endif
+                          </p>
+                      </div>
+                      <div class="row">
+                        <b><p class="col-sm-4 control-label">Priority</p></b>
+                          <p class='col-sm-6 conrol-label jc-priority' jcfield="Priority">
+                          @if($jobcard->priorityID && $jobcard->priorityID != 0)
+                            {{App\Model\JobCardPriority::find($jobcard->priorityID)->priorityDescription}}
+                          @endif
+                          </p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                        <b><p class="col-sm-4 control-label">Property name</p></b>
+                        <p class='col-sm-6 conrol-label jc-property' jcfield="Property">{{ $property_name }}</p>
+                      </div>
+                      <div class="row">
+                        <b><p class="col-sm-4 control-label">Tenant name</p></b>
+                        <p class='col-sm-6 conrol-label jc-tenant' jcfield="Tenant">{{ $tenant_name }}</p>
+                      </div>
+                      <div class="row">
+                        <b><p class="col-sm-4 control-label">Unit</p></b>
+                        <p class='col-sm-6 conrol-label jc-unit' jcfield="Unit">{{ $unit_number }}</p>
+                      </div>
+                    </div>
                   </div>
                   <!-- /.box-body -->
                 </div>
-                <div class="box box-solid blue">
+                <div class="box box-solid blue  ">
                   <div class="box-header with-border">
-                    <h3 class="box-title">Details</h3>
+                    <h3 class="box-title"> <i class="fa fa-file-text-o" aria-hidden="true"></i> Description</h3>
                   </div>
                   <!-- /.box-header -->
                   <div class="box-body">
-                    <div class="row">
-                      <b><p class="col-sm-4 control-label">Status</p></b>
-                      @if($jobcard->jobcardStatusID && $jobcard->jobcardStatusID != 0)
-                        <p class='col-sm-6 conrol-label status' jcfield="Description">{{ App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription }}</p>
-                      @endif
-                    </div>
-                    <div class="row">
-                      <b><p class="col-sm-4 control-label">Jobcard Type</p></b>
-                      @if($jobcard->jobcardTypeID && $jobcard->jobcardTypeID != 0)
-                        <p class='col-sm-6 conrol-label jc-type' jcfield="Type">{{ App\Model\JobCardType::find($jobcard->jobcardTypeID)->jobcardTypeDescription }}</p>
-                      @endif
-                    </div>
-                    <div class="row">
-                      <b><p class="col-sm-4 control-label">Priority</p></b>
-                      @if($jobcard->priorityID && $jobcard->priorityID != 0)
-                        <p class='col-sm-6 conrol-label jc-priority' jcfield="Priority">{{App\Model\JobCardPriority::find($jobcard->priorityID)->priorityDescription}}</p>
-                      @endif
-                    </div>
-                    <div class="row">
-                      <b><p class="col-sm-4 control-label">Property name</p></b>
-                      <p class='col-sm-6 conrol-label jc-property' jcfield="Property">{{ $property_name }}</p>
-                    </div>
-                    <div class="row">
-                      <b><p class="col-sm-4 control-label">Tenant name</p></b>
-                      <p class='col-sm-6 conrol-label jc-tenant' jcfield="Tenant">{{ $tenant_name }}</p>
-                    </div>
-                    <div class="row">
-                      <b><p class="col-sm-4 control-label">Unit</p></b>
-                      <p class='col-sm-6 conrol-label jc-unit' jcfield="Unit">{{ $unit_number }}</p>
+                    <div class="col-md-6">
+                      <p class="item-editable" data-type="textarea" jcfield="Description" data-name="description" data-pk="{{$jobcard->jobcardID}}" data-tpl="<textarea></textarea>">{{ $jobcard->description}}</p>
                     </div>
                   </div>
                   <!-- /.box-body -->
+                </div>
+                <div class="box box-solid blue ">
+                  <div class="box-header with-border">
+                    <h3 class="box-title"> <i class="fa fa-paperclip" aria-hidden="true"></i> Attachemnts</h3>
+                  </div>
+                  <!-- /.box-header -->
+                  <div class="box-body">
+                    <form action="/attachment/save" class="dropzone attachments-drop-box" id="my-awesome-dropzone">
+                      {{ csrf_field() }}
+                      <input type="hidden" name="documentAutoID" value="{{$jobcard->jobcardID}}">
+                      <input type="hidden" name="documentID" value="{{$jobcard->documentID}}">
+                      <div class="dz-message"><span>Drop files here or click here to upload</span></div>
+                        <input type="file" name="file-upload">
+                        <br/>
+
+                      <div class="">
+                        @foreach ($attachments as $attachment)
+                          <div class="dz-preview dz-processing dz-image-preview dz-success dz-complete">
+                            <div class="dz-image">
+                            <span class="file-type"></span>
+                              @if(substr(File::mimeType(storage_path('app\\uploads\\attachments\\' . $attachment->fileNameSlug)), 0, 5) == 'image')
+                                <img class="dz-server-file" data-dz-remove src="/blog/storage/app/uploads/attachments/{{$attachment->fileNameSlug}}">
+                              @endif
+                            </div>
+                            <div class="dz-details">
+                                <div class="dz-size"><span data-dz-size="{{File::size(storage_path('app\\uploads\\attachments\\' . $attachment->fileNameSlug))}}"></span></div>
+                                <div class="dz-filename"><span data-dz-name="">{{$attachment->fileName}}</span></div>
+                            </div>
+                            <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress="" style="width: 100%;"></span></div>
+                            <a href="#" attachemnt-id="{{$attachment->attachmentID}}" class="jc-attachment">Remove</a>
+                          </div>
+                        @endforeach
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="box box-solid blue ">
+                  <div class="box-header with-border">
+                    <h3 class="box-title"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Activity</h3>
+                  </div>
+                  <!-- /.box-header -->
+                  <div class="box-body">
+                    
+                    <div>
+                      <!-- Nav tabs -->
+                      <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#comments" aria-controls="comments" role="tab" data-toggle="tab">Comments</a></li>
+                        <li role="presentation"><a href="#activity" aria-controls="activity" role="tab" data-toggle="tab">Activity</a></li>
+                      </ul>
+
+                      <!-- Tab panes -->
+                      <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="comments">
+                          <br />
+                          @component('comments', ['entity_id' => $jobcard->jobcardID])
+                          @endcomponent
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="activity">
+                          <br />
+                          @component('jobcard_log', ['logs' => $logs])
+                          @endcomponent
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
                 </div>
               </div>
               <div class="col-md-4 ">                
                 <div class="box box-solid blue ">
                   <div class="box-header with-border">
-                    <h3 class="box-title">User Details</h3>
+                    <h3 class="box-title"> <i class="fa fa-user" aria-hidden="true"></i> User Details</h3>
                   </div>
                   <!-- /.box-header -->
                   <div class="box-body">
                     <div class="row">
                       <b><p class="col-sm-4 control-label">Creator</p></b>
                       <p class='col-sm-6 conrol-label'>{{Sentinel::findById($jobcard->createdByUserID)->first_name }}</p>
+                      <b><p class="col-sm-4 control-label">Phone</p></b>
+                      <p class='col-sm-6 conrol-label'>XXX-XXX-XXX</p>
+                      <b><p class="col-sm-4 control-label">Email</p></b>
+                      <p class='col-sm-6 conrol-label'>testmail@mail.com</p>
                     </div>
+                    <br />
                     <div class="row">
                       <b><p class="col-sm-4 control-label">Assigned To </p></b>
-                      @if($jobcard->assignedToID && $jobcard->assignedToID != 0)
-                        <p class='col-sm-6 conrol-label jc-assigned-to' jcfield="Assigned To">{{Sentinel::findById($jobcard->assignedToID)->first_name}}</p>
-                      @endif
+                        <p class='col-sm-6 conrol-label jc-assigned-to' jcfield="Assigned To">
+                        @if($jobcard->assignedToID && $jobcard->assignedToID != 0)
+                          {{Sentinel::findById($jobcard->assignedToID)->first_name}}
+                        @endif
+                        <b><p class="col-sm-4 control-label">Phone</p></b>
+                        <p class='col-sm-6 conrol-label'>XXX-XXX-XXX</p>
+                        <b><p class="col-sm-4 control-label">Email</p></b>
+                        <p class='col-sm-6 conrol-label'>testmail@mail.com</p>
+                        </p>
                     </div>
+                  </div>
+                </div>
+                <div class="box box-solid blue ">
+                  <div class="box-header with-border">
+                    <h3 class="box-title"> <i class="fa fa-calendar" aria-hidden="true"></i> Dates</h3>
+                  </div>
+                  <!-- /.box-header -->
+                  <div class="box-body">
                     <div class="row">
                       <b><p class="col-sm-4 control-label">Created on</p></b>
                       <p class='col-sm-6 conrol-label format-date'>{{ $jobcard->createdDateTime }}</p>
@@ -103,145 +216,78 @@
                   </div>
                 </div>
                 <!-- /.box-body -->
+                
               </div>
-              <div class="col-md-4 ">                
-                <div class="box box-solid blue ">
-                  <div class="box-header with-border">
-                    <h3 class="box-title">Attachemnts</h3>
-                  </div>
-                  <!-- /.box-header -->
-                  <div class="box-body">
-                    @component('attachments', [
-                    'entity_id' => $jobcard->jobcardID,
-                    'document_id' => $jobcard->documentID, 
-                    'attachments' => $attachments
-                    ])
-                    @endcomponent
-                  </div>
-                </div>
-                <!-- /.box-body -->
-              </div>
+              <!-- <div class="col-md-4 ">                
+                /.box-body
+              </div> -->
             </div>
           </div>
-          <br/> <br/>
-          @component('comments', ['entity_id' => $jobcard->jobcardID])
-          @endcomponent
-          <br/> <br/>
-          @component('jobcard_log', ['logs' => $logs])
-          @endcomponent
+          
           
         </div>
       </div>
     </div>
   </div>
-
-<div role="tabpanel" class="tab-pane" id="edit">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="box box-info">
-        <div class="box-header with-border">
-          <h3 class="box-title">Edit</h3>
-        </div>
-        <!-- /.box-header -->
-        <!-- form start -->
-        <form class="form-horizontal" action="/jobcards/update" method="POST">
-          {{ csrf_field() }}
-          <div class="box-body">
-            <input type="hidden" name="jobcardID" class="form-control" value="{{ $jobcard->jobcardID}}"  placeholder="Subject">
-            
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Subject</label>
-              <div class="col-sm-10">
-                <input type="text" name="subject" class="form-control input-req" value="{{ $jobcard->subject}}"  placeholder="Subject">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Description</label>
-              <div class="col-sm-10">
-                <textarea class="form-control" name="description" rows="2" value="" placeholder="Description">{{ $jobcard->description}}</textarea>
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Property Name</label>
-              <div class="col-sm-10">
-                <select class="form-control selection-parent-item" name="PropertiesID" value="{{ $jobcard->PropertiesID}}" >
-                  <option value="">Select a property</option>
-                  @foreach ($properties as $property)
-                  @if ($jobcard->PropertiesID == $property->PropertiesID)
-                  <option value="{{$property->PropertiesID}}" selected="selected">{{ $property->pPropertyName }}</option>
-                  @else
-                  <option value="{{$property->PropertiesID}}">{{ $property->pPropertyName }}</option>
-                  @endif
-                  @endforeach
-                </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <label name="tenant" class="col-sm-2 control-label">Tenant Name</label>
-              <div class="col-sm-10">
-                <select class="form-control" name="tenantsID" value="{{ $jobcard->tenantsID}}">
-                  <option value="">Select a tenant</option>
-                  @foreach ($tenants as $tenant)
-                  @if ($jobcard->tenantsID == $tenant->tenantsID)
-                  <option value="{{$tenant->tenantsID}}" selected="selected">{{ $tenant->firstName }}</option>
-                  @else
-                  <option value="{{$tenant->tenantsID}}">{{ $tenant->firstName }}</option>
-                  @endif
-                  @endforeach
-                </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <label name="unit" class="col-sm-2 control-label">Unit</label>
-              <div class="col-sm-10">
-                <select class="form-control selection-child-item" name="unitID" value="{{ $jobcard->unitID}}">
-                  <option value="">Select a unit</option>
-                  @foreach ($units as $unit)
-                  @if ($unit->unitID == $jobcard->unitID)
-                  <option value="{{$unit->unitID}}" selected="selected">{{ $unit->unitNumber }}</option>
-                  @else
-                  <option value="{{$unit->unitID}}">{{ $unit->unitNumber }}</option>
-                  @endif
-                  @endforeach
-                </select>
-                <p class="no-units">No units belonging to this property</p>
-              </div>
-            </div>
-            <div class="form-group">
-              <label name="propertyType" class="col-sm-2 control-label">Status</label>
-              <div class="col-sm-10">
-                <select class="form-control" name="jobcardStatusID" value="{{ $jobcard->jobcardStatusID}}">
-                  @foreach ($jobcardstatuss as $jobcardstatus)
-                  @if ($jobcardstatus->jobcardStatusID == $jobcard->jobcardStatusID)
-                  <option value="{{$jobcardstatus->jobcardStatusID}}" selected="selected">{{ $jobcardstatus->statusDescription }}</option>
-                  @else
-                  <option value="{{$jobcardstatus->jobcardStatusID}}">{{ $jobcardstatus->statusDescription }}</option>
-                  @endif
-                  @endforeach
-                </select>
-              </div>
-            </div>
-            
-          </div>
-          <!-- /.box-body -->
-          <div class="box-footer">
-            <div class="form-buttons">
-              <input type="reset" class="btn btn-default" value="Reset" />
-              <button type="submit" class="btn btn-info pull-right">Save</button>
-            </div>
-          </div>
-          <!-- /.box-footer -->
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
 </div>
 @endsection
 @push('scripts')
 <script>
 $(function() {
+    statusButtonHandler();
+    $('.jc-status').on('click', function(){
+      $('.status-log').text($(this).attr('status'));
+      updateStatus($(this).attr('status'));
+      statusButtonHandler();
+    });
+
+    function statusButtonHandler(){
+      $('button.jc-status').hide();
+      switch($('.status-log').text()) {
+      case '1':
+          $('[status="2"]').show();
+          $('[status="6"]').show();
+          break;
+      case '2':
+          $('[status="5"]').show();
+          $('[status="6"]').show();
+          $('[status="3"]').show();
+          break;
+      case '6':
+          $('[status="2"]').show();
+          $('[status="5"]').show();
+          break;
+      case '5':
+          $('[status="1"]').show();
+          break;
+      case '4':
+          $('[status="1"]').show();
+          break;
+      case '3':
+          $('[status="4"]').show();
+          break;
+      case '1':
+          $('[status="2"]').show();
+          $('[status="6"]').show();
+          break;
+      }
+    }
+
+    function updateStatus(id){
+      $.ajax({
+        type: 'POST',
+        url: '/jobcards/update',
+        data: { 
+          _token: '{{ csrf_token() }}',
+          name: 'jobcardStatusID',
+          value: id,
+          pk:'{{$jobcard->jobcardID}}',
+          field: 'Status',
+        },
+        
+      })
+    }
+
     // filter child selection on page load
     childSelection($('.selection-parent-item'));
     // $('.no-units').hide();
@@ -311,7 +357,6 @@ $(function() {
                 return params;
             }         
     });
-
     $('.status').editable({
         validate: function(value) {
             if($.trim(value) == '') 
@@ -336,7 +381,7 @@ $(function() {
               {value: "{{$jobcardstatus->jobcardStatusID}}", text:"{{ $jobcardstatus->statusDescription }}"},
             @endforeach
             ],
-    })
+    });
     $('.jc-type').editable({
         validate: function(value) {
             if($.trim(value) == '') 
@@ -361,7 +406,7 @@ $(function() {
               {value: "{{$jobcardstatus->jobcardStatusID}}", text:"{{ $jobcardstatus->statusDescription }}"},
             @endforeach
             ],
-    })
+    });
     $('.jc-priority').editable({
         validate: function(value) {
             if($.trim(value) == '') 
@@ -386,7 +431,7 @@ $(function() {
               {value: "{{$jobcardstatus->jobcardStatusID}}", text:"{{ $jobcardstatus->statusDescription }}"},
             @endforeach
             ],
-    })
+    });
     $('.jc-property').editable({
         validate: function(value) {
             if($.trim(value) == '') 
@@ -411,7 +456,7 @@ $(function() {
               {value: "{{$property->PropertiesID}}", text:"{{ $property->pPropertyName }}"},
             @endforeach
             ],
-    })
+    });
     $('.jc-tenant').editable({
         validate: function(value) {
             if($.trim(value) == '') 
@@ -436,7 +481,7 @@ $(function() {
               {value: "{{$tenant->tenantsID}}", text:"{{ $tenant->firstName }}"},
             @endforeach
             ],
-    })
+    });
     $('.jc-unit').editable({
         validate: function(value) {
             if($.trim(value) == '') 
@@ -461,7 +506,7 @@ $(function() {
               {value: "{{$unit->unitID}}", text:"{{ $unit->unitNumber }}"},
             @endforeach
             ],
-    })
+    });
     $('.jc-assigned-to').editable({
         validate: function(value) {
             if($.trim(value) == '') 
@@ -486,7 +531,115 @@ $(function() {
               {value: "{{$user->id}}", text:"{{ $user->first_name }}"},
             @endforeach
             ],
-    })
+    });
+
+    $('.jc-attachment').on('click', function(e){
+      e.preventDefault();
+      // Hide preview to show its deleted
+      $(this).closest('.dz-preview').hide();
+      // Send request to delete from db
+      $.ajax({
+        type: 'POST',
+        url: '/jobcard-attachments/'+ $(this).attr('attachemnt-id'),
+        data: { 
+          _token: '{{ csrf_token() }}',
+          _method: 'delete',
+        },
+        
+      })
+    });
+
+    /**
+     * Load already added files
+     */
+
+    // The setting up of the dropzone
+    // var photo_counter = 0;
+    Dropzone.options.myAwesomeDropzone = {
+
+        uploadMultiple: true,
+        parallelUploads: 100,
+        maxFilesize: 2,
+        addRemoveLinks: true,
+        dictRemoveFile: "Remove"
+
+        // The setting up of the dropzone
+        // init:function() {
+        //     // Add server images
+        //     var myDropzone = this;
+
+  
+
+    //         $.ajax({
+    //             // url : '/jobcard-attachments/{{$jobcard->jobcardID}}',
+    //             // method: "POST",
+    //             // data: { _token: $('input[name="_token"]').val()},
+    //             // dataType: 'json',
+    //             // accepts: {
+    //             //     xml: 'text/xml',
+    //             //     text: 'text/plain'
+    //             // }
+    //         })
+    //         .done(function(data) {
+    //           // console.log(data); 
+    //             $.each(data.images, function (key, value) {
+    //                 var file = {name: value.original, size: value.size};
+    //                 var imageUrl = "/blog/storage/app/uploads/attachments/"+ value.server;
+
+    //                 myDropzone.emit("thumbnail", file, imageUrl);
+    //                 // console.log(file); 
+    //                 // console.log(imageUrl); 
+    //                 myDropzone.createThumbnailFromUrl(file, 200, 200, false, false, false, false);
+    //                 // myDropzone.emit("complete", file);
+    //                 // photo_counter++;
+    //                 // console.log(photo_counter); 
+    //             });
+    //         });
+
+
+    //         // this.on("removedfile", function(file) {
+
+    //         //     $.ajax({
+    //         //         type: 'POST',
+    //         //         url: 'upload/delete',
+    //         //         data: {id: file.name, _token: $('#csrf-token').val()},
+    //         //         dataType: 'html',
+    //         //         success: function(data){
+    //         //             var rep = JSON.parse(data);
+    //         //             if(rep.code == 200)
+    //         //             {
+    //         //                 photo_counter--;
+    //         //                 $("#photoCounter").text( "(" + photo_counter + ")");
+    //         //             }
+
+    //         //         }
+    //         //     });
+
+    //         // } );
+    //     },
+    //     // error: function(file, response) {
+    //     //     if($.type(response) === "string")
+    //     //         var message = response; //dropzone sends it's own error messages in string
+    //     //     else
+    //     //         var message = response.message;
+    //     //     file.previewElement.classList.add("dz-error");
+    //     //     _ref = file.previewElement.querySelectorAll("[data-dz-errormessage]");
+    //     //     _results = [];
+    //     //     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+    //     //         node = _ref[_i];
+    //     //         _results.push(node.textContent = message);
+    //     //     }
+    //     //     return _results;
+    //     // },
+    //     // success: function(file,done) {
+    //     //     photo_counter++;
+    //     //     $("#photoCounter").text( "(" + photo_counter + ")");
+    //     // }
+    }
+
+
+
+    
 });
 
 </script>

@@ -247,6 +247,10 @@ table.dataTable thead .sorting_desc_disabled:after {
   background-color: #3498db;
 }
 
+.skin-blue .main-header .logo:hover {
+  background-color: #3498db;
+}
+
 /* Menu buttons */
 .buttons .btn-primary {
   height: 27px;
@@ -280,7 +284,8 @@ th.edit-button {
   text-align: center;
 }
 
-.edit-button .bg-green {
+.edit-button .bg-green,
+.edit-button .btn-info {
   float: left;
 }
 
@@ -290,7 +295,8 @@ th.edit-button {
   margin: 0 15px;
 }
 
-.bg-green .fa, .btn-danger .fa {
+.bg-green .fa, .btn-danger .fa,
+.btn-info .fa, .btn-danger .fa {
   padding-right: 5px;
 }
 
@@ -499,13 +505,13 @@ a.paginate_button.current {
 
 /* Custom Box  */
 .blue.box-solid {
-  border: 1px solid #214869;
+  border: 1px solid #2980b9;
   border-radius: 2px;
 }
 
 .blue > .box-header.with-border {
-  border-bottom: 1px solid #214869;
-  background: #214869;
+  border-bottom: 1px solid #2980b9;
+  background: #2980b9;
   color: #fff;
   padding: 5px;
 }
@@ -539,4 +545,8 @@ a.paginate_button.current {
 .dz-default.dz-message,
 .dz-size {
   display: none;
+}
+
+.dz-details {
+  height: 50px;
 }

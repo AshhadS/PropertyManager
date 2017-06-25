@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\DB;
 use Debugbar;
 use Redirect;
 use Sentinel;
+use File;
+use Storage;
 use Carbon\Carbon;
 
 class JobCardsController extends Controller
@@ -97,6 +99,7 @@ class JobCardsController extends Controller
         $jobcardtypes = JobCardType::all();
         $jobcardpriority = JobCardPriority::all();
 
+
         $users = User::where('companyID', Sentinel::getUser()->companyID)->get();
 
         $logs = JobCardLog::where('jobCardID', $jobcard->jobcardID)->get();
@@ -163,14 +166,50 @@ class JobCardsController extends Controller
     	return $units;
     }
 
-    function delete(JobCard $jobcard){
-	    $jobcard->delete();
-	    return Redirect::to('jobcards');
+
+    function saveAttachment(Request $request){
+        // return 'Blocked Uploads' ;
+        $attachment = new Attachment();
+        $attachment->documentID  = $request->documentID;
+        $attachment->documentAutoID = $request->documentAutoID;
+        $attachment->uploadedByUserID = Sentinel::getUser()->id;
+        $attachment->companyID = Sentinel::getUser()->companyID;
+
+        // File upload
+        if($request->hasFile('file')){
+            $file = $request->file('file')[0]; //using [0] to get the first item
+            $attachment->fileName = $file->getClientOriginalName();
+            $attachment->fileNameSlug = $request->documentID . '_' . $request->documentAutoID .'_'.time().'.' . $file->getClientOriginalExtension();
+            Storage::put('uploads/attachments/'.$attachment->fileNameSlug, file_get_contents($file));
+        }
+
+        $attachment->save();
+
+        return 'File Saved';
     }
 
+    function getAttachements($jobcardid){
+        $attachemnts = Attachment::where("documentAutoID", $jobcardid)->where("documentID", 5)->get();
+        $imageAnswer = [];
 
-    // function jobcardLogMessage(){
+        foreach ($attachemnts as $attachemnt) {
+            $imageAnswer[] = [
+                'original' => $attachemnt->fileNameSlug,
+                'server' => $attachemnt->fileNameSlug,
+                'size' => File::size(storage_path('app\\uploads\\attachments\\' . $attachemnt->fileNameSlug)),
+            ];
+        }
+        // dd($imageAnswer);
 
-    // }
+        return response()->json([
+            'images' => $imageAnswer
+        ]);
+    }
+
+    function delete($attachmentid){
+        $attachment = Attachment::find($attachmentid);
+	    $attachment->delete();
+	    return "Deleted!";
+    }
 }
 

@@ -133,6 +133,14 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	Route::post('jobcard/getunit/{propertyId}',  'JobCardsController@getUnitsForProperty');
 
 		/**
+		 * Jobcard Attachments
+		 */
+		Route::post('attachment/save', 'JobCardsController@saveAttachment');
+		Route::post('/jobcard-attachments/{jobcardid}', 'JobCardsController@getAttachements');
+		Route::delete('/jobcard-attachments/{attachmentid}', 'JobCardsController@delete');	
+		
+
+		/**
 		 * Job Card Comments
 		 */
 		Route::post('jobcardcomment',  'JobCardCommentsController@create');

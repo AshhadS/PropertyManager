@@ -178,6 +178,9 @@
         <!-- Custom Scripts -->
         <script src="{{ asset ("/js/custom.js") }}"></script>
 
+        <!-- Custom Scripts -->
+        <script src="{{ asset ("/js/dropzone.js") }}"></script>
+
         @stack('scripts')
     </body>
 </html>

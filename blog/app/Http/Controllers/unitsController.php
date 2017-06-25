@@ -61,8 +61,12 @@ class UnitsController extends Controller
     	$properties = Property::all();
     	$documentmaster = DocumentMaster::all();
     	$currencies = Currency::all();
-    	$attachments = Attachment::where('documentAutoID', $unit->unitID)->where('documentID', 3)->get();
-    	$currencyName = Currency::where('currencyID', $unit->currencyID)->first()->currencyCode;
+    	if(Attachment::where('documentAutoID', $unit->unitID)->where('documentID', 3))
+	    	$attachments = Attachment::where('documentAutoID', $unit->unitID)->where('documentID', 3)->get();
+
+	    $currencyName = false;
+	    if($unit->currencyID != 0 && Currency::where('currencyID', $unit->currencyID) )
+	    	$currencyName = Currency::where('currencyID', $unit->currencyID)->first()->currencyCode;
 
     	$property_name = (Property::find($unit->PropertiesID)) ? Property::find($unit->PropertiesID)->pPropertyName : '';
 	    return view('units_edit', [
