@@ -201,7 +201,7 @@ $(function() {
                 orderable: false,
                 render: function ( data, type, full, meta ) {
                   // Create action buttons
-                  var action = '<center><span class="inner"><a class="btn btn-info btn-sm" href="jobcard/edit/'+data+'"><i class="fa fa-eye" aria-hidden="true"></i>View</a>';
+                  var action = '<center><span class="inner"><a class="btn bg-green btn-sm" href="jobcard/edit/'+data+'"><i class="fa fa-eye" aria-hidden="true"></i>View</a>';
                   action += '<form class="delete-form" method="POST" action="jobcard/'+data+'">';
                   action += '<a href="" class="delete-btn btn btn-danger btn-sm button--winona"><span>';
                   action += '<i class="fa fa-trash" aria-hidden="true"></i> Delete</span><span class="after">Sure?</span></a>';

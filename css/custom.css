@@ -238,11 +238,20 @@ table.dataTable thead .sorting_desc_disabled:after {
   background-color: #E1EDF0;
 }
 
+/* Main Menu */
+.skin-blue .main-header .navbar {
+  background-color: #3498db;
+}
+
+.skin-blue .main-header .logo {
+  background-color: #3498db;
+}
+
 /* Menu buttons */
 .buttons .btn-primary {
   height: 27px;
   font-size: 16px;
-  background: #214869;
+  background: #2980b9;
   font-weight: 300;
 }
 
@@ -271,7 +280,7 @@ th.edit-button {
   text-align: center;
 }
 
-.edit-button .btn-info {
+.edit-button .bg-green {
   float: left;
 }
 
@@ -281,7 +290,7 @@ th.edit-button {
   margin: 0 15px;
 }
 
-.btn-info .fa, .btn-danger .fa {
+.bg-green .fa, .btn-danger .fa {
   padding-right: 5px;
 }
 
@@ -490,11 +499,44 @@ a.paginate_button.current {
 
 /* Custom Box  */
 .blue.box-solid {
-  border: 2px solid #3c8dbc;
+  border: 1px solid #214869;
+  border-radius: 2px;
 }
 
 .blue > .box-header.with-border {
-  border-bottom: 1px solid #3c8dbc;
-  background: #3c8dbc;
+  border-bottom: 1px solid #214869;
+  background: #214869;
   color: #fff;
+  padding: 5px;
+}
+
+.blue > .box-header.with-border .box-title {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.attachments-drop-box {
+  background: #f1f1f1;
+  border: 1px dashed #000;
+  padding: 30px;
+  float: left;
+  width: 100%;
+}
+
+/* Dropzone */
+.dz-preview {
+  float: left;
+  width: 200px;
+}
+
+.dz-server-file {
+  width: 120px;
+  height: 120px;
+}
+
+.dz-success-mark,
+.dz-error-mark,
+.dz-default.dz-message,
+.dz-size {
+  display: none;
 }
