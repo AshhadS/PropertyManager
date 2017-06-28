@@ -53,11 +53,11 @@
                     <div class="col-md-6">                      
                       <div class="row">
                         <b><p class="col-sm-4 control-label">Status</p></b>
-                          <p class='col-sm-6 conrol-label status' jcfield="Status">
+                          <span class='col-sm-4 bg-light-blue disabled ' >
                             @if($jobcard->jobcardStatusID && $jobcard->jobcardStatusID != 0)
-                              {{ App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription }}
+                               {{App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription}}
                             @endif
-                          </p>
+                          </span>
                       </div>
                       <div class="row">
                         <b><p class="col-sm-4 control-label">Jobcard Type</p></b>
@@ -397,11 +397,12 @@ $(function() {
             title: 'Edit',
             send:'always',
             type: "select",
-            name: "jobcardStatusID",
+            name: "jobcardTypeID",
             pk: "{{$jobcard->jobcardID}}",
             tpl: "<select></select>",
             params: function(params) {
                 //originally params contain pk, name and value
+                console.log($(this).attr('jcfield')); 
                 params.field = $(this).attr('jcfield');
                 params._token = '{{ csrf_token() }}';
                 return params;
@@ -422,7 +423,7 @@ $(function() {
             title: 'Edit',
             send:'always',
             type: "select",
-            name: "jobcardStatusID",
+            name: "priorityID",
             pk: "{{$jobcard->jobcardID}}",
             tpl: "<select></select>",
             params: function(params) {

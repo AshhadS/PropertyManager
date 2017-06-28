@@ -76,6 +76,11 @@ class JobCardsController extends Controller
 	    $jobcard->unitID =$request->unitID;
 	    $jobcard->companyID = Sentinel::getUser()->companyID;
 	    $jobcard->documentID = 5;
+        $jobcard->serialNo = 0;
+        $jobcard->jobCardCode = '#JC-4002';
+        $jobcard->priorityID = null;
+        $jobcard->jobcardTypeID = null;
+        $jobcard->createdByUserName = Sentinel::getUser()->first_name;
 
 	
 	    $jobcard->save();
@@ -127,7 +132,7 @@ class JobCardsController extends Controller
         $jobcard = JobCard::find($request->pk);
 
         $log = new JobCardLog;
-        $log->originalValue = $jobcard->{$request->name}; //old value
+        $log->originalValue = ($jobcard->{$request->name}) ? $jobcard->{$request->name} : 0; //old value
         $log->field = $request->field;
         $log->newValue = $request->value;
         $log->jobCardID = $request->pk;
@@ -136,18 +141,21 @@ class JobCardsController extends Controller
         $log->timestamp = Carbon::now(); //formatted date time
         $log->updatedTime = Carbon::now(); //formatted date time
         $log->pageLink = 'jobcard/edit/' . $request->pk; //formatted date time
-        $log->history = " has changed the " . $request->field . " to " . $request->value;
+        $log->history = $this->getFinalMessage($request->field, $request->value);
 
         $jobcard->{$request->name} = $request->value;
 
-        $log->save();
         $jobcard->save();
+        $log->save();
+        dd($jobcard);
+
+        return $log;
 
     }
 
 
     function old_update(Request $request){	
-        dd($request);
+        // dd($request);
     	$jobcard = JobCard::find($request->jobcardID);
     	$jobcard->subject = $request->subject;
 	    $jobcard->description = $request->description;
@@ -205,6 +213,38 @@ class JobCardsController extends Controller
             'images' => $imageAnswer
         ]);
     }
+
+    function getFinalMessage($field, $value){
+        switch ($field) {
+            case "Status":
+                $value = JobCardStatus::find($value)->statusDescription;
+                break;
+            case "Type":
+                $value = JobCardType::find($value)->jobcardTypeDescription;
+                break;
+            case "Priority":
+                $value = JobCardPriority::find($value)->priorityDescription;
+                break;
+            case "Property":
+                $value = Property::find($value)->pPropertyName;
+                break;
+            case "Tenant":
+                $value = Tenant::find($value)->firstName;
+                break;
+            case "Unit":
+                $value = Unit::find($value)->unitNumber;
+                break;
+            case "Assigned To":
+                $value = User::find($value)->first_name;
+                break;
+            default:
+                $value = $value; // Subject, Description
+                break;
+        }
+
+        $message = " has changed the " . $field . " to " . $value;
+        return $message;
+    }   
 
     function delete($attachmentid){
         $attachment = Attachment::find($attachmentid);
