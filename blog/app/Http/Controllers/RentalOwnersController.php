@@ -86,7 +86,6 @@ class RentalOwnersController extends Controller
 	    $rentalowner->comments = $request->comments;
 	    $rentalowner->companyID = $request->company;
 
-	    	dd($request->dob);
 	    if($request->dob)
 		    $rentalowner->dateOfBirth = date_create_from_format("j/m/Y", $request->dob)->format('Y-m-d');
 

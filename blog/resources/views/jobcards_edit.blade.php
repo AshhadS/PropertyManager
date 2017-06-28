@@ -16,7 +16,11 @@
           <div class="box-body">
             <div class="row">
               <div class="col-md-12">
-                <h2> <i class="fa fa-briefcase" aria-hidden="true"></i> Jobcard -  [  {{$jobcard->jobCardCode}}]</h2>
+                <h2> <i class="fa fa-briefcase" aria-hidden="true"></i> Jobcard 
+                @if($jobcard->jobCardCode)
+                -  [  {{$jobcard->jobCardCode}}]
+                @endif
+                </h2>
                 
               </div>
             </div>
@@ -188,9 +192,10 @@
                     <div class="row">
                       <b><p class="col-sm-4 control-label">Assigned To </p></b>
                         <p class='col-sm-6 conrol-label jc-assigned-to' jcfield="Assigned To">
-                        @if($jobcard->assignedToID && $jobcard->assignedToID != 0)
-                          {{Sentinel::findById($jobcard->assignedToID)->first_name}}
-                        @endif
+                          @if($jobcard->assignedToID && $jobcard->assignedToID != 0)
+                            {{Sentinel::findById($jobcard->assignedToID)->first_name}}
+                          @endif
+                        </p>
                         <b><p class="col-sm-4 control-label">Phone</p></b>
                         <p class='col-sm-6 conrol-label'>XXX-XXX-XXX</p>
                         <b><p class="col-sm-4 control-label">Email</p></b>
@@ -402,8 +407,8 @@ $(function() {
                 return params;
             },
             source : [
-            @foreach ($jobcardstatuss as $jobcardstatus)
-              {value: "{{$jobcardstatus->jobcardStatusID}}", text:"{{ $jobcardstatus->statusDescription }}"},
+            @foreach ($jobcardtypes as $jobcardtype)
+              {value: "{{$jobcardtype->jobcardTypeID}}", text:"{{ $jobcardtype->jobcardTypeDescription }}"},
             @endforeach
             ],
     });
@@ -427,8 +432,8 @@ $(function() {
                 return params;
             },
             source : [
-            @foreach ($jobcardstatuss as $jobcardstatus)
-              {value: "{{$jobcardstatus->jobcardStatusID}}", text:"{{ $jobcardstatus->statusDescription }}"},
+            @foreach ($jobcardprioritys as $jobcardpriority)
+              {value: "{{$jobcardpriority->priorityID}}", text:"{{ $jobcardpriority->priorityDescription }}"},
             @endforeach
             ],
     });

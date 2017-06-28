@@ -118,7 +118,7 @@ class JobCardsController extends Controller
             'created_by' => $created_by,
             'logs' => $logs,
             'jobcardtypes' => $jobcardtypes,
-            'jobcardpriority' => $jobcardpriority,
+            'jobcardprioritys' => $jobcardpriority,
 	        'users' => $users,
 	    ]);
     }
