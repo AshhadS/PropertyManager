@@ -122,10 +122,12 @@
     </div>
   </div>
 </div>
-<div class="page-header container-fluid">
+<div class="container-fluid">
   <section class="content-header pull-left">
       <h1>Jobcards</h1>
   </section>
+
+  <br/><br/>
 
   <!-- Button trigger modal -->
   <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
@@ -133,28 +135,102 @@
   </button>
 </div>
 
-<div class="panel panel-default give-space">
-    <div class="panel-body">
-            <table class="table table-bordered table-striped" id="jobcards-table">
+<div class="container-fluid" >
 
-                <!-- Table Headings -->
-                <thead>
-                    <tr>
-                          <th>Subject</th>
-                          <th>Description</th> 
-                          <th>Property Name</th>
-                          <th>Status</th>
-                          <th>Tenant Name</th>
-                          <th>Unit</th>
-                          <th>Created by</th>
-                          <th>Created on</th>
-                          <th>Actions</th>
-                        </tr>
-                </thead>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#opened" aria-controls="opened" role="tab" data-toggle="tab">Open Cards &nbsp;&nbsp;<span class="badge bg-light-blue">{{$openCount}}</span></a></li>
+    <li role="presentation"><a href="#closed" aria-controls="closed" role="tab" data-toggle="tab">Closed Cards &nbsp;&nbsp;<span class="badge bg-light-blue">{{$closedCount}}</span></a></li>
+  </ul>
 
-                       
-            </table>
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="opened">
+      <h3>Opened Jobcards</h3>
+      <div class="jc-list">
+        @foreach($openJobcards as $jobcard)
+          <div class="jc-list-item">          
+            <div class="col-md-8">              
+              <h3 class="inline-element">{{$jobcard->subject}} &nbsp;&nbsp;</h3>
+              @if($jobcard->jobcardStatusID && $jobcard->jobcardStatusID != 0)
+              <h4 class="inline-element"><span class="label bg-light-blue disabled">
+                 {{App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription}}
+              </span></h4>
+              @endif
+              <h4>
+              @if(App\Model\Property::find($jobcard->PropertiesID) && $jobcard->PropertiesID != 0)
+                   {{App\Model\Property::find($jobcard->PropertiesID)->pPropertyName}}
+                @endif
+
+              @if(App\Model\JobCardPriority::find($jobcard->priorityID))
+               | {{App\Model\JobCardPriority::find($jobcard->priorityID)->priorityDescription}}
+              @endif
+              </h4>
+
+              <p>{{$jobcard->description}}</p>
+            </div>
+            <div class="col-md-2">
+              <br/>
+              <br/>
+              <div class="jc edit-button clearfix">
+                <span class="inner"><a class="btn bg-green btn-sm" href="jobcard/edit/{{$jobcard->jobcardID}}"><i class="fa fa-eye" aria-hidden="true"></i>View</a>
+                <form class="delete-form" method="POST" action="jobcard/{{$jobcard->jobcardID}}">
+                  <a href="" class="delete-btn btn btn-danger btn-sm button--winona"><span>
+                  <i class="fa fa-trash" aria-hidden="true"></i> Delete</span><span class="after">Sure?</span></a>
+                  <input type="hidden" name="_method" value="DELETE">
+                  <input type="hidden" name="_token" value="{{csrf_token()}}">
+                </form>
+                </span>
+              </div>
+            </div>
+          </div>
+        @endforeach
+      </div>
     </div>
+    <div role="tabpanel" class="tab-pane" id="closed">
+      <h3>Closed Jobcards ({{$closedCount}})</h3>
+      <div class="jc-list">
+         @foreach($closedJobcards as $jobcard)
+          <div class="jc-list-item">          
+            <div class="col-md-6">              
+              <h3 class="inline-element">{{$jobcard->subject}} &nbsp;&nbsp;</h3>
+              @if($jobcard->jobcardStatusID && $jobcard->jobcardStatusID != 0)
+              <h4 class="inline-element"><span class="label bg-light-blue disabled">
+                 {{App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription}}
+              </span></h4>
+              @endif
+              <h4>
+              @if(App\Model\Property::find($jobcard->PropertiesID) && $jobcard->PropertiesID != 0)
+                   {{App\Model\Property::find($jobcard->PropertiesID)->pPropertyName}}
+                @endif
+
+              @if(App\Model\JobCardPriority::find($jobcard->priorityID))
+               | {{App\Model\JobCardPriority::find($jobcard->priorityID)->priorityDescription}}
+              @endif
+              </h4>
+
+              <p>{{$jobcard->description}}</p>
+            </div>
+            <div class="col-md-6">
+              <br/>
+              <br/>
+              <div class="jc edit-button clearfix">
+                <span class="inner"><a class="btn bg-green btn-sm" href="jobcard/edit/{{$jobcard->jobcardID}}"><i class="fa fa-eye" aria-hidden="true"></i>View</a>
+                <form class="delete-form" method="POST" action="jobcard/{{$jobcard->jobcardID}}">
+                  <a href="" class="delete-btn btn btn-danger btn-sm button--winona"><span>
+                  <i class="fa fa-trash" aria-hidden="true"></i> Delete</span><span class="after">Sure?</span></a>
+                  <input type="hidden" name="_method" value="DELETE">
+                  <input type="hidden" name="_token" value="{{csrf_token()}}">
+                </form>
+                </span>
+              </div>
+            </div>
+          </div>
+        @endforeach
+      </div>
+    </div>
+  </div>
+
 </div>    
 @endsection
 @push('scripts')

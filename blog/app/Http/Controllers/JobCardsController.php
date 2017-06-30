@@ -27,7 +27,12 @@ use Carbon\Carbon;
 class JobCardsController extends Controller
 {
     function index() {
-    	$jobcards = JobCard::all();
+        $openJobcards = JobCard::where('jobcardStatusID', '!=' , 4)->get();
+        $closedJobcards = JobCard::where('jobcardStatusID', 4)->get();
+
+        $openCount = JobCard::where('jobcardStatusID', '!=' , 4)->count();
+        $closedCount = JobCard::where('jobcardStatusID', 4)->count();
+
     	$units = Unit::all();
     	$properties = Property::all();
     	$tenants = Tenant::all();
@@ -39,7 +44,10 @@ class JobCardsController extends Controller
     	
     	// Debugbar::info($tenants);
 	    return view('jobcards', [
-	        'jobcards' => $jobcards,
+            'openJobcards' => $openJobcards,
+            'closedJobcards' => $closedJobcards,
+            'openCount' => $openCount,
+	        'closedCount' => $closedCount,
 	        'units' => $units,
 	        'properties' => $properties,
 	        'tenants' => $tenants,

@@ -3,6 +3,10 @@
   display: none;
 }
 
+.inline-element {
+  display: inline-block;
+}
+
 .content-wrapper, .right-side {
   background-color: #fff;
 }
@@ -549,4 +553,14 @@ a.paginate_button.current {
 
 .dz-details {
   height: 50px;
+}
+
+.jc-list-item {
+  border-top: 1px solid #ddd;
+  float: left;
+  width: 100%;
+}
+
+.jc.edit-button {
+  /*float: right;*/
 }
