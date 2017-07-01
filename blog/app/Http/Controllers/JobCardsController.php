@@ -254,10 +254,10 @@ class JobCardsController extends Controller
         return $message;
     }   
 
-    function delete($attachmentid){
-        $attachment = Attachment::find($attachmentid);
-	    $attachment->delete();
-	    return "Deleted!";
+    function delete($jobcard){
+        $jobcard = JobCard::find($jobcard);
+	    $jobcard->delete();
+        return Redirect::to('jobcards');
     }
 }
 
