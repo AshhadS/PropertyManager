@@ -1,3 +1,4 @@
+<h3 class="title">Property Sub Types</h3>
 <div class="col-md-6">
   <table class="table table-bordered">
     <tbody>
@@ -35,11 +36,11 @@
   <h4>Add Property Sub Type</h4>
   <form class="form-horizontal pull" action="/propertysubtype" method="POST">
       {{ csrf_field() }}
-      <input type="text" name="propertySubTypeDescription" placeholder="Property Sub Type Name" class="col-md-12 input-req">
-      <br/>
-      <br/>
       <div class="form-group">
-        <div class="col-md-12">
+        <input type="text" name="propertySubTypeDescription" placeholder="Property Sub Type Name" class="input-req  form-control">
+      </div>  
+      <div class="form-group">
+        <div class="">
           <select class="form-control selection-parent-item input-req" name="propertyTypeID">
               <option value="0">Select a Property Type</option>
               @foreach ($propertytypes as $prop)

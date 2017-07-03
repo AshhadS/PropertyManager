@@ -5,7 +5,7 @@
 	<h2>Administrator</h2>
 	<br />
 	<div class="row">
-		<div class="col-md-4">
+		<div class="col-md-3">
 			<div class="box simple-list">
 			    <div class="box-header">
 			      <h3 class="box-title">Configuration</h3>
@@ -34,8 +34,7 @@
 			    </div>
 			    <!-- /.box-body -->
 			</div>
-		</div>
-		<div class="col-md-4">
+		
 			<div class="box simple-list">
 			    <div class="box-header">
 			      <h3 class="box-title">Property Configuration</h3>
@@ -61,8 +60,7 @@
 			    </div>
 			    <!-- /.box-body -->
 			</div>
-		</div>
-		<div class="col-md-4">
+		
 			<div class="box simple-list">
 			    <div class="box-header">
 			      <h3 class="box-title">Finance Configuration</h3>
@@ -89,15 +87,16 @@
 			    <!-- /.box-body -->
 			</div>
 		</div>
-		<div class="page-content-wrapper">
-			<br/>
-			<br/>
-			<div class="container">
-				<div class="page-content"  style="display: none">
-					<div class="load-container" style="">
-						<div class="loader">Loading...</div>
-					</div>		
-					<div class="body"></div>	
+		<div class="col-md-9">
+			
+			<div class="page-content-wrapper">
+				<div class="container">
+					<div class="page-content"  style="display: none">
+						<div class="load-container" style="">
+							<div class="loader">Loading...</div>
+						</div>		
+						<div class="body"></div>	
+					</div>
 				</div>
 			</div>
 		</div>
