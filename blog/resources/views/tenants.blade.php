@@ -41,13 +41,13 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Email</label>
               <div class="col-sm-10">
-                <input type="email" name="email" class="form-control"  placeholder="Email">
+                <input type="email" name="email" class="form-control input-req"  placeholder="Email">
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-2 control-label">Phone</label>
               <div class="col-sm-10">
-                <input type="tel" name="phone" class="form-control"  placeholder="Please enter 10 digits">
+                <input type="tel" name="phone" class="form-control input-req"  placeholder="Please enter 10 digits">
               </div>
             </div>
             <div class="form-group">
