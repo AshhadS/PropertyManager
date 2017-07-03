@@ -93,12 +93,12 @@
                           </div>
 
                           <div class="form-group">
-                            <label for="inputEmail3" name="propertyType" value="{{ $unit->PropertiesID}}" class="col-sm-2 control-label">Property Name</label>
+                            <label for="inputEmail3" name="propertyType" value="{{ $unit->PropertiesID}}" class="col-sm-2 control-label">Property Name </label>
                             <div class="col-sm-10">
                               <select class="form-control input-req" name="PropertiesID" >
                                   <option value="">Select a property</option>
                                   @foreach ($properties as $prop)
-                                      @if ($unit->PropertiesID === $prop->PropertiesID)
+                                      @if ($unit->PropertiesID == $prop->PropertiesID)
                                         <option value="{{$prop->PropertiesID}}" selected="selected">{{ $prop->pPropertyName }}</option>
                                       @else
                                         <option value="{{$prop->PropertiesID}}">{{ $prop->pPropertyName }}</option>
