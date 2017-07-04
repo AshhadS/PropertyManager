@@ -54,7 +54,7 @@
 			          <td><a href="#propertysubtypes" data-section="propertysubtypes" class="link">Property Sub Type</a></td>
 			        </tr>
 			        <tr>
-			          <td><a href="/maintainancetypes">Maintenance Type</a></td>
+			          <td><a href="#maintainancetypes">Maintenance Type</a></td>
 			        </tr>
 			      </tbody></table>
 			    </div>

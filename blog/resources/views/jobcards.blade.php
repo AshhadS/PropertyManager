@@ -150,37 +150,65 @@
       <div class="jc-list">
         @foreach($openJobcards as $jobcard)
           <div class="jc-list-item">          
-            <div class="col-md-8">              
-              <h3 class="inline-element">{{$jobcard->subject}} &nbsp;&nbsp;</h3>
+            <div class="col-md-5">  
               @if($jobcard->jobcardStatusID && $jobcard->jobcardStatusID != 0)
-              <h4 class="inline-element"><span class="label bg-light-blue disabled">
+                <div class="stattus-box"><?php print App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription[0] ?></div>            
+              @endif
+
+              <h3 class=""><b>{{$jobcard->subject}} &nbsp;&nbsp;</b></h3>
+              <p>{{$jobcard->description}}</p>
+              @if($jobcard->jobcardStatusID && $jobcard->jobcardStatusID != 0)
+              <h4 class="inline-element"><b>Status:  &nbsp;&nbsp;</b><span class="label bg-light-blue disabled">
                  {{App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription}}
               </span></h4>
               @endif
               <h4>
-              @if(App\Model\Property::find($jobcard->PropertiesID) && $jobcard->PropertiesID != 0)
+              {{--@if(App\Model\Property::find($jobcard->PropertiesID) && $jobcard->PropertiesID != 0)
                    {{App\Model\Property::find($jobcard->PropertiesID)->pPropertyName}}
-                @endif
+                @endif--}}
 
-              @if(App\Model\JobCardPriority::find($jobcard->priorityID))
-               | {{App\Model\JobCardPriority::find($jobcard->priorityID)->priorityDescription}}
-              @endif
+              
               </h4>
 
-              <p>{{$jobcard->description}}</p>
             </div>
             <div class="col-md-2">
               <br/>
               <br/>
-              <div class="jc edit-button clearfix">
-                <span class="inner"><a class="btn bg-green btn-sm" href="jobcard/edit/{{$jobcard->jobcardID}}"><i class="fa fa-eye" aria-hidden="true"></i>View</a>
+              <div class="jc assigned-to clearfix">
+                <span>Assiged To: <span class="profile-image"></span>  Bruce Wein</span>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="jc-priority">  
+                @if($jobcard->jobCardCode)
+                 <h5><b>{{$jobcard->jobCardCode}}</b></h5>
+                @endif
+              </div>
+              <div class="jc assigned-to clearfix">
+                <span>Created By: <span class="profile-image"></span>  James Gorden</span>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="jc-priority">  
+                @if(App\Model\JobCardPriority::find($jobcard->priorityID))
+                 <h4>{{App\Model\JobCardPriority::find($jobcard->priorityID)->priorityDescription}} <i class="fa fa-long-arrow-up" aria-hidden="true"></i></h4>
+                @endif
+              </div>
+            </div>
+            <div class="pull-right">
+              <br/>
+              <div class="jc-edit-button clearfix">
+                <div class="inner">
+                <div>
+                  <a class="btn bg-green btn-sm" href="jobcard/edit/{{$jobcard->jobcardID}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                </div>
                 <form class="delete-form" method="POST" action="jobcard/{{$jobcard->jobcardID}}">
                   <a href="" class="delete-btn btn btn-danger btn-sm button--winona"><span>
-                  <i class="fa fa-trash" aria-hidden="true"></i> Delete</span><span class="after">Sure?</span></a>
+                  <i class="fa fa-trash" aria-hidden="true"></i></span><span class="after"><i class="fa fa-question" aria-hidden="true"></i></span></a>
                   <input type="hidden" name="_method" value="DELETE">
                   <input type="hidden" name="_token" value="{{csrf_token()}}">
                 </form>
-                </span>
+                </div>
               </div>
             </div>
           </div>
@@ -213,16 +241,19 @@
             </div>
             <div class="col-md-6">
               <br/>
-              <br/>
-              <div class="jc edit-button clearfix">
-                <span class="inner"><a class="btn bg-green btn-sm" href="jobcard/edit/{{$jobcard->jobcardID}}"><i class="fa fa-eye" aria-hidden="true"></i>View</a>
+              <div class="jc-edit-button clearfix">
+                <div class="inner">
+                <div>
+                  <a class="btn bg-green btn-sm" href="jobcard/edit/{{$jobcard->jobcardID}}"><i class="fa fa-eye" aria-hidden="true"></i>View</a>
+                </div>
+                
                 <form class="delete-form" method="POST" action="jobcard/{{$jobcard->jobcardID}}">
                   <a href="" class="delete-btn btn btn-danger btn-sm button--winona"><span>
                   <i class="fa fa-trash" aria-hidden="true"></i> Delete</span><span class="after">Sure?</span></a>
                   <input type="hidden" name="_method" value="DELETE">
                   <input type="hidden" name="_token" value="{{csrf_token()}}">
                 </form>
-                </span>
+                </div>
               </div>
             </div>
           </div>

@@ -561,6 +561,42 @@ a.paginate_button.current {
   width: 100%;
 }
 
-.jc.edit-button {
-  /*float: right;*/
+.jc-list-item:nth-child(2n) {
+  background: #E1EDF0;
+}
+
+span.profile-image {
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  background: rebeccapurple;
+  position: relative;
+  top: 18px;
+  border-radius: 50%;
+}
+
+.jc-list-item h3 {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.jc-edit-button .btn {
+  width: 37px;
+  margin-bottom: 10px;
+}
+
+.jc-list-item .jc-priority, .jc-list-item .jc.assigned-to {
+  text-align: center;
+}
+
+.stattus-box {
+  width: 100px;
+  height: 100px;
+  float: left;
+  background: #3498db;
+  margin: 10px 5px;
+  font-size: 7em;
+  line-height: 1;
+  text-align: center;
+  color: white;
 }

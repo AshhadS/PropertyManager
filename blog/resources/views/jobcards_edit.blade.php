@@ -18,7 +18,7 @@
               <div class="col-md-12">
                 <h2> <i class="fa fa-briefcase" aria-hidden="true"></i> Jobcard 
                 @if($jobcard->jobCardCode)
-                -  [  {{$jobcard->jobCardCode}}]
+                -   {{$jobcard->jobCardCode}}
                 @endif
                 </h2>
                 
