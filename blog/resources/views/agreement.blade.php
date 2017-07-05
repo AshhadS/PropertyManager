@@ -209,7 +209,7 @@ $(function() {
         columns: [
             { data: 'pPropertyName', name: 'Properties.pPropertyName'},  
             { data: 'unitNumber', name: 'units.unitNumber'},  
-            { data: 'firstName', name: 'tenats.firstName'},  
+            { data: 'firstName', name: 'tenants.firstName'},  
             { data: 'marketRent', name: 'agreement.marketRent'},  
             { data: 'actualRent', name: 'agreement.actualRent'},  
             { data: 'paymentDescription', name: 'paymenttype.paymentDescription'},  
@@ -243,6 +243,7 @@ $(function() {
             },  
             {
                 data: 'agreementID',
+                name: 'agreement.agreementID',
                 className: 'edit-button',
                 orderable: false,
                 render: function ( data, type, full, meta ) {

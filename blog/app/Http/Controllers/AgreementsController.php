@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers;
 
@@ -36,11 +36,11 @@ class AgreementsController extends Controller
     
     function data(){
     	$t = DB::table('agreement')
-    		->leftJoin('tenants', 'agreement.tenantID', '=', 'tenants.tenantsID')
-    		->leftJoin('units', 'agreement.unitID', '=', 'units.unitID')
+            ->leftJoin('units', 'agreement.unitID', '=', 'units.unitID')
             ->leftJoin('properties', 'agreement.PropertiesID', '=', 'properties.PropertiesID')
-    		->leftJoin('paymenttype', 'agreement.paymentTypeID', '=', 'paymenttype.paymentTypeID')
-    		->select('agreement.agreementID', 'properties.pPropertyName', 'units.unitNumber' , 'tenants.firstName', 'agreement.dateFrom','agreement.dateTo','agreement.marketRent','agreement.actualRent', 'paymenttype.paymentDescription');
+            ->leftJoin('paymenttype', 'agreement.paymentTypeID', '=', 'paymenttype.paymentTypeID')
+            ->leftJoin('tenants', 'agreement.tenantID', '=', 'tenants.tenantsID')
+    		->select('agreement.agreementID', 'properties.pPropertyName', 'units.unitNumber', 'agreement.dateFrom','agreement.dateTo','agreement.marketRent','agreement.actualRent', 'paymenttype.paymentDescription', 'tenants.firstName');
     	return Datatables::of($t)->make(true);
 
     }
