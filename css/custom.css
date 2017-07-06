@@ -566,13 +566,19 @@ a.paginate_button.current {
 }
 
 span.profile-image {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   display: inline-block;
-  background: rebeccapurple;
+  background: #2980b9;
   position: relative;
-  top: 18px;
+  top: -5px;
   border-radius: 50%;
+}
+
+span.profile-image img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
 }
 
 .jc-list-item h3 {
@@ -589,13 +595,17 @@ span.profile-image {
   text-align: center;
 }
 
+.jc-list-item p {
+  margin-bottom: 0;
+}
+
 .stattus-box {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   float: left;
   background: #3498db;
   margin: 10px 5px;
-  font-size: 7em;
+  font-size: 5em;
   line-height: 1;
   text-align: center;
   color: white;

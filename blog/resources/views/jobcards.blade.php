@@ -155,12 +155,13 @@
                 <div class="stattus-box"><?php print App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription[0] ?></div>            
               @endif
 
-              <h3 class=""><b>{{$jobcard->subject}} &nbsp;&nbsp;</b></h3>
+              <br/>
+              <p class=""><b>{{$jobcard->subject}} &nbsp;&nbsp;</b></p>
               <p>{{$jobcard->description}}</p>
               @if($jobcard->jobcardStatusID && $jobcard->jobcardStatusID != 0)
-              <h4 class="inline-element"><b>Status:  &nbsp;&nbsp;</b><span class="label bg-light-blue disabled">
+              <p class="inline-element"><b>Status:  &nbsp;&nbsp;</b><span class="label bg-light-blue disabled">
                  {{App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription}}
-              </span></h4>
+              </span></p>
               @endif
               
 
@@ -169,7 +170,7 @@
               <br/>
               <br/>
               <div class="jc assigned-to clearfix">
-                <span>Assiged To: <span class="profile-image"></span>  
+                <span>Assiged To: <span class="profile-image"><img src="{{ asset("/bower_components/admin-lte/dist/img/idss-defualt.png") }}" class="user-image" alt="User Image"/></span>  
                   @if(Sentinel::findById($jobcard->assignedToID))
                     {{Sentinel::findById($jobcard->assignedToID)->first_name }}
                   @else
@@ -185,7 +186,7 @@
                 @endif
               </div>
               <div class="jc assigned-to clearfix">
-                <span>Created By: <span class="profile-image"></span>
+                <span>Created By: <span class="profile-image"><img src="{{ asset("/bower_components/admin-lte/dist/img/idss-defualt.png") }}" class="user-image" alt="User Image"/></span>
                   @if(Sentinel::findById($jobcard->createdByUserID))
                     {{Sentinel::findById($jobcard->createdByUserID)->first_name }}
                   @else
@@ -197,7 +198,7 @@
             <div class="col-md-2">
               <div class="jc-priority">  
                 @if(App\Model\JobCardPriority::find($jobcard->priorityID))
-                 <h4>{{App\Model\JobCardPriority::find($jobcard->priorityID)->priorityDescription}} <i class="fa fa-long-arrow-up" aria-hidden="true"></i></h4>
+                 <p>{{App\Model\JobCardPriority::find($jobcard->priorityID)->priorityDescription}} <i class="fa fa-long-arrow-up" aria-hidden="true"></i></p>
                 @endif
               </div>
             </div>
