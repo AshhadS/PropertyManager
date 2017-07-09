@@ -7,14 +7,27 @@ use App\Model\PropertyType;
 use App\Model\PropertySubType;
 use App\Model\Currency;
 use App\Model\PaymentType;
+use App\Model\Company;
+use App\Model\Country;
+use App\Model\Supplier;
+use App\Model\ChartOfAccount;
+use App\Model\Roles;
 
 use Datatables;
 use Illuminate\Support\Facades\DB;
 use Debugbar;
 use Sentinel;
 use Redirect;
+use Carbon\Carbon;
 class SettingsController extends Controller
 {
+    function admin() {
+        $propertytypes = PropertyType::all();
+        return view('admin_page',[
+            'propertytypes' => $propertytypes,
+        ]);
+    }
+
     /**
      * Property Types
      */
@@ -32,22 +45,22 @@ class SettingsController extends Controller
     	$propertytype->propertyDescription = $request->propertyDescription;
     	$propertytype->save();
 
-	    return Redirect::to('admin');
+	    // return 'true';
     }
 
     function editPropertyType (Request $request){
-    	$propertytype = PropertyType::find($request->propertyTypeID);
-    	$propertytype->propertyDescription = $request->$propertyDescription;
-    	$propertytype->save();
+    	$propertytype = PropertyType::find($request->pk);
+        $propertytype->{$request->name} = $request->value;
 
-	    return Redirect::to('admin');
+        $propertytype->save();
+        return $propertytype;
     }
 
     function deletePropertyType ($propertytype){
     	$propertytype = PropertyType::find($propertytype);
     	$propertytype->delete();
 
-	    return Redirect::to('admin');
+	    return 'true';
     }
 
     /*************************************************************************/
@@ -70,26 +83,25 @@ class SettingsController extends Controller
     function createPropertySubType(Request $request){
         $propertysubtype = new PropertySubType;
         $propertysubtype->propertySubTypeDescription = $request->propertySubTypeDescription;
-        $propertysubtype->propertyTypeID = $request->propertySubTypeDescription;
+        $propertysubtype->propertyTypeID = $request->propertyTypeID;
         $propertysubtype->save();
 
-        return Redirect::to('admin');
+        return 'true';
     }
 
     function editPropertySubType (Request $request){
-        $propertysubtype = PropertySubType::find($request->propertyTypeID);
-        $propertysubtype->propertySubTypeDescription = $request->$propertySubTypeDescription;
-        $propertysubtype->propertyTypeID = $request->$propertyTypeID;
-        $propertysubtype->save();
+        $propertysubtype = PropertySubType::find($request->pk);
+        $propertysubtype->{$request->name} = $request->value;
 
-        return Redirect::to('admin');
+        $propertysubtype->save();
+        return $propertysubtype;
     }
 
     function deletePropertySubType ($propertysubtype){
         $propertysubtype = PropertySubType::find($propertysubtype);
         $propertysubtype->delete();
 
-        return Redirect::to('admin');
+        return 'true';
     }
 
     /*************************************************************************/
@@ -112,22 +124,22 @@ class SettingsController extends Controller
         $currency->currencyCode = $request->currencyCode;
         $currency->save();
 
-        return Redirect::to('admin');
+        return 'true';
     }
 
     function editCurrency (Request $request){
-        $currency = Currency::find($request->currencyID);
-        $currency->currencyCode = $request->$currencyCode;
-        $currency->save();
+        $currency = Currency::find($request->pk);
+        $currency->{$request->name} = $request->value;
 
-        return Redirect::to('admin');
+        $currency->save();
+        return $currency;
     }
 
     function deleteCurrency ($currency){
         $currency = Currency::find($currency);
         $currency->delete();
 
-        return Redirect::to('admin');
+        return 'true';
     }
 
     /*************************************************************************/
@@ -149,22 +161,22 @@ class SettingsController extends Controller
         $paymenttype->paymentDescription = $request->paymentDescription;
         $paymenttype->save();
 
-        return Redirect::to('admin');
+        return 'true';
     }
 
     function editPaymentType(Request $request){
-        $paymenttype = PaymentType::find($request->paymenTypeID);
-        $paymenttype->paymentDescription = $request->$paymentDescription;
-        $paymenttype->save();
+        $paymenttype = PaymentType::find($request->pk);
+        $paymenttype->{$request->name} = $request->value;
 
-        return Redirect::to('admin');
+        $paymenttype->save();
+        return $paymenttype;
     }
 
     function deletePaymentType($paymenttype){
         $paymenttype = PaymentType::find($paymenttype);
         $paymenttype->delete();
 
-        return Redirect::to('admin');
+        return 'true';
     }
 
     /*************************************************************************/
@@ -174,36 +186,154 @@ class SettingsController extends Controller
      * Roles
      */
     function showRoles(){
-        $paymenttypes = Role::all();
+        $roles = Roles::all();
 
-        return view('settings.paymenttypes', [
-            'paymenttypes' => $paymenttypes,
+        return view('settings.roles', [
+            'roles' => $roles,
         ]);
     }
 
     function createRole(Request $request){
-        $paymenttype = new Role;
-        $paymenttype->paymentDescription = $request->paymentDescription;
-        $paymenttype->save();
+        $role = new Roles;
+        $role->paymentDescription = $request->paymentDescription;
+        $role->save();
 
-        return Redirect::to('admin');
+        return 'true';
     }
 
     function editRole(Request $request){
-        $paymenttype = Role::find($request->paymenTypeID);
-        $paymenttype->paymentDescription = $request->$paymentDescription;
-        $paymenttype->save();
+        $role = Roles::find($request->pk);
+        $role->{$request->name} = $request->value;
 
-        return Redirect::to('admin');
+        $role->save();
+        return $role;
     }
 
-    function deleteRole($paymenttype){
-        $paymenttype = Role::find($paymenttype);
-        $paymenttype->delete();
+    function deleteRole($role){
+        $role = Roles::find($role);
+        $role->delete();
 
-        return Redirect::to('admin');
+        return 'true';
     }
 
     /*************************************************************************/
+
+
+
+    /**
+     * Company
+     */
+    function editCompany($company){
+        $company = Company::find($company);
+        $countries = Country::all();
+
+        return view('settings.company', [
+            'company' => $company,
+            'countries' => $countries,
+        ]);
+    }
+
+    function updateCompany(Request $request){
+        $company = Company::find($request->id);
+        
+        $company->companyCode = $request->companyCode; 
+        $company->companyName = $request->companyName; 
+        $company->address = $request->address; 
+        $company->city = $request->city; 
+        $company->telephoneNumber = $request->telephoneNumber; 
+        $company->faxNumber = $request->faxNumber; 
+        $company->countryID = $request->countryID; 
+        $company->save();
+        
+        return 'true';
+    }
+
+    
+
+    /*************************************************************************/
+
+    /**
+     * Supplier
+     */
+    function showSuppliers(){
+        $suppliers = Supplier::all();
+
+        return view('settings.suppliers', [
+            'suppliers' => $suppliers,
+        ]);
+    }
+
+    function createSuppliers(Request $request){
+        $supplier = new Supplier;
+        $supplier->supplierCode = $request->supplierCode;
+        $supplier->supplierName    = $request->supplierName;
+        $supplier->address = $request->address;
+        $supplier->telephoneNumber = $request->telephoneNumber;
+        $supplier->faxNumber   = $request->faxNumber;
+        $supplier->timestamp = Carbon::now();
+        $supplier->save();
+
+        return 'true';
+    }
+
+    function editSuppliers(Request $request){
+        $supplier = Supplier::find($request->pk);
+        $supplier->{$request->name} = $request->value;
+
+        $supplier->save();
+        return $supplier;
+    }
+
+    function deleteSuppliers($supplier){
+        $supplier = Supplier::find($supplier);
+        $supplier->delete();
+
+        return 'true';
+    }
+
+    /*************************************************************************/
+
+    /**
+     * Chart of accounts
+     */
+    function showChartofaccounts(){
+        $chartofaccounts = ChartOfAccount::all();
+
+        return view('settings.chartofaccounts', [
+            'chartofaccounts' => $chartofaccounts,
+        ]);
+    }
+
+    function createChartofaccounts(Request $request){
+        $chartofaccount = new ChartOfAccount;
+        $chartofaccount->chartOfAccountID = $request->chartOfAccountID;
+        $chartofaccount->chartOfAccountCode = $request->chartOfAccountCode;
+        $chartofaccount->accountDescription = $request->accountDescription;
+        $chartofaccount->mainCode = $request->mainCode;
+        $chartofaccount->type = $request->type;
+
+        $chartofaccount->save();
+
+        return 'true';
+    }
+
+    function editChartofaccounts(Request $request){
+        $chartofaccount = ChartOfAccount::find($request->pk);
+        $chartofaccount->{$request->name} = $request->value;
+
+        $chartofaccount->save();
+        return $chartofaccount;
+    }
+
+    function deleteChartofaccounts($chartofaccount){
+        $chartofaccount = ChartOfAccount::find($chartofaccount);
+        $chartofaccount->delete();
+
+        return 'true';
+    }
+
+    /*************************************************************************/
+
+
 }
  

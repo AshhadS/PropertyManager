@@ -4,11 +4,11 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Country extends Model
+class Company extends Model
 {
-    protected $table = 'countries';
+    protected $table = 'company';
 
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'companyID';
 
     
     public $timestamps = false;

@@ -146,7 +146,6 @@
   <!-- Tab panes -->
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="opened">
-      <h3>Opened Jobcards</h3>
       <div class="jc-list">
         @foreach($openJobcards as $jobcard)
           <div class="jc-list-item">          
@@ -222,7 +221,6 @@
       </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="closed">
-      <h3>Closed Jobcards</h3>
       <div class="jc-list">
          @foreach($closedJobcards as $jobcard)
            <div class="jc-list-item">          

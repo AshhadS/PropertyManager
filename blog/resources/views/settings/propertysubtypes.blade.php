@@ -11,16 +11,16 @@
       @foreach ($propertysubtypes as $propertysubtype)
       <tr>
         <td>{{$propertysubtype->propertySubTypeID}}</td>
-        <td>{{$propertysubtype->propertySubTypeDescription}}</td>
-        <td>{{App\Model\PropertyType::find($propertysubtype->propertyTypeID)->propertyDescription}}</td>
+        <td class='propsubtype item-editable' data-type="text" data-name="propertySubTypeDescription" data-pk="{{$propertysubtype->propertySubTypeID}}" >{{$propertysubtype->propertySubTypeDescription}}</td>
+        <td class='propsubtype-parent item-editable' data-type="select" data-name="propertyTypeID" data-pk="{{$propertysubtype->propertySubTypeID}}" >{{App\Model\PropertyType::find($propertysubtype->propertyTypeID)->propertyDescription}}</td>
         <!-- <td>{{$propertysubtype->propertyTypeID}}</td> -->
         <td>
           <!-- <a href="#" class="edit-btn">Edit</a>  -->
 
-          <button class="btn btn-info btn-sm edit-settings" data-id="" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button>
+          <!-- <button class="btn btn-info btn-sm edit-settings" data-id="" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button> -->
 
-          <form class="delete-form clearfix" method="POST" action="propertysubtype/{{$propertysubtype->propertySubTypeID}}">
-            <a href="#" class="delete-btn btn btn-danger btn-sm button--winona">
+          <form class="delete-form clearfix" data-section="propertysubtypes" method="POST" action="propertysubtype/{{$propertysubtype->propertySubTypeID}}">
+            <a href="#" class="delete-btn-ajax btn btn-danger btn-sm button--winona">
               <span><i class="fa fa-trash" aria-hidden="true"></i> Delete</span><span class="after">Sure?</span>
             </a>
             <input type="hidden" name="_method" value="DELETE"> 
@@ -29,12 +29,14 @@
         </td>
       </tr>
       @endforeach
+      <p class="text-muted">Click the table cell to edit an item</p>
+      
     </tbody>
   </table>
 </div>
 <div class="col-md-6">
   <h4>Add Property Sub Type</h4>
-  <form class="form-horizontal pull" action="/propertysubtype" method="POST">
+  <form class="form-horizontal ajax-process  pull" action="/propertysubtype" method="POST">
       {{ csrf_field() }}
       <div class="form-group">
         <input type="text" name="propertySubTypeDescription" placeholder="Property Sub Type Name" class="input-req  form-control">
@@ -51,7 +53,7 @@
       </div>
 
       <p class="text-muted">Property Sub Types Belong to Property Types</p>
-      <button type="submit" class="btn btn-info"><i class="fa fa-plus"></i> Add</button>
+      <button type="submit" class="btn btn-info " data-section="propertysubtypes"><i class="fa fa-plus"></i> Add</button>
   </form>
   
 </div>

@@ -24,6 +24,10 @@
   display: block;
 }
 
+.center-element {
+  text-align: center;
+}
+
 .input-req {
   position: relative;
   float: left;
@@ -309,7 +313,7 @@ th.edit-button {
   float: left;
 }
 
-.delete-btn {
+.delete-btn, .delete-btn-ajax {
   position: relative;
 }
 
@@ -556,7 +560,7 @@ a.paginate_button.current {
 }
 
 .jc-list-item {
-  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
   float: left;
   width: 100%;
 }
@@ -609,4 +613,20 @@ span.profile-image img {
   line-height: 1;
   text-align: center;
   color: white;
+}
+
+.add-user {
+  width: 400px;
+}
+
+.add-user input,
+.add-user textarea,
+.add-user select {
+  display: block;
+  width: 100%;
+  margin: 0 0 10px;
+}
+
+.add-user button {
+  width: 100%;
 }

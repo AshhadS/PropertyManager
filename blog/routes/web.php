@@ -32,9 +32,7 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	    return view('todo');
 	});
 
-	Route::get('/admin', function () {
-	    return view('admin_page');
-	});
+	
 	/**
 	 * Agreements
 	 */
@@ -150,6 +148,7 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	/**
 	 * Settings
 	 */
+	Route::get('/admin',  'SettingsController@admin');
 		/**
 		 * Property Types
 		 */		
@@ -167,7 +166,7 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::delete('/propertysubtype/{propertysubtype}', 'SettingsController@deletePropertysubType');
 
 		/**
-		 * Property Sub Types
+		 * Currency
 		 */		
 		Route::get('/currency', 'SettingsController@showCurrency');
 		Route::post('/currency', 'SettingsController@createCurrency');
@@ -183,11 +182,38 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::delete('/paymenttype/{paymenttype}', 'SettingsController@deletePaymentType');
 
 		/**
-		 * Payment Type
+		 * Roles
 		 */		
 		Route::get('/roles', 'SettingsController@showRoles');
 		Route::post('/role', 'SettingsController@createRole');
 		Route::post('update/role', 'SettingsController@editRole');
 		Route::delete('/role/{role}', 'SettingsController@deleteRole');
 
+		/**
+		 * User
+		 */		
+		Route::get('/users', 'UsersController@index');/**
+		
+		/** 
+		 * Company Details
+		 */		
+		Route::get('/company/edit/{company}', 'SettingsController@editCompany');
+		Route::post('/company', 'SettingsController@updateCompany');
+
+		/**
+		 * Supplier
+		 */		
+		Route::get('/supplier', 'SettingsController@showSuppliers');
+		Route::post('/supplier', 'SettingsController@createSuppliers');
+		Route::post('update/supplier', 'SettingsController@editSuppliers');
+		Route::delete('/supplier/{supplier}', 'SettingsController@deleteSuppliers');
+
+		/**
+		 * Chart of accounts
+		 */		
+		Route::get('/accounts', 'SettingsController@showChartofaccounts');
+		Route::post('/account', 'SettingsController@createChartofaccounts');
+		Route::post('update/account', 'SettingsController@editChartofaccounts');
+		Route::delete('/account/{chartofaccounts}', 'SettingsController@deleteChartofaccounts');
+		
 });

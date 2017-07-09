@@ -111,36 +111,10 @@ $(function() {
         $('.nav-items').slideToggle();
     });
 
-    // Phone number validation
-    $('[type="tel"]').keyup(function () { 
-        this.value = this.value.replace(/[^0-9\.]/g,'');
-    });
-
-    $("input[type=tel]").attr('maxlength', '10');
-
-    $("input[type=tel]").oninvalid = function () {
-        this.setCustomValidity("This field required 10 digits.");
-        this.setCustomValidity("");
-    };
+    initializeTeleValidation();
 
 
-    // //edit form style - popup or inline
-    // $.fn.editable.defaults.mode = 'inline';
-    // $('.item-editable').editable({
-    //     validate: function(value) {
-    //         if($.trim(value) == '') 
-    //             return 'Value is required.';
-    //     },
-    //         type: 'text',
-    //         method: 'POST'
-    //         url:'jobcards/update',  
-    //         title: 'Edit',
-    //         placement: 'top', 
-    //         send:'always',
-    //         ajaxOptions: {
-    //         dataType: 'json'
-    //     }
-    // });
+
 
     $(document).ajaxComplete(function() {
         // Adding the required indicator and property to block form submit
@@ -162,7 +136,27 @@ $(function() {
                 }, 5000);
             }
         });
+
+        initializeTeleValidation();
+
+
     });
              
 });
-        
+
+// Phone number validation - only digits and max 10 numbers
+function initializeTeleValidation(){
+    // Remove alphabets
+    $('[type="tel"]').keyup(function () { 
+        this.value = this.value.replace(/[^0-9\.]/g,'');
+    });
+
+    // max 10 digits
+    $("input[type=tel]").attr('maxlength', '10');
+
+    // custom html 5 pattern valdation
+    $("input[type=tel]").oninvalid = function () {
+        this.setCustomValidity("This field required 10 digits.");
+        this.setCustomValidity("");
+    };
+}

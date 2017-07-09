@@ -16,7 +16,7 @@ class UsersController extends Controller
         $roles = Roles::all();
         $user = User::all();
 
-        return view('users', [
+        return view('settings.users', [
             'roles' => $roles,
             'user' => $user,
         ]);
@@ -29,6 +29,7 @@ class UsersController extends Controller
         return Datatables::of($t)->make(true);
     }
 
+
     function create(Request $request) {
         $user = Sentinel::registerAndActivate($request->all());
         $role = Sentinel::findRoleById($request->roles);
@@ -37,7 +38,7 @@ class UsersController extends Controller
         $user->save();
 
 
-        return Redirect::to('/users');
+        return Redirect::to('/admin');
     }
 
     function edit(User $user){
@@ -57,11 +58,11 @@ class UsersController extends Controller
         $role = Sentinel::findRoleByID($request->roles);
         $role->users()->attach($user);
         $user->companyID = Sentinel::getUser()->companyID;
-        return Redirect::to('/users');
+        return Redirect::to('/admin');
     }
 
     function delete(User $user){
         $user->delete();
-        return Redirect::to('/users');
+        return Redirect::to('/admin');
     }
 }
