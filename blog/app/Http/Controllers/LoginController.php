@@ -14,12 +14,14 @@ class LoginController extends Controller
 	}
 
     public function login(Request $request){
-    	Debugbar::info($request->all());
     	Sentinel::authenticate($request->all());
     	if(Sentinel::check()){
 
-	    	return redirect('/');
-    	}
+            return redirect('/');
+        }else{
+            $request->session()->flash('alert-success', 'Email and password do not match');
+	    	return redirect('/login');
+        }
     }
     
 

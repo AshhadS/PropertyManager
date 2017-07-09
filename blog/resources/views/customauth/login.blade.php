@@ -69,7 +69,6 @@
 			        
 			        <div id="login">   
 			          <h1>Welcome Back!</h1>
-			          
 			          <form action="/login" method="post">
 				          {{ csrf_field() }}
 			          
@@ -86,7 +85,14 @@
 			            </label>
 			            <input type="password" name="password" required />
 			          </div>
-			          		          
+			          <div class="flash-message">
+					    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+					      @if(Session::has('alert-' . $msg))
+
+					      <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} </p>
+					      @endif
+					    @endforeach
+					  </div> <!-- end .flash-message -->          
 			          <button class="button button-block"/>Login</button>
 			          
 			          </form>
