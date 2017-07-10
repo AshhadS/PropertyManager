@@ -51,7 +51,7 @@
                     <!-- /.box-body -->
                     <div class="box-footer">
                       <input type="reset" class="btn btn-default" value="Reset" />
-                      <button type="submit" class="btn btn-info pull-right">Save</button>
+                      <button type="submit" class="btn bg-green pull-right">Save</button>
                     </div>
                     <!-- /.box-footer -->
                   </form>

@@ -158,7 +158,7 @@
                   <div class="box-footer">
                     <div class="form-buttons">
                       <input type="reset" class="btn btn-default" value="Reset" />
-                      <button type="submit" class="btn btn-info pull-right">Save</button>
+                      <button type="submit" class="btn bg-green pull-right">Save</button>
                     </div>
                   </div>
                   <!-- /.box-footer -->
@@ -217,7 +217,7 @@
                       <!-- /.box-body -->
                       <div class="box-footer">
                         <input type="reset" class="btn btn-default" value="Reset" />
-                        <button type="submit" class="btn btn-info pull-right">Save</button>
+                        <button type="submit" class="btn bg-green pull-right">Save</button>
                       </div>
                       <!-- /.box-footer -->
                     </form>
@@ -232,7 +232,7 @@
                 <a href="/blog/storage/app/uploads/attachments/{{$attachment->fileNameSlug}}">{{$attachment->fileNameCustom}}</a>
                 <p>{{$attachment->attachmentDescription}}</p>
                 <div class="edit-button">
-                  <button class="btn btn-info btn-sm edit-attachment" data-id='{{ $attachment->attachmentID }}' data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button>
+                  <button class="btn bg-green btn-sm edit-attachment" data-id='{{ $attachment->attachmentID }}' data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button>
 
                   <input type="hidden" class='data-defined' data-id='{{ $attachment->attachmentID }}' data-documentAutoID='{{ $rentalowner->rentalOwnerID }}' data-description='{{ $attachment->attachmentDescription }}' data-fileNameCustom='{{ $attachment->fileNameCustom }}' data-fileNameSlug='{{ $attachment->fileNameSlug }}' data-documentID='{{ $attachment->documentID }}'>
 

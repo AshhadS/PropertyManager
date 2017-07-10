@@ -216,7 +216,7 @@
           <div class="box-footer">
             <div class="form-buttons">
               <input type="reset" class="btn btn-default" value="Reset" />
-              <button type="submit" class="btn btn-info pull-right">Update</button>
+              <button type="submit" class="btn bg-green pull-right">Update</button>
             </div>
           </div>
           <!-- /.box-footer -->
