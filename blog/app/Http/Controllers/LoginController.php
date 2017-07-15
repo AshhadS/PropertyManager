@@ -19,7 +19,7 @@ class LoginController extends Controller
 
             return redirect('/');
         }else{
-            $request->session()->flash('alert-success', 'Email and password do not match');
+            $request->session()->flash('alert-success', 'Username or Password incorrect.');
 	    	return redirect('/login');
         }
     }
