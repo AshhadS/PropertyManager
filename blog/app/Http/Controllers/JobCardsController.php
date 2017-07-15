@@ -36,6 +36,15 @@ class JobCardsController extends Controller
         $myCount = JobCard::where('assignedToID', Sentinel::getUser()->id)->count();
         $pendingCount = JobCard::where('jobcardStatusID', 6)->count();
 
+        $jobCardStatusAll = JobCardStatus::all();
+        $jobCardStatusCount = array();
+
+        foreach ($jobCardStatusAll as $status) {
+            $count = JobCard::where('jobcardStatusID', $status->jobcardStatusID)->count();
+            $jobCardStatusCount[$status->jobcardStatusID] = $count;
+        }
+        // dd($jobCardStatusCount);
+
     	$units = Unit::all();
     	$properties = Property::all();
     	$tenants = Tenant::all();
@@ -49,6 +58,7 @@ class JobCardsController extends Controller
 	    return view('jobcards', [
             'openJobcards' => $openJobcards,
             'closedJobcards' => $closedJobcards,
+            'jobCardStatusCount' => $jobCardStatusCount,
             'myJobcards' => $myJobcards,
             'openCount' => $openCount,
             'closedCount' => $closedCount,
@@ -76,6 +86,9 @@ class JobCardsController extends Controller
     		// Debugbar::info($t);
     	return Datatables::of($t)->make(true);
 
+    }
+    function getPercentage($actual, $total){
+        return ($actual / 100) * $total;
     }
 
     function create(Request $request) {

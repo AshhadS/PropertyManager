@@ -173,6 +173,9 @@
 
         <!-- Date Picker -->
         <script src="/bower_components/admin-lte/plugins/datepicker/bootstrap-datepicker.js"></script>
+
+        <!-- Chart -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script>
         
         <!-- Custom Scripts -->
         <script src="{{ asset ("/js/custom.js") }}"></script>
