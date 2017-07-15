@@ -127,20 +127,46 @@
       <h1>Jobcards</h1>
   </section>
 
-  <br/><br/>
+   <br/><br/>
 
   <!-- Button trigger modal -->
   <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
     <i class="fa fa-plus"></i> <b>Add Jobcard</b>
   </button>
+
+  <div class="row clear-floats">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box bg-aqua">
+            <span class="info-box-icon disabled"><i class="fa fa-external-link" aria-hidden="true"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Open Jobs</span>
+                <span class="info-box-number">{{$openCount}}</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box bg-yellow">
+            <span class="info-box-icon disabled"><i class="fa fa-refresh" aria-hidden="true"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Pending for Clarification</span>
+                <span class="info-box-number">{{$pendingCount}}</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+</div>
 </div>
 
 <div class="container-fluid" >
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#opened" aria-controls="opened" role="tab" data-toggle="tab">Open Cards &nbsp;&nbsp;<span class="badge bg-light-blue">{{$openCount}}</span></a></li>
-    <li role="presentation"><a href="#closed" aria-controls="closed" role="tab" data-toggle="tab">Closed Cards &nbsp;&nbsp;<span class="badge bg-light-blue">{{$closedCount}}</span></a></li>
+    <li role="presentation" class=""><a href="#my" aria-controls="my" role="tab" data-toggle="tab">My Jobs &nbsp;&nbsp;<span class="badge bg-light-blue">{{$myCount}}</span></a></li>
+    <li role="presentation" class="active"><a href="#opened" aria-controls="opened" role="tab" data-toggle="tab">Open Jobs &nbsp;&nbsp;<span class="badge bg-light-blue">{{$openCount}}</span></a></li>
+    <li role="presentation"><a href="#closed" aria-controls="closed" role="tab" data-toggle="tab">Job History &nbsp;&nbsp;<span class="badge bg-light-blue">{{$closedCount}}</span></a></li>
   </ul>
 
   <!-- Tab panes -->
@@ -294,6 +320,9 @@
           </div>
         @endforeach
       </div>
+    </div>
+    <div class="tab-pane" id="my" role="tabpanel">
+      <h4>My Jobs</h4>
     </div>
   </div>
 

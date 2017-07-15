@@ -27,11 +27,14 @@ use Carbon\Carbon;
 class JobCardsController extends Controller
 {
     function index() {
-        $openJobcards = JobCard::where('jobcardStatusID', '!=' , 4)->get();
-        $closedJobcards = JobCard::where('jobcardStatusID', 4)->get();
+        $openJobcards = JobCard::where('jobcardStatusID', '!=' , 4)->orderBy('lastUpdatedDateTime', 'ASC')->get();
+        $closedJobcards = JobCard::where('jobcardStatusID', 4)->orderBy('lastUpdatedDateTime', 'ASC')->get();
+        $myJobcards = JobCard::where('assignedToID', Sentinel::getUser()->id)->orderBy('lastUpdatedDateTime', 'ASC')->get();
 
         $openCount = JobCard::where('jobcardStatusID', '!=' , 4)->count();
         $closedCount = JobCard::where('jobcardStatusID', 4)->count();
+        $myCount = JobCard::where('assignedToID', Sentinel::getUser()->id)->count();
+        $pendingCount = JobCard::where('jobcardStatusID', 6)->count();
 
     	$units = Unit::all();
     	$properties = Property::all();
@@ -46,8 +49,11 @@ class JobCardsController extends Controller
 	    return view('jobcards', [
             'openJobcards' => $openJobcards,
             'closedJobcards' => $closedJobcards,
+            'myJobcards' => $myJobcards,
             'openCount' => $openCount,
-	        'closedCount' => $closedCount,
+            'closedCount' => $closedCount,
+            'pendingCount' => $pendingCount,
+            'myCount' => $myCount,
 	        'units' => $units,
 	        'properties' => $properties,
 	        'tenants' => $tenants,
