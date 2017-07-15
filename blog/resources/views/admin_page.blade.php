@@ -5,7 +5,7 @@
 	<h2>Administrator</h2>
 	<br />
 	<div class="row">
-		<div class="col-md-3">
+		<div class="col-md-2">
 			<div class="box simple-list">
 			    <div class="box-header">
 			      <h3 class="box-title">Configuration</h3>
@@ -322,6 +322,30 @@
 	        source : [
               {value: "1", text:"Expense"},
               {value: "2", text:"Income"},
+            ],       
+	    });
+	    $('.accounts-category.item-editable').editable({
+	        validate: function(value) {
+	            if($.trim(value) == '') 
+	                return 'Value is required.';
+	        },
+	        method: 'POST',
+	        url:'update/account',  
+	        title: 'Edit',
+	        send:'always',   
+	        params: function(params) {
+	            //originally params contain pk, name and value
+	            params._token = '{{ csrf_token() }}';
+	            return params;
+	        },
+	        source : [
+              {value: "1", text:"Current Asset"},
+              {value: "2", text:"Fixed Asset"},
+              {value: "3", text:"Current Liability"},
+              {value: "4", text:"Long Term Liability"},
+              {value: "5", text:"Equity"},
+              {value: "6", text:"Non-Operating Income"},
+              {value: "7", text:"Non-Operating Expense"},
             ],       
 	    });
 	    $('.user.item-editable').editable({
