@@ -192,7 +192,7 @@
                     <div class="row">
                       <b><p class="col-sm-4 control-label">Assigned To </p></b>
                         <p class='col-sm-6 conrol-label jc-assigned-to' jcfield="Assigned To">
-                          @if($jobcard->assignedToID && $jobcard->assignedToID != 0)
+                          @if(Sentinel::findById($jobcard->assignedToID) && $jobcard->assignedToID != 0)
                             {{Sentinel::findById($jobcard->assignedToID)->first_name}}
                           @endif
                         </p>
