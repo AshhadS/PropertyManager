@@ -1,5 +1,8 @@
 
 <h3 class="title">Supplier</h3>
+<button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
+    <i class="fa fa-plus"></i> <b>Add Supplier</b>
+  </button>
 <div class="col-md-12">
   <table class="table table-bordered">
     <tbody>
@@ -38,17 +41,60 @@
     </tbody>
   </table>
 </div>
-<div class="col-md-12">
-  <h4>Add User</h4>
-  <form class="form-horizontal ajax-process  pull add-user" action="/supplier" method="POST">
-      {{ csrf_field() }}
-        <input type="text" name="supplierCode" placeholder="Supplier Code" class="input-req">
-        <input type="text" name="supplierName" placeholder="Supplier  Name" >
-        <input type="tel" name="telephoneNumber" placeholder="Telephone" >
-        <input type="tel" name="faxNumber" placeholder="Fax" >
-        <textarea name="address" placeholder="Address"></textarea>
-        
-      <button type="submit" class="btn btn-info " data-section="supplier"><i class="fa fa-plus"></i> Add</button>
-  </form>
-  
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog wide" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Supplier</h4>
+      </div>
+      <div class="modal-body">
+        <div class="box box-info">
+          <h4>Add Supplier</h4>
+          <form class="form-horizontal ajax-process  pull add-user" action="/supplier" method="POST">
+              {{ csrf_field() }}
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Supplier code</label>
+                <div class="col-sm-10">
+                  <input type="text" name="supplierCode" class="form-control input-req">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Supplier Name</label>
+                <div class="col-sm-10">
+                  <input type="text" name="supplierName" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Telephone</label>
+                <div class="col-sm-10">
+                  <input type="tel" name="telephoneNumber" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Fax</label>
+                <div class="col-sm-10">
+                  <input type="tel" name="faxNumber" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Address</label>
+                <div class="col-sm-10">
+                  <textarea name="address" class="form-control" ></textarea>
+                </div>
+              </div>
+                 
+              <div class="box-footer">
+                <div class="form-buttons">
+                  <input type="reset" class="btn btn-default" value="Reset">
+                  <button type="submit" class="btn btn-info pull-right">Save</button>
+                </div>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+  
+          

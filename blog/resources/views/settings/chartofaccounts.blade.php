@@ -1,5 +1,9 @@
 
 <h3 class="title">Chart of Accounts</h3>
+<!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
+    <i class="fa fa-plus"></i> <b>Add Chart Of Accounts</b>
+  </button>
 <div class="col-md-12">
   <table class="table table-bordered">
     <tbody>
@@ -9,6 +13,7 @@
         <th>Account Description</th>
         <th>Main Code</th>
         <th>Type</th>
+        <th>Category</th>
         <th>Actions </th>
       </tr>
       @foreach ($chartofaccounts as $account)
@@ -18,8 +23,9 @@
         <td class='accounts item-editable' data-type="textarea" data-name="accountDescription" data-pk="{{$account->chartOfAccountID}}" >{{$account->accountDescription}}</td>
         <td class='accounts item-editable' data-type="text" data-name="mainCode" data-pk="{{$account->chartOfAccountID}}" >{{$account->mainCode}}</td>
         <td class='accounts-type item-editable' data-type="select" data-name="type" data-pk="{{$account->chartOfAccountID}}" >{{$account->type }}</td>
+        <td class='accounts-category item-editable' data-type="select" data-name="category" data-pk="{{$account->chartOfAccountID}}" >{{$account->category }}</td>
         <td>
-          <button class="btn btn-info btn-sm edit-settings" data-id="{{$account->accountID}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button>
+          <!-- <button class="btn btn-info btn-sm edit-settings" data-id="{{$account->accountID}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button> -->
 
           <form class="delete-form clearfix" data-section="accounts" method="POST" action="account/{{$account->accountID}}">
             <a href="#" class="delete-btn-ajax btn btn-danger btn-sm button--winona">
@@ -36,18 +42,73 @@
     </tbody>
   </table>
 </div>
-<div class="col-md-12">
-  <h4>Add Chart of Account</h4>
-  <form class="form-horizontal ajax-process  pull add-user" action="/account" method="POST">
-      {{ csrf_field() }}
-        <input type="text" name="chartOfAccountCode" placeholder="Account Code" class="input-req">
-        <textarea name="accountDescription" placeholder="Account Description"></textarea>
-        <input type="text" name="mainCode" placeholder="Main Code" >
-        <select name="type" id="accountType">
-          <option value="1">Expense</option>
-          <option value="2">Income</option>
-        </select>        
-      <button type="submit" class="btn btn-info " data-section="accounts"><i class="fa fa-plus"></i> Add</button>
-  </form>
-  
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog wide" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Chart of Accounts</h4>
+      </div>
+      <div class="modal-body">
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">Add Chart of Account</h3>
+          </div>
+          <form class="form-horizontal ajax-process  pull add-user" action="/account" method="POST">
+              {{ csrf_field() }}
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-10">
+                  <input type="text" name="chartOfAccountCode" placeholder="Account Code" class="input-req form-control">
+                </div>
+              </div>
+              <div class="form-group">
+              <label class="col-sm-2 control-label">Description</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" name="accountDescription" placeholder="Account Description"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Main Code</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" name="mainCode" placeholder="Main Code" >
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Account Type</label>
+                <div class="col-sm-10">
+                  <select name="type" id="accountType" class="form-control">
+                    <option value="1">Expense</option>
+                    <option value="2">Income</option>
+                  </select>     
+                </div>
+              </div>  
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Account Category</label>
+                <div class="col-sm-10">
+                  <select name="type" id="accountType" class="form-control">
+                    <option value="1">Current Asset</option>
+                    <option value="2">Fixed Asset</option>
+                    <option value="3">Current Liability</option>
+                    <option value="4">Long Term Liability</option>
+                    <option value="5">Equity</option>
+                    <option value="6">Non-Operating Income</option>
+                    <option value="7">Non-Operating Expense</option>
+                  </select>     
+                </div>
+              </div>
+              <div class="box-footer">
+                <div class="form-buttons">
+                  <input type="reset" class="btn btn-default" value="Reset">
+                  <button type="submit" class="btn btn-info pull-right">Save</button>
+                </div>
+              </div> 
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+  

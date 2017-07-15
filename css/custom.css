@@ -28,6 +28,10 @@
   text-align: center;
 }
 
+.clear-floats {
+  clear: both;
+}
+
 .input-req {
   position: relative;
   float: left;
@@ -614,9 +618,9 @@ span.profile-image img {
   text-align: center;
   color: white;
 }
-
+/*
 .add-user {
-  width: 400px;
+  //width: 400px;
 }
 
 .add-user input,
@@ -629,4 +633,4 @@ span.profile-image img {
 
 .add-user button {
   width: 100%;
-}
+}*/
