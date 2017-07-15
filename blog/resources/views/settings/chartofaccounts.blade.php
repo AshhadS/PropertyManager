@@ -102,7 +102,7 @@
               <div class="box-footer">
                 <div class="form-buttons">
                   <input type="reset" class="btn btn-default" value="Reset">
-                  <button type="submit" class="btn btn-info pull-right">Save</button>
+                  <button type="submit" data-section="accounts" class="btn btn-info pull-right">Save</button>
                 </div>
               </div> 
           </form>

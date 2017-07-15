@@ -176,6 +176,7 @@
 
 	    $('.ajax-process').on('submit', function(e) {
 	        e.preventDefault();
+	        $('#myModal').modal('hide');
 	        var section = $(this).find('button').data('section');
 	        $.ajax({
 	            url : $(this).attr('action'),
