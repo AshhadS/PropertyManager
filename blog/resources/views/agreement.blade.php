@@ -25,7 +25,7 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Property Name</label>
               <div class="col-sm-10">
-                <select name="PropertiesID" class="form-control selection-parent-item" >
+                <select name="PropertiesID" class="form-control selection-parent-item input-req" >
                         <option value="0">Select a property</option>
                     @foreach ($properties as $property)
                         <option value="{{$property->PropertiesID}}">{{ $property->pPropertyName }}</option>
@@ -37,7 +37,7 @@
             <div class="form-group">
               <label name="tenant" class="col-sm-2 control-label">Tenant Name</label>
               <div class="col-sm-10">
-                <select class="form-control" name="tenantsID">
+                <select class="form-control  input-req" name="tenantsID">
                         <option value="">Select a tenant</option>
                     @foreach ($tenants as $tenant)
                         <option value="{{$tenant->tenantsID}}">{{ $tenant->firstName }}</option>
@@ -49,7 +49,7 @@
             <div class="form-group">
               <label name="unit" class="col-sm-2 control-label">Unit</label>
               <div class="col-sm-10">
-                <select class="form-control selection-child-item" name="unitID">
+                <select class="form-control selection-child-item input-req" name="unitID">
                         <option value="0">Select a unit</option>
                     @foreach ($units as $unit)
                         <option value="{{$unit->unitID}}">{{ $unit->unitNumber }}</option>
@@ -62,31 +62,31 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Market Rent</label>
               <div class="col-sm-10">
-                <input type="tel" name="marketRent" class="form-control" placeholder="Market Rent">
+                <input type="tel" name="marketRent" class="form-control input-req" placeholder="Market Rent">
               </div>
             </div>
              <div class="form-group">
               <label class="col-sm-2 control-label">Actual Rent</label>
               <div class="col-sm-10">
-                <input type="tel" name="actualRent" class="form-control"  placeholder="Actual Rent">
+                <input type="tel" name="actualRent" class="form-control input-req"  placeholder="Actual Rent">
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-2 control-label">From</label>
               <div class="col-sm-10">
-                <input type="text" name="dateFrom" class="form-control datepicker" placeholder="Agreement start date">
+                <input type="text" name="dateFrom" class="form-control datepicker input-req" placeholder="Agreement start date">
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-2 control-label">To</label>
               <div class="col-sm-10">
-                <input type="text" name="dateTo" class="form-control datepicker" placeholder="Agreement end date">
+                <input type="text" name="dateTo" class="form-control datepicker input-req" placeholder="Agreement end date">
               </div>
             </div>
             <div class="form-group">
               <label name="unit" class="col-sm-2 control-label">Payment Type</label>
               <div class="col-sm-10">
-                <select class="form-control" name="paymentTypeID">
+                <select class="form-control input-req" name="paymentTypeID">
                         <option value=''>Select a payment type</option>
                     @foreach ($paymentypes as $paymenttype)
                         <option value="{{$paymenttype->paymentTypeID}}">{{ $paymenttype->paymentDescription }}</option>
