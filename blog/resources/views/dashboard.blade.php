@@ -82,9 +82,9 @@
 	</div>
 	<div class="row">
 	    <div class="col-md-4">
-	      <div class="box">
+	      <div class="box box-primary">
 			<div class="box-header with-border">
-			  <h3 class="box-title text-light-blue"><i class="fa fa-list" aria-hidden="true"></i> Jobcard Card Summary</h3>
+			  <h3 class="box-title text-light-blue"><i class="fa fa-list" aria-hidden="true"></i> <b>Jobcard Card Summary</b></h3>
 			</div>
 	        
 	        <!-- /.box-header -->
