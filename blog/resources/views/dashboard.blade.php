@@ -81,22 +81,23 @@
 		<!-- ./col -->
 	</div>
 	<div class="row">
-	    <div class="col-md-6">
+	    <div class="col-md-4">
 	      <div class="box">
+			<div class="box-header with-border">
+			  <h3 class="box-title text-light-blue"><i class="fa fa-list" aria-hidden="true"></i> Jobcard Card Summary</h3>
+			</div>
 	        
 	        <!-- /.box-header -->
 	        <div class="box-body">
 	          <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-7">
 	              <div class="chart-responsive">
 	                <canvas id="pieChart" height="160" width="328" style="width: 328px; height: 160px;"></canvas>
 	              </div>
 	              <!-- ./chart-responsive -->
 	            </div>
 	            <!-- /.col -->
-	            <div class="col-md-4">
-	             
-	            <h2>Jobcard Status</h2>
+	            <div class="col-md-5">
 	              <ul class="chart-legend clearfix">
 	                <li><i class="fa fa-circle-o text-red"></i> New</li>
 	                <li><i class="fa fa-circle-o text-green"></i> In Progress</li>
