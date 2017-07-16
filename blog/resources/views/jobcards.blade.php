@@ -297,12 +297,12 @@
                 <div>
                   <a class="btn bg-green btn-sm" href="jobcard/edit/{{$jobcard->jobcardID}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                 </div>
-                <form class="delete-form" method="POST" action="jobcard/{{$jobcard->jobcardID}}">
+                <!-- <form class="delete-form" method="POST" action="jobcard/{{$jobcard->jobcardID}}">
                   <a href="" class="delete-btn btn btn-danger btn-sm button--winona"><span>
                   <i class="fa fa-trash" aria-hidden="true"></i></span><span class="after"><i class="fa fa-question" aria-hidden="true"></i></span></a>
                   <input type="hidden" name="_method" value="DELETE">
                   <input type="hidden" name="_token" value="{{csrf_token()}}">
-                </form>
+                </form> -->
                 </div>
               </div>
             </div>
