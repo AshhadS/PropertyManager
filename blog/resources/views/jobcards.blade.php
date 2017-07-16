@@ -165,17 +165,18 @@
         @foreach($openJobcards as $jobcard)
           <div class="jc-list-item">          
             <div class="col-md-5">  
-              @if($jobcard->jobcardStatusID && $jobcard->jobcardStatusID != 0)
+              @if(App\Model\JobCardStatus::find($jobcard->jobcardStatusID) && $jobcard->jobcardStatusID != 0)
                 <div class="stattus-box"><?php print App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription[0] ?></div>            
               @endif
               <br/>
               <p class=""><b>{{$jobcard->subject}} &nbsp;&nbsp;</b></p>
               <p>{{$jobcard->description}}</p>
-              @if($jobcard->jobcardStatusID && $jobcard->jobcardStatusID != 0)
+              @if(App\Model\JobCardStatus::find($jobcard->jobcardStatusID) && $jobcard->jobcardStatusID != 0)
               <p class="inline-element"><b>Status:  &nbsp;&nbsp;</b><span class="label bg-light-blue disabled">
                  {{App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription}}
               </span></p>
               @endif
+                 {{$jobcard->jobcardStatusID}}
               
 
             </div>

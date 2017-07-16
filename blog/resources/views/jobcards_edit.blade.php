@@ -54,7 +54,7 @@
                       <div class="row">
                         <b><p class="col-sm-4 control-label">Status</p></b>
                           <span class='col-sm-4 bg-light-blue disabled ' >
-                            @if($jobcard->jobcardStatusID && $jobcard->jobcardStatusID != 0)
+                            @if(App\Model\JobCardStatus::find($jobcard->jobcardStatusID) && $jobcard->jobcardStatusID != 0)
                                {{App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription}}
                             @endif
                           </span>
@@ -523,7 +523,7 @@ $(function() {
             title: 'Edit',
             send:'always',
             type: "select",
-            name: "jobcardStatusID",
+            name: "assignedToID",
             pk: "{{$jobcard->jobcardID}}",
             tpl: "<select></select>",
             params: function(params) {
