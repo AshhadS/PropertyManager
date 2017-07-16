@@ -81,13 +81,13 @@
 		<!-- ./col -->
 	</div>
 	<div class="row">
-	    <div class="col-md-12">
+	    <div class="col-md-6">
 	      <div class="box">
 	        
 	        <!-- /.box-header -->
 	        <div class="box-body">
 	          <div class="row">
-	            <div class="col-md-4">
+	            <div class="col-md-6">
 	              <div class="chart-responsive">
 	                <canvas id="pieChart" height="160" width="328" style="width: 328px; height: 160px;"></canvas>
 	              </div>
@@ -95,8 +95,7 @@
 	            </div>
 	            <!-- /.col -->
 	            <div class="col-md-4">
-	            <br/>  
-	            <br/>  
+	             
 	            <h2>Jobcard Status</h2>
 	              <ul class="chart-legend clearfix">
 	                <li><i class="fa fa-circle-o text-red"></i> New</li>

@@ -323,30 +323,13 @@
 	        source : [
               {value: "1", text:"Expense"},
               {value: "2", text:"Income"},
-            ],       
-	    });
-	    $('.accounts-category.item-editable').editable({
-	        validate: function(value) {
-	            if($.trim(value) == '') 
-	                return 'Value is required.';
-	        },
-	        method: 'POST',
-	        url:'update/account',  
-	        title: 'Edit',
-	        send:'always',   
-	        params: function(params) {
-	            //originally params contain pk, name and value
-	            params._token = '{{ csrf_token() }}';
-	            return params;
-	        },
-	        source : [
-              {value: "1", text:"Current Asset"},
-              {value: "2", text:"Fixed Asset"},
-              {value: "3", text:"Current Liability"},
-              {value: "4", text:"Long Term Liability"},
-              {value: "5", text:"Equity"},
-              {value: "6", text:"Non-Operating Income"},
-              {value: "7", text:"Non-Operating Expense"},
+              {value: "3", text:"Current Asset"},
+              {value: "4", text:"Fixed Asset"},
+              {value: "5", text:"Current Liability"},
+              {value: "6", text:"Long Term Liability"},
+              {value: "7", text:"Equity"},
+              {value: "8", text:"Non-Operating Income"},
+              {value: "9", text:"Non-Operating Expense"},
             ],       
 	    });
 	    $('.user.item-editable').editable({

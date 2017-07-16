@@ -13,7 +13,6 @@
         <th>Account Description</th>
         <th>Main Code</th>
         <th>Type</th>
-        <th>Category</th>
         <th>Actions </th>
       </tr>
       @foreach ($chartofaccounts as $account)
@@ -23,7 +22,6 @@
         <td class='accounts item-editable' data-type="textarea" data-name="accountDescription" data-pk="{{$account->chartOfAccountID}}" >{{$account->accountDescription}}</td>
         <td class='accounts item-editable' data-type="text" data-name="mainCode" data-pk="{{$account->chartOfAccountID}}" >{{$account->mainCode}}</td>
         <td class='accounts-type item-editable' data-type="select" data-name="type" data-pk="{{$account->chartOfAccountID}}" >{{$account->type }}</td>
-        <td class='accounts-category item-editable' data-type="select" data-name="category" data-pk="{{$account->chartOfAccountID}}" >{{$account->category }}</td>
         <td>
           <!-- <button class="btn btn-info btn-sm edit-settings" data-id="{{$account->accountID}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button> -->
 
@@ -82,23 +80,16 @@
                   <select name="type" id="accountType" class="form-control">
                     <option value="1">Expense</option>
                     <option value="2">Income</option>
+                    <option value="3">Current Asset</option>
+                    <option value="4">Fixed Asset</option>
+                    <option value="5">Current Liability</option>
+                    <option value="6">Long Term Liability</option>
+                    <option value="7">Equity</option>
+                    <option value="8">Non-Operating Income</option>
+                    <option value="9">Non-Operating Expense</option>
                   </select>     
                 </div>
               </div>  
-              <div class="form-group">
-                <label class="col-sm-2 control-label">Account Category</label>
-                <div class="col-sm-10">
-                  <select name="type" id="accountType" class="form-control">
-                    <option value="1">Current Asset</option>
-                    <option value="2">Fixed Asset</option>
-                    <option value="3">Current Liability</option>
-                    <option value="4">Long Term Liability</option>
-                    <option value="5">Equity</option>
-                    <option value="6">Non-Operating Income</option>
-                    <option value="7">Non-Operating Expense</option>
-                  </select>     
-                </div>
-              </div>
               <div class="box-footer">
                 <div class="form-buttons">
                   <input type="reset" class="btn btn-default" value="Reset">
