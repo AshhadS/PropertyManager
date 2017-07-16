@@ -8,6 +8,7 @@ use App\Model\Property;
 use App\Model\RentalOwner;
 use App\Model\Tenant;
 use App\Model\JobCard;
+use App\Model\JobCardStatus;
 use Debugbar;
 use Datatables;
 use Sentinel;
@@ -24,12 +25,21 @@ class DashboardController extends Controller
 		$tenantsCount = Tenant::count();
 		$jobcardsCount = JobCard::count();
 
+		$jobCardStatusAll = JobCardStatus::all();
+        $jobCardStatusCount = array();
+
+        foreach ($jobCardStatusAll as $status) {
+            $count = JobCard::where('jobcardStatusID', $status->jobcardStatusID)->count();
+            $jobCardStatusCount[$status->jobcardStatusID] = $count;
+        }
+
 		return view('dashboard', [
 	        'propCount' => $propCount,
 	        'propOwnerCount' => $propOwnerCount,
 	        'unitCount' => $unitCount,
 	        'tenantsCount' => $tenantsCount,
 	        'jobcardsCount' => $jobcardsCount,
+	        'jobCardStatusCount' => $jobCardStatusCount,
 	    ]);
 	}
 }

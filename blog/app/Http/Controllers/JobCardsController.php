@@ -38,10 +38,14 @@ class JobCardsController extends Controller
 
         $jobCardStatusAll = JobCardStatus::all();
         $jobCardStatusCount = array();
+        $colors = ['red', 'green', 'yellow', 'aqua', 'light-blue', 'orange'];
+        $i = 0;
 
         foreach ($jobCardStatusAll as $status) {
             $count = JobCard::where('jobcardStatusID', $status->jobcardStatusID)->count();
-            $jobCardStatusCount[$status->jobcardStatusID] = $count;
+            $jobCardStatusCount[$status->jobcardStatusID]['count'] = $count;
+            $jobCardStatusCount[$status->jobcardStatusID]['name'] = $status->statusDescription;
+            $jobCardStatusCount[$status->jobcardStatusID]['color'] = $colors[$i++];
         }
         // dd($jobCardStatusCount);
 

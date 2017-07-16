@@ -80,6 +80,97 @@
 		</div>
 		<!-- ./col -->
 	</div>
+	<div class="row">
+	    <div class="col-md-12">
+	      <div class="box">
+	        
+	        <!-- /.box-header -->
+	        <div class="box-body">
+	          <div class="row">
+	            <div class="col-md-4">
+	              <div class="chart-responsive">
+	                <canvas id="pieChart" height="160" width="328" style="width: 328px; height: 160px;"></canvas>
+	              </div>
+	              <!-- ./chart-responsive -->
+	            </div>
+	            <!-- /.col -->
+	            <div class="col-md-4">
+	            <br/>  
+	            <br/>  
+	            <h2>Jobcard Status</h2>
+	              <ul class="chart-legend clearfix">
+	                <li><i class="fa fa-circle-o text-red"></i> New</li>
+	                <li><i class="fa fa-circle-o text-green"></i> In Progress</li>
+	                <li><i class="fa fa-circle-o text-yellow"></i> Resolved</li>
+	                <li><i class="fa fa-circle-o text-aqua"></i> Completed</li>
+	                <li><i class="fa fa-circle-o text-light-blue"></i> Differed</li>
+	                <li><i class="fa fa-circle-o text-gray"></i> Pending For Clarification From Reporter</li>
+	              </ul>
+	            </div>
+	            <!-- /.col -->
+	          </div>
+	          <!-- /.row -->
+	        </div>
+	        <!-- /.box-body -->
+	      </div>
+	    </div>
+	</div>
 </div>
 @endsection
 
+@push('scripts')
+<script>
+$(function() {
+
+	var ctx = document.getElementById('pieChart');
+	var options = {
+		legend: {
+		    display: false,
+		}
+	};
+	var data = {
+	  datasets: [{
+	      data: [
+	      @foreach($jobCardStatusCount as $key => $status)
+	        {{$status}},
+	      @endforeach
+	      ],
+	      backgroundColor: [
+	        'rgba(221, 75, 57, 1)', //Red
+	        'rgb(0, 166, 90)', //Green
+	        'rgb(243, 156, 18)', //Yellow
+	        'rgb(0, 192, 239)', //Acqua
+	        'rgb(60, 141, 188)', //Light Blue
+	        'rgb(60, 141, 188)', //Grey
+	      ]
+	  }],
+	  // These labels appear in the legend and in the tooltips when hovering different arcs
+	  labels: [
+	      'New',
+	      'In Progress',
+	      'Resolved',
+	      'Completed',
+	      'Differed',
+	      'Pending For Clarification From Reporter',
+	  ]
+	};
+	var myChart = new Chart(ctx, {
+		type: 'doughnut',
+		data: data,
+		options: options
+	});
+	calculate(150, 200);
+	function calculate(actual, total){
+	  var perc="";
+	  if(isNaN(total) || isNaN(actual)){
+	      perc=" ";
+	     }else{
+	     perc = ((actual/total) * 100).toFixed(3);
+	     }
+	  
+	  console.log(perc);
+	}
+
+});
+</script>
+@endpush

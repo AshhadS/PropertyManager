@@ -541,6 +541,22 @@ a.paginate_button.current {
   width: 100%;
 }
 
+/* Jobcards Status */
+.info-box.status-box {
+  min-height: 60px;
+}
+
+.info-box.status-box .info-box-icon {
+  height: 60px;
+  width: 60px;
+  font-size: 40px;
+  line-height: 60px;
+}
+
+.info-box.status-box .info-box-content {
+  margin-left: 60px;
+}
+
 /* Dropzone */
 .dz-preview {
   float: left;
@@ -618,6 +634,7 @@ span.profile-image img {
   text-align: center;
   color: white;
 }
+
 /*
 .add-user {
   //width: 400px;
