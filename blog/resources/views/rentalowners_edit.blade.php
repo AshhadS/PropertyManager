@@ -2,12 +2,17 @@
 
 @section('content')
 
-
+<div class="container-fluid">
+  <h3>{{ $rentalowner->firstName}}  {{ $rentalowner->lastName}}</h3>
+  <p role="presentation"><a href="#edit" class='edit-remove-actives' aria-controls="edit" role="tab" data-toggle="tab">edit</a></p>
+</div>
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab">View</a></li>
-    <li role="presentation"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Edit</a></li>
-    <li role="presentation"><a href="#attachments" aria-controls="attachments" role="tab" data-toggle="tab">Attachments</a></li>
+    <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab">Summary</a></li>
+    <!-- <li role="presentation"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Edit</a></li> -->
+    <!-- <li role="presentation"><a href="#attachments" aria-controls="attachments" role="tab" data-toggle="tab">Attachments</a></li> -->
+    <li role="presentation"><a href="#financials" aria-controls="financials" role="tab" data-toggle="tab">Financials</a></li>
+    <li role="presentation"><a href="#properties" aria-controls="properties" role="tab" data-toggle="tab">Properties</a></li>
   </ul>
 
   <!-- Tab panes -->
@@ -15,47 +20,37 @@
     <div role="tabpanel" class="tab-pane active" id="view">
      <div class="row">
         <div class="col-md-12">
-            <div class="box box-info">
-                <div class="box-header with-border">
-                  <h3 class="box-title">rentalowner</h3>
-                </div>
-                <!-- /.box-header -->
-                <!-- form start -->
-                    
+            <div class="">
                   <div class="box-body">
-                      <div class="row">
-                        <b><p class="col-sm-2 control-label">First name</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $rentalowner->firstName}}</p>
-                      </div><br/>  
-                      <div class="row">
-                        <b><p class="col-sm-2 control-label">Last name</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $rentalowner->lastName}}</p>
-                      </div><br/>  
-                      <div class="row">
-                        <b><p class="col-sm-2 control-label">Date of Birth</p></b>
-                        <p class='col-sm-10 conrol-label format-date'>{{ $rentalowner->dateOfBirth}}</p>
-                      </div><br/>  
-                      <div class="row">
-                        <b><p class="col-sm-2 control-label">Email</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $rentalowner->email}}</p>
-                      </div><br/>  
-                      <div class="row">
-                        <b><p class="col-sm-2 control-label">Phone</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $rentalowner->phoneNumber}}</p>
-                      </div><br/>  
-                      <div class="row">
-                        <b><p class="col-sm-2 control-label">Office Phone</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $rentalowner->officeNumber}}</p>
-                      </div><br/>  
-                      <div class="row">
+                      <div class="container-fluid">
+                        <div class="row">
+                          <div class="col-md-1">
+                            <p>Address</p>
+                            <p>{{ $rentalowner->address}}</p>
+                          </div>
+                          <div class="col-md-1">
+                            <p>Phone</p>
+                            <p class="remove-bottom-margin"><i class="fa fa-mobile" aria-hidden="true"></i> {{ $rentalowner->phoneNumber}}</p>
+                            <p class="remove-bottom-margin"><i class="fa fa-home" aria-hidden="true"></i> {{ $rentalowner->officeNumber}}</p>
+                          </div>                        
+                          <div class="col-md-1">
+                            <p>Email</p>
+                            <p class="remove-bottom-margin"></i> {{ $rentalowner->email}}</p>
+                            <p class="remove-bottom-margin"><a href="mailto:{{$rentalowner->email}}?Subject=Property%20Management%20Tool"><i class="fa fa-envelope" aria-hidden="true"></i> Compose Mail</a> </p>
+                          </div>
+                        </div>
+                        
+                        <div class="row">
+                          <div class="col-md-1">
+                            <p class="">Date of Birth</p></b>
+                            <p class='format-date'>{{ $rentalowner->dateOfBirth}}</p>
+                          </div>
+                        </div><br/>  
+                      </div>
+                      <!-- <div class="row">
                         <b><p class="col-sm-2 control-label">Country</p></b>
                         <p class='col-sm-10 conrol-label'>{{ $countryName }}</p>
-                      </div><br/>  
-                      <div class="row">
-                        <b><p class="col-sm-2 control-label">Address</p></b>
-                        <p class='col-sm-10 conrol-label'>{{ $rentalowner->address}}</p>
-                      </div><br/>  
-                    
+                      </div><br/>                       
                       <div class="row">
                         <b><p class="col-sm-2 control-label">City</p></b>
                         <p class='col-sm-10 conrol-label'>{{ $rentalowner->city}}</p>
@@ -63,7 +58,105 @@
                       <div class="row">
                         <b><p class="col-sm-2 control-label">Comments</p></b>
                         <p class='col-sm-10 conrol-label'>{{ $rentalowner->comments}}</p>
-                      </div><br/>  
+                      </div><br/>   -->
+                      <!-- Button trigger modal -->
+        
+        
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Attachment</h4>
+              </div>
+              <div class="modal-body">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">Add Attachment</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal" action="/attachment" method="POST" enctype="multipart/form-data">
+                      {{ csrf_field() }}
+                      <div class="box-body">
+                        <input type="hidden" name="documentAutoID" class="form-control" value="{{ $rentalowner->rentalOwnerID }}"  placeholder="Subject">
+                        <input type="hidden" name="documentID" class="form-control" value="2" >
+                
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label">File Name</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="fileNameCustom" class="form-control input-req"  placeholder="Name">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label">File Description</label>
+                          <div class="col-sm-10">
+                            <textarea class="form-control" name="description" rows="2" value="" placeholder="Description"></textarea>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label name="tenant" class="col-sm-2 control-label">Document</label>
+                          <div class="col-sm-10">
+                            <input type="file" name="attachmentFile" required="required" accept="image/*">
+                          </div>
+                        </div>
+                      </div>
+                      <!-- /.box-body -->
+                      <div class="box-footer">
+                        <input type="reset" class="btn btn-default" value="Reset" />
+                        <button type="submit" class="btn bg-green pull-right">Save</button>
+                      </div>
+                      <!-- /.box-footer -->
+                    </form>
+                </div>
+              </div>    
+            </div>
+          </div>
+        </div>
+        <div class="box box-info attachments-rows ">
+          <div class="box-header with-border">
+            <h3 class="">Files &nbsp;</h3>
+            <a href="#" class="" data-toggle="modal" data-target="#myModal">
+               Add Attachment
+            </a>
+          </div>
+        @if($attachments->isEmpty())
+          <div class="box-body"><p>No files added yet</p></div>
+        @endif
+          @foreach ($attachments as $attachment)
+              <div class="attacment-item">
+                <a href="/blog/storage/app/uploads/attachments/{{$attachment->fileNameSlug}}">{{$attachment->fileNameCustom}}</a>
+                <p>{{$attachment->attachmentDescription}}</p>
+                <div class="edit-button">
+                  <button class="btn bg-green btn-sm edit-attachment" data-id='{{ $attachment->attachmentID }}' data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button>
+
+                  <input type="hidden" class='data-defined' data-id='{{ $attachment->attachmentID }}' data-documentAutoID='{{ $rentalowner->rentalOwnerID }}' data-description='{{ $attachment->attachmentDescription }}' data-fileNameCustom='{{ $attachment->fileNameCustom }}' data-fileNameSlug='{{ $attachment->fileNameSlug }}' data-documentID='{{ $attachment->documentID }}'>
+
+
+                  <form class="delete-form" action="/attachment/{{ $attachment->attachmentID }}" method="POST">
+                    {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
+                    <!-- <input type="submit" value="Delete" class="btn btn-danger btn-small"> -->
+                    <a href="" class="delete-btn btn btn-danger btn-sm button--winona">
+                      <span><i class="fa fa-trash" aria-hidden="true"></i> Delete</span>
+                      <span class="after">Sure?</span>
+                    </a>
+                  </form>
+                </div>
+              </div>
+          @endforeach
+        </div>
+        @component('attachments_edit')
+
+        @endcomponent
+        <div class="box box-info attachments-rows ">
+          <div class="box-header with-border">
+            <h3 class="">Notes </h3>
+          </div>
+          <div class="box-body">
+            {{ $rentalowner->comments}}
+          </div>
+        </div>
                     
                   </div>
             </div>
@@ -167,96 +260,40 @@
         </div>
       </div>
     </div>
-    <div role="tabpanel" class="tab-pane" id="attachments">
+    <div role="tabpanel" class="tab-pane" id="financials">
     <br/>
       <div class="container-fluid">
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
-          <i class="fa fa-plus"></i> <b>Add Attachment</b>
-        </button>
-        <br/><br/><br/>
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Attachment</h4>
-              </div>
-              <div class="modal-body">
-                <div class="box box-info">
-                    <div class="box-header with-border">
-                      <h3 class="box-title">Add Attachment</h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <!-- form start -->
-                    <form class="form-horizontal" action="/attachment" method="POST" enctype="multipart/form-data">
-                      {{ csrf_field() }}
-                      <div class="box-body">
-                        <input type="hidden" name="documentAutoID" class="form-control" value="{{ $rentalowner->rentalOwnerID }}"  placeholder="Subject">
-                        <input type="hidden" name="documentID" class="form-control" value="2" >
-                
-                        <div class="form-group">
-                          <label class="col-sm-2 control-label">File Name</label>
-                          <div class="col-sm-10">
-                            <input type="text" name="fileNameCustom" class="form-control input-req"  placeholder="Name">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-sm-2 control-label">File Description</label>
-                          <div class="col-sm-10">
-                            <textarea class="form-control" name="description" rows="2" value="" placeholder="Description"></textarea>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label name="tenant" class="col-sm-2 control-label">Document</label>
-                          <div class="col-sm-10">
-                            <input type="file" name="attachmentFile" required="required" accept="image/*">
-                          </div>
-                        </div>
-                      </div>
-                      <!-- /.box-body -->
-                      <div class="box-footer">
-                        <input type="reset" class="btn btn-default" value="Reset" />
-                        <button type="submit" class="btn bg-green pull-right">Save</button>
-                      </div>
-                      <!-- /.box-footer -->
-                    </form>
-                </div>
-              </div>    
-            </div>
-          </div>
-        </div>
-        <div class="box box-info attachments-rows">
-          @foreach ($attachments as $attachment)
-              <div class="attacment-item">
-                <a href="/blog/storage/app/uploads/attachments/{{$attachment->fileNameSlug}}">{{$attachment->fileNameCustom}}</a>
-                <p>{{$attachment->attachmentDescription}}</p>
-                <div class="edit-button">
-                  <button class="btn bg-green btn-sm edit-attachment" data-id='{{ $attachment->attachmentID }}' data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button>
-
-                  <input type="hidden" class='data-defined' data-id='{{ $attachment->attachmentID }}' data-documentAutoID='{{ $rentalowner->rentalOwnerID }}' data-description='{{ $attachment->attachmentDescription }}' data-fileNameCustom='{{ $attachment->fileNameCustom }}' data-fileNameSlug='{{ $attachment->fileNameSlug }}' data-documentID='{{ $attachment->documentID }}'>
-
-
-                  <form class="delete-form" action="/attachment/{{ $attachment->attachmentID }}" method="POST">
-                    {{ csrf_field() }}
-                    {{ method_field('DELETE') }}
-                    <!-- <input type="submit" value="Delete" class="btn btn-danger btn-small"> -->
-                    <a href="" class="delete-btn btn btn-danger btn-sm button--winona">
-                      <span><i class="fa fa-trash" aria-hidden="true"></i> Delete</span>
-                      <span class="after">Sure?</span>
-                    </a>
-                  </form>
-                </div>
-
-              </div>
-          @endforeach
-        </div>
-        @component('attachments_edit')
-
-        @endcomponent
+        <h2>Financials </h2>
       </div>
     </div>
-    <div role="tabpanel" class="tab-pane" id="settings">...</div>
+    <div role="tabpanel" class="tab-pane" id="properties">
+      <br/>
+      <div class="container-fluid">
+        <h2>Properties </h2>
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Property Type</th>
+              <th>Address</th>
+              <th>Number of units</th>
+              <th>View</th>
+            </tr>
+            @foreach($ownedProperties as $property)
+              <tr>
+                <td>{{$property->pPropertyName}}</td>
+                <td>{{$property->description}}</td>
+                <td>{{$property->propertySubTypeID}}</td>
+                <td>{{$property->address}}</td>
+                <td>{{$property->numberOfUnits}}</td>
+                <td><a class="btn bg-green btn-sm" href="/prop/edit/{{$property->PropertiesID}}"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>              
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
 @endsection

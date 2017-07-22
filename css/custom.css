@@ -28,6 +28,10 @@
   text-align: center;
 }
 
+.remove-bottom-margin {
+  margin-bottom: 0;
+}
+
 .clear-floats {
   clear: both;
 }
@@ -651,3 +655,34 @@ span.profile-image img {
 .add-user button {
   width: 100%;
 }*/
+
+/*h4.m-title {
+  width: 10px;
+  word-wrap: break-word;
+  float: left;
+  line-height: 0.9;
+  text-align: center;
+}*/
+
+table.m-item.table {
+  width: calc(100% - 15px);
+  table-layout: fixed;
+  border: 1px solid #f4f4f4;
+}
+
+table.m-item .amount-col, table.m-item .amount-col {
+  width: 100px;
+}
+
+.m-title {
+  font-weight: bold;
+}
+
+.table-bordered > tbody > tr > td.remove-border {
+  border: none;
+}
+
+.table-striped > tbody > tr.t-head {
+  background: #2980b9;
+  color: white;
+}

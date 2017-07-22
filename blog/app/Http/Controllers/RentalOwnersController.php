@@ -7,6 +7,7 @@ use App\Model\RentalOwner;
 use App\Model\Country;
 use App\Model\Attachment;
 use App\Model\DocumentMaster;
+use App\Model\Property;
 use Datatables;
 use Illuminate\Support\Facades\DB;
 use Debugbar;
@@ -61,7 +62,7 @@ class RentalOwnersController extends Controller
     	$countries = Country::all();
     	$documentmaster = DocumentMaster::all();
     	$attachments = Attachment::where('documentAutoID', $rentalowner->rentalOwnerID)->where('documentID', 2)->get();
-
+    	$ownedProperties = Property::where('rentalOwnerID', $rentalowner->rentalOwnerID)->get();
     	$countryName = (isset($rentalowner->country)) ? Country::find($rentalowner->country)->countryName : '';
 
 	    return view('rentalowners_edit', [
@@ -70,6 +71,7 @@ class RentalOwnersController extends Controller
 	        'attachments' => $attachments,
 	        'documentmaster' => $documentmaster,
 	        'countryName' => $countryName,
+	        'ownedProperties' => $ownedProperties,
 	    ]);
     }
 
