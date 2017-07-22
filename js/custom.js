@@ -113,7 +113,10 @@ $(function() {
 
     initializeTeleValidation();
 
-
+    // Remove active if a link with no tab is clicked example property owner edit
+    $('.edit-remove-actives').on('click', function(){
+        $('li.active').removeClass('active');
+    })
 
 
     $(document).ajaxComplete(function() {
