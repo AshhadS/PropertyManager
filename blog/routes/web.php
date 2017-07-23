@@ -136,7 +136,6 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::post('attachment/save', 'JobCardsController@saveAttachment');
 		Route::post('/jobcard-attachments/{jobcardid}', 'JobCardsController@getAttachements');
 		Route::delete('/jobcard-attachments/{attachmentid}', 'JobCardsController@delete');	
-		
 
 		/**
 		 * Job Card Comments
@@ -144,6 +143,15 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::post('jobcardcomment',  'JobCardCommentsController@create');
 		// Route::post('jobcards/update',  'JobCardCommentsController@update');
 		Route::delete('jobcardcomment/{jobcardcomment}', 'JobCardCommentsController@delete');
+		
+		/**
+		 * Jobcard Maintenance
+		 */
+		Route::get('jobcard/edit/{jobcard}/maintenance',  'JobCardsMaintenanceController@index');
+		Route::post('jobcard/edit/maintenance', 'JobCardsMaintenanceController@create');
+		Route::post('jobcard/edit/maintenance/update', 'JobCardsMaintenanceController@update');
+		Route::delete('jobcard/edit/maintenance/{maintenanceItem}', 'JobCardsMaintenanceController@delete');	
+		
 
 	/**
 	 * Settings

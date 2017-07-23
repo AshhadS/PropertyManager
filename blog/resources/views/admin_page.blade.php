@@ -30,7 +30,8 @@
 			        <tr>
 			          <td><a class='link' href="#supplier" data-section="supplier">Supplier</a></td>
 			        </tr>
-			      </tbody></table>
+			      </tbody>
+			      </table>
 			    </div>
 			    <!-- /.box-body -->
 			</div>

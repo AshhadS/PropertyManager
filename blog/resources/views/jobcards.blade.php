@@ -32,7 +32,6 @@
                 <textarea class="form-control" name="description" rows="2" placeholder="Description"></textarea>
               </div>
             </div>
-            
             <div class="form-group">
               <label class="col-sm-2 control-label">Property Name</label>
               <div class="col-sm-10">
@@ -161,158 +160,16 @@
   <!-- Tab panes -->
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="opened">
-      <div class="jc-list">
-        @foreach($openJobcards as $jobcard)
-          <div class="jc-list-item">          
-            <div class="col-md-5">  
-              @if(App\Model\JobCardStatus::find($jobcard->jobcardStatusID) && $jobcard->jobcardStatusID != 0)
-                <div class="stattus-box"><?php print App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription[0] ?></div>            
-              @endif
-              <br/>
-              <p class=""><b>{{$jobcard->subject}} &nbsp;&nbsp;</b></p>
-              <p>{{$jobcard->description}}</p>
-              @if(App\Model\JobCardStatus::find($jobcard->jobcardStatusID) && $jobcard->jobcardStatusID != 0)
-              <p class="inline-element"><b>Status:  &nbsp;&nbsp;</b><span class="label bg-light-blue disabled">
-                 {{App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription}}
-              </span></p>
-              @endif
-                 {{$jobcard->jobcardStatusID}}
-              
-
-            </div>
-            <div class="col-md-2">
-              <br/>
-              <br/>
-              <div class="jc assigned-to clearfix">
-                <span>Assiged To: <span class="profile-image"><img src="{{ asset("/bower_components/admin-lte/dist/img/idss-defualt.png") }}" class="user-image" alt="User Image"/></span>  
-                  @if(Sentinel::findById($jobcard->assignedToID))
-                    {{Sentinel::findById($jobcard->assignedToID)->first_name }}
-                  @else
-                    none
-                  @endif
-                </span>
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div class="jc-priority">  
-                @if($jobcard->jobCardCode)
-                 <h5><b>{{$jobcard->jobCardCode}}</b></h5>
-                @endif
-              </div>
-              <div class="jc assigned-to clearfix">
-                <span>Created By: <span class="profile-image"><img src="{{ asset("/bower_components/admin-lte/dist/img/idss-defualt.png") }}" class="user-image" alt="User Image"/></span>
-                  @if(Sentinel::findById($jobcard->createdByUserID))
-                    {{Sentinel::findById($jobcard->createdByUserID)->first_name }}
-                  @else
-                    none
-                  @endif
-                </span>
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div class="jc-priority">  
-                @if(App\Model\JobCardPriority::find($jobcard->priorityID))
-                 <p>{{App\Model\JobCardPriority::find($jobcard->priorityID)->priorityDescription}} <i class="fa fa-long-arrow-up" aria-hidden="true"></i></p>
-                @endif
-              </div>
-            </div>
-            <div class="pull-right">
-              <br/>
-              <div class="jc-edit-button clearfix">
-                <div class="inner">
-                <div>
-                  <a class="btn bg-green btn-sm" href="jobcard/edit/{{$jobcard->jobcardID}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                </div>
-                <form class="delete-form" method="POST" action="jobcard/{{$jobcard->jobcardID}}">
-                  <a href="" class="delete-btn btn btn-danger btn-sm button--winona"><span>
-                  <i class="fa fa-trash" aria-hidden="true"></i></span><span class="after"><i class="fa fa-question" aria-hidden="true"></i></span></a>
-                  <input type="hidden" name="_method" value="DELETE">
-                  <input type="hidden" name="_token" value="{{csrf_token()}}">
-                </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        @endforeach
-      </div>
+      @component('includes/jobcard_list', ['jobcards_list' => $openJobcards, 'hide_delete' => false])
+      @endcomponent
     </div>
     <div role="tabpanel" class="tab-pane" id="closed">
-      <div class="jc-list">
-         @foreach($closedJobcards as $jobcard)
-           <div class="jc-list-item">          
-            <div class="col-md-5">  
-              @if($jobcard->jobcardStatusID && $jobcard->jobcardStatusID != 0)
-                <div class="stattus-box"><?php print App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription[0] ?></div>            
-              @endif
-              <br/>
-              <p class=""><b>{{$jobcard->subject}} &nbsp;&nbsp;</b></p>
-              <p>{{$jobcard->description}}</p>
-              @if($jobcard->jobcardStatusID && $jobcard->jobcardStatusID != 0)
-              <p class="inline-element"><b>Status:  &nbsp;&nbsp;</b><span class="label bg-light-blue disabled">
-                 {{App\Model\JobCardStatus::find($jobcard->jobcardStatusID)->statusDescription}}
-              </span></p>
-              @endif
-              
-
-            </div>
-            <div class="col-md-2">
-              <br/>
-              <br/>
-              <div class="jc assigned-to clearfix">
-                <span>Assiged To: <span class="profile-image"><img src="{{ asset("/bower_components/admin-lte/dist/img/idss-defualt.png") }}" class="user-image" alt="User Image"/></span>  
-                  @if(Sentinel::findById($jobcard->assignedToID))
-                    {{Sentinel::findById($jobcard->assignedToID)->first_name }}
-                  @else
-                    none
-                  @endif
-                </span>
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div class="jc-priority">  
-                @if($jobcard->jobCardCode)
-                 <h5><b>{{$jobcard->jobCardCode}}</b></h5>
-                @endif
-              </div>
-              <div class="jc assigned-to clearfix">
-                <span>Created By: <span class="profile-image"><img src="{{ asset("/bower_components/admin-lte/dist/img/idss-defualt.png") }}" class="user-image" alt="User Image"/></span>
-                  @if(Sentinel::findById($jobcard->createdByUserID))
-                    {{Sentinel::findById($jobcard->createdByUserID)->first_name }}
-                  @else
-                    none
-                  @endif
-                </span>
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div class="jc-priority">  
-                @if(App\Model\JobCardPriority::find($jobcard->priorityID))
-                 <p>{{App\Model\JobCardPriority::find($jobcard->priorityID)->priorityDescription}} <i class="fa fa-long-arrow-up" aria-hidden="true"></i></p>
-                @endif
-              </div>
-            </div>
-            <div class="pull-right">
-              <br/>
-              <div class="jc-edit-button clearfix">
-                <div class="inner">
-                <div>
-                  <a class="btn bg-green btn-sm" href="jobcard/edit/{{$jobcard->jobcardID}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                </div>
-                <!-- <form class="delete-form" method="POST" action="jobcard/{{$jobcard->jobcardID}}">
-                  <a href="" class="delete-btn btn btn-danger btn-sm button--winona"><span>
-                  <i class="fa fa-trash" aria-hidden="true"></i></span><span class="after"><i class="fa fa-question" aria-hidden="true"></i></span></a>
-                  <input type="hidden" name="_method" value="DELETE">
-                  <input type="hidden" name="_token" value="{{csrf_token()}}">
-                </form> -->
-                </div>
-              </div>
-            </div>
-          </div>
-        @endforeach
-      </div>
+      @component('includes/jobcard_list', ['jobcards_list' => $closedJobcards, 'hide_delete' => true])
+      @endcomponent
     </div>
     <div class="tab-pane" id="my" role="tabpanel">
-      <h4>My Jobs</h4>
+      @component('includes/jobcard_list', ['jobcards_list' => $myJobcards, 'hide_delete' => false])
+      @endcomponent
     </div>
   </div>
 

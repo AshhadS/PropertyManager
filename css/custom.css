@@ -311,6 +311,10 @@ th.edit-button {
   margin: 0 15px;
 }
 
+.amount-col.edit-button .inner {
+  margin: 0;
+}
+
 .bg-green .fa, .btn-danger .fa,
 .btn-info .fa, .btn-danger .fa {
   padding-right: 5px;

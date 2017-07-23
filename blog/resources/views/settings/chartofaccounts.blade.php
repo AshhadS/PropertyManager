@@ -56,12 +56,12 @@
           </div>
           <form class="form-horizontal ajax-process  pull add-user" action="/account" method="POST">
               {{ csrf_field() }}
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label class="col-sm-2 control-label">Name</label>
                 <div class="col-sm-10">
                   <input type="text" name="chartOfAccountCode" placeholder="Account Code" class="input-req form-control">
                 </div>
-              </div>
+              </div> -->
               <div class="form-group">
               <label class="col-sm-2 control-label">Description</label>
                 <div class="col-sm-10">

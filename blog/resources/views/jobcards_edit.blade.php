@@ -30,7 +30,7 @@
                 <br/>
               </div>
 
-              <div class="col-md-4">
+              <div class="col-md-4 ">
                 <div class="btn-group col-md-12 jc-status" role="group" aria-label="...">
                   <span class="status-log hide-element">{{$jobcard->jobcardStatusID}}</span><br />
                   <button type="button" status="2" statusID class="btn btn-default jc-status hide-element">In Progress</button>
@@ -40,6 +40,13 @@
                   <button type="button" status="3" class="btn btn-default jc-status hide-element">Resolved</button>
                   <button type="button" status="1" class="btn btn-default jc-status hide-element">Reopen</button>
                 </div>
+              </div>
+
+              <div class="col-md-4">
+                <a href="/jobcard/edit/{{$jobcard->jobcardID}}/maintenance" class="btn btn-default">Maintenance</a>
+                <a href="/jobcard/edit/{{$jobcard->jobcardID}}/invoice" class="btn btn-default">Invoice</a>
+                <a href="/jobcard/edit/{{$jobcard->jobcardID}}/payment" class="btn btn-default">Payment</a>
+                <a href="/jobcard/edit/{{$jobcard->jobcardID}}/reciept" class="btn btn-default">Reciept</a>
               </div>
             </div>
             <div class="row">
