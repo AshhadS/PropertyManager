@@ -120,7 +120,7 @@
                 <div class="buttons container-fluid">
                     <div class="row">
                         <div class="col-md-2"><a href="/dashboard"><button type="button" class="btn btn-primary btn-lg btn-block"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</button></a></div>
-                        <div class="col-md-2"><a href="/jobcards"><button type="button" class="btn btn-primary btn-lg btn-block"><i class="fa fa-book" aria-hidden="true"></i> Job Cards</button></a></div>
+                        <div class="col-md-2"><a href="/jobcards"><button type="button" class="btn btn-primary btn-lg btn-block"><i class="fa fa-book" aria-hidden="true"></i> Jobcards</button></a></div>
                         <div class="col-md-2"><a href="/props"><button type="button" class="btn btn-primary btn-lg btn-block"> <i class="fa fa-building" aria-hidden="true"></i> Properties</button></a></div>
                         <div class="col-md-2"><a href="/units"><button type="button" class="btn btn-primary btn-lg btn-block"><i class="fa fa-university" aria-hidden="true"></i> Units</button></a></div>
                         <!-- <div class="col-md-2"><a href="/tenants"><button type="button" class="btn btn-primary btn-lg btn-block">Tenants</button></a></div> -->

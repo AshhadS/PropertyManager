@@ -6,15 +6,8 @@
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog wide" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Property Ownners</h4>
-      </div>
-      <div class="modal-body">
+      <div class="">
         <div class="box box-info">
-        <div class="box-header with-border">
-          <h3 class="box-title">Add Property Owner</h3>
-        </div>
         <!-- /.box-header -->
         <!-- form start -->
         <form class="form-horizontal" action="/rentalowners" method="POST">
@@ -103,20 +96,21 @@
   </div>
 </div>
 
-<div class="page-header container-fluid">
-  <section class="content-header pull-left">
-      <h1> Proeperty Owners</h1>
-  </section>
 
-  <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
-    <i class="fa fa-plus"></i> <b>Add Property Owner</b>
-  </button>
-</div>
 
 
 <div class="panel panel-default give-space">
     <div class="panel-body">
+    <div class="page-header container-fluid">
+      <section class="content-header pull-left">
+          <h4><b>PROPERTY OWNERS</b></h4>
+      </section>
+
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
+        <i class="fa fa-plus"></i> <b>Add Property Owner</b>
+      </button>
+    </div>
         @if (count($rentalowners) > 0)
             <table class="table table-bordered table-hover table-striped" id="rentalowners-table">
 

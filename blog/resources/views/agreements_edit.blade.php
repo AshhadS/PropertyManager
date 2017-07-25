@@ -1,21 +1,11 @@
 <div class="modal fade" id="agreement-editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog wide" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="modal-body">
+     
+      <div class="">
         <div class="row">
           <div class="col-md-12">
-              <br>
-              <section class="content-header">
-                  <h1>Agreement</h1>
-              </section>
-              <br>
               <div class="box box-info">
-                  <div class="box-header with-border">
-                    <h3 class="box-title">Edit</h3>
-                  </div>
                   <!-- /.box-header -->
                   <!-- form start -->
                   <form class="form-horizontal agreement-edit" action="/agreement/update" method="POST">

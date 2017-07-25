@@ -16,17 +16,17 @@
           <div class="box-body">
             <div class="row">
               <div class="col-md-12">
-                <h2> <i class="fa fa-briefcase" aria-hidden="true"></i> Jobcard 
+                <h3> <i class="fa fa-briefcase" aria-hidden="true"></i> Jobcard 
                 @if($jobcard->jobCardCode)
                 -   {{$jobcard->jobCardCode}}
                 @endif
-                </h2>
+                </h3>
                 
               </div>
             </div>
             <div class="row">
               <div class="col-md-4">
-                <h2 class='conrol-label item-editable' data-type="text" jcfield="Subject" data-name="subject" data-pk="{{$jobcard->jobcardID}}" >{{ $jobcard->subject}}</h2>
+                <h3 class='conrol-label item-editable' data-type="text" jcfield="Subject" data-name="subject" data-pk="{{$jobcard->jobcardID}}" >{{ $jobcard->subject}}</h3>
                 <br/>
               </div>
 

@@ -6,16 +6,8 @@
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog wide" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Agreements</h4>
-      </div>
-      <div class="modal-body">
+      <div class="">
         <div class="box box-info">
-        <div class="box-header with-border">
-          <h3 class="box-title">Add Agreement</h3>
-        </div>
-        <!-- /.box-header -->
         <!-- form start -->
         <form class="form-horizontal" action="/agreement" method="POST">
             {{ csrf_field() }}
@@ -116,22 +108,22 @@
     </div>
   </div>
 </div>
-<div class="page-header container-fluid">
-  <section class="content-header pull-left">
-      <h1>Agreements</h1>
-  </section>
-
-  <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
-    <i class="fa fa-plus"></i> <b>Add Agreement</b>
-  </button>
-</div>
         @component('agreements_edit', ['units' => $units, 'properties' => $properties, 'tenants' => $tenants, 'paymentypes' => $paymentypes])
 
         @endcomponent
 
 <div class="panel panel-default give-space">
     <div class="panel-body">
+      <div class="page-header container-fluid">
+        <section class="content-header pull-left">
+            <h4><b>AGREEMENT</b></h4>
+        </section>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
+          <i class="fa fa-plus"></i> <b>Add Agreement</b>
+        </button>
+      </div>
             <table class="table table-bordered table-striped" id="agreements-table">
 
                 <!-- Table Headings -->

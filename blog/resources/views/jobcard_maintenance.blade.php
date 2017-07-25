@@ -42,14 +42,14 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">Cost Amount</label>
                 <div class="col-sm-10">
-                  <input type="text" name="costAmount" class="form-control" required placeholder="Cost Amount">
+                  <input type="text" name="costAmount" class="form-control" placeholder="Cost Amount">
                 </div>
               </div>
 
               <div class="form-group">
                 <label class="col-sm-2 control-label">Margin</label>
                 <div class="col-sm-10">
-                  <input type="text" name="margin" class="form-control" required placeholder="Margin">
+                  <input type="text" name="margin" class="form-control percentage" placeholder="Enter percentage out of 100 without the %">
                 </div>
               </div>
 

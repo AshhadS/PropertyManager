@@ -2,7 +2,7 @@
 
 @section('content')
   <section class="content-header">
-      <h1>Property</h1>
+      <h4><b>PROPERTY</b></h4>
   </section>
   <br /><br />
     
@@ -226,7 +226,7 @@
       </div>
       <div role="tabpanel" class="tab-pane" id="units">
         <div class="container-fluid">
-          <h2>Units</h2>
+          <h4><b>UNITS</b></h4>
             <hr/>
             <div class="unit-item">
               @foreach ($property_units as $unit)
@@ -240,7 +240,7 @@
       </div>
       <div role="tabpanel" class="tab-pane" id="jobcards">
         <div class="container-fluid">
-          <h2>Jobcards</h2>
+          <h4><b>JOBCARDS</b></h4>
           <hr/>
             <div class="jobcard-item">
               @foreach ($property_jobcards as $jobcard)

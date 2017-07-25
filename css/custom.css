@@ -32,6 +32,10 @@
   margin-bottom: 0;
 }
 
+.remove-margin {
+  margin-bottom: 0;
+}
+
 .clear-floats {
   clear: both;
 }
@@ -270,7 +274,7 @@ table.dataTable thead .sorting_desc_disabled:after {
 /* Menu buttons */
 .buttons .btn-primary {
   height: 27px;
-  font-size: 16px;
+  font-size: 15px;
   background: #2980b9;
   font-weight: 300;
 }
@@ -625,10 +629,12 @@ span.profile-image img {
 
 .jc-list-item .jc-priority, .jc-list-item .jc.assigned-to {
   text-align: center;
+  font-size: 12px;
 }
 
 .jc-list-item p {
   margin-bottom: 0;
+  font-size: 12px;
 }
 
 .stattus-box {

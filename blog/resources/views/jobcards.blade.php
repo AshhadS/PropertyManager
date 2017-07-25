@@ -6,16 +6,8 @@
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog wide" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Jobcards</h4>
-      </div>
-      <div class="modal-body">
+      <div class="">
         <div class="box box-info">
-        <div class="box-header with-border">
-          <h3 class="box-title">Add Jobcard</h3>
-        </div>
-        <!-- /.box-header -->
         <!-- form start -->
         <form class="form-horizontal" action="/jobcards" method="POST">
             {{ csrf_field() }}
@@ -123,7 +115,7 @@
 </div>
 <div class="container-fluid">
   <section class="content-header pull-left">
-      <h1>Jobcards</h1>
+      <h4><b>JOBCARDS</b></h4>
   </section>
    <br/>
 

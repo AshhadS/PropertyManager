@@ -7,16 +7,8 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog wide" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Add Unit</h4>
-          </div>
-          <div class="modal-body">
+          <div class="">
             <div class="box box-info">
-              <div class="box-header with-border">
-                <h3 class="box-title">Description</h3>
-              </div>
-              <!-- /.box-header -->
               <!-- form start -->
               <form class="form-horizontal" action="/units" method="POST">
                   {{ csrf_field() }}
@@ -89,20 +81,18 @@
       </div>
     </div>
     
-<div class="page-header container-fluid">
-  <section class="content-header pull-left">
-      <h1>Units</h1>
-  </section>
-
-
-  <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
-    <i class="fa fa-plus"></i> <b>Add Unit</b>
-  </button>
-</div>
 
 <div class="panel panel-default give-space">
     <div class="panel-body">
+      <div class="page-header container-fluid">
+        <section class="content-header pull-left">
+            <h4><b>UNITS</b></h4>
+        </section>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
+          <i class="fa fa-plus"></i> <b>Add Unit</b>
+        </button>
+      </div>
       <table class="table table-bordered table-striped" id="units-table">
 
           <!-- Table Headings -->

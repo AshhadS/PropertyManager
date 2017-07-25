@@ -2,7 +2,7 @@
 
 @section('content')
   <section class="content-header">
-      <h1>Units</h1>
+      <h4><b>UNITS</b></h4>
   </section>
   <br /><br />
   <!-- Nav tabs -->
@@ -17,7 +17,7 @@
       <div role="tabpanel" class="tab-pane active" id="view">
        <div class="row">
           <div class="col-md-12">
-              <div class="box box-info">
+              <div class="">
                   <!-- /.box-header -->
                   <!-- form start -->
                       
@@ -57,7 +57,7 @@
       <div role="tabpanel" class="tab-pane" id="edit">          
           <div class="row">
               <div class="col-md-12">
-                  <div class="box box-info">
+                  <div class="">
                       <!-- /.box-header -->
                       <!-- form start -->
                       <form class="form-horizontal" action="/units/update" method="POST">

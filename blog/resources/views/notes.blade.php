@@ -1,16 +1,8 @@
 <div class="container-fluid">
   <div class="box box-widget">
     <div class="box-header with-border">
-      <h2>Notes</h2>
+      <h4><b>NOTES</b></h4>
       <!-- /.user-block -->
-      <div class="box-tools">
-        <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Mark as read">
-          <i class="fa fa-circle-o"></i></button>
-        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-        </button>
-        <!-- <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button> -->
-      </div>
-      <!-- /.box-tools -->
     </div>
     <!-- /.box-header -->
     <div class="box-footer box-comments">

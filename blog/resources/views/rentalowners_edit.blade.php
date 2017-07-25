@@ -115,7 +115,7 @@
         </div>
         <div class="box box-info attachments-rows ">
           <div class="box-header with-border">
-            <h3 class="">Files &nbsp;</h3>
+            <h4 class="">Files &nbsp;</h4>
             <a href="#" class="" data-toggle="modal" data-target="#myModal">
                Add Attachment
             </a>
@@ -151,7 +151,7 @@
         @endcomponent
         <div class="box box-info attachments-rows ">
           <div class="box-header with-border">
-            <h3 class="">Notes </h3>
+            <h4><b>Notes</b></h4>
           </div>
           <div class="box-body">
             {{ $rentalowner->comments}}
