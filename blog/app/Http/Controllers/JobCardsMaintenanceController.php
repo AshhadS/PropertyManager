@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use App\Model\JobCard;
 use App\Model\Supplier;
 use App\Model\Maintenance;
+use App\Model\Company;
 use Redirect;
+use Sentinel;
+use App;
 
 class JobCardsMaintenanceController extends Controller
 {
@@ -14,11 +17,13 @@ class JobCardsMaintenanceController extends Controller
     	$jobcard = JobCard::find($jobcard->jobcardID);
     	$maintenanceItensMaterial = Maintenance::where('jobcardID', $jobcard->jobcardID)->where('itemType', 1)->get();
     	$maintenanceItensLabour = Maintenance::where('jobcardID', $jobcard->jobcardID)->where('itemType', 2)->get();
-    	$maintenanceItensTotal = Maintenance::where('jobcardID', $jobcard->jobcardID)->sum('totalAmount');
-    	$maintenanceItensCostTotal = Maintenance::where('jobcardID', $jobcard->jobcardID)->sum('costAmount');
-    	$maintenanceItensProfit = $maintenanceItensTotal - $maintenanceItensCostTotal;
+    	$maintenanceItensTotal = Maintenance::where('jobcardID', $jobcard->jobcardID)->sum('netTotal');
+    	$maintenanceItensMeterialsTotal = Maintenance::where('itemType', 1)->sum('netTotal');
+    	$maintenanceItensLabourTotal = Maintenance::where('itemType', 2)->sum('netTotal');
+
     	$jobcardsAll = JobCard::all();
     	$suppliers = Supplier::all();
+
 		return view('jobcard_maintenance', [
             'jobcard' => $jobcard,
             'jobcardsAll' => $jobcardsAll,
@@ -26,8 +31,8 @@ class JobCardsMaintenanceController extends Controller
             'maintenanceItensMaterial' => $maintenanceItensMaterial,
             'maintenanceItensLabour' => $maintenanceItensLabour,
             'maintenanceItensTotal' => $maintenanceItensTotal,
-            'maintenanceItensCostTotal' => $maintenanceItensCostTotal,
-            'maintenanceItensProfit' => $maintenanceItensProfit,
+            'maintenanceItensMeterialsTotal' => $maintenanceItensMeterialsTotal,
+            'maintenanceItensLabourTotal' => $maintenanceItensLabourTotal,
 	    ]);
 	}
 
@@ -37,9 +42,11 @@ class JobCardsMaintenanceController extends Controller
 		$maintenanceItem->GLCode = $request->GLCode;
 		$maintenanceItem->comments = $request->comments;
 		$maintenanceItem->supplierID = $request->supplierID;
-		$maintenanceItem->costAmount = $request->costAmount;
+		$maintenanceItem->units = $request->units;
+		$maintenanceItem->cost = $request->cost;
+		$maintenanceItem->total = $request->cost * $request->units;
 		$maintenanceItem->margin = $request->margin;
-		$maintenanceItem->totalAmount = $request->totalAmount;
+		$maintenanceItem->netTotal = $request->netTotal;
 		$maintenanceItem->itemType = $request->itemType;
 		$maintenanceItem->jobcardID = $request->jobcardID;
 
@@ -48,7 +55,7 @@ class JobCardsMaintenanceController extends Controller
 		// Total = cost + percentage of cost 
 		// => Therefoe 1 + 0.20 is totalPercentage assuming margin given was 20%
 		$totalPercentage = 1 + (intval($request->margin) / 100);
-		$maintenanceItem->totalAmount =  $request->costAmount * $totalPercentage;
+		$maintenanceItem->netTotal =  $maintenanceItem->total * $totalPercentage;
 
 		$maintenanceItem->save();
 
@@ -61,9 +68,11 @@ class JobCardsMaintenanceController extends Controller
 		$maintenanceItem->GLCode = $request->GLCode;
 		$maintenanceItem->comments = $request->comments;
 		$maintenanceItem->supplierID = $request->supplierID;
-		$maintenanceItem->costAmount = $request->costAmount;
+		$maintenanceItem->units = $request->units;
+		$maintenanceItem->cost = $request->cost;
+		$maintenanceItem->total = $request->cost * $request->units;
 		$maintenanceItem->margin = $request->margin;
-		$maintenanceItem->totalAmount = $request->totalAmount;
+		$maintenanceItem->netTotal = $request->netTotal;
 		$maintenanceItem->itemType = $request->itemType;
 		$maintenanceItem->jobcardID = $request->jobcardID;
 
@@ -72,7 +81,7 @@ class JobCardsMaintenanceController extends Controller
 		// Total = cost + percentage of cost 
 		// => Therefoe 1 + 0.20 is totalPercentage assuming margin given was 20%
 		$totalPercentage = 1 + (intval($request->margin) / 100);
-		$maintenanceItem->totalAmount =  $request->costAmount * $totalPercentage;
+		$maintenanceItem->netTotal =  $maintenanceItem->total * $totalPercentage;
 
 		$maintenanceItem->save();
 	    return Redirect::to('jobcard/edit/'.$request->jobcardID.'/maintenance');
@@ -84,5 +93,57 @@ class JobCardsMaintenanceController extends Controller
 		$item->delete();
 
 	    return Redirect::to('jobcard/edit/'.$jobcardid.'/maintenance');
+	}
+
+	function submitOrReverse(Request $request){
+		$jobcard = JobCard::find($request->jobcardID);
+		$jobcard->isSubmitted = ($request->flag == '1') ? '0' : '1';
+		$jobcard->save();
+	    return Redirect::to('jobcard/edit/'.$request->jobcardID.'/maintenance');
+		
+	}
+
+	function generatePDF($jobcardID){
+		$pdf = App::make('dompdf.wrapper');
+		$jobcard = JobCard::find($jobcardID);
+    	$maintenanceItensMaterial = Maintenance::where('jobcardID', $jobcard->jobcardID)->where('itemType', 1)->get();
+    	$maintenanceItensLabour = Maintenance::where('jobcardID', $jobcard->jobcardID)->where('itemType', 2)->get();
+    	$maintenanceItensTotal = Maintenance::where('jobcardID', $jobcard->jobcardID)->sum('netTotal');
+    	$maintenanceItensCostTotal = Maintenance::where('jobcardID', $jobcard->jobcardID)->sum('total');
+    	$maintenanceItensProfit = $maintenanceItensTotal - $maintenanceItensCostTotal;
+    	$company = Company::find(Sentinel::getUser()->companyID);
+		$data = array(
+			'jobcard' => $jobcard,
+            'maintenanceItensMaterial' => $maintenanceItensMaterial,
+            'maintenanceItensLabour' => $maintenanceItensLabour,
+            'maintenanceItensTotal' => $maintenanceItensTotal,
+            'maintenanceItensCostTotal' => $maintenanceItensCostTotal,
+            'maintenanceItensProfit' => $maintenanceItensProfit,
+            'company' => $company,
+		);
+
+		$pdf->loadView('maintainence_pdf', $data , $data);
+		return $pdf->stream();
+	}
+
+	function displaypdf($jobcardID){
+		$jobcard = JobCard::find($jobcardID);
+    	$maintenanceItensMaterial = Maintenance::where('jobcardID', $jobcard->jobcardID)->where('itemType', 1)->get();
+    	$maintenanceItensLabour = Maintenance::where('jobcardID', $jobcard->jobcardID)->where('itemType', 2)->get();
+    	$maintenanceItensTotal = Maintenance::where('jobcardID', $jobcard->jobcardID)->sum('netTotal');
+    	$maintenanceItensCostTotal = Maintenance::where('jobcardID', $jobcard->jobcardID)->sum('total');
+    	$maintenanceItensProfit = $maintenanceItensTotal - $maintenanceItensCostTotal;
+    	$company = Company::find(Sentinel::getUser()->companyID);
+		$data = array(
+			'jobcard' => $jobcard,
+            'maintenanceItensMaterial' => $maintenanceItensMaterial,
+            'maintenanceItensLabour' => $maintenanceItensLabour,
+            'maintenanceItensTotal' => $maintenanceItensTotal,
+            'maintenanceItensCostTotal' => $maintenanceItensCostTotal,
+            'maintenanceItensProfit' => $maintenanceItensProfit,
+            'company' => $company,
+		);
+
+		return view('maintainence_pdf', $data);
 	}
 }

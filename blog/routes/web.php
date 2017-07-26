@@ -150,7 +150,11 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::get('jobcard/edit/{jobcard}/maintenance',  'JobCardsMaintenanceController@index');
 		Route::post('jobcard/edit/maintenance', 'JobCardsMaintenanceController@create');
 		Route::post('jobcard/edit/maintenance/update', 'JobCardsMaintenanceController@update');
-		Route::delete('jobcard/edit/maintenance/{maintenanceItem}', 'JobCardsMaintenanceController@delete');	
+		Route::delete('jobcard/edit/maintenance/{maintenanceItem}', 'JobCardsMaintenanceController@delete');
+		Route::get('jobcard/edit/maintenance/{maintenanceItem}/pdf',  'JobCardsMaintenanceController@generatePDF');
+		Route::get('jobcard/edit/maintenance/{maintenanceItem}/pdf/show',  'JobCardsMaintenanceController@displaypdf');
+		Route::post('maintainance/submit',  'JobCardsMaintenanceController@submitOrReverse');
+
 		
 
 	/**

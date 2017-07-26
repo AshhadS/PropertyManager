@@ -40,9 +40,16 @@
               </div>
 
               <div class="form-group">
-                <label class="col-sm-2 control-label">Cost Amount</label>
+                <label class="col-sm-2 control-label">Units</label>
                 <div class="col-sm-10">
-                  <input type="text" name="costAmount" class="form-control" placeholder="Cost Amount">
+                  <input type="text" name="units" class="form-control" placeholder="Units">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Cost</label>
+                <div class="col-sm-10">
+                  <input type="text" name="cost" class="form-control" placeholder="Cost">
                 </div>
               </div>
 
@@ -104,9 +111,17 @@
       </div>
     </div>
 
-    <button type="button" class="btn btn-primary pull-right add-btn" data-form-url="/jobcard/edit/maintenance" data-toggle="modal" data-target="#myModal">
-      <i class="fa fa-plus"></i> <b>Add Item</b>
-    </button>
+    <div class="pull-right">
+    <div class="container-fluid">
+      
+      <div class="row">
+        <button type="button" class="btn btn-primary pull-right add-btn <?php ($jobcard->isSubmitted == 1) ? print 'disabled' : false ?>" data-form-url="/jobcard/edit/maintenance" data-toggle="modal" data-target="#myModal">
+          <i class="fa fa-plus"></i> <b>Add Item</b>
+        </button>        
+      </div>
+    </div>
+      <?php ($jobcard->isSubmitted == 1) ? print '<p class="text-muted">Once the submit has been clicked item cant be changed</p>' : false ?>
+    </div>
     <br />
     <div class="row">
         <p class="m-title">Materials</p>
@@ -121,9 +136,11 @@
           <th>Description</th>
           <th>Comments</th>
           <th>Supplier</th>
+          <th class="amount-col">Units</th>
           <th class="amount-col">Cost</th>
-          <th class="amount-col">Margin</th>
           <th class="amount-col">Total</th>
+          <th class="amount-col">Margin</th>
+          <th class="amount-col">Net Total</th>
           <th class="amount-col">Actions</th>
         </tr>
         @foreach($maintenanceItensMaterial as $index => $item)
@@ -137,14 +154,16 @@
                {{App\Model\Supplier::find($item->supplierID)->supplierName}}
             @endif
             </td>
-            <td data-cost-val="{{$item->costAmount}}" class="amount-col">{{$item->costAmount}}</td>
-            <td data-margin-val="{{$item->margin}}" class="amount-col">{{$item->margin}}</td>
-            <td class="amount-col">{{$item-> totalAmount}}</td>
+            <td data-units-val="{{$item->units}}" class="amount-col">{{$item->units}}</td>
+            <td data-cost-val="{{$item->cost}}" class="amount-col">{{$item->cost}}</td>
+            <td class="amount-col">{{$item->total}}</td>
+            <td data-margin-val="{{$item->margin}}" class="amount-col">{{$item->margin}}%</td>
+            <td class="amount-col">{{$item-> netTotal}}</td>
             <td class="amount-col edit-button">
               <div class="inner">
-                <a class="btn bg-green btn-sm item-edit" href="#" data-form-url="/jobcard/edit/maintenance/update" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                <a class="btn bg-green btn-sm item-edit <?php ($jobcard->isSubmitted == 1) ? print 'disabled' : false ?>" href="#" data-form-url="/jobcard/edit/maintenance/update" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                 <form class="delete-form" method="POST" action="/jobcard/edit/maintenance/{{$item->itemID}}">
-                  <a href="#" class="delete-btn btn btn-danger btn-sm button--winona"><span><i class="fa fa-trash" aria-hidden="true"></i></span><span class="after">?</span></a>
+                  <a href="#" class="delete-btn btn btn-danger btn-sm button--winona <?php ($jobcard->isSubmitted == 1) ? print 'disabled' : false ?>"><span><i class="fa fa-trash" aria-hidden="true"></i></span><span class="after">?</span></a>
                   <input type="hidden" name="_method" value="DELETE"> 
                   <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 </form>
@@ -152,6 +171,19 @@
             </td>
           </tr>
         @endforeach
+        <tr class="success">
+            <td><b>Total</b></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="total-cell amount-col"></td>
+            <td class="total-cell amount-col"></td>
+            <td class="total-cell amount-col"></td>
+            <td class="total-cell amount-col"></td>
+            <td class="total-cell amount-col">{{$maintenanceItensMeterialsTotal}}</td>
+            <td class="amount-col edit-button"></td>
+          </tr>
       </tbody>
     </table>
     </div>
@@ -168,9 +200,11 @@
             <th>Description</th>
             <th>Comments</th>
             <th>Supplier</th>
+            <th class="amount-col">Units</th>
             <th class="amount-col">Cost</th>
-            <th class="amount-col">Margin</th>
             <th class="amount-col">Total</th>
+            <th class="amount-col">Margin</th>
+            <th class="amount-col">Net Total</th>
             <th class="amount-col">Actions</th>
           </tr>
 
@@ -185,22 +219,37 @@
                    {{App\Model\Supplier::find($item->supplierID)->supplierName}}
                 @endif
               </td>
-              <td data-cost-val="{{$item->costAmount}}" class="amount-col">{{$item->costAmount}}</td>
-              <td data-margin-val="{{$item->margin}}" class="amount-col">{{$item->margin}}</td>
-              <td class="amount-col">{{$item-> totalAmount}}</td>
+              <td data-unitss-val="{{$item->units}}" class="amount-col">{{$item->units}}</td>
+              <td data-cost-val="{{$item->cost}}" class="amount-col">{{$item->cost}}</td>
+              <td class="amount-col">{{$item->total}}</td>
+              <td data-margin-val="{{$item->margin}}" class="amount-col">{{$item->margin}}%</td>
+              <td class="amount-col">{{$item-> netTotal}}</td>
               <td class="amount-col edit-button">
-              <div class="inner">
-                <a class="btn bg-green btn-sm item-edit" href="#" data-form-url="/jobcard/edit/maintenance/update" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                <input type="hidden" class="values">
-                <form class="delete-form" method="POST" action="prop/6">
-                  <a href="#" class="delete-btn btn btn-danger btn-sm button--winona"><span><i class="fa fa-trash" aria-hidden="true"></i></span><span class="after">?</span></a>
-                  <input type="hidden" name="_method" value="DELETE"> 
-                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                </form>
-              </div>
-            </td>
+                <div class="inner">
+                  <a class="btn bg-green btn-sm item-edit <?php ($jobcard->isSubmitted == 1) ? print 'disabled' : false ?>" href="#" data-form-url="/jobcard/edit/maintenance/update" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                  <input type="hidden" class="values">
+                  <form class="delete-form" method="POST" action="prop/6">
+                    <a href="#" class="delete-btn btn btn-danger btn-sm button--winona <?php ($jobcard->isSubmitted == 1) ? print 'disabled' : false ?>"><span><i class="fa fa-trash" aria-hidden="true"></i></span><span class="after">?</span></a>
+                    <input type="hidden" name="_method" value="DELETE"> 
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                  </form>
+                </div>
+              </td>
             </tr>
           @endforeach
+          <tr class="success">
+            <td><b>Total</b></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="total-cell amount-col"></td>
+            <td class="total-cell amount-col"></td>
+            <td class="total-cell amount-col"></td>
+            <td class="total-cell amount-col"></td>
+            <td class="total-cell amount-col">{{$maintenanceItensLabourTotal}}</td>
+            <td class="amount-col edit-button"></td>
+          </tr>
         </tbody>
       </table>      
     </div>
@@ -212,18 +261,35 @@
         </thead>
         <tbody>
           <tr class="success">
-            <td><b>Total</b></td>
+            <td><b>Grand Total</b></td>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
-            <td class="total-cell amount-col">{{$maintenanceItensCostTotal}}</td>
-            <td class="total-cell amount-col">{{$maintenanceItensProfit}}</td>
+            <td class="total-cell amount-col"></td>
+            <td class="total-cell amount-col"></td>
             <td class="total-cell amount-col">{{$maintenanceItensTotal}}</td>
             <td class="amount-col edit-button"></td>
           </tr>
         </tbody>
       </table>
+    </div>
+      
+    <div class="container-fluid">
+      <div class="row">
+        <div class="button-group pull-right">
+          <form method="POST" action="/maintainance/submit">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="jobcardID" value="{{$jobcard->jobcardID}}">
+            <input type="hidden" name="flag" value="{{$jobcard->isSubmitted}}">
+            @if($jobcard->isSubmitted == 1)
+              <input class="btn btn-primary" type="submit" value="Reverse">
+            @else
+              <input class="btn btn-primary" type="submit" value="Submit">
+            @endif
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -237,12 +303,12 @@
         $('input[name="GLCode"]').val($(item).find('td[data-glcode-val]').data('glcode-val'));
         $('textarea[name="description"]').val($(item).find('td[data-description-val]').data('description-val'));
         $('select[name="supplierID"]').val($(item).find('td[data-supplier-val]').data('supplier-val'));
-        $('input[name="costAmount"]').val($(item).find('td[data-cost-val]').data('cost-val'));
+        $('input[name="units"]').val($(item).find('td[data-units-val]').data('units-val'));
+        $('input[name="cost"]').val($(item).find('td[data-cost-val]').data('cost-val'));
         $('input[name="margin"]').val($(item).find('td[data-margin-val]').data('margin-val'));
         $('textarea[name="comments"]').val($(item).find('td[data-comments-val]').data('comments-val'));
         $('select[name="itemType"]').val($(item).find('td[data-type-val]').data('type-val'));
         $('input[name="itemID"]').val($(item).find('td[data-itemid-val]').data('itemid-val'));
-        
 
       });
 

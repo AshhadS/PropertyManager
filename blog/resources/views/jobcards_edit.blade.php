@@ -43,10 +43,13 @@
               </div>
 
               <div class="col-md-4">
-                <a href="/jobcard/edit/{{$jobcard->jobcardID}}/maintenance" class="btn btn-default">Maintenance</a>
-                <a href="/jobcard/edit/{{$jobcard->jobcardID}}/invoice" class="btn btn-default">Invoice</a>
-                <a href="/jobcard/edit/{{$jobcard->jobcardID}}/payment" class="btn btn-default">Payment</a>
-                <a href="/jobcard/edit/{{$jobcard->jobcardID}}/reciept" class="btn btn-default">Reciept</a>
+              <br />
+                <div class="pull-right">
+                  <a href="/jobcard/edit/{{$jobcard->jobcardID}}/reciept" class="btn btn-default bg-purple">Reciept</a>
+                  <a href="/jobcard/edit/{{$jobcard->jobcardID}}/payment" class="btn btn-default bg-purple">Payment</a>
+                  <a href="/jobcard/edit/{{$jobcard->jobcardID}}/invoice" class="btn btn-default bg-purple">Invoice</a>
+                  <a href="/jobcard/edit/{{$jobcard->jobcardID}}/maintenance" class="btn btn-default bg-purple">Maintenance</a>
+                </div>
               </div>
             </div>
             <div class="row">
