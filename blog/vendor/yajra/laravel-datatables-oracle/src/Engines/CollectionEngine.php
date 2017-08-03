@@ -117,56 +117,32 @@ class CollectionEngine extends BaseEngine
             return;
         }
 
-        foreach ($this->request->orderableColumns() as $orderable) {
-            $column = $this->getColumnName($orderable['column']);
-
-            $options = SORT_NATURAL;
-            if ($this->isCaseInsensitive()) {
-                $options = SORT_NATURAL | SORT_FLAG_CASE;
-            }
-
-            $this->collection = $this->collection->sortBy(function ($row) use ($column) {
-                $data = $this->serialize($row);
-
-                return Arr::get($data, $column);
-            }, $options);
-
-            if ($orderable['direction'] == 'desc') {
-                $this->collection = $this->collection->reverse();
-            }
-        }
-    }
-
-    /**
-     * Perform global search.
-     *
-     * @return void
-     */
-    public function filtering()
-    {
-        $keyword = $this->request->keyword();
-
-        if ($this->isSmartSearch()) {
-            $this->smartGlobalSearch($keyword);
-
-            return;
-        }
-
-        $this->globalSearch($keyword);
-    }
-
-    /**
-     * Perform multi-term search by splitting keyword into
-     * individual words and searches for each of them.
-     *
-     * @param string $keyword
-     */
-    private function smartGlobalSearch($keyword)
-    {
-        $keywords = array_filter(explode(' ', $keyword));
-
-        foreach ($keywords as $keyword) {
-            $this->globalSearch($keyword);
+        $criteria = $this->request->orderableColumns();
+        if ($criteria) {
+            $comparer = function ($a, $b) use ($criteria) {
+                foreach ($criteria as $orderable) {
+                    $column = $this->getColumnName($orderable['column']);
+                    $direction = $orderable['direction'];
+                    if ($direction === 'desc') {
+                        $first = $b;
+                        $second = $a;
+                    } else {
+                        $first = $a;
+                        $second = $b;
+                    }
+                    if ($this->isCaseInsensitive()) {
+                        $cmp = strnatcasecmp($first[$column], $second[$column]);
+                    } else {
+                        $cmp = strnatcmp($first[$column], $second[$column]);
+                    }
+                    if ($cmp != 0) {
+                        return $cmp;
+                    }
+                }
+                // all elements were equal
+                return 0;
+            };
+            $this->collection = $this->collection->sort($comparer);
         }
     }
 
@@ -175,7 +151,7 @@ class CollectionEngine extends BaseEngine
      *
      * @param string $keyword
      */
-    private function globalSearch($keyword)
+    protected function globalSearch($keyword)
     {
         if ($this->isCaseInsensitive()) {
             $keyword = Str::lower($keyword);
@@ -190,6 +166,10 @@ class CollectionEngine extends BaseEngine
                 foreach ($this->request->searchableColumnIndex() as $index) {
                     $column = $this->getColumnName($index);
                     if (! $value = Arr::get($data, $column)) {
+                        continue;
+                    }
+
+                    if (is_array($value)) {
                         continue;
                     }
 
@@ -275,11 +255,46 @@ class CollectionEngine extends BaseEngine
      * Organizes works.
      *
      * @param bool $mDataSupport
-     * @param bool $orderFirst
      * @return \Illuminate\Http\JsonResponse
      */
-    public function make($mDataSupport = false, $orderFirst = true)
+    public function make($mDataSupport = false)
     {
-        return parent::make($mDataSupport, $orderFirst);
+        try {
+            $this->totalRecords = $this->totalCount();
+
+            if ($this->totalRecords) {
+                $data   = $this->getProcessedData($mDataSupport);
+                $output = $this->transform($data);
+
+                $this->collection = collect($output);
+                $this->ordering();
+                $this->filterRecords();
+                $this->paginate();
+
+                $this->revertIndexColumn($mDataSupport);
+            }
+
+            return $this->render($this->collection->values()->all());
+        } catch (\Exception $exception) {
+            return $this->errorResponse($exception);
+        }
+    }
+
+    /**
+     * Revert transformed DT_Row_Index back to it's original values.
+     *
+     * @param bool $mDataSupport
+     */
+    private function revertIndexColumn($mDataSupport)
+    {
+        if ($this->columnDef['index']) {
+            $index = $mDataSupport ? config('datatables.index_column', 'DT_Row_Index') : 0;
+            $start = (int) $this->request->input('start');
+            $this->collection->transform(function ($data) use ($index, &$start) {
+                $data[$index] = ++$start;
+
+                return $data;
+            });
+        }
     }
 }

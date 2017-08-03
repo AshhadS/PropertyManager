@@ -23,6 +23,13 @@ use Yajra\Datatables\Request;
 class QueryBuilderEngine extends BaseEngine
 {
     /**
+     * Filtered query results.
+     *
+     * @var mixed
+     */
+    protected $results;
+
+    /**
      * @param \Illuminate\Database\Query\Builder $builder
      * @param \Yajra\Datatables\Request $request
      */
@@ -68,18 +75,6 @@ class QueryBuilderEngine extends BaseEngine
     }
 
     /**
-     * Organizes works
-     *
-     * @param bool $mDataSupport
-     * @param bool $orderFirst
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function make($mDataSupport = false, $orderFirst = false)
-    {
-        return parent::make($mDataSupport, $orderFirst);
-    }
-
-    /**
      * Count total items.
      *
      * @return integer
@@ -120,44 +115,11 @@ class QueryBuilderEngine extends BaseEngine
     }
 
     /**
-     * Perform global search.
-     *
-     * @return void
-     */
-    public function filtering()
-    {
-        $keyword = $this->request->keyword();
-
-        if ($this->isSmartSearch()) {
-            $this->smartGlobalSearch($keyword);
-
-            return;
-        }
-
-        $this->globalSearch($keyword);
-    }
-
-    /**
-     * Perform multi-term search by splitting keyword into
-     * individual words and searches for each of them.
-     *
-     * @param string $keyword
-     */
-    private function smartGlobalSearch($keyword)
-    {
-        $keywords = array_filter(explode(' ', $keyword));
-
-        foreach ($keywords as $keyword) {
-            $this->globalSearch($keyword);
-        }
-    }
-
-    /**
      * Perform global search for the given keyword.
      *
      * @param string $keyword
      */
-    private function globalSearch($keyword)
+    protected function globalSearch($keyword)
     {
         $this->query->where(
             function ($query) use ($keyword) {
@@ -165,12 +127,12 @@ class QueryBuilderEngine extends BaseEngine
 
                 foreach ($this->request->searchableColumnIndex() as $index) {
                     $columnName = $this->getColumnName($index);
-                    if ($this->isBlacklisted($columnName)) {
+                    if ($this->isBlacklisted($columnName) && ! $this->hasCustomFilter($columnName)) {
                         continue;
                     }
 
                     // check if custom column filtering is applied
-                    if (isset($this->columnDef['filter'][$columnName])) {
+                    if ($this->hasCustomFilter($columnName)) {
                         $columnDef = $this->columnDef['filter'][$columnName];
                         // check if global search should be applied for the specific column
                         $applyGlobalSearch = count($columnDef['parameters']) == 0 || end($columnDef['parameters']) !== false;
@@ -216,6 +178,17 @@ class QueryBuilderEngine extends BaseEngine
                 }
             }
         );
+    }
+
+    /**
+     * Check if column has custom filter handler.
+     *
+     * @param  string $columnName
+     * @return bool
+     */
+    public function hasCustomFilter($columnName)
+    {
+        return isset($this->columnDef['filter'][$columnName]);
     }
 
     /**
@@ -561,7 +534,7 @@ class QueryBuilderEngine extends BaseEngine
                     $foreign = $pivot . '.' . $tablePK;
                     $other   = $related->getQualifiedKeyName();
 
-                    $lastQuery->addSelect($table . '.' . $eachRelation);
+                    $lastQuery->addSelect($table . '.' . $relationColumn);
                     $this->performJoin($table, $foreign, $other);
 
                     break;
@@ -585,7 +558,7 @@ class QueryBuilderEngine extends BaseEngine
                         $other   = $model->getQualifiedParentKeyName();
                     } else {
                         $foreign = $model->getQualifiedForeignKey();
-                        $other   = $model->getQualifiedOtherKeyName();
+                        $other   = $model->getQualifiedOwnerKeyName();
                     }
             }
             $this->performJoin($table, $foreign, $other);
@@ -643,6 +616,7 @@ class QueryBuilderEngine extends BaseEngine
             $sql = ! $this->isCaseInsensitive() ? 'REGEXP_LIKE( ' . $column . ' , ? )' : 'REGEXP_LIKE( LOWER(' . $column . ') , ?, \'i\' )';
             $this->query->whereRaw($sql, [$keyword]);
         } elseif ($this->database == 'pgsql') {
+            $column = $this->castColumn($column);
             $sql = ! $this->isCaseInsensitive() ? $column . ' ~ ?' : $column . ' ~* ? ';
             $this->query->whereRaw($sql, [$keyword]);
         } else {
@@ -667,11 +641,11 @@ class QueryBuilderEngine extends BaseEngine
         foreach ($this->request->orderableColumns() as $orderable) {
             $column = $this->getColumnName($orderable['column'], true);
 
-            if ($this->isBlacklisted($column)) {
+            if ($this->isBlacklisted($column) && ! $this->hasCustomOrder($column)) {
                 continue;
             }
 
-            if (isset($this->columnDef['order'][$column])) {
+            if ($this->hasCustomOrder($column)) {
                 $method     = $this->columnDef['order'][$column]['method'];
                 $parameters = $this->columnDef['order'][$column]['parameters'];
                 $this->compileColumnQuery(
@@ -723,6 +697,17 @@ class QueryBuilderEngine extends BaseEngine
     }
 
     /**
+     * Check if column has custom sort handler.
+     *
+     * @param string $column
+     * @return bool
+     */
+    protected function hasCustomOrder($column)
+    {
+        return isset($this->columnDef['order'][$column]);
+    }
+
+    /**
      * Get NULLS LAST SQL.
      *
      * @param  string $column
@@ -754,6 +739,21 @@ class QueryBuilderEngine extends BaseEngine
      */
     public function results()
     {
-        return $this->query->get();
+        return $this->results ?: $this->results = $this->query->get();
+    }
+
+    /**
+     * Add column in collection.
+     *
+     * @param string $name
+     * @param string|callable $content
+     * @param bool|int $order
+     * @return $this
+     */
+    public function addColumn($name, $content, $order = false)
+    {
+        $this->pushToBlacklist($name);
+
+        return parent::addColumn($name, $content, $order);
     }
 }
