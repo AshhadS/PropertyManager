@@ -112,6 +112,7 @@ $(function() {
     });
 
     initializeTeleValidation();
+    initializePercentageValidation()
 
     // Remove active if a link with no tab is clicked example property owner edit
     $('.edit-remove-actives').on('click', function(){
@@ -141,6 +142,7 @@ $(function() {
         });
 
         initializeTeleValidation();
+        initializePercentageValidation()
 
 
     });
@@ -163,3 +165,15 @@ function initializeTeleValidation(){
         this.setCustomValidity("");
     };
 }
+function initializePercentageValidation(){
+    // Remove alphabets
+    $('.percentage').keyup(function () { 
+        this.value = this.value.replace(/[^0-9\.]/g,'');
+    });
+
+    // max 3 digits
+    $(".percentage").attr('maxlength', '3');
+}
+
+// Margin validation
+

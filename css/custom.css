@@ -649,6 +649,20 @@ span.profile-image img {
   color: white;
 }
 
+.btn.blue-border {
+  border: 2px solid #2980b9;
+  margin-left: 5px;
+  font-weight: bold;
+  color: #2980b9;
+  background: white;
+  transition: all 0.5s ease;
+}
+
+.btn.blue-border:hover {
+  color: white;
+  background: #2980b9;
+}
+
 /*
 .add-user {
   //width: 400px;

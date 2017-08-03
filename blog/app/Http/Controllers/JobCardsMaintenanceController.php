@@ -95,7 +95,7 @@ class JobCardsMaintenanceController extends Controller
 	    return Redirect::to('jobcard/edit/'.$jobcardid.'/maintenance');
 	}
 
-	function submitOrReverse(Request $request){
+	function submitMaintenance(Request $request){
 		$jobcard = JobCard::find($request->jobcardID);
 		$jobcard->isSubmitted = ($request->flag == '1') ? '0' : '1';
 		$jobcard->save();

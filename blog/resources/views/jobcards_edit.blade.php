@@ -45,10 +45,10 @@
               <div class="col-md-4">
               <br />
                 <div class="pull-right">
-                  <a href="/jobcard/edit/{{$jobcard->jobcardID}}/reciept" class="btn btn-default bg-purple">Reciept</a>
-                  <a href="/jobcard/edit/{{$jobcard->jobcardID}}/payment" class="btn btn-default bg-purple">Payment</a>
-                  <a href="/jobcard/edit/{{$jobcard->jobcardID}}/invoice" class="btn btn-default bg-purple">Invoice</a>
-                  <a href="/jobcard/edit/{{$jobcard->jobcardID}}/maintenance" class="btn btn-default bg-purple">Maintenance</a>
+                  <a href="/jobcard/edit/{{$jobcard->jobcardID}}/reciept" class="btn blue-border">Reciept</a>
+                  <a href="/jobcard/edit/{{$jobcard->jobcardID}}/payment" class="btn blue-border">Payment</a>
+                  <a href="/jobcard/edit/{{$jobcard->jobcardID}}/invoice" class="btn blue-border">Invoice</a>
+                  <a href="/jobcard/edit/{{$jobcard->jobcardID}}/maintenance" class="btn blue-border">Maintenance</a>
                 </div>
               </div>
             </div>
