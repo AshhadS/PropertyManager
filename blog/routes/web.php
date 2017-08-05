@@ -27,6 +27,8 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	 */
 	Route::get('/', 'DashboardController@index');
 	Route::get('/dashboard', 'DashboardController@index');
+	Route::get('/agreement/getfields/{agreementid}','DashboardController@getFields');
+	
 
 	Route::get('/todo', function () {
 	    return view('todo');
@@ -153,17 +155,7 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::delete('jobcard/edit/maintenance/{maintenanceItem}', 'JobCardsMaintenanceController@delete');
 		Route::get('jobcard/edit/maintenance/{maintenanceItem}/pdf',  'JobCardsMaintenanceController@generatePDF');
 		Route::get('jobcard/edit/maintenance/{maintenanceItem}/pdf/show',  'JobCardsMaintenanceController@displaypdf');
-		// Route::post('maintainance/submit',  'JobCardsMaintenanceController@submitMaintenance');
-		Route::post('maintainance/submit',  'InvoiceController@submitButtonHandler');
-
-		Route::get('test',  function(){
-			$t = App\Model\Maintenance::where('jobcardID', 13)->sum('netTotal');
-			dd($t);
-		});
-
-		Route::get('jobcard/edit/{jobcard}/invoice', 'InvoiceController@supplierIndex');
-		Route::get('invoice/{invoiceID}/display', 'InvoiceController@supplierInvoicePDF');
-		Route::get('customer/invoice/{invoiceID}/display', 'InvoiceController@customerInvoicePDF');
+		Route::post('maintainance/submit',  'JobCardsMaintenanceController@submitOrReverse');
 
 		Route::post('update/customer-invoice',  'InvoiceController@updateCustomerInvoice');
 		Route::post('update/supplier-invoice',  'InvoiceController@updateSupplierInvoice');

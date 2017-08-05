@@ -80,6 +80,7 @@
 		</div>
 		<!-- ./col -->
 	</div>
+
 	<div class="row">
 	    <div class="col-md-4">
 	      <div class="box box-primary">
@@ -116,6 +117,58 @@
 	    </div>
 	</div>
 </div>
+
+<!-- Expire Agreements -->
+<div class="row">
+	<div class="col-md-4">
+	<div class="box box-primary">		
+        <div class="box-header with-border">
+          <h3 class="box-title text-light-blue"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;EXPIRING AGREEMENTS</h3>
+          <div class="box-tools pull-right">
+            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+          </div><!-- /.box-tools -->
+        </div><!-- /.box-header -->
+        <div class="box-body">
+          	<ul class="products-list product-list-in-box">
+
+          	@foreach($ExpiringAgreemntsOneMonth as $agreement)
+  				<li class="item">
+  				 	<div>
+                    	<a href="#" data-toggle="modal" data-target="#agreement-viewModal" data-id="{{$agreement->agreementID}}" class="attachment-edit-btn product-title">{{ $agreement->pPropertyName }}
+
+                      	<span class="label label-info pull-right">Flat No : {{ $agreement->unitNumber }}</span></a>        	
+                  	</div>
+  				</li>
+  				@component('agreements_view',['agreement' => $agreement,'units' => $units, 'properties' => $properties, 'tenants' => $tenants, 'paymentypes' => $paymentypes])
+        		@endcomponent
+  			@endforeach
+
+  				<li class="item">
+  					<div>
+                    	<a class="product-title">Agreements Expiring in 31-60 days
+                      	<span class="label label-danger pull-right">{{ $ExpiringAgreemntsTwoMonthCount }}</span></a>
+                  	</div>
+  				</li>
+  				<li class="item">
+  					<div>
+                    	<a class="product-title">Agreements Expiring in 61-90 days
+                      	<span class="label label-danger pull-right">{{ $ExpiringAgreemntsThreeMonthCount }}</span></a>
+                    	
+                  	</div>
+
+  				</li>
+			</ul>
+        </div><!-- /.box-body -->
+       
+        <div class="box-footer text-center">
+              <a target="_blank" href="/agreements" class="uppercase">View All Agreements</a>
+        </div>
+            <!-- /.box-footer -->
+      </div><!-- /.box -->
+     </div><!-- /Coloumn -->
+ </div><!-- /Row -->
+
+
 @endsection
 
 @push('scripts')
@@ -170,6 +223,8 @@ $(function() {
 	  
 	  console.log(perc);
 	}
+
+
 
 });
 </script>
