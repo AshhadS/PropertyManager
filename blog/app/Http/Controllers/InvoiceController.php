@@ -50,7 +50,7 @@ class InvoiceController extends Controller
 		$invoice->lastUpdatedByUserID = Sentinel::getUser()->id;
 
 		$invoice->save();
-		$invoice->invoiceSystemCode = sprintf("SINV%'03d\n", $invoice->supplierInvoiceID);
+		$invoice->invoiceSystemCode = sprintf("SINV%'05d\n", $invoice->supplierInvoiceID);
 		$invoice->save();
 	}
 
@@ -145,7 +145,7 @@ class InvoiceController extends Controller
 			$invoice->amount = $this->getJobcardGrandTotal($jobcard->jobcardID);
 			$invoice->invoiceDate = date("Y-m-d H:i:s");
 			$invoice->lastUpdatedByUserID = Sentinel::getUser()->id;
-			$invoice->CustomerInvoiceSystemCode = sprintf("CINV%'03d\n", $invoice->customerInvoiceID);
+			$invoice->CustomerInvoiceSystemCode = sprintf("CINV%'05d\n", $invoice->customerInvoiceID);
 
 
 			$invoice->save();
