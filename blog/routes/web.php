@@ -165,6 +165,10 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::get('invoice/{invoiceID}/display', 'InvoiceController@supplierInvoicePDF');
 		Route::get('customer/invoice/{invoiceID}/display', 'InvoiceController@customerInvoicePDF');
 
+		Route::post('update/customer-invoice',  'InvoiceController@updateCustomerInvoice');
+		Route::post('update/supplier-invoice',  'InvoiceController@updateSupplierInvoice');
+
+
 		
 
 	/**
