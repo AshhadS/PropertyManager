@@ -157,6 +157,10 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::get('jobcard/edit/maintenance/{maintenanceItem}/pdf/show',  'JobCardsMaintenanceController@displaypdf');
 		Route::post('maintainance/submit',  'JobCardsMaintenanceController@submitOrReverse');
 
+		Route::post('update/customer-invoice',  'InvoiceController@updateCustomerInvoice');
+		Route::post('update/supplier-invoice',  'InvoiceController@updateSupplierInvoice');
+
+
 		
 
 	/**

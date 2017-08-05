@@ -50,6 +50,8 @@ class InvoiceController extends Controller
 		$invoice->lastUpdatedByUserID = Sentinel::getUser()->id;
 
 		$invoice->save();
+		$invoice->invoiceSystemCode = sprintf("SINV%'03d\n", $invoice->supplierInvoiceID);
+		$invoice->save();
 	}
 
 	// Adds all the supliers totals needed for the invoice table
@@ -69,11 +71,6 @@ class InvoiceController extends Controller
 		}else{ //Delete all the invoices for that jobcard
 			SupplierInvoice::where('jobcardID', $request->jobcardID)->delete();
 		}
-
-		// Change the isSubmitted flag everytime submit or reverse is clicked
-		$jobcard = JobCard::find($request->jobcardID);
-		$jobcard->isSubmitted = ($request->flag == '1') ? '0' : '1';
-		$jobcard->save();
 	}
 
 	// Creates the supplier invoice page
@@ -82,7 +79,7 @@ class InvoiceController extends Controller
     	$supplierInvoices = SupplierInvoice::where('jobcardID', $jobcard->jobcardID)->get();
     	$customerInvoices = CustomerInvoice::where('jobcardID', $jobcard->jobcardID)->get();
     	
-		return view('supplier_invoices', [
+		return view('jobcard_invoices', [
             'jobcard' => $jobcard,
             'supplierInvoices' => $supplierInvoices,
             'customerInvoices' => $customerInvoices,
@@ -117,24 +114,44 @@ class InvoiceController extends Controller
 		// return view('invoice_pdf', $data);
 	}
 
+	function updateSupplierInvoice(Request $request){
+		// dd($request->invoiceDate);
+		$invoice = SupplierInvoice::find($request->supplierInvoiceID);
+		$invoice->supplierInvoiceCode = $request->supplierInvoiceCode;
+		$invoice->invoiceDate = date("Y-m-d", strtotime($request->invoiceDate));
+		$invoice->save();
+		$jobcardID = $invoice->jobcardID;
+		
+		return Redirect::to('/jobcard/edit/'.$jobcardID.'/invoice');
+	}
+
+
+
 	/******************************************************************************************
 	 * 
 	 * Customer Invoice
 	 * 
 	 *******************************************************************************************/
 	function createCustomerInvoice(Request $request){
-		$jobcard = Jobcard::find($request->jobcardID);
-		$invoice = new CustomerInvoice();
-		$invoice->jobcardID = $request->jobcardID;
-		$invoice->unitID = $jobcard->unitID;
-		$invoice->PropertiesID = $jobcard->PropertiesID;
-		$invoice->propertyOwnerID = Property::find($jobcard->PropertiesID)->rentalOwnerID;
-		$invoice->description = 'invoice for '. $jobcard->jobCardCode;
-		$invoice->amount = $this->getJobcardGrandTotal($jobcard->jobcardID);
-		$invoice->invoiceDate = date("Y-m-d H:i:s");
-		$invoice->lastUpdatedByUserID = Sentinel::getUser()->id;
+		// if 0 is returned from isSubmitted then generate the suppliers invoice 
+		if($request->flag == '0'){
+			$jobcard = Jobcard::find($request->jobcardID);
+			$invoice = new CustomerInvoice();
+			$invoice->jobcardID = $request->jobcardID;
+			$invoice->unitID = $jobcard->unitID;
+			$invoice->PropertiesID = $jobcard->PropertiesID;
+			$invoice->propertyOwnerID = Property::find($jobcard->PropertiesID)->rentalOwnerID;
+			$invoice->description = 'invoice for '. $jobcard->jobCardCode;
+			$invoice->amount = $this->getJobcardGrandTotal($jobcard->jobcardID);
+			$invoice->invoiceDate = date("Y-m-d H:i:s");
+			$invoice->lastUpdatedByUserID = Sentinel::getUser()->id;
+			$invoice->CustomerInvoiceSystemCode = sprintf("CINV%'03d\n", $invoice->customerInvoiceID);
 
-		$invoice->save();
+
+			$invoice->save();
+		}else{ //Delete all the invoices for that jobcard
+			CustomerInvoice::where('jobcardID', $request->jobcardID)->delete();
+		}
 	}
 
 	// Function that generates the customer invoice pdf 
@@ -164,6 +181,17 @@ class InvoiceController extends Controller
 	// Returns to cost + Margin for a jobcard
 	function getJobcardGrandTotal($jobcardID){
 		return Maintenance::where('jobcardID', $jobcardID)->sum('netTotal');
+	}
+
+	function updateCustomerInvoice(Request $request){
+		$invoice = CustomerInvoice::find($request->customerInvoiceID);
+		$invoice->invoiceDate = date("Y-m-d", strtotime($request->invoiceDate));
+		
+		$invoice->save();
+		$jobcardID = $invoice->jobcardID;
+
+		
+		return Redirect::to('/jobcard/edit/'.$jobcardID.'/invoice');
 	}
 
 
