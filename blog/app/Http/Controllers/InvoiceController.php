@@ -50,7 +50,7 @@ class InvoiceController extends Controller
 		$invoice->lastUpdatedByUserID = Sentinel::getUser()->id;
 
 		$invoice->save();
-		$invoice->supplierSystemCode = sprintf("SINV%'03d\n", $invoice->supplierInvoiceID);
+		$invoice->invoiceSystemCode = sprintf("SINV%'03d\n", $invoice->supplierInvoiceID);
 		$invoice->save();
 	}
 
@@ -115,10 +115,10 @@ class InvoiceController extends Controller
 	}
 
 	function updateSupplierInvoice(Request $request){
-		dd($request->invoiceDate);
+		// dd($request->invoiceDate);
 		$invoice = SupplierInvoice::find($request->supplierInvoiceID);
-		$invoice->invoiceCode = $request->invoiceCode;
-		$invoice->invoiceDate = date("d-m-Y", strtotime($request->invoiceDate));
+		$invoice->supplierInvoiceCode = $request->supplierInvoiceCode;
+		$invoice->invoiceDate = date("Y-m-d", strtotime($request->invoiceDate));
 		$invoice->save();
 		$jobcardID = $invoice->jobcardID;
 		
@@ -145,6 +145,8 @@ class InvoiceController extends Controller
 			$invoice->amount = $this->getJobcardGrandTotal($jobcard->jobcardID);
 			$invoice->invoiceDate = date("Y-m-d H:i:s");
 			$invoice->lastUpdatedByUserID = Sentinel::getUser()->id;
+			$invoice->CustomerInvoiceSystemCode = sprintf("CINV%'03d\n", $invoice->customerInvoiceID);
+
 
 			$invoice->save();
 		}else{ //Delete all the invoices for that jobcard
@@ -183,8 +185,7 @@ class InvoiceController extends Controller
 
 	function updateCustomerInvoice(Request $request){
 		$invoice = CustomerInvoice::find($request->customerInvoiceID);
-		$invoice->invoiceCode = $request->invoiceCode;
-		$invoice->invoiceDate = date("d-m-Y", strtotime($request->invoiceDate));
+		$invoice->invoiceDate = date("Y-m-d", strtotime($request->invoiceDate));
 		
 		$invoice->save();
 		$jobcardID = $invoice->jobcardID;

@@ -47,8 +47,8 @@
         @foreach($supplierInvoices as $index => $supplierInvoice)
           <tr class="maintenance-item">
             <td> {{++$index}} </td>
-            <td> {{$supplierInvoice->supplierSystemCode}} </td>
-            <td class="invoice-code"> {{$supplierInvoice->invoiceCode}} </td>
+            <td> {{$supplierInvoice->invoiceSystemCode}} </td>
+            <td class="invoice-code"> {{$supplierInvoice->supplierInvoiceCode}} </td>
             <td data-supplier-val="{{$supplierInvoice->supplierID}}">
               @if(App\Model\Supplier::find($supplierInvoice->supplierID) && $supplierInvoice->supplierID != 0)
                  {{App\Model\Supplier::find($supplierInvoice->supplierID)->supplierName}}
@@ -73,7 +73,6 @@
       <tr class="t-head">
         <th class="amount-col">#</th>
         <th>System Code</th>
-        <th>Invoice Code</th>
         <th>Property Owner</th>
         <th>Invoice Date</th>
         <th>Payment Recieved</th>
@@ -84,8 +83,7 @@
       @foreach($customerInvoices as $index => $customerInvoice)
           <tr class="maintenance-item">
             <td> {{++$index}} </td>
-            <td> {{$supplierInvoice->supplierSystemCode}} </td>
-            <td class="invoice-code"> {{$customerInvoice->invoiceCode}} </td>
+            <td> {{$customerInvoice->CustomerInvoiceSystemCode}} </td>
             <td data-supplier-val="{{$customerInvoice->supplierID}}">
               @if(App\Model\RentalOwner::find($customerInvoice->propertyOwnerID) && $customerInvoice->propertyOwnerID != 0)
                  {{App\Model\RentalOwner::find($customerInvoice->propertyOwnerID)->firstName}} {{App\Model\RentalOwner::find($customerInvoice->propertyOwnerID)->lastName}}
@@ -113,12 +111,6 @@
               <label class="col-sm-2 control-label">Invoice Date</label>
               <div class="col-sm-10">
                 <input type="text" name="invoiceDate" class="form-control datepicker" placeholder="Invoice Date">
-              </div>
-            </div>
-            <div class="form-group clearfix">
-              <label class="col-sm-2 control-label">Invoice Code</label>
-              <div class="col-sm-10">
-                <input type="text" name="invoiceCode" class="form-control" placeholder="Code Enterable by the system">
               </div>
             </div>
             <div class="box-footer">
@@ -150,7 +142,7 @@
             <div class="form-group clearfix">
               <label class="col-sm-2 control-label">Invoice Code</label>
               <div class="col-sm-10">
-                <input type="text" name="invoiceCode" class="form-control" placeholder="Code Enterable by the system">
+                <input type="text" name="supplierInvoiceCode" class="form-control" placeholder="Code Enterable by the system">
               </div>
             </div>
             <div class="box-footer">
@@ -171,7 +163,7 @@
     $(function() {
       $('.supplier-edit-invoice').on('click', function(){
         $('[name="invoiceDate"]').val($(this).closest('tr').find('.invoice-date').text());
-        $('[name="invoiceCode"]').val($(this).closest('tr').find('.invoice-code').text());
+        $('[name="supplierInvoiceCode"]').val($(this).closest('tr').find('.invoice-code').text());
         $('[name="supplierInvoiceID"]').val($(this).data('id'));
 
         // $('[name=" paymentPaidYN"]').val($(this).closest('tr').find('.paid'));
@@ -179,7 +171,6 @@
       });
       $('.customer-edit-invoice').on('click', function(){
         $('[name="invoiceDate"]').val($(this).closest('tr').find('.invoice-date').text());
-        $('[name="invoiceCode"]').val($(this).closest('tr').find('.invoice-code').text());
         $('[name="customerInvoiceID"]').val($(this).data('id'));
       });
     });
