@@ -18,8 +18,8 @@ class JobCardsMaintenanceController extends Controller
     	$maintenanceItensMaterial = Maintenance::where('jobcardID', $jobcard->jobcardID)->where('itemType', 1)->get();
     	$maintenanceItensLabour = Maintenance::where('jobcardID', $jobcard->jobcardID)->where('itemType', 2)->get();
     	$maintenanceItensTotal = Maintenance::where('jobcardID', $jobcard->jobcardID)->sum('netTotal');
-    	$maintenanceItensMeterialsTotal = Maintenance::where('itemType', 1)->sum('netTotal');
-    	$maintenanceItensLabourTotal = Maintenance::where('itemType', 2)->sum('netTotal');
+    	$maintenanceItensMeterialsTotal = Maintenance::where('itemType', 1)->where('jobcardID', $jobcard->jobcardID)->sum('netTotal');
+    	$maintenanceItensLabourTotal = Maintenance::where('itemType', 2)->where('jobcardID', $jobcard->jobcardID)->sum('netTotal');
 
     	$jobcardsAll = JobCard::all();
     	$suppliers = Supplier::all();

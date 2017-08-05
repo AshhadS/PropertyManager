@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
   <h3>{{ $rentalowner->firstName}}  {{ $rentalowner->lastName}}</h3>
-  <p role="presentation"><a href="#edit" class='edit-remove-actives' aria-controls="edit" role="tab" data-toggle="tab">edit</a></p>
+  <a role="presentation" href="#edit" class='edit-remove-actives pull-right' aria-controls="edit" role="tab" data-toggle="tab">edit</a>
 </div>
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
@@ -70,7 +70,7 @@
                 <h4 class="modal-title" id="myModalLabel">Attachment</h4>
               </div>
               <div class="modal-body">
-                <div class="box box-info">
+                <div class="box">
                     <div class="box-header with-border">
                       <h3 class="box-title">Add Attachment</h3>
                     </div>
