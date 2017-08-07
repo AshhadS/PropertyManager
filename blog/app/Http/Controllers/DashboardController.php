@@ -9,6 +9,11 @@ use App\Model\RentalOwner;
 use App\Model\Tenant;
 use App\Model\JobCard;
 use App\Model\JobCardStatus;
+use App\Model\ExpiringAgreemntsOneMonth;
+use App\Model\ExpiringAgreemntsTwoMonth;
+use App\Model\ExpiringAgreemntsThreeMonth;
+use App\Model\Agreement;
+use App\Model\PaymentType;
 use Debugbar;
 use Datatables;
 use Sentinel;
@@ -25,8 +30,19 @@ class DashboardController extends Controller
 		$tenantsCount = Tenant::count();
 		$jobcardsCount = JobCard::count();
 
+		$units = Unit::all();
+    	$properties = Property::all();
+    	$tenants = Tenant::all();
+        $paymentypes = PaymentType::all();
+        $agreements = Agreement::all();
+
 		$jobCardStatusAll = JobCardStatus::all();
         $jobCardStatusCount = array();
+
+        //Expire Agreements
+        $ExpiringAgreemntsTwoMonthCount=ExpiringAgreemntsTwoMonth::count();
+        $ExpiringAgreemntsThreeMonthCount=ExpiringAgreemntsThreeMonth::count();
+        $ExpiringAgreemntsOneMonth = ExpiringAgreemntsOneMonth::all();
 
         foreach ($jobCardStatusAll as $status) {
             $count = JobCard::where('jobcardStatusID', $status->jobcardStatusID)->count();
@@ -40,6 +56,19 @@ class DashboardController extends Controller
 	        'tenantsCount' => $tenantsCount,
 	        'jobcardsCount' => $jobcardsCount,
 	        'jobCardStatusCount' => $jobCardStatusCount,
+	        'ExpiringAgreemntsThreeMonthCount' => $ExpiringAgreemntsThreeMonthCount,
+	        'ExpiringAgreemntsTwoMonthCount' => $ExpiringAgreemntsTwoMonthCount,
+	        'ExpiringAgreemntsOneMonth' => $ExpiringAgreemntsOneMonth,
+	        'units' => $units,
+	        'properties' => $properties,
+	        'tenants' => $tenants,
+	        'paymentypes' => $paymentypes,
+	        'agreements' => $agreements,
 	    ]);
 	}
+
+	 function getFields($agreementid){
+        $agreement = Agreement::where('agreementID', $agreementid)->get();
+        return $agreement;
+    }
 }
