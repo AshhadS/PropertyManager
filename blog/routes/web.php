@@ -160,6 +160,43 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::post('update/customer-invoice',  'InvoiceController@updateCustomerInvoice');
 		Route::post('update/supplier-invoice',  'InvoiceController@updateSupplierInvoice');
 
+		/**
+		 * Jobcard Payment
+		 */
+		Route::get('jobcard/edit/{jobcard}/invoice',  'InvoiceController@supplierIndex');
+
+
+		/**
+		 * Jobcard Payment
+		 */
+		Route::get('jobcard/edit/{jobcard}/payment',  'JobCardPaymentController@index');
+		Route::post('jobcard/edit/maintenance/{invoice}',  'JobCardPaymentController@getInvoiceItems');
+		Route::post('jobcard/edit/maintenance/{invoice}/amount',  'JobCardPaymentController@getInvoiceAmount');
+		Route::post('/jobcard/payment',  'JobCardPaymentController@createPayment');
+
+
+
+		/**
+		 * Jobcard Receipt
+		 */
+		Route::get('jobcard/edit/{jobcard}/receipt',  'JobcardReceiptController@index');
+		Route::post('jobcard/edit/maintenance/receipt/{invoice}',  'JobcardReceiptController@getInvoiceItems');
+		Route::post('jobcard/edit/maintenance/receipt/{invoice}/amount',  'JobcardReceiptController@getInvoiceAmount');
+		Route::post('/jobcard/receipt',  'JobcardReceiptController@createReceipt');
+
+
+
+
+		
+		Route::get('test', function(){
+			$invoice = 44;		
+			// Check if payment has been made before
+			$invoiceAmount = App\Model\SupplierInvoice::find($invoice)->amount;
+			$paidAmountRef =  App\Model\JobcardPayment::where('supplierInvoiceID', $invoice)->first();
+			$paidAmount = ($paidAmountRef) ? $paidAmountRef->paymentAmount : 0;
+			$finalAmount = $invoiceAmount - $paidAmount;
+			dd($finalAmount);	
+		});
 
 		
 

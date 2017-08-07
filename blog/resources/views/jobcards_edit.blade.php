@@ -45,7 +45,7 @@
               <div class="col-md-4">
               <br />
                 <div class="pull-right">
-                  <a href="/jobcard/edit/{{$jobcard->jobcardID}}/reciept" class="btn blue-border">Reciept</a>
+                  <a href="/jobcard/edit/{{$jobcard->jobcardID}}/receipt" class="btn blue-border">Reciept</a>
                   <a href="/jobcard/edit/{{$jobcard->jobcardID}}/payment" class="btn blue-border">Payment</a>
                   <a href="/jobcard/edit/{{$jobcard->jobcardID}}/invoice" class="btn blue-border">Invoice</a>
                   <a href="/jobcard/edit/{{$jobcard->jobcardID}}/maintenance" class="btn blue-border">Maintenance</a>

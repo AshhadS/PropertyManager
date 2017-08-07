@@ -1,4 +1,7 @@
-/*required field styles*/
+html, body {
+  font-size: 12px;
+}
+
 .hide-element {
   display: none;
 }
@@ -33,7 +36,7 @@
 }
 
 .remove-margin {
-  margin-bottom: 0;
+  margin: 0;
 }
 
 .clear-floats {
@@ -709,4 +712,22 @@ table.m-item .amount-col, table.m-item .amount-col {
 .table-striped > tbody > tr.t-head {
   background: #2980b9;
   color: white;
+}
+
+.add-item {
+  cursor: pointer;
+}
+
+.main-table {
+  display: table;
+  float: left;
+  width: 100%;
+}
+
+.maintenance-item.new-item {
+  display: table-row;
+}
+
+.table-col {
+  display: table-cell;
 }

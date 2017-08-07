@@ -104,13 +104,13 @@ class JobCardsController extends Controller
 	    ($request->PropertiesID != 0) ? $jobcard->PropertiesID = $request->PropertiesID : false; // do not save if 0 was selected
 	    $jobcard->rentalOwnerID = $request->rentalOwnerID;
 	    $jobcard->tenantsID = $request->tenantsID;
-	    $jobcard->unitID =$request->unitID;
+	    $jobcard->unitID = $request->unitID;
 	    $jobcard->companyID = Sentinel::getUser()->companyID;
 	    $jobcard->documentID = 5;
         $jobcard->serialNo = 0;
         $jobcard->jobCardCode = '#JC-4002';
-        $jobcard->priorityID = null;
-        $jobcard->jobcardTypeID = null;
+        $jobcard->priorityID = $request->priorityID;
+        $jobcard->jobcardTypeID = $request->jobcardTypeID;
         $jobcard->createdByUserName = Sentinel::getUser()->first_name;
 
 	

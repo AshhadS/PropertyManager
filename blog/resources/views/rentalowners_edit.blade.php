@@ -3,8 +3,11 @@
 @section('content')
 
 <div class="container-fluid">
-  <h3>{{ $rentalowner->firstName}}  {{ $rentalowner->lastName}}</h3>
-  <a role="presentation" href="#edit" class='edit-remove-actives pull-right' aria-controls="edit" role="tab" data-toggle="tab">edit</a>
+  <h3 class="pull-left">{{ $rentalowner->firstName}}  {{ $rentalowner->lastName}}</h3>
+  <br />
+  <br />
+  <br />
+  <a role="presentation" href="#edit" class='edit-remove-actives pull-right btn btn-info' aria-controls="edit" role="tab" data-toggle="tab"><i class="fa fa-pencil" aria-hidden="true"></i> edit</a>
 </div>
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
