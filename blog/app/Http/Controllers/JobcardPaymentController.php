@@ -57,11 +57,11 @@ class JobcardPaymentController extends Controller
 	function getInvoiceAmount($invoice){
 		// Check if payment has been made before
 		$invoiceAmount = SupplierInvoice::find($invoice)->amount;
-		// $paidAmountRef =  JobcardPayment::where('supplierInvoiceID', $invoice)->get();
-		// $paidAmount = ($paidAmountRef) ? $paidAmountRef->paymentAmount : 0;
-		// $finalAmount = $invoiceAmount - $paidAmount
-		return $invoiceAmount;
+		$paidAmount = 0;
+		if(JobcardPayment::where('supplierInvoiceID', $invoice)){
+			$paidAmount = JobcardPayment::where('supplierInvoiceID', $invoice)->sum('paymentAmount');
+		}
+		$finalAmount = $invoiceAmount - $paidAmount;
+		return $finalAmount;		
 	}
-
-
 }

@@ -22,8 +22,13 @@
       </div>
     </div>
   </div>
+
   <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#receipt">Add Receipt</button>
+  <div class="col-md-12">
+    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#receipt">Add Receipt</button>
+    <br />
+    <br />
+  </div>
 
 
     <table class="m-item table table-striped">
@@ -62,8 +67,8 @@
                 <input type="hidden" name="jobcardID" value="{{$jobcard->jobcardID}}" >
                 {{ csrf_field() }}
                 <div class="form-group clearfix">
-                  <label class="col-sm-2 control-label">Select Customer</label>
-                  <div class="col-sm-10">
+                  <label class="col-sm-3 control-label">Select Customer</label>
+                  <div class="col-sm-9">
                     <select class="form-control customer-field" name="customerID">
                       <option value="0">Select Customer</option>
                       @foreach($customers as $customer)
@@ -73,22 +78,22 @@
                   </div>
                 </div>
                 <div class="form-group clearfix">
-                  <label class="col-sm-2 control-label">Select Invoice</label>
-                  <div class="col-sm-10">
+                  <label class="col-sm-3 control-label">Select Invoice</label>
+                  <div class="col-sm-9">
                     <select class="form-control invoice-field" name="invoiceID">
                       <option value="0">Select Invoice</option>
                     </select>
                   </div>
                 </div>
                 <div class="form-group clearfix">
-                  <label class="col-sm-2 control-label">Enter Amount</label>
-                  <div class="col-sm-10">
+                  <label class="col-sm-3 control-label">Enter Amount</label>
+                  <div class="col-sm-9">
                     <input type="text" name="receiptAmount" class="form-control">
                   </div>
                 </div>              
                 <div class="form-group clearfix">
-                  <label class="col-sm-2 control-label">Payment Type</label>
-                  <div class="col-sm-10">
+                  <label class="col-sm-3 control-label">Payment Type</label>
+                  <div class="col-sm-9">
                     <select class="form-control payemnt-type-field" name="paymentTypeID">
                       @foreach($paymentTypes as $type)
                         <option value="{{$type->paymentTypeID}}">{{$type->paymentDescription}}</option>
@@ -147,13 +152,21 @@
         $('.invoice-field').closest('.form-group').after(function(){
           console.log(data); 
           return `<div class="form-group clearfix">
-                    <label class="col-sm-2 control-label">Amount Recievable</label>
-                    <div class="col-sm-10">
+                    <label class="col-sm-3 control-label">Amount Recievable</label>
+                    <div class="col-sm-9">
                       <input type="text" name="customerInvoiceAmount" readonly class="form-control" value="${data}">
                     </div>
                   </div>`;
         });        
       });
+    });
+    $('.modal form').on('submit', function(e){
+      var dueAmount = parseFloat($('[name="customerInvoiceAmount"]').val());
+      var received = parseFloat($('[name="receiptAmount"]').val());
+      if(received > dueAmount){
+        e.preventDefault();
+        alert('Cannot receive more that due amount: '+received);
+      }
     });
   </script>
 @endpush

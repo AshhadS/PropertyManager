@@ -544,7 +544,7 @@ a.paginate_button.current {
 }
 
 .blue > .box-header.with-border .box-title {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
 }
 
@@ -659,6 +659,11 @@ span.profile-image img {
   color: #2980b9;
   background: white;
   transition: all 0.5s ease;
+  font-size: 13px;
+}
+
+.jc-status {
+  font-size: 13px;
 }
 
 .btn.blue-border:hover {

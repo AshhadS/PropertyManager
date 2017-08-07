@@ -169,10 +169,10 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		/**
 		 * Jobcard Payment
 		 */
-		Route::get('jobcard/edit/{jobcard}/payment',  'JobCardPaymentController@index');
-		Route::post('jobcard/edit/maintenance/{invoice}',  'JobCardPaymentController@getInvoiceItems');
-		Route::post('jobcard/edit/maintenance/{invoice}/amount',  'JobCardPaymentController@getInvoiceAmount');
-		Route::post('/jobcard/payment',  'JobCardPaymentController@createPayment');
+		Route::get('jobcard/edit/{jobcard}/payment',  'JobcardPaymentController@index');
+		Route::post('jobcard/edit/maintenance/{invoice}',  'JobcardPaymentController@getInvoiceItems');
+		Route::post('jobcard/edit/maintenance/{invoice}/amount',  'JobcardPaymentController@getInvoiceAmount');
+		Route::post('/jobcard/payment',  'JobcardPaymentController@createPayment');
 
 
 

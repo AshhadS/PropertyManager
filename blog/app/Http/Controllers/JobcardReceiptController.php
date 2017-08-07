@@ -56,10 +56,12 @@ class JobcardReceiptController extends Controller
 	function getInvoiceAmount($invoice){
 		// Check if payment has been made before
 		$invoiceAmount = CustomerInvoice::find($invoice)->amount;
-		// $paidAmountRef =  JobcardPayment::where('supplierInvoiceID', $invoice)->get();
-		// $paidAmount = ($paidAmountRef) ? $paidAmountRef->paymentAmount : 0;
-		// $finalAmount = $invoiceAmount - $paidAmount
-		return $invoiceAmount;
+		$receivedAmount = 0;
+		if(JobcardReceipt::where('customerInvoiceID', $invoice)){
+			$receivedAmount = JobcardReceipt::where('customerInvoiceID', $invoice)->sum('receiptAmount');
+		}
+		$finalAmount = $invoiceAmount - $receivedAmount;
+		return $finalAmount;
 	}
 
 
