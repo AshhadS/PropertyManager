@@ -36,22 +36,37 @@
       <th>Payment Type</th>
       <th>Invoice Date</th>
       <th>Paid</th>
+      <th>Document</th>
+      <th>Actions</th>
     </tr>
     @foreach($payments as $payment)
       <tr>
-        <th>{{$payment->invoiceSystemCode}}</th>
-        <th>
+        <td>{{$payment->invoiceSystemCode}}</td>
+        <td>
           @if(App\Model\Supplier::find($payment->supplierID) && $payment->supplierID != 0)
             {{App\Model\Supplier::find($payment->supplierID)->supplierName}}
           @endif
-        </th>
-        <th>
+        </td>
+        <td>
           @if(App\Model\PaymentType::find($payment->paymentTypeID) && $payment->paymentTypeID != 0)
             {{App\Model\PaymentType::find($payment->paymentTypeID)->paymentDescription}}
           @endif
-        </th>
-        <th>{{$payment->SupplierInvoiceDate}}</th>
-        <th>{{$payment->paymentAmount}}</th>
+        </td>
+        <td>{{$payment->SupplierInvoiceDate}}</td>
+        <td>{{$payment->paymentAmount}}</td>
+        <td>
+          <a href="/jobcard/edit/payment/{{$payment->paymentID}}/pdf" class="btn btn-info"><i class="fa fa-file-text" aria-hidden="true"></i> PDF</a>
+        </td>
+        <td>
+          <form class="delete-form" action="/payment/{{$payment->paymentID}}" method="POST">
+            {{ csrf_field() }}
+            {{ method_field('DELETE') }}
+            <a href="" class="delete-btn btn btn-danger btn-sm button--winona">
+              <span><i class="fa fa-trash" aria-hidden="true"></i> Delete</span>
+              <span class="after">Sure?</span>
+            </a>
+          </form>
+        </td>
       </tr>
     @endforeach
   </table>

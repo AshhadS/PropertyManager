@@ -64,4 +64,28 @@ class JobcardPaymentController extends Controller
 		$finalAmount = $invoiceAmount - $paidAmount;
 		return $finalAmount;		
 	}
+
+	function generatePDF($id){
+		$pdf = App::make('dompdf.wrapper');
+		$payment = JobcardPayment::find($id);
+		$jobcard = JobCard::find($payment->jobCardID);
+    	$company = Company::find(Sentinel::getUser()->companyID);
+		$data = array(
+			'jobcard' => $jobcard,
+            'company' => $company,
+            'payment' => $payment,
+		);
+
+		$pdf->loadView('pdf/jobcard_payment_pdf', $data , $data);
+		return $pdf->stream();
+	}
+
+
+	function delete($paymentID){
+		$payment = JobcardPayment::find($paymentID);
+		$jobcardID = $payment->jobCardID;
+
+		$payment->delete();
+		return Redirect::to('jobcard/edit/'.$jobcardID.'/payment');
+	}
 }

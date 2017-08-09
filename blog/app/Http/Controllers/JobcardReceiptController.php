@@ -64,5 +64,26 @@ class JobcardReceiptController extends Controller
 		return $finalAmount;
 	}
 
+	function generatePDF($id){
+		$pdf = App::make('dompdf.wrapper');
+		$receipt = JobcardReceipt::find($id);
+		$jobcard = JobCard::find($receipt->jobCardID);
+    	$company = Company::find(Sentinel::getUser()->companyID);
+		$data = array(
+			'jobcard' => $jobcard,
+            'company' => $company,
+            'receipt' => $receipt,
+		);
 
+		$pdf->loadView('pdf/jobcard_receipt_pdf', $data , $data);
+		return $pdf->stream();
+	}
+
+	function delete($receiptID){
+		$receipt = JobcardReceipt::find($receiptID);
+		$jobcardID = $receipt->jobCardID;
+
+		$receipt->delete();
+		return Redirect::to('/jobcard/edit/'.$jobcardID.'/receipt');
+	}
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Model\JobCard;
 use App\Model\Supplier;
 use App\Model\Maintenance;
+use App\Model\ChartOfAccount;
 use App\Model\Company;
 use Redirect;
 use Sentinel;
@@ -23,11 +24,13 @@ class JobCardsMaintenanceController extends Controller
 
     	$jobcardsAll = JobCard::all();
     	$suppliers = Supplier::all();
+    	$chartOfAccounts = ChartOfAccount::all();
 
 		return view('jobcard_maintenance', [
             'jobcard' => $jobcard,
             'jobcardsAll' => $jobcardsAll,
             'suppliers' => $suppliers,
+            'chartOfAccounts' => $chartOfAccounts,
             'maintenanceItensMaterial' => $maintenanceItensMaterial,
             'maintenanceItensLabour' => $maintenanceItensLabour,
             'maintenanceItensTotal' => $maintenanceItensTotal,
@@ -49,7 +52,6 @@ class JobCardsMaintenanceController extends Controller
 		$maintenanceItem->netTotal = $request->netTotal;
 		$maintenanceItem->itemType = $request->itemType;
 		$maintenanceItem->jobcardID = $request->jobcardID;
-
 
 		/*Total calculation*/
 		// Total = cost + percentage of cost 

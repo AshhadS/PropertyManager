@@ -38,22 +38,37 @@
         <th>Payment Type</th>
         <th>Invoice Date</th>
         <th>Received</th>
+        <th>Document</th>
+        <th>Actions</th>
       </tr>
       @foreach($receipts as $receipt)
         <tr>
-          <th>{{$receipt->invoiceSystemCode}}</th>
-          <th>
+          <td>{{$receipt->invoiceSystemCode}}</td>
+          <td>
             @if(App\Model\RentalOwner::find($receipt->customerID) && $receipt->customerID != 0)
               {{App\Model\RentalOwner::find($receipt->customerID)->firstName}}
             @endif
-          </th>
-          <th>
+          </td>
+          <td>
             @if(App\Model\PaymentType::find($receipt->paymentTypeID) && $receipt->paymentTypeID != 0)
               {{App\Model\PaymentType::find($receipt->paymentTypeID)->paymentDescription}}
             @endif
-          </th>
-          <th>{{$receipt->customerInvoiceDate}}</th>
-          <th>{{$receipt->receiptAmount}}</th>
+          </td>
+          <td>{{$receipt->customerInvoiceDate}}</td>
+          <td>{{$receipt->receiptAmount}}</td>
+          <td>
+            <a href="/jobcard/edit/receipt/{{$receipt->receiptID}}/pdf" class="btn btn-info"><i class="fa fa-file-text" aria-hidden="true"></i> PDF</a>
+          </td>
+          <td>
+            <form class="delete-form" action="/receipt/{{$receipt->receiptID}}" method="POST">
+              {{ csrf_field() }}
+              {{ method_field('DELETE') }}
+              <a href="" class="delete-btn btn btn-danger btn-sm button--winona">
+                <span><i class="fa fa-trash" aria-hidden="true"></i> Delete</span>
+                <span class="after">Sure?</span>
+              </a>
+            </form>
+          </td>
         </tr>
       @endforeach
     </table>
@@ -165,7 +180,7 @@
       var received = parseFloat($('[name="receiptAmount"]').val());
       if(received > dueAmount){
         e.preventDefault();
-        alert('Cannot receive more that due amount: '+received);
+        alert('Cannot receive more that due amount: '+dueAmount);
       }
     });
   </script>

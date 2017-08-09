@@ -1,4 +1,4 @@
-<?php
+ <?php
 use Illuminate\Http\Request;
 use App\Http\Middleware;
 /*
@@ -173,6 +173,8 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::post('jobcard/edit/maintenance/{invoice}',  'JobcardPaymentController@getInvoiceItems');
 		Route::post('jobcard/edit/maintenance/{invoice}/amount',  'JobcardPaymentController@getInvoiceAmount');
 		Route::post('/jobcard/payment',  'JobcardPaymentController@createPayment');
+		Route::delete('/payment/{id}',  'JobcardPaymentController@delete');
+		Route::get('jobcard/edit/payment/{id}/pdf',  'JobcardPaymentController@generatePDF');
 
 
 
@@ -183,6 +185,9 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::post('jobcard/edit/maintenance/receipt/{invoice}',  'JobcardReceiptController@getInvoiceItems');
 		Route::post('jobcard/edit/maintenance/receipt/{invoice}/amount',  'JobcardReceiptController@getInvoiceAmount');
 		Route::post('/jobcard/receipt',  'JobcardReceiptController@createReceipt');
+		Route::delete('/receipt/{id}',  'JobcardReceiptController@delete');
+		Route::get('jobcard/edit/receipt/{id}/pdf',  'JobcardReceiptController@generatePDF');
+
 
 
 
