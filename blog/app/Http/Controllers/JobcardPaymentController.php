@@ -9,7 +9,7 @@ use App\Model\Maintenance;
 use App\Model\Company;
 use App\Model\Property;
 use App\Model\SupplierInvoice;
-use App\Model\JobcardPayment;
+use App\Model\Payment;
 use App\Model\PaymentType;
 use Redirect;
 use Sentinel;
@@ -18,7 +18,7 @@ use App;
 class JobcardPaymentController extends Controller
 {
 	function createPayment(Request $request){
-		$payment = new JobcardPayment();
+		$payment = new Payment();
 		$invoice = SupplierInvoice::find($request->invoiceID);
 		$payment->supplierID = $request->supplierID;
 		$payment->supplierInvoiceID = $request->invoiceID;
@@ -38,7 +38,7 @@ class JobcardPaymentController extends Controller
 	function index($jobcard){
 		$jobcard = JobCard::find($jobcard);
 		$suppliers = Supplier::all();
-		$payments = JobcardPayment::all();
+		$payments = Payment::all();
 		$paymentTypes = PaymentType::all();
 		return view('jobcard_payment', [
             'jobcard' => $jobcard,
@@ -58,8 +58,8 @@ class JobcardPaymentController extends Controller
 		// Check if payment has been made before
 		$invoiceAmount = SupplierInvoice::find($invoice)->amount;
 		$paidAmount = 0;
-		if(JobcardPayment::where('supplierInvoiceID', $invoice)){
-			$paidAmount = JobcardPayment::where('supplierInvoiceID', $invoice)->sum('paymentAmount');
+		if(Payment::where('supplierInvoiceID', $invoice)){
+			$paidAmount = Payment::where('supplierInvoiceID', $invoice)->sum('paymentAmount');
 		}
 		$finalAmount = $invoiceAmount - $paidAmount;
 		return $finalAmount;		
@@ -67,7 +67,7 @@ class JobcardPaymentController extends Controller
 
 	function generatePDF($id){
 		$pdf = App::make('dompdf.wrapper');
-		$payment = JobcardPayment::find($id);
+		$payment = Payment::find($id);
 		$jobcard = JobCard::find($payment->jobCardID);
     	$company = Company::find(Sentinel::getUser()->companyID);
 		$data = array(
@@ -82,7 +82,7 @@ class JobcardPaymentController extends Controller
 
 
 	function delete($paymentID){
-		$payment = JobcardPayment::find($paymentID);
+		$payment = Payment::find($paymentID);
 		$jobcardID = $payment->jobCardID;
 
 		$payment->delete();

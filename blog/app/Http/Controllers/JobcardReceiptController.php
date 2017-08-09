@@ -9,7 +9,7 @@ use App\Model\Maintenance;
 use App\Model\Company;
 use App\Model\Property;
 use App\Model\CustomerInvoice;
-use App\Model\JobcardReceipt;
+use App\Model\Receipt;
 use App\Model\PaymentType;
 use Redirect;
 use Sentinel;
@@ -18,7 +18,7 @@ use App;
 class JobcardReceiptController extends Controller
 {
 	function createReceipt(Request $request){
-		$receipt = new JobcardReceipt();
+		$receipt = new Receipt();
 		$invoice = CustomerInvoice::find($request->invoiceID);
 		$receipt->customerID = $request->customerID;
 		$receipt->customerInvoiceID = $request->invoiceID;
@@ -37,7 +37,7 @@ class JobcardReceiptController extends Controller
 	function index($jobcard){
 		$jobcard = JobCard::find($jobcard);
 		$customers = RentalOwner::all();
-		$receipts = JobcardReceipt::all();
+		$receipts = Receipt::all();
 		$paymentTypes = PaymentType::all();
 		return view('jobcard_receipt', [
             'jobcard' => $jobcard,
@@ -57,8 +57,8 @@ class JobcardReceiptController extends Controller
 		// Check if payment has been made before
 		$invoiceAmount = CustomerInvoice::find($invoice)->amount;
 		$receivedAmount = 0;
-		if(JobcardReceipt::where('customerInvoiceID', $invoice)){
-			$receivedAmount = JobcardReceipt::where('customerInvoiceID', $invoice)->sum('receiptAmount');
+		if(Receipt::where('customerInvoiceID', $invoice)){
+			$receivedAmount = Receipt::where('customerInvoiceID', $invoice)->sum('receiptAmount');
 		}
 		$finalAmount = $invoiceAmount - $receivedAmount;
 		return $finalAmount;
@@ -66,7 +66,7 @@ class JobcardReceiptController extends Controller
 
 	function generatePDF($id){
 		$pdf = App::make('dompdf.wrapper');
-		$receipt = JobcardReceipt::find($id);
+		$receipt = Receipt::find($id);
 		$jobcard = JobCard::find($receipt->jobCardID);
     	$company = Company::find(Sentinel::getUser()->companyID);
 		$data = array(
@@ -80,7 +80,7 @@ class JobcardReceiptController extends Controller
 	}
 
 	function delete($receiptID){
-		$receipt = JobcardReceipt::find($receiptID);
+		$receipt = Receipt::find($receiptID);
 		$jobcardID = $receipt->jobCardID;
 
 		$receipt->delete();

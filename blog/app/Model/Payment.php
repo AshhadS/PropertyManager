@@ -4,11 +4,11 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class JobcardReceipt extends Model
+class Payment extends Model
 {
-    protected $table = 'receipt';
+    protected $table = 'payments';
 
-    protected $primaryKey = 'receiptID';
+    protected $primaryKey = 'paymentID';
 
     
     const CREATED_AT = 'createdDateTime';
