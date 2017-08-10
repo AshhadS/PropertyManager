@@ -40,10 +40,15 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	 */
 	Route::get('/agreements','AgreementsController@index');
 	Route::post('/agreement',  'AgreementsController@create');
-	Route::post('/agreement/update',  'AgreementsController@update');
+	//Route::post('/agreement/update',  'AgreementsController@update');
 	Route::post('/agreement/all',  'AgreementsController@data');
 	Route::delete('/agreement/{agreement}',  'AgreementsController@delete');
 	Route::get('/agreement/getfields/{agreementid}','AgreementsController@getFields');
+	Route::patch('/agreement/{agreementid}',[
+    'as' => 'agreement.update',
+    'uses' => 'AgreementsController@update'
+	]);
+	
 
 	
 	/**
