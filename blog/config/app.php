@@ -164,6 +164,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
+		Collective\Html\HtmlServiceProvider::class,
 
         /*
          * Acacha Llum Service Providers...
@@ -242,6 +243,8 @@ return [
         'Reminder'   => Cartalyst\Sentinel\Laravel\Facades\Reminder::class,
         'Sentinel'   => Cartalyst\Sentinel\Laravel\Facades\Sentinel::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+		'Form' => 'Collective\Html\FormFacade',
+        'Html' => 'Collective\Html\HtmlFacade',
 
         /*
          * Acacha Llum Aliases...
