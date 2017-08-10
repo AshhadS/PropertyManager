@@ -1,111 +1,177 @@
-<div class="modal fade" id="agreement-editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog wide" role="document">
-    <div class="modal-content">
-     
-      <div class="">
-        <div class="row">
-          <div class="col-md-12">
-              <div class="box box-info">
-                  <!-- /.box-header -->
-                  <!-- form start -->
-                  <form class="form-horizontal agreement-edit" action="/agreement/update" method="POST">
-                    {{ csrf_field() }}
-                    <input type="hidden" name="agreementID">
-                  <div class="box-body">
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">Property Name</label>
-                      <div class="col-sm-10">
-                        <select name="PropertiesID" class="form-control selection-parent-item input-req" >
-                                <option value="0">Select a property</option>
-                            @foreach ($properties as $property)
-                                <option value="{{$property->PropertiesID}}">{{ $property->pPropertyName }}</option>
-                            @endforeach
-                        </select>
-                      </div>
-                    </div> 
+@extends('admin_template')
 
-                    <div class="form-group">
-                      <label name="tenant" class="col-sm-2 control-label">Tenant Name</label>
-                      <div class="col-sm-10">
-                        <select class="form-control input-req" name="tenantsID">
-                                <option value="">Select a tenant</option>
-                            @foreach ($tenants as $tenant)
-                                <option value="{{$tenant->tenantsID}}">{{ $tenant->firstName }}</option>
-                            @endforeach
-                        </select>
-                      </div>
-                    </div>
+@section('content')
+<section class="content-header">
+      <h4><b>Agreement</b></h4>
+  </section>
+  <br /><br />
+    
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Edit</a></li>
+    <li role="presentation"><a href="#financials" aria-controls="financials" role="tab" data-toggle="tab">Financials</a></li>
+  </ul>
+<div class="tab-content">
+<div role="tabpanel" class="tab-pane active" id="edit">
+     <div class="row">
+        <div class="col-md-12 pull-right">
+            <div class=""> 
+              {!! Form::model($agreement, [
+                'method' => 'patch',
+                'action' => ['AgreementsController@update', $agreement->agreementID]
+                
+                ]) !!}
 
-                    <div class="form-group">
-                      <label name="unit" class="col-sm-2 control-label">Unit</label>
-                      <div class="col-sm-10">
-                        <select class="form-control selection-child-item edit" name="unitID">
-                                <option value="0">Select a unit</option>
-                            @foreach ($units as $unit)
-                                <option value="{{$unit->unitID}}">{{ $unit->unitNumber }}</option>
-                            @endforeach
-                        </select>
-                        <p class="no-units">No units belonging to this property</p>
-                      </div>
-                    </div>
+                <div class="box-body">
 
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">Market Rent</label>
-                      <div class="col-sm-10">
-                        <input type="tel" name="marketRent" class="form-control input-req" placeholder="Market Rent">
-                      </div>
-                    </div>
-                     <div class="form-group">
-                      <label class="col-sm-2 control-label">Actual Rent</label>
-                      <div class="col-sm-10">
-                        <input type="tel" name="actualRent" class="form-control input-req"  placeholder="Actual Rent">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">From</label>
-                      <div class="col-sm-10">
-                        <input type="text" name="dateFrom" class="form-control input-req datepicker" placeholder="Agreement start date">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">To</label>
-                      <div class="col-sm-10">
-                        <input type="text" name="dateTo" class="form-control input-req datepicker" placeholder="Agreement end date">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label name="unit" class="col-sm-2 control-label">Payment Type</label>
-                      <div class="col-sm-10">
-                        <select class="form-control input-req" name="paymentTypeID">
-                                <option value=''>Select a payment type</option>
-                            @foreach ($paymentypes as $paymenttype)
-                                <option value="{{$paymenttype->paymentTypeID}}">{{ $paymenttype->paymentDescription }}</option>
-                            @endforeach
-                        </select>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label name="unit" class="col-sm-2 control-label"> PDCYN</label>
-                      <div class="col-sm-10">
-                        <div class="checkbox"> <label> <input type="checkbox" name="pdcyn" value="1"> Available </label> 
-                        </div>
-                      </div>
-                    </div>
+                <div class="form-group">
+            
+                    {!! Form::label('PropertiesID', 'Property', ['class' => 'text-right col-sm-2 control-label']) !!} 
+                
+                    <div class="col-sm-10">
 
-                  </div>
-                  <!-- /.box-body -->
-                  <div class="box-footer">
+                        {!! Form::select('PropertiesID', $propertylist, $agreement->PropertiesID ,['class' => 'col-sm-10 form-control']) !!}
+                    </div>
+                </div>
+                
+                <br></br>
+
+                <div class="form-group">
+
+                    {!! Form::label('tenantID', 'Tenant', ['class' => 'text-right col-sm-2 control-label']) !!}
+                    <div class="col-sm-10">
+                        {!! Form::select('tenantsID', $tenantlist, $agreement->tenantID ,['class' => 'col-sm-10 form-control']) !!}
+                    </div>
+                </div>
+
+                <br></br>
+
+                <div class="form-group">
+
+                    {!! Form::label('UnunitIDit', 'Unit', ['class' => 'text-right col-sm-2 control-label']) !!}
+                    <div class="col-sm-10">
+                        {!! Form::select('unitID', $unitlist, $agreement->unitID ,['class' => 'col-sm-10 form-control']) !!}
+                    </div>
+                </div>
+
+                <br></br>
+
+                <div class="form-group">
+                    {!! Form::label('actualRent', 'Actual Rent', ['class' => 'text-right col-sm-2 control-label']) !!}
+                    <div class="col-sm-10">
+                        {!! Form::text('actualRent', $agreement->actualRent, ['class' => 'col-sm-10 form-control']) !!}
+                    </div>
+                </div>
+
+                <br></br>
+
+                <div class="form-group">
+                    {!! Form::label('marketRent', 'Market Rent', ['class' => 'text-right col-sm-2 control-label']) !!}
+                    <div class="col-sm-10">
+                        {!! Form::text('marketRent', $agreement->marketRent, ['class' => 'col-sm-10 form-control']) !!}
+                    </div>
+                </div>
+
+                <br></br>
+
+
+                <div class="form-group">
+
+                    {!! Form::label('dateFrom', 'Agreement Start Date', ['class' => 'text-right col-sm-2 control-label']) !!}
+                    <div class="col-sm-10">
+
+                        
+                        {!! Form::text('dateFrom', $startDate, array('id' => 'datepicker','class' => 'col-sm-10 form-control') ) !!}
+                        
+                    </div>
+                </div>
+
+                <br></br>
+
+                <div class="form-group">
+
+                    {!! Form::label('dateTo', 'Agreement End Date', ['class' => 'text-right col-sm-2 control-label']) !!}
+                    <div class="col-sm-10">
+                       {!! Form::text('dateTo', $endDate, array('id' => 'datepicker2','class' => 'col-sm-10 form-control') ) !!}
+                        
+                    </div>
+                </div>
+
+                <br></br>
+
+                <div class="form-group">
+
+                    {!! Form::label('paymentTypeID', 'Payment Type', ['class' => 'text-right col-sm-2 control-label']) !!}
+                    <div class="col-sm-10">
+                        {!! Form::select('paymentTypeID', $paymenttypelist, $agreement->paymentTypeID ,['class' => 'col-sm-10 form-control']) !!}
+                        
+                    </div>
+                </div>
+
+                <br></br>
+
+                 <div class="form-group">
+
+                    {!! Form::label('PDCYN', 'PDCYN', ['class' => 'text-right col-sm-2 control-label']) !!}
+                    <div class="col-sm-10">
+                        {{ Form::checkbox('pdcyn', 1, $agreement->isPDCYN, ['class' => 'col-sm-1 field']) }}
+                    </div>
+                </div>
+
+                <br></br>
+
+
+            </div>
+            
+            
+                <div class="box-footer">
                     <div class="form-buttons">
-                      <input type="reset" class="btn btn-default" value="Reset" />
-                      <button type="submit" class="btn btn-info pull-right">Save</button>
+                        {!! Form::submit('Save', ['class' => 'btn  bg-green pull-right']) !!}
+                        {!! Form::reset('Reset', ['class' => 'btn btn-default ']) !!}
                     </div>
-                  </div>
-                  <!-- /.box-footer -->
-                </form>
-              </div>
-          </div>
+                </div>
+                {!! Form::close() !!}
+            </div>  
         </div>
-      </div>
     </div>
-  </div>
 </div>
+
+
+
+<div role="tabpanel" class="tab-pane" id="financials">
+     <div class="row">
+        <div class="col-md-12">
+            <div class="">
+
+            <h1> TBA</h1>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+@stop
+
+
+@push('txtDatepickerScript')
+
+<script>
+
+  $(function() {
+    // $( "#datepicker" ).datepicker();
+    
+    var $datepicker = $('#datepicker');
+    $datepicker.datepicker("option", "dateFormat", 'Y/d/m');
+
+     var $datepicker2 = $('#datepicker2');
+     $datepicker2.datepicker();
+  //  $datepicker.datepicker( );
+    // $datepicker.datepicker('setDate', new Date());
+    // var date = new Date(document.getElementById("datepicker").data);
+    // $datepicker.datepicker('setDate',date);
+  });
+
+</script>
+
+
+@endpush

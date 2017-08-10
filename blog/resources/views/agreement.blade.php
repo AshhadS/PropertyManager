@@ -108,10 +108,7 @@
     </div>
   </div>
 </div>
-        @component('agreements_edit', ['units' => $units, 'properties' => $properties, 'tenants' => $tenants, 'paymentypes' => $paymentypes])
-
-        @endcomponent
-
+     
 <div class="panel panel-default give-space">
     <div class="panel-body">
       <div class="page-header container-fluid">
@@ -120,7 +117,7 @@
         </section>
 
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
+        <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#agreement-editModal">
           <i class="fa fa-plus"></i> <b>Add Agreement</b>
         </button>
       </div>
@@ -186,7 +183,7 @@ $(function() {
                 (agreement.isPDCYN ) ? $('.agreement-edit [name="pdcyn"]').prop('checked', true) : false;
                 $('.agreement-edit [name="unitID"] option[value='+ agreement.unitID +']').attr('selected', 'selected');
 
-                childSelection($('.agreement-edit .selection-parent-item'))
+                 childSelection($('.agreement-edit .selection-parent-item'))
 
                 $('#agreement-editModal').modal('show');
               });
@@ -240,7 +237,8 @@ $(function() {
                 orderable: false,
                 render: function ( data, type, full, meta ) {
                   // Create action buttons
-                  var action = '<center><span class="inner"><a class="btn bg-green btn-sm attachment-edit-btn" data-id="'+data+'" href="#"><i class="fa fa-eye" aria-hidden="true"></i>Edit</a>';
+                  var action = '<center><span class="inner"><a class="btn bg-green btn-sm attachment-edit-btn" href="/agreement/getfields/'+data+'"><i class="fa fa-eye" aria-hidden="true"></i>View</a>';
+
                   action += '<form class="delete-form" method="POST" action="agreement/'+data+'">';
                   action += '<a href="" class="delete-btn btn btn-danger btn-sm button--winona"><span>';
                   action += '<i class="fa fa-trash" aria-hidden="true"></i> Delete</span><span class="after">Sure?</span></a>';
@@ -253,58 +251,58 @@ $(function() {
         ]
     });
       // filter child selection on page load
-      childSelection($('.selection-parent-item'));
+      // childSelection($('.selection-parent-item'));
       
 
       // $('.no-units').hide();
       // Load content based on previous selection
-      $('.selection-parent-item').on('change', function(){
-        childSelection(this)
-      });
+      // $('.selection-parent-item').on('change', function(){
+      //   childSelection(this)
+      // });
 
-      function childSelection(elem){
-        var prev_selection = $('.selection-child-item.edit').val();
-        console.log(prev_selection); 
-        if ($(elem).val() != 0) {
-          $('.selection-child-item').show();
-          $('.no-units').hide();
-          $.ajax({
-              url: "/jobcard/getunit/"+$(elem).val()+"",
-              context: document.body,
-              method: 'POST',
-              headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
-          })
-          .done(function(data) {
-              // show message if no units for the selected property
-              if(data.length){
-                $('.selection-child-item').html(function(){
-                    // Generate the seletect list
-                    var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
-                    output += '<option value="">Select a unit</option>';
-                    data.forEach(function( index, element ){
-                        if(prev_selection == data[element].unitID){
-                          output += '<option value="'+data[element].unitID+'" selected="selected">'+data[element].unitNumber+'</option>';
-                        }else{
-                          output += '<option value="'+data[element].unitID+'">'+data[element].unitNumber+'</option>';
-                        }
-                    });
-                    output += '</select>';
-                    return output;
-                });
-              }else{
-                $('.selection-child-item').hide();
-                $('.no-units').show();
-              }         
-          });
-        }else{
-          $('.selection-child-item').hide();
-          $('.no-units').show();
-        }      
+      // function childSelection(elem){
+      //   var prev_selection = $('.selection-child-item.edit').val();
+      //   console.log(prev_selection); 
+      //   if ($(elem).val() != 0) {
+      //     $('.selection-child-item').show();
+      //     $('.no-units').hide();
+      //     $.ajax({
+      //         url: "/jobcard/getunit/"+$(elem).val()+"",
+      //         context: document.body,
+      //         method: 'POST',
+      //         headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
+      //     })
+      //     .done(function(data) {
+      //         // show message if no units for the selected property
+      //         if(data.length){
+      //           $('.selection-child-item').html(function(){
+      //               // Generate the seletect list
+      //               var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
+      //               output += '<option value="">Select a unit</option>';
+      //               data.forEach(function( index, element ){
+      //                   if(prev_selection == data[element].unitID){
+      //                     output += '<option value="'+data[element].unitID+'" selected="selected">'+data[element].unitNumber+'</option>';
+      //                   }else{
+      //                     output += '<option value="'+data[element].unitID+'">'+data[element].unitNumber+'</option>';
+      //                   }
+      //               });
+      //               output += '</select>';
+      //               return output;
+      //           });
+      //         }else{
+      //           $('.selection-child-item').hide();
+      //           $('.no-units').show();
+      //         }         
+      //     });
+      //   }else{
+      //     $('.selection-child-item').hide();
+      //     $('.no-units').show();
+      //   }      
 
-      }
+      // }
 
       
-      $('#agreement-editModal').modal({ show: false})
+      // $('#agreement-editModal').modal({ show: false})
 
       
 
