@@ -40,9 +40,12 @@ class DashboardController extends Controller
         $jobCardStatusCount = array();
 
         //Expire Agreements
-        $ExpiringAgreemntsTwoMonthCount=ExpiringAgreemntsTwoMonth::count();
-        $ExpiringAgreemntsThreeMonthCount=ExpiringAgreemntsThreeMonth::count();
-        $ExpiringAgreemntsOneMonth = ExpiringAgreemntsOneMonth::all();
+      //  $ExpiringAgreemntsTwoMonthCount=ExpiringAgreemntsTwoMonth::count();
+      //  $ExpiringAgreemntsThreeMonthCount=ExpiringAgreemntsThreeMonth::count();
+		$ExpiringAgreemntsTwoMonthCount=2;
+		$ExpiringAgreemntsThreeMonthCount=1;
+	  
+      //  $ExpiringAgreemntsOneMonth = ExpiringAgreemntsOneMonth::all();
 
         foreach ($jobCardStatusAll as $status) {
             $count = JobCard::where('jobcardStatusID', $status->jobcardStatusID)->count();
@@ -58,7 +61,7 @@ class DashboardController extends Controller
 	        'jobCardStatusCount' => $jobCardStatusCount,
 	        'ExpiringAgreemntsThreeMonthCount' => $ExpiringAgreemntsThreeMonthCount,
 	        'ExpiringAgreemntsTwoMonthCount' => $ExpiringAgreemntsTwoMonthCount,
-	        'ExpiringAgreemntsOneMonth' => $ExpiringAgreemntsOneMonth,
+	        
 	        'units' => $units,
 	        'properties' => $properties,
 	        'tenants' => $tenants,
