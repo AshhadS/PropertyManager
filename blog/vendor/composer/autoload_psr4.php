@@ -46,6 +46,7 @@ return array(
     'DebugBar\\' => array($vendorDir . '/maximebf/debugbar/src/DebugBar'),
     'Cron\\' => array($vendorDir . '/mtdowling/cron-expression/src/Cron'),
     'Creativeorange\\Gravatar\\' => array($vendorDir . '/creativeorange/gravatar/src'),
+    'Collective\\Html\\' => array($vendorDir . '/laravelcollective/html/src'),
     'Cartalyst\\Support\\' => array($vendorDir . '/cartalyst/support/src'),
     'Cartalyst\\Sentinel\\' => array($vendorDir . '/cartalyst/sentinel/src'),
     'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
