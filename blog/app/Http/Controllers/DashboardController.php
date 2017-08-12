@@ -9,9 +9,6 @@ use App\Model\RentalOwner;
 use App\Model\Tenant;
 use App\Model\JobCard;
 use App\Model\JobCardStatus;
-use App\Model\ExpiringAgreemntsOneMonth;
-use App\Model\ExpiringAgreemntsTwoMonth;
-use App\Model\ExpiringAgreemntsThreeMonth;
 use App\Model\Agreement;
 use App\Model\PaymentType;
 use Debugbar;
@@ -19,6 +16,7 @@ use Datatables;
 use Sentinel;
 use Redirect;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -40,9 +38,38 @@ class DashboardController extends Controller
         $jobCardStatusCount = array();
 
         //Expire Agreements
-        $ExpiringAgreemntsTwoMonthCount=ExpiringAgreemntsTwoMonth::count();
-        $ExpiringAgreemntsThreeMonthCount=ExpiringAgreemntsThreeMonth::count();
-        $ExpiringAgreemntsOneMonth = ExpiringAgreemntsOneMonth::all();
+    //    $ExpiringAgreemntsTwoMonthCount=ExpiringAgreemntsTwoMonth::count();
+        //$ExpiringAgreemntsThreeMonthCount=ExpiringAgreemntsThreeMonth::count();
+        
+     //   $ExpiringAgreemntsOneMonth = ExpiringAgreemntsOneMonth::all();
+        $ExpiringAgreemntsOneMonth = DB::table('agreement')
+        ->leftJoin('rentalowners','agreement.rentalOwnerID','=','rentalowners.rentalOwnerID')
+        ->leftJoin('tenants','agreement.tenantID','=','tenants.tenantsID')
+        ->leftJoin('properties','agreement.PropertiesID','=','properties.PropertiesID')
+        ->leftJoin('units','agreement.unitID','=','units.unitID')
+        ->leftJoin('paymenttype','agreement.paymentTypeID','=','paymenttype.paymentTypeID')
+        ->whereBetween('agreement.dateTo', array(Carbon::now(), Carbon::now()->addMonths(1)))
+        ->select('agreement.agreementID AS agreementID',
+        'agreement.dateTo AS dateTo',
+        'agreement.companyID AS companyID',
+        'agreement.isPDCYN AS isPDCYN',
+        'agreement.dateFrom AS dateFrom',
+        'agreement.marketRent AS marketRent',
+        'agreement.actualRent AS actualRent',
+        'paymenttype.paymentDescription AS paymentDescription',
+        'properties.pPropertyName AS pPropertyName',
+        'units.unitNumber AS unitNumber',
+        'rentalowners.firstName AS rentalOwner',
+        'rentalowners.phoneNumber AS rentalOwnerphoneNumber',
+        'tenants.phoneNumber AS tenantsphoneNumber',
+        'tenants.firstName AS tenantsfirstName')
+        ->get();
+    
+        $ExpiringAgreemntsTwoMonthCount = DB::table('agreement')->whereBetween('dateTo', array(Carbon::now()->addMonths(1), Carbon::now()->addMonths(2)))->count();
+        $ExpiringAgreemntsThreeMonthCount = DB::table('agreement')->whereBetween('dateTo', array(Carbon::now()->addMonths(2), Carbon::now()->addMonths(3)))->count();
+
+
+       // BETWEEN (CURDATE() + INTERVAL 1 MONTH) AND (CURDATE() + INTERVAL 2 MONTH)
 
         foreach ($jobCardStatusAll as $status) {
             $count = JobCard::where('jobcardStatusID', $status->jobcardStatusID)->count();
