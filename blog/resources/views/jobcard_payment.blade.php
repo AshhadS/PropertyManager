@@ -86,8 +86,8 @@
               <div class="form-group clearfix">
                 <label class="col-sm-3 control-label">Select Supplier</label>
                 <div class="col-sm-9">
-                  <select class="form-control supplier-field" name="supplierID">
-                    <option value="0">Select Supplier</option>
+                  <select class="form-control supplier-field input-req" required name="supplierID">
+                    <option value="">Select Supplier</option>
                     @foreach($suppliers as $supplier)
                       <option value="{{$supplier->supplierID}}">{{$supplier->supplierName}}</option>
                     @endforeach
@@ -97,8 +97,8 @@
               <div class="form-group clearfix">
                 <label class="col-sm-3 control-label">Select Invoice</label>
                 <div class="col-sm-9">
-                  <select class="form-control invoice-field" name="invoiceID">
-                    <option value="0">Select Invoice</option>
+                  <select class="form-control invoice-field input-req" required name="invoiceID">
+                    <option value="">Select Invoice</option>
                   </select>
                 </div>
               </div>

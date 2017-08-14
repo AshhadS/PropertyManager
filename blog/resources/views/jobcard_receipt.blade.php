@@ -84,19 +84,20 @@
                 <div class="form-group clearfix">
                   <label class="col-sm-3 control-label">Select Customer</label>
                   <div class="col-sm-9">
-                    <select class="form-control customer-field" name="customerID">
-                      <option value="0">Select Customer</option>
-                      @foreach($customers as $customer)
-                        <option value="{{$customer->rentalOwnerID}}">{{$customer->firstName}}</option>
-                      @endforeach
+                    <select class="form-control customer-field input-req" disabled required name="customerID">
+                      <option value="{{$customer->rentalOwnerID}}">{{$customer->firstName}}</option>
                     </select>
                   </div>
                 </div>
                 <div class="form-group clearfix">
                   <label class="col-sm-3 control-label">Select Invoice</label>
                   <div class="col-sm-9">
-                    <select class="form-control invoice-field" name="invoiceID">
-                      <option value="0">Select Invoice</option>
+                    <select class="form-control invoice-field input-req" required name="invoiceID">
+                      <option value="">Select Invoice</option>
+                      @foreach($invoices as $invoice)
+                        <option value="{{$invoice->customerInvoiceID}}">{{$invoice->CustomerInvoiceSystemCode}}</option>
+                        
+                      @endforeach
                     </select>
                   </div>
                 </div>
@@ -119,7 +120,7 @@
                 <div class="box-footer">
                   <div class="form-buttons">
                     <input type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close" value="Cancel" />
-                    <button type="submit" class="btn btn-info pull-right">Save</button>
+                    <input type="submit" class="btn btn-info pull-right" value="Save" />
                   </div>
                 </div>
               </form>

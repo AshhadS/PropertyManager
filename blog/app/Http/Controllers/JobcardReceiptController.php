@@ -36,12 +36,14 @@ class JobcardReceiptController extends Controller
 
 	function index($jobcard){
 		$jobcard = JobCard::find($jobcard);
-		$customers = RentalOwner::all();
+		$customer = RentalOwner::find($jobcard->rentalOwnerID);
 		$receipts = Receipt::all();
+		$invoices = CustomerInvoice::where('propertyOwnerID', $customer->rentalOwnerID)->get();
 		$paymentTypes = PaymentType::all();
 		return view('jobcard_receipt', [
             'jobcard' => $jobcard,
-            'customers' => $customers,
+            'customer' => $customer,
+            'invoices' => $invoices,
             'receipts' => $receipts,
             'paymentTypes' => $paymentTypes,
             

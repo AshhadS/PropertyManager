@@ -233,9 +233,9 @@
         </tr>
       </table>      
     </div>
-    <div class="container-fluid">
+    <!-- <div class="container-fluid">
       <button class="btn btn-primary pull-right meterial-maintenance" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
-    </div>
+    </div> -->
       
     </div>
     <br />
