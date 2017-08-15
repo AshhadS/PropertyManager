@@ -29,8 +29,6 @@
     <br />
     <br />
   </div>
-
-
     <table class="m-item table table-striped">
       <tr class="t-head">
         <th>Receipt Code</th>
@@ -81,11 +79,14 @@
               <form method="POST" action="/jobcard/receipt">            
                 <input type="hidden" name="jobcardID" value="{{$jobcard->jobcardID}}" >
                 {{ csrf_field() }}
-                <div class="form-group clearfix">
+
+                 <div class="form-group clearfix">
                   <label class="col-sm-3 control-label">Select Customer</label>
                   <div class="col-sm-9">
-                    <select class="form-control customer-field input-req" disabled required name="customerID">
-                      <option value="{{$customer->rentalOwnerID}}">{{$customer->firstName}}</option>
+                    <select class="form-control customer-field input-req" readonly required name="customerID">
+                      @if($customer)
+                        <option value="{{$customer->rentalOwnerID}}" selected="selected">{{$customer->firstName}}</option>
+                      @endif
                     </select>
                   </div>
                 </div>
@@ -94,10 +95,11 @@
                   <div class="col-sm-9">
                     <select class="form-control invoice-field input-req" required name="invoiceID">
                       <option value="">Select Invoice</option>
-                      @foreach($invoices as $invoice)
-                        <option value="{{$invoice->customerInvoiceID}}">{{$invoice->CustomerInvoiceSystemCode}}</option>
-                        
-                      @endforeach
+                      @if($invoices)
+                        @foreach($invoices as $invoice)
+                          <option value="{{$invoice->customerInvoiceID}}">{{$invoice->CustomerInvoiceSystemCode}}</option>
+                        @endforeach
+                      @endif
                     </select>
                   </div>
                 </div>

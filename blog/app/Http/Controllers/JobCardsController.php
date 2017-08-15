@@ -101,8 +101,12 @@ class JobCardsController extends Controller
 	    $jobcard->subject = $request->subject;
 	    $jobcard->description = $request->description;
 	    $jobcard->jobcardStatusID = $request->jobcardStatusID;
-	    ($request->PropertiesID != 0) ? $jobcard->PropertiesID = $request->PropertiesID : false; // do not save if 0 was selected
-	    $jobcard->rentalOwnerID = $request->rentalOwnerID;
+
+	    if($request->PropertiesID != 0) {
+            $jobcard->PropertiesID = $request->PropertiesID;
+            $jobcard->rentalOwnerID = Property::find($request->PropertiesID)->rentalOwnerID;
+        }  // do not save if 0 was selected
+
 	    $jobcard->tenantsID = $request->tenantsID;
 	    $jobcard->unitID = $request->unitID;
 	    $jobcard->companyID = Sentinel::getUser()->companyID;
@@ -176,9 +180,13 @@ class JobCardsController extends Controller
 
         $jobcard->{$request->name} = $request->value;
 
+        if($request->name == 'PropertiesID'){
+            $jobcard->rentalOwnerID = Property::find($request->value)->rentalOwnerID;
+        }
+
         $jobcard->save();
         $log->save();
-        dd($jobcard);
+        // dd($jobcard);
 
         return $log;
 

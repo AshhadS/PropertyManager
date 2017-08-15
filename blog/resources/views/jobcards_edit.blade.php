@@ -458,7 +458,7 @@ $(function() {
             title: 'Edit',
             send:'always',
             type: "select",
-            name: "jobcardStatusID",
+            name: "PropertiesID",
             pk: "{{$jobcard->jobcardID}}",
             tpl: "<select></select>",
             params: function(params) {

@@ -23,7 +23,7 @@ class JobcardPaymentController extends Controller
 		$payment->supplierID = $request->supplierID;
 		$payment->supplierInvoiceID = $request->invoiceID;
 		$payment->invoiceSystemCode = $invoice->invoiceSystemCode;
-		$payment->jobcardID = $invoice->jobcardID;
+		$payment->jobcardID = $request->jobcardID;
 		$payment->supplierInvoiceCode = $invoice->supplierInvoiceCode;
 		$payment->SupplierInvoiceDate = date("Y-m-d", strtotime($invoice->invoiceDate));
 		$payment->supplierInvoiceAmount = $invoice->amount;
