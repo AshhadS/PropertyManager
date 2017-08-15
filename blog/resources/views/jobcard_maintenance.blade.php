@@ -161,10 +161,10 @@
               @endif
               </td>
               <td data-units-val="{{$item->units}}" class="amount-col">{{$item->units}}</td>
-              <td data-cost-val="{{$item->cost}}" class="amount-col">{{$item->cost}}</td>
-              <td class="amount-col">{{$item->total}}</td>
+              <td data-cost-val="{{$item->cost}}" class="amount-col"><?= number_format((float)$item->cost, 3, '.', '') ?></td>
+              <td class="amount-col"><?= number_format((float)$item->total, 3, '.', '') ?></td>
               <td data-margin-val="{{$item->margin}}" class="amount-col">{{$item->margin}}%</td>
-              <td class="amount-col">{{$item-> netTotal}}</td>
+              <td class="amount-col"><?= number_format((float)$item->netTotal, 3, '.', '') ?></td>
               <td class="amount-col edit-button">
                 <div class="inner">
                   <a class="btn bg-green btn-sm item-edit <?php ($jobcard->isSubmitted == 1) ? print 'disabled' : false ?>" href="#" data-form-url="/jobcard/edit/maintenance/update" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -228,7 +228,7 @@
           <td class="total-cell amount-col"></td>
           <td class="total-cell amount-col"></td>
           <td class="total-cell amount-col"></td>
-          <td class="total-cell amount-col">{{$maintenanceItensMeterialsTotal}}</td>
+          <td class="total-cell amount-col"><?= number_format((float)$maintenanceItensMeterialsTotal, 3, '.', '') ?></td>
           <td class="amount-col edit-button"></td>
         </tr>
       </table>      
@@ -271,10 +271,10 @@
                 @endif
               </td>
               <td data-unitss-val="{{$item->units}}" class="amount-col">{{$item->units}}</td>
-              <td data-cost-val="{{$item->cost}}" class="amount-col">{{$item->cost}}</td>
-              <td class="amount-col">{{$item->total}}</td>
+              <td data-cost-val="{{$item->cost}}" class="amount-col"><?= number_format((float)$item->cost, 3, '.', '') ?></td>
+              <td class="amount-col"><?= number_format((float)$item->total, 3, '.', '') ?></td>
               <td data-margin-val="{{$item->margin}}" class="amount-col">{{$item->margin}}%</td>
-              <td class="amount-col">{{$item-> netTotal}}</td>
+              <td class="amount-col"><?= number_format((float)$item->netTotal, 3, '.', '') ?></td>
               <td class="amount-col edit-button">
                 <div class="inner">
                   <a class="btn bg-green btn-sm item-edit <?php ($jobcard->isSubmitted == 1) ? print 'disabled' : false ?>" href="#" data-form-url="/jobcard/edit/maintenance/update" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -333,7 +333,7 @@
             <td class="total-cell amount-col"></td>
             <td class="total-cell amount-col"></td>
             <td class="total-cell amount-col"></td>
-            <td class="total-cell amount-col">{{$maintenanceItensLabourTotal}}</td>
+            <td class="total-cell amount-col"><?= number_format((float)$maintenanceItensLabourTotal, 3, '.', '') ?></td>
             <td class="amount-col edit-button"></td>
           </tr>
         </tbody>

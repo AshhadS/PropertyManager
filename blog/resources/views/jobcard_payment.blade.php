@@ -53,7 +53,7 @@
           @endif
         </td>
         <td>{{$payment->SupplierInvoiceDate}}</td>
-        <td>{{$payment->paymentAmount}}</td>
+        <td><?= number_format((float)$payment->paymentAmount, 3, '.', '') ?></td>
         <td>
           <a href="/jobcard/edit/payment/{{$payment->paymentID}}/pdf" class="btn btn-info"><i class="fa fa-file-text" aria-hidden="true"></i> PDF</a>
         </td>

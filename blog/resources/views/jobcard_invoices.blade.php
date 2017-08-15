@@ -54,7 +54,7 @@
                  {{App\Model\Supplier::find($supplierInvoice->supplierID)->supplierName}}
               @endif
             </td>
-            <td> {{$supplierInvoice->amount}} </td>
+            <td><?= number_format((float)$supplierInvoice->amount, 3, '.', '') ?></td>
             <td class="invoice-date format-date"> {{$supplierInvoice->invoiceDate}} </td>
             <td> {{($supplierInvoice->paymentPaidYN) ? "Yes" : "No"}} </td>            
             <td> <a href="#" data-id="{{$supplierInvoice->supplierInvoiceID}}" class="btn bg-yellow supplier-edit-invoice" data-toggle="modal" data-target="#supplierModal"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></td>  
@@ -91,7 +91,7 @@
             </td>
             <td class="invoice-date format-date"> {{$customerInvoice->invoiceDate}} </td>
             <td> {{($customerInvoice->paymentReceivedYN) ? "Yes" : "No"}} </td>            
-            <td> {{$customerInvoice->amount}} </td>
+            <td> <?= number_format((float)$customerInvoice->amount, 3, '.', '') ?></td>
             <td> <a href="#" data-id="{{$customerInvoice->customerInvoiceID}}" class="btn bg-yellow customer-edit-invoice" data-toggle="modal" data-target="#clientModal"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></td>
             <td> <a href="/customer/invoice/{{$customerInvoice->customerInvoiceID}}/display" class="btn btn-info"><i class="fa fa-file-text" aria-hidden="true"></i> PDF</a></td>            
           </tr>
