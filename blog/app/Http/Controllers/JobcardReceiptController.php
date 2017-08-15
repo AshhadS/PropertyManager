@@ -19,13 +19,17 @@ class JobcardReceiptController extends Controller
 {
 	function createReceipt(Request $request){
 		$receipt = new Receipt();
-		$invoice = CustomerInvoice::find($request->invoiceID);
-		$receipt->customerID = $request->customerID;
+		if($request->invoiceID){
+			$invoice = CustomerInvoice::find($request->invoiceID);
+			$receipt->invoiceSystemCode = $invoice->CustomerInvoiceSystemCode;
+			$receipt->customerInvoiceDate = date("Y-m-d", strtotime($invoice->invoiceDate));
+			$receipt->customerInvoiceAmount = $invoice->amount;			
+		}
+		if($request->customerID)
+			$receipt->customerID = $request->customerID;
+
+		$receipt->jobcardID = $request->jobcardID;
 		$receipt->customerInvoiceID = $request->invoiceID;
-		$receipt->invoiceSystemCode = $invoice->CustomerInvoiceSystemCode;
-		$receipt->jobcardID = $invoice->jobcardID;
-		$receipt->customerInvoiceDate = date("Y-m-d", strtotime($invoice->invoiceDate));
-		$receipt->customerInvoiceAmount = $invoice->amount;
 		$receipt->receiptAmount = $request->receiptAmount;
 		$receipt->paymentTypeID = $request->paymentTypeID;
 		$receipt->lastUpdatedByUserID = Sentinel::getUser()->id;

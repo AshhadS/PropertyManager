@@ -19,14 +19,18 @@ class JobcardPaymentController extends Controller
 {
 	function createPayment(Request $request){
 		$payment = new Payment();
-		$invoice = SupplierInvoice::find($request->invoiceID);
-		$payment->supplierID = $request->supplierID;
-		$payment->supplierInvoiceID = $request->invoiceID;
-		$payment->invoiceSystemCode = $invoice->invoiceSystemCode;
+		if($request->invoiceID){
+			$invoice = SupplierInvoice::find($request->invoiceID);
+			$payment->invoiceSystemCode = $invoice->invoiceSystemCode;
+			$payment->supplierInvoiceCode = $invoice->supplierInvoiceCode;
+			$payment->SupplierInvoiceDate = date("Y-m-d", strtotime($invoice->invoiceDate));
+			$payment->supplierInvoiceAmount = $invoice->amount;			
+			$payment->supplierInvoiceID = $request->invoiceID;
+		}
+		if($request->supplierID)
+			$payment->supplierID = $request->supplierID;
+		
 		$payment->jobcardID = $request->jobcardID;
-		$payment->supplierInvoiceCode = $invoice->supplierInvoiceCode;
-		$payment->SupplierInvoiceDate = date("Y-m-d", strtotime($invoice->invoiceDate));
-		$payment->supplierInvoiceAmount = $invoice->amount;
 		$payment->paymentAmount = $request->paymentAmount;
 		$payment->paymentTypeID = $request->paymentTypeID;
 		$payment->lastUpdatedByUserID = Sentinel::getUser()->id;
