@@ -122,7 +122,7 @@ class InvoiceController extends Controller
 		$invoice->save();
 		$jobcardID = $invoice->jobcardID;
 		
-		return Redirect::to('/jobcard/edit/'.$jobcardID.'/invoice');
+		return Redirect::back();
 	}
 
 
@@ -191,7 +191,7 @@ class InvoiceController extends Controller
 		$jobcardID = $invoice->jobcardID;
 
 		
-		return Redirect::to('/jobcard/edit/'.$jobcardID.'/invoice');
+		return Redirect::back();
 	}
 
 
