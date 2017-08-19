@@ -28,14 +28,14 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">Description</label>
                 <div class="col-sm-10">
-                  <textarea class="form-control" name="description" rows="2" placeholder="Description"></textarea>
+                  <textarea class="form-control input-req" name="description" rows="2" placeholder="Description"></textarea>
                 </div>
               </div>
 
               <div class="form-group">
                 <label name="supplierID" class="col-sm-2 control-label">Supplier</label>
                 <div class="col-sm-10">
-                  <select class="form-control" name="supplierID">
+                  <select class="form-control input-req" name="supplierID">
                           <option value="">Select a supplier</option>
                       @foreach ($suppliers as $supplier)
                           <option value="{{$supplier->supplierID}}">{{ $supplier->supplierName }}</option>
@@ -47,21 +47,21 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">Units</label>
                 <div class="col-sm-10">
-                  <input type="text" name="units" class="form-control" placeholder="Units">
+                  <input type="text" name="units" class="form-control input-req" placeholder="Units">
                 </div>
               </div>
 
               <div class="form-group">
                 <label class="col-sm-2 control-label">Cost</label>
                 <div class="col-sm-10">
-                  <input type="text" name="cost" class="form-control" placeholder="Cost">
+                  <input type="text" name="cost" class="form-control input-req" placeholder="Cost">
                 </div>
               </div>
 
               <div class="form-group">
                 <label class="col-sm-2 control-label">Margin</label>
                 <div class="col-sm-10">
-                  <input type="text" name="margin" class="form-control percentage" placeholder="Enter percentage out of 100 without the %">
+                  <input type="text" name="margin" class="form-control input-req percentage" placeholder="Enter percentage out of 100 without the %">
                 </div>
               </div>
 
@@ -76,7 +76,7 @@
               <div class="form-group">
                 <label name="itemType" class="col-sm-2 control-label">Material / Labour</label>
                 <div class="col-sm-10">
-                  <select class="form-control selection-child-item" name="itemType">
+                  <select class="form-control input-req selection-child-item" name="itemType">
                      <option value="1">Meterial</option> 
                      <option value="2">Labour</option> 
                   </select>
@@ -270,7 +270,7 @@
                    {{App\Model\Supplier::find($item->supplierID)->supplierName}}
                 @endif
               </td>
-              <td data-unitss-val="{{$item->units}}" class="amount-col">{{$item->units}}</td>
+              <td data-units-val="{{$item->units}}" class="amount-col">{{$item->units}}</td>
               <td data-cost-val="{{$item->cost}}" class="amount-col"><?= number_format((float)$item->cost, 3, '.', '') ?></td>
               <td class="amount-col"><?= number_format((float)$item->total, 3, '.', '') ?></td>
               <td data-margin-val="{{$item->margin}}" class="amount-col">{{$item->margin}}%</td>
@@ -279,7 +279,7 @@
                 <div class="inner">
                   <a class="btn bg-green btn-sm item-edit <?php ($jobcard->isSubmitted == 1) ? print 'disabled' : false ?>" href="#" data-form-url="/jobcard/edit/maintenance/update" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                   <input type="hidden" class="values">
-                  <form class="delete-form" method="POST" action="prop/6">
+                  <form class="delete-form" method="POST" action="/jobcard/edit/maintenance/{{$item->itemID}}">
                     <a href="#" class="delete-btn btn btn-danger btn-sm button--winona <?php ($jobcard->isSubmitted == 1) ? print 'disabled' : false ?>"><span><i class="fa fa-trash" aria-hidden="true"></i></span><span class="after">?</span></a>
                     <input type="hidden" name="_method" value="DELETE"> 
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -455,6 +455,14 @@
       $('.labour-maintenance').on('click', function(){
         $('form.labour-maintenance').submit();
       });
+
+      $('.form-horizontal').on('submit', function(e){
+        console.log(parseInt($(this).find('[name="units"]').val())); 
+        if(parseInt($(this).find('[name="units"]').val()) <= 0){
+          alert('Units cannot be zero or less');
+          e.preventDefault();
+        }
+      })
 
       function dynamicFormSubmit(){
         $('.meterial-maintenance').on('submit', function(e) {

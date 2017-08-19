@@ -33,6 +33,7 @@
       <tr class="t-head">
         <th>Receipt Code</th>
         <th>Customer</th>
+        <th>Customer Invoice Code</th>
         <th>Payment Type</th>
         <th>Invoice Date</th>
         <th>Received</th>
@@ -41,12 +42,13 @@
       </tr>
       @foreach($receipts as $receipt)
         <tr>
-          <td>{{$receipt->invoiceSystemCode}}</td>
+          <td><?= sprintf("RC%'05d\n", $receipt->receiptID); ?></td>
           <td>
             @if(App\Model\RentalOwner::find($receipt->customerID) && $receipt->customerID != 0)
               {{App\Model\RentalOwner::find($receipt->customerID)->firstName}}
             @endif
           </td>
+          <td>{{$receipt->invoiceSystemCode}}</td>
           <td>
             @if(App\Model\PaymentType::find($receipt->paymentTypeID) && $receipt->paymentTypeID != 0)
               {{App\Model\PaymentType::find($receipt->paymentTypeID)->paymentDescription}}
@@ -61,7 +63,7 @@
             <form class="delete-form" action="/receipt/{{$receipt->receiptID}}" method="POST">
               {{ csrf_field() }}
               {{ method_field('DELETE') }}
-              <a href="" class="delete-btn btn btn-danger btn-sm button--winona">
+              <a href="#" class="delete-btn btn btn-danger btn-sm button--winona">
                 <span><i class="fa fa-trash" aria-hidden="true"></i> Delete</span>
                 <span class="after">Sure?</span>
               </a>
@@ -83,7 +85,7 @@
                  <div class="form-group clearfix">
                   <label class="col-sm-3 control-label">Select Customer</label>
                   <div class="col-sm-9">
-                    <select class="form-control customer-field input-req" readonly required name="customerID">
+                    <select class="form-control customer-field" readonly name="customerID">
                       @if($customer)
                         <option value="{{$customer->rentalOwnerID}}" selected="selected">{{$customer->firstName}}</option>
                       @endif
@@ -93,7 +95,7 @@
                 <div class="form-group clearfix">
                   <label class="col-sm-3 control-label">Select Invoice</label>
                   <div class="col-sm-9">
-                    <select class="form-control invoice-field input-req" required name="invoiceID">
+                    <select class="form-control invoice-field" name="invoiceID">
                       <option value="">Select Invoice</option>
                       @if($invoices)
                         @foreach($invoices as $invoice)
@@ -139,29 +141,30 @@
 @endsection
 @push('scripts')
   <script>
-    $('.customer-field').on('change', function(){
-      $.ajax({
-        url: "/jobcard/edit/maintenance/receipt/"+$(this).val()+"",
-        context: document.body,
-        method: 'POST',
-        headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
-      })
-      .done(function(data) {
-        $('.invoice-field').html(function(){
-          // Generate the seletect list
-          var output = '<select class="form-control invoice-field" name="invoiceID">';
-          output += '<option value="'+0+'">'+'Select Invoice'+'</option>';
-          data.forEach(function( index, element ){
-            output += '<option value="'+data[element].customerInvoiceID+'">'+data[element].CustomerInvoiceSystemCode+'</option>';
-          });
-          output += '</select>';
-          return output;
-        });        
-      });
-    });
+    // Rental owner field is disabled so no changed event will fire delete code 
+    // $('.customer-field').on('change', function(){
+    //   $.ajax({
+    //     url: "/jobcard/edit/maintenance/{{$jobcard->jobcardID}}/receipt/"+$(this).val()+"",
+    //     context: document.body,
+    //     method: 'POST',
+    //     headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
+    //   })
+    //   .done(function(data) {
+    //     $('.invoice-field').html(function(){
+    //       // Generate the seletect list
+    //       var output = '<select class="form-control invoice-field" name="invoiceID">';
+    //       output += '<option value="'+0+'">'+'Select Invoice'+'</option>';
+    //       data.forEach(function( index, element ){
+    //         output += '<option value="'+data[element].customerInvoiceID+'">'+data[element].CustomerInvoiceSystemCode+'</option>';
+    //       });
+    //       output += '</select>';
+    //       return output;
+    //     });        
+    //   });
+    // });
     $('.invoice-field').on('change', function(){
       $.ajax({
-        url: "/jobcard/edit/maintenance/receipt/"+$(this).val()+"/amount",
+        url: "/jobcard/edit/maintenance/{{$jobcard->jobcardID}}/receipt/"+$(this).val()+"/amount",
         context: document.body,
         method: 'POST',
         headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}

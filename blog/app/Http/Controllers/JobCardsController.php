@@ -112,13 +112,16 @@ class JobCardsController extends Controller
 	    $jobcard->companyID = Sentinel::getUser()->companyID;
 	    $jobcard->documentID = 5;
         $jobcard->serialNo = 0;
-        $jobcard->jobCardCode = '#JC-4002';
         $jobcard->priorityID = $request->priorityID;
         $jobcard->jobcardTypeID = $request->jobcardTypeID;
         $jobcard->createdByUserName = Sentinel::getUser()->first_name;
+        $jobcard->isSubmitted = 0;
 
-	
-	    $jobcard->save();
+
+    
+        $jobcard->save();
+        $jobcard->jobCardCode = sprintf("#JC-%'05d\n", $jobcard->jobcardID);
+        $jobcard->save();
 
 	    return Redirect::to('jobcards');
     }

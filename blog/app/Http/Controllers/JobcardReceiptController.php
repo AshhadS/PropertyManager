@@ -28,7 +28,8 @@ class JobcardReceiptController extends Controller
 		if($request->customerID)
 			$receipt->customerID = $request->customerID;
 
-		$receipt->jobcardID = $request->jobcardID;
+		$receipt->documentID = 5;
+		$receipt->documentAutoID = $request->jobcardID;
 		$receipt->customerInvoiceID = $request->invoiceID;
 		$receipt->receiptAmount = $request->receiptAmount;
 		$receipt->paymentTypeID = $request->paymentTypeID;
@@ -45,10 +46,10 @@ class JobcardReceiptController extends Controller
 			$customer = RentalOwner::find($jobcard->rentalOwnerID);			
 		}
 		// dd($customer);
-		$receipts = Receipt::all();
+		$receipts = Receipt::where('documentID',5 )->where('documentAutoID', $jobcard->jobcardID)->get();
 		$invoices = null;
 		if(isset($customer->rentalOwnerID) && CustomerInvoice::where('propertyOwnerID', $customer->rentalOwnerID))
-			$invoices = CustomerInvoice::where('propertyOwnerID', $customer->rentalOwnerID)->get();
+			$invoices = CustomerInvoice::where('propertyOwnerID', $customer->rentalOwnerID)->where('jobcardID', $jobcard->jobcardID)->get();
 		$paymentTypes = PaymentType::all();
 		return view('jobcard_receipt', [
             'jobcard' => $jobcard,
@@ -60,8 +61,8 @@ class JobcardReceiptController extends Controller
 	    ]);
 	}
 
-	function getInvoiceItems($customer){
-		$invoice = CustomerInvoice::where('propertyOwnerID', $customer)->get();
+	function getInvoiceItems($customer, $jobcard){
+		$invoice = CustomerInvoice::where('propertyOwnerID', $customer)->where('jobcardID', $jobcard)->get();
 		return $invoice;
 	}
 
@@ -79,7 +80,7 @@ class JobcardReceiptController extends Controller
 	function generatePDF($id){
 		$pdf = App::make('dompdf.wrapper');
 		$receipt = Receipt::find($id);
-		$jobcard = JobCard::find($receipt->jobCardID);
+		$jobcard = JobCard::find($receipt->documentAutoID);
     	$company = Company::find(Sentinel::getUser()->companyID);
 		$data = array(
 			'jobcard' => $jobcard,
@@ -93,7 +94,7 @@ class JobcardReceiptController extends Controller
 
 	function delete($receiptID){
 		$receipt = Receipt::find($receiptID);
-		$jobcardID = $receipt->jobCardID;
+		$jobcardID = $receipt->documentAutoID;
 
 		$receipt->delete();
 		return Redirect::to('/jobcard/edit/'.$jobcardID.'/receipt');

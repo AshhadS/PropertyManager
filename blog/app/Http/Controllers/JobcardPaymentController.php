@@ -29,9 +29,11 @@ class JobcardPaymentController extends Controller
 		}
 		if($request->supplierID)
 			$payment->supplierID = $request->supplierID;
-		
-		$payment->jobcardID = $request->jobcardID;
+
 		$payment->paymentAmount = $request->paymentAmount;
+		$payment->paymentTypeID = $request->paymentTypeID;
+		$payment->documentID = 5;
+		$payment->documentAutoID = $request->jobcardID;
 		$payment->paymentTypeID = $request->paymentTypeID;
 		$payment->lastUpdatedByUserID = Sentinel::getUser()->id;
 		$payment->save();
@@ -42,7 +44,7 @@ class JobcardPaymentController extends Controller
 	function index($jobcard){
 		$jobcard = JobCard::find($jobcard);
 		$suppliers = Supplier::all();
-		$payments = Payment::all();
+		$payments = Payment::where('documentID', 5)->where('documentAutoID', $jobcard->jobcardID)->get();
 		$paymentTypes = PaymentType::all();
 		return view('jobcard_payment', [
             'jobcard' => $jobcard,
@@ -53,8 +55,8 @@ class JobcardPaymentController extends Controller
 	    ]);
 	}
 
-	function getInvoiceItems($supplier){
-		$invoice = SupplierInvoice::where('supplierID', $supplier)->get();
+	function getInvoiceItems(Request $request){
+		$invoice = SupplierInvoice::where('supplierID', $request->supplier)->where('jobcardID', $request->jobcard)->get();
 		return $invoice;
 	}
 
@@ -72,7 +74,7 @@ class JobcardPaymentController extends Controller
 	function generatePDF($id){
 		$pdf = App::make('dompdf.wrapper');
 		$payment = Payment::find($id);
-		$jobcard = JobCard::find($payment->jobCardID);
+		$jobcard = JobCard::find($payment->documentAutoID);
     	$company = Company::find(Sentinel::getUser()->companyID);
 		$data = array(
 			'jobcard' => $jobcard,
@@ -87,7 +89,7 @@ class JobcardPaymentController extends Controller
 
 	function delete($paymentID){
 		$payment = Payment::find($paymentID);
-		$jobcardID = $payment->jobCardID;
+		$jobcardID = $payment->documentAutoID;
 
 		$payment->delete();
 		return Redirect::to('jobcard/edit/'.$jobcardID.'/payment');

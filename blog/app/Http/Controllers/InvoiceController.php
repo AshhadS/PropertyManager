@@ -61,11 +61,11 @@ class InvoiceController extends Controller
 			// Generate supplier invoice per supplier
 
 			// Get a list of unique supplier ids
-			$supplierids = Maintenance::distinct()->get(['supplierID'])->pluck('supplierID');
+			$supplierids = Maintenance::where('jobcardID', $request->jobcardID)->distinct()->get(['supplierID'])->pluck('supplierID');
 
 			foreach ($supplierids as $supplierid) {
 				// Get totals for each supplier
-				$supplierTotal = Maintenance::where('supplierID', $supplierid)->sum('total');
+				$supplierTotal = Maintenance::where('supplierID', $supplierid)->where('jobcardID', $request->jobcardID)->sum('total');
 				$this->createSuppliersInvoice($supplierid, $request->jobcardID, $supplierTotal);
 			}
 		}else{ //Delete all the invoices for that jobcard
@@ -145,10 +145,11 @@ class InvoiceController extends Controller
 			$invoice->amount = $this->getJobcardGrandTotal($jobcard->jobcardID);
 			$invoice->invoiceDate = date("Y-m-d H:i:s");
 			$invoice->lastUpdatedByUserID = Sentinel::getUser()->id;
-			$invoice->CustomerInvoiceSystemCode = sprintf("CINV%'05d\n", $invoice->customerInvoiceID);
-
-
 			$invoice->save();
+			$invoice->CustomerInvoiceSystemCode = sprintf("CINV%'05d\n", $invoice->customerInvoiceID);
+			$invoice->save();
+
+
 		}else{ //Delete all the invoices for that jobcard
 			CustomerInvoice::where('jobcardID', $request->jobcardID)->delete();
 		}

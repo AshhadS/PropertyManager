@@ -33,6 +33,7 @@
     <tr class="t-head">
       <th>Payment Code</th>
       <th>Supplier</th>
+      <th>Supplier Invoice Code</th>
       <th>Payment Type</th>
       <th>Invoice Date</th>
       <th>Paid</th>
@@ -41,12 +42,13 @@
     </tr>
     @foreach($payments as $payment)
       <tr>
-        <td>{{$payment->invoiceSystemCode}}</td>
+        <td><?= sprintf("PC%'05d\n", $payment->paymentID); ?></td>
         <td>
           @if(App\Model\Supplier::find($payment->supplierID) && $payment->supplierID != 0)
             {{App\Model\Supplier::find($payment->supplierID)->supplierName}}
           @endif
         </td>
+        <td>{{$payment->invoiceSystemCode}}</td>
         <td>
           @if(App\Model\PaymentType::find($payment->paymentTypeID) && $payment->paymentTypeID != 0)
             {{App\Model\PaymentType::find($payment->paymentTypeID)->paymentDescription}}
@@ -61,7 +63,7 @@
           <form class="delete-form" action="/payment/{{$payment->paymentID}}" method="POST">
             {{ csrf_field() }}
             {{ method_field('DELETE') }}
-            <a href="" class="delete-btn btn btn-danger btn-sm button--winona">
+            <a href="#" class="delete-btn btn btn-danger btn-sm button--winona">
               <span><i class="fa fa-trash" aria-hidden="true"></i> Delete</span>
               <span class="after">Sure?</span>
             </a>
@@ -86,7 +88,7 @@
               <div class="form-group clearfix">
                 <label class="col-sm-3 control-label">Select Supplier</label>
                 <div class="col-sm-9">
-                  <select class="form-control supplier-field input-req" required name="supplierID">
+                  <select class="form-control supplier-field" name="supplierID">
                     <option value="">Select Supplier</option>
                     @foreach($suppliers as $supplier)
                       <option value="{{$supplier->supplierID}}">{{$supplier->supplierName}}</option>
@@ -97,7 +99,7 @@
               <div class="form-group clearfix">
                 <label class="col-sm-3 control-label">Select Invoice</label>
                 <div class="col-sm-9">
-                  <select class="form-control invoice-field input-req" required name="invoiceID">
+                  <select class="form-control invoice-field" name="invoiceID">
                     <option value="">Select Invoice</option>
                   </select>
                 </div>
@@ -137,8 +139,12 @@
   <script>
     $('.supplier-field').on('change', function(){
       $.ajax({
-        url: "/jobcard/edit/maintenance/"+$(this).val()+"",
+        url: "/jobcard/edit/maintenance/payment/get-invoices",
         context: document.body,
+        data: { 
+          'jobcard': '{{$jobcard->jobcardID}}', 
+          'supplier': $(this).val() 
+        },
         method: 'POST',
         headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
       })

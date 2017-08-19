@@ -48,6 +48,8 @@ Route::group(['middleware' => ['CustomAuth']], function () {
     'as' => 'agreement.update',
     'uses' => 'AgreementsController@update'
 	]);
+	Route::get('agreement/submit/{agreementid}', 'AgreementsController@submitHandler');
+
 	
 
 	
@@ -160,10 +162,13 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::delete('jobcard/edit/maintenance/{maintenanceItem}', 'JobCardsMaintenanceController@delete');
 		Route::get('jobcard/edit/maintenance/{maintenanceItem}/pdf',  'JobCardsMaintenanceController@generatePDF');
 		Route::get('jobcard/edit/maintenance/{maintenanceItem}/pdf/show',  'JobCardsMaintenanceController@displaypdf');
-		Route::post('maintainance/submit',  'JobCardsMaintenanceController@submitOrReverse');
+		Route::post('maintainance/submit',  'InvoiceController@submitButtonHandler');
 
 		Route::post('update/customer-invoice',  'InvoiceController@updateCustomerInvoice');
 		Route::post('update/supplier-invoice',  'InvoiceController@updateSupplierInvoice');
+
+		Route::get('customer/invoice/{id}/display',  'InvoiceController@customerInvoicePDF');
+		Route::get('supplier/invoice/{id}/display',  'InvoiceController@supplierInvoicePDF');
 
 		/**
 		 * Jobcard Payment
@@ -175,7 +180,7 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		 * Jobcard Payment
 		 */
 		Route::get('jobcard/edit/{jobcard}/payment',  'JobcardPaymentController@index');
-		Route::post('jobcard/edit/maintenance/{invoice}',  'JobcardPaymentController@getInvoiceItems');
+		Route::post('/jobcard/edit/maintenance/payment/get-invoices',  'JobcardPaymentController@getInvoiceItems');
 		Route::post('jobcard/edit/maintenance/{invoice}/amount',  'JobcardPaymentController@getInvoiceAmount');
 		Route::post('/jobcard/payment',  'JobcardPaymentController@createPayment');
 		Route::delete('/payment/{id}',  'JobcardPaymentController@delete');
@@ -187,7 +192,7 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		 * Jobcard Receipt
 		 */
 		Route::get('jobcard/edit/{jobcard}/receipt',  'JobcardReceiptController@index');
-		Route::post('jobcard/edit/maintenance/receipt/{invoice}',  'JobcardReceiptController@getInvoiceItems');
+		Route::post('jobcard/edit/maintenance/{jobcard}/receipt/{invoice}',  'JobcardReceiptController@getInvoiceItems');
 		Route::post('jobcard/edit/maintenance/receipt/{invoice}/amount',  'JobcardReceiptController@getInvoiceAmount');
 		Route::post('/jobcard/receipt',  'JobcardReceiptController@createReceipt');
 		Route::delete('/receipt/{id}',  'JobcardReceiptController@delete');
@@ -280,5 +285,23 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::post('/account', 'SettingsController@createChartofaccounts');
 		Route::post('update/account', 'SettingsController@editChartofaccounts');
 		Route::delete('/account/{chartofaccounts}', 'SettingsController@deleteChartofaccounts');
+
+		/**
+		 * Receipts
+		 */		
+		Route::post('custom/receipt', 'ReceiptController@createReceipt');
+		Route::post('update/custom/receipt', 'ReceiptController@updateReceipt');
+		Route::delete('custom/receipt/{id}', 'ReceiptController@delete');
+
+		/**
+		 * Payments
+		 */		
+		Route::post('custom/payment', 'PaymentController@createReceipt');
+		Route::post('update/custom/payment', 'PaymentController@updateReceipt');
+		Route::delete('custom/payment/{id}', 'PaymentController@delete');
+
+
+
+
 		
 });
