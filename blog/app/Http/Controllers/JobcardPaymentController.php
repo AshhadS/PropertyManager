@@ -10,6 +10,7 @@ use App\Model\Company;
 use App\Model\Property;
 use App\Model\SupplierInvoice;
 use App\Model\Payment;
+use Debugbar;
 use App\Model\PaymentType;
 use Redirect;
 use Sentinel;
@@ -26,6 +27,21 @@ class JobcardPaymentController extends Controller
 			$payment->SupplierInvoiceDate = date("Y-m-d", strtotime($invoice->invoiceDate));
 			$payment->supplierInvoiceAmount = $invoice->amount;			
 			$payment->supplierInvoiceID = $request->invoiceID;
+
+			$duePayment = $invoice->amount - Payment::where('supplierInvoiceID', $invoice->supplierInvoiceID)->where('documentID', 5)->where('documentAutoID', $request->jobcardID)->sum('paymentAmount');
+
+			// Payment Made Y/N
+			if($request->paymentAmount && $duePayment > $request->paymentAmount){
+				// partially paid
+				$invoice->paymentPaidYN = 1;
+			}else{
+				// fully paid
+				$invoice->paymentPaidYN = 2;
+			}
+			Debugbar::info($duePayment);
+			Debugbar::info($request->paymentAmount);
+			$invoice->save();
+
 		}
 		if($request->supplierID)
 			$payment->supplierID = $request->supplierID;
@@ -63,12 +79,13 @@ class JobcardPaymentController extends Controller
 	function getInvoiceAmount($invoice){
 		// Check if payment has been made before
 		$invoiceAmount = SupplierInvoice::find($invoice)->amount;
+		$supplierInvoice = SupplierInvoice::find($invoice);
 		$paidAmount = 0;
 		if(Payment::where('supplierInvoiceID', $invoice)){
-			$paidAmount = Payment::where('supplierInvoiceID', $invoice)->sum('paymentAmount');
+			$paidAmount = Payment::where('supplierInvoiceID', $invoice)->where('documentID', 5)->where('documentAutoID', $supplierInvoice->jobcardID)->sum('paymentAmount');
 		}
 		$finalAmount = $invoiceAmount - $paidAmount;
-		return $finalAmount;		
+		return $finalAmount;
 	}
 
 	function generatePDF($id){
@@ -90,6 +107,12 @@ class JobcardPaymentController extends Controller
 	function delete($paymentID){
 		$payment = Payment::find($paymentID);
 		$jobcardID = $payment->documentAutoID;
+
+		if(isset($payment->supplierInvoiceID)){
+			$invoice = SupplierInvoice::find($payment->supplierInvoiceID);
+			$invoice->paymentPaidYN = 1;
+			$invoice->save();
+		}
 
 		$payment->delete();
 		return Redirect::to('jobcard/edit/'.$jobcardID.'/payment');

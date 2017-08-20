@@ -56,7 +56,15 @@
             </td>
             <td><?= number_format((float)$supplierInvoice->amount, 3, '.', '') ?></td>
             <td class="invoice-date format-date"> {{$supplierInvoice->invoiceDate}} </td>
-            <td> {{($supplierInvoice->paymentPaidYN) ? "Yes" : "No"}} </td>            
+            <td> 
+              @if ($supplierInvoice->paymentPaidYN == 0)
+                  No
+              @elseif ($supplierInvoice->paymentPaidYN == 1)
+                  Partially
+              @else
+                  Fully
+              @endif
+            </td>            
             <td> <a href="#" data-id="{{$supplierInvoice->supplierInvoiceID}}" class="btn bg-yellow supplier-edit-invoice" data-toggle="modal" data-target="#supplierModal"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></td>  
             <td> <a href="/invoice/{{$supplierInvoice->supplierInvoiceID}}/display" class="btn btn-info"><i class="fa fa-file-text" aria-hidden="true"></i> PDF</a></td>            
           </tr>

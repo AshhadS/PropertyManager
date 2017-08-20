@@ -164,7 +164,7 @@
     // });
     $('.invoice-field').on('change', function(){
       $.ajax({
-        url: "/jobcard/edit/maintenance/{{$jobcard->jobcardID}}/receipt/"+$(this).val()+"/amount",
+        url: "/jobcard/edit/maintenance/receipt/"+$(this).val()+"/amount",
         context: document.body,
         method: 'POST',
         headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
