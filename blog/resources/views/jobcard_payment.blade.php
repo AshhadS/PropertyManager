@@ -42,7 +42,7 @@
     </tr>
     @foreach($payments as $payment)
       <tr>
-        <td><?= sprintf("PC%'05d\n", $payment->paymentID); ?></td>
+        <td><?= sprintf("SPV%'05d\n", $payment->paymentID); ?></td>
         <td>
           @if(App\Model\Supplier::find($payment->supplierID) && $payment->supplierID != 0)
             {{App\Model\Supplier::find($payment->supplierID)->supplierName}}
