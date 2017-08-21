@@ -358,7 +358,7 @@
             <td></td>
             <td class="total-cell amount-col"></td>
             <td class="total-cell amount-col"></td>
-            <td class="total-cell amount-col">{{$maintenanceItensTotal}}</td>
+            <td class="total-cell amount-col"><?= number_format((float)$maintenanceItensTotal, 3, '.', '') ?></td>
             <td class="amount-col edit-button"></td>
           </tr>
         </tbody>

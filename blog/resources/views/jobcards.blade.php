@@ -61,7 +61,7 @@
               </div>
             </div>
 
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label name="jobcardStatusID" class="col-sm-2 control-label">Status</label>
               <div class="col-sm-10">
                 <select class="form-control" name="jobcardStatusID">
@@ -70,7 +70,7 @@
                   @endforeach
                 </select>
               </div>
-            </div>  
+            </div>   -->
 
             <div class="form-group">
               <label class="col-sm-2 control-label">Job Card Priority</label>

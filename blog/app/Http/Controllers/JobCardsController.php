@@ -100,7 +100,7 @@ class JobCardsController extends Controller
 	    // dd(Sentinel::getUser()->companyID);
 	    $jobcard->subject = $request->subject;
 	    $jobcard->description = $request->description;
-	    $jobcard->jobcardStatusID = $request->jobcardStatusID;
+	    $jobcard->jobcardStatusID = 1;
 
 	    if($request->PropertiesID != 0) {
             $jobcard->PropertiesID = $request->PropertiesID;
