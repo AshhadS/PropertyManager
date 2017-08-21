@@ -105,6 +105,9 @@
                     </select>
                   </div>
                 </div>
+                <div class="invoice-amount-section">
+                
+                </div>
                 <div class="form-group clearfix">
                   <label class="col-sm-3 control-label">Enter Amount</label>
                   <div class="col-sm-9">
@@ -170,8 +173,7 @@
         headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
       })
       .done(function(data) {
-        $('.invoice-field').closest('.form-group').after(function(){
-          console.log(data); 
+        $('.invoice-amount-section').html(function(){
           return `<div class="form-group clearfix">
                     <label class="col-sm-3 control-label">Amount Recievable</label>
                     <div class="col-sm-9">

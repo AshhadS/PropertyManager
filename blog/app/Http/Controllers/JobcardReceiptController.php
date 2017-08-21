@@ -23,7 +23,19 @@ class JobcardReceiptController extends Controller
 			$invoice = CustomerInvoice::find($request->invoiceID);
 			$receipt->invoiceSystemCode = $invoice->CustomerInvoiceSystemCode;
 			$receipt->customerInvoiceDate = date("Y-m-d", strtotime($invoice->invoiceDate));
-			$receipt->customerInvoiceAmount = $invoice->amount;			
+			$receipt->customerInvoiceAmount = $invoice->amount;
+
+			$dueReceipt = $invoice->amount - Receipt::where('customerInvoiceID', $invoice->supplierInvoiceID)->where('documentID', 5)->where('documentAutoID', $request->jobcardID)->sum('receiptAmount');
+
+			// Payment Made Y/N
+			if($request->receiptAmount && $dueReceipt > $request->receiptAmount){
+				// partially paid
+				$invoice->paymentReceivedYN = 1;
+			}else{
+				// fully paid
+				$invoice->paymentReceivedYN = 2;
+			}
+			$invoice->save();
 		}
 		if($request->customerID)
 			$receipt->customerID = $request->customerID;
@@ -95,6 +107,12 @@ class JobcardReceiptController extends Controller
 	function delete($receiptID){
 		$receipt = Receipt::find($receiptID);
 		$jobcardID = $receipt->documentAutoID;
+
+		if(isset($receipt->customerInvoiceID)){
+			$invoice = CustomerInvoice::find($receipt->customerInvoiceID);
+			$invoice->paymentReceivedYN = 1;
+			$invoice->save();
+		}
 
 		$receipt->delete();
 		return Redirect::to('/jobcard/edit/'.$jobcardID.'/receipt');
