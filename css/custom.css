@@ -349,7 +349,8 @@ th.edit-button {
   outline: none;
 }
 
-.edit-button .btn-danger {
+.edit-button .btn-danger,
+.edit-button .btn-second {
   margin-left: 12px;
   position: relative;
 }

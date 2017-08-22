@@ -137,10 +137,16 @@
   <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
     <i class="fa fa-plus"></i> <b>Add Jobcard</b>
   </button>
+
   
 </div>
 
 <div class="container-fluid" >
+  @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+    @if(Session::has('alert-' . $msg))
+      <p class="alert alert-danger"><b>{{ Session::get('alert-' . $msg) }}</b></p>
+    @endif
+  @endforeach
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">

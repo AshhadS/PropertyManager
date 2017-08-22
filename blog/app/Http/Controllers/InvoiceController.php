@@ -118,7 +118,7 @@ class InvoiceController extends Controller
 		// dd($request->invoiceDate);
 		$invoice = SupplierInvoice::find($request->supplierInvoiceID);
 		$invoice->supplierInvoiceCode = $request->supplierInvoiceCode;
-		$invoice->invoiceDate = date("Y-m-d", strtotime($request->invoiceDate));
+		$invoice->invoiceDate = date_create_from_format("j/m/Y", $request->invoiceDate)->format('Y-m-d');
 		$invoice->save();
 		$jobcardID = $invoice->jobcardID;
 		
@@ -186,7 +186,7 @@ class InvoiceController extends Controller
 
 	function updateCustomerInvoice(Request $request){
 		$invoice = CustomerInvoice::find($request->customerInvoiceID);
-		$invoice->invoiceDate = date("Y-m-d", strtotime($request->invoiceDate));
+		$invoice->invoiceDate = date_create_from_format("j/m/Y", $request->invoiceDate)->format('Y-m-d');
 		
 		$invoice->save();
 		$jobcardID = $invoice->jobcardID;

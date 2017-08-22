@@ -38,8 +38,6 @@ class JobcardPaymentController extends Controller
 				// fully paid
 				$invoice->paymentPaidYN = 2;
 			}
-			Debugbar::info($duePayment);
-			Debugbar::info($request->paymentAmount);
 			$invoice->save();
 
 		}
@@ -82,7 +80,7 @@ class JobcardPaymentController extends Controller
 		$supplierInvoice = SupplierInvoice::find($invoice);
 		$paidAmount = 0;
 		if(Payment::where('supplierInvoiceID', $invoice)){
-			$paidAmount = Payment::where('supplierInvoiceID', $invoice)->where('documentID', 5)->where('documentAutoID', $supplierInvoice->jobcardID)->sum('paymentAmount');
+			$paidAmount = Payment::where('supplierID', $supplierInvoice->supplierID)->where('supplierInvoiceID', $invoice)->where('documentID', 5)->where('documentAutoID', $supplierInvoice->jobCardID)->sum('paymentAmount');
 		}
 		$finalAmount = $invoiceAmount - $paidAmount;
 		return $finalAmount;

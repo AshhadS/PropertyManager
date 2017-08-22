@@ -33,11 +33,10 @@
       <tr class="t-head">
         <th>Receipt Code</th>
         <th>Customer</th>
-        <th>Customer Invoice Code</th>
-        <th>Payment Type</th>
+        <th>Invoice Number</th>
         <th>Invoice Date</th>
-        <th>Received</th>
-        <th>Document</th>
+        <th>Amount</th>
+        <th>Payment Type</th>
         <th>Actions</th>
       </tr>
       @foreach($receipts as $receipt)
@@ -49,25 +48,25 @@
             @endif
           </td>
           <td>{{$receipt->invoiceSystemCode}}</td>
+          <td>{{$receipt->customerInvoiceDate}}</td>
+          <td><?= number_format((float)$receipt->receiptAmount, 3, '.', '') ?></td>
           <td>
             @if(App\Model\PaymentType::find($receipt->paymentTypeID) && $receipt->paymentTypeID != 0)
               {{App\Model\PaymentType::find($receipt->paymentTypeID)->paymentDescription}}
             @endif
           </td>
-          <td>{{$receipt->customerInvoiceDate}}</td>
-          <td><?= number_format((float)$receipt->receiptAmount, 3, '.', '') ?></td>
-          <td>
-            <a href="/jobcard/edit/receipt/{{$receipt->receiptID}}/pdf" class="btn btn-info"><i class="fa fa-file-text" aria-hidden="true"></i> PDF</a>
-          </td>
-          <td>
-            <form class="delete-form" action="/receipt/{{$receipt->receiptID}}" method="POST">
-              {{ csrf_field() }}
-              {{ method_field('DELETE') }}
-              <a href="#" class="delete-btn btn btn-danger btn-sm button--winona">
-                <span><i class="fa fa-trash" aria-hidden="true"></i> Delete</span>
-                <span class="after">Sure?</span>
-              </a>
-            </form>
+          <td class="edit-button">
+            <div class="inner">
+              <a href="/jobcard/edit/receipt/{{$receipt->receiptID}}/pdf" class="btn btn-info btn-sm"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+              <form class="delete-form" action="/receipt/{{$receipt->receiptID}}" method="POST">
+                {{ csrf_field() }}
+                {{ method_field('DELETE') }}
+                <a href="#" class="delete-btn btn btn-danger btn-sm button--winona">
+                  <span><i class="fa fa-trash" aria-hidden="true"></i></span>
+                  <span class="after">Sure?</span>
+                </a>
+              </form>
+            </div>
           </td>
         </tr>
       @endforeach
@@ -166,6 +165,7 @@
     //   });
     // });
     $('.invoice-field').on('change', function(){
+      $('.invoice-amount-section').html('');
       $.ajax({
         url: "/jobcard/edit/maintenance/receipt/"+$(this).val()+"/amount",
         context: document.body,

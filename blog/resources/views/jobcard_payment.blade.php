@@ -30,14 +30,13 @@
   </div>
 
   <table class="m-item table table-striped">
-    <tr class="t-head">
+    <tr class="t-head"> 
       <th>Payment Code</th>
       <th>Supplier</th>
-      <th>Supplier Invoice Code</th>
-      <th>Payment Type</th>
+      <th>Invoice Number</th>
       <th>Invoice Date</th>
-      <th>Paid</th>
-      <th>Document</th>
+      <th>Amount</th>
+      <th>Payment Type</th>
       <th>Actions</th>
     </tr>
     @foreach($payments as $payment)
@@ -49,25 +48,25 @@
           @endif
         </td>
         <td>{{$payment->invoiceSystemCode}}</td>
+        <td>{{$payment->SupplierInvoiceDate}}</td>
+        <td><?= number_format((float)$payment->paymentAmount, 3, '.', '') ?></td>
         <td>
           @if(App\Model\PaymentType::find($payment->paymentTypeID) && $payment->paymentTypeID != 0)
             {{App\Model\PaymentType::find($payment->paymentTypeID)->paymentDescription}}
           @endif
         </td>
-        <td>{{$payment->SupplierInvoiceDate}}</td>
-        <td><?= number_format((float)$payment->paymentAmount, 3, '.', '') ?></td>
-        <td>
-          <a href="/jobcard/edit/payment/{{$payment->paymentID}}/pdf" class="btn btn-info"><i class="fa fa-file-text" aria-hidden="true"></i> PDF</a>
-        </td>
-        <td>
-          <form class="delete-form" action="/payment/{{$payment->paymentID}}" method="POST">
-            {{ csrf_field() }}
-            {{ method_field('DELETE') }}
-            <a href="#" class="delete-btn btn btn-danger btn-sm button--winona">
-              <span><i class="fa fa-trash" aria-hidden="true"></i> Delete</span>
-              <span class="after">Sure?</span>
-            </a>
-          </form>
+        <td class="edit-button">
+          <div class="inner">
+            <a href="/jobcard/edit/payment/{{$payment->paymentID}}/pdf" class="btn btn-info btn-sm"><i class="fa fa-file-text" aria-hidden="true"></i> </a>
+            <form class="delete-form" action="/payment/{{$payment->paymentID}}" method="POST">
+              {{ csrf_field() }}
+              {{ method_field('DELETE') }}
+              <a href="#" class="delete-btn btn btn-danger btn-sm button--winona">
+                <span><i class="fa fa-trash" aria-hidden="true"></i> </span>
+                <span class="after">Sure?</span>
+              </a>
+            </form>
+          </div>
         </td>
       </tr>
     @endforeach
@@ -141,6 +140,7 @@
 @push('scripts')
   <script>
     $('.supplier-field').on('change', function(){
+      $('.invoice-amount-section').html('');
       $.ajax({
         url: "/jobcard/edit/maintenance/payment/get-invoices",
         context: document.body,

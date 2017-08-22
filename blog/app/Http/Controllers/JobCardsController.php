@@ -14,6 +14,11 @@ use App\Model\Property;
 use App\Model\Tenant;
 use App\Model\Attachment;
 use App\Model\DocumentMaster;
+use App\Model\CustomerInvoice;
+use App\Model\SupplierInvoice;
+use App\Model\Receipt;
+use App\Model\Payment;
+use App\Model\Maintenance;
 use App\Model\User;
 use Datatables;
 use Illuminate\Support\Facades\DB;
@@ -290,8 +295,19 @@ class JobCardsController extends Controller
 
     function delete($jobcard){
         $jobcard = JobCard::find($jobcard);
-	    $jobcard->delete();
-        return Redirect::to('jobcards');
+        $request = Request();
+
+
+        // Not allowing user to delete jobcard if it has receipts, payments & invoices
+        // For a jobcard to have receipt or payment it needs invoices
+        // For a invoice to be there the jobcard needs to be submitted
+        if($jobcard->isSubmitted == 1){
+            $request->session()->flash('alert-success', 'Cannot delete this jobcard.');
+            return Redirect::to('jobcards');
+        }else{
+            $jobcard->delete();
+            return Redirect::to('jobcards');
+        }
     }
 }
 

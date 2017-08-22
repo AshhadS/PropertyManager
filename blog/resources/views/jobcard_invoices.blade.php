@@ -32,41 +32,44 @@
   <table class="m-item  table table-striped">
       <thead>
       </thead>
-      <tbody>
+      <tbody> 
         <tr class="t-head">
           <th class="amount-col">#</th>
-          <th>System Code</th>
-          <th>Invoice Code</th>
-          <th>Supplier</th>
-          <th>Amount</th>
+          <th>Invoice System Code</th>
+          <th>Supplier Name</th>
+          <th>Invoice Number</th>
           <th>Invoice Date</th>
-          <th>Payment Made</th>
-          <th>Edit</th>
-          <th>Document</th>
+          <th>Amount</th>
+          <th>Payment Status</th>
+          <th>Actions</th>
         </tr>
         @foreach($supplierInvoices as $index => $supplierInvoice)
           <tr class="maintenance-item">
             <td> {{++$index}} </td>
             <td> {{$supplierInvoice->invoiceSystemCode}} </td>
-            <td class="invoice-code"> {{$supplierInvoice->supplierInvoiceCode}} </td>
             <td data-supplier-val="{{$supplierInvoice->supplierID}}">
               @if(App\Model\Supplier::find($supplierInvoice->supplierID) && $supplierInvoice->supplierID != 0)
                  {{App\Model\Supplier::find($supplierInvoice->supplierID)->supplierName}}
               @endif
             </td>
-            <td><?= number_format((float)$supplierInvoice->amount, 3, '.', '') ?></td>
+            <td class="invoice-code"> {{$supplierInvoice->supplierInvoiceCode}} </td>
             <td class="invoice-date format-date"> {{$supplierInvoice->invoiceDate}} </td>
+            <td><?= number_format((float)$supplierInvoice->amount, 3, '.', '') ?></td>
             <td> 
               @if ($supplierInvoice->paymentPaidYN == 0)
-                  No
+                Not Paid
               @elseif ($supplierInvoice->paymentPaidYN == 1)
-                  Partially
+                Partially Paid
               @else
-                  Fully
+                Fully Paid
               @endif
             </td>            
-            <td> <a href="#" data-id="{{$supplierInvoice->supplierInvoiceID}}" class="btn bg-yellow supplier-edit-invoice" data-toggle="modal" data-target="#supplierModal"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></td>  
-            <td> <a href="/invoice/{{$supplierInvoice->supplierInvoiceID}}/display" class="btn btn-info"><i class="fa fa-file-text" aria-hidden="true"></i> PDF</a></td>            
+            <td class="edit-button"> 
+              <div class="inner">
+                <a href="#" data-id="{{$supplierInvoice->supplierInvoiceID}}" class="btn bg-yellow supplier-edit-invoice btn-sm pull-left" data-toggle="modal" data-target="#supplierModal"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
+                <a href="/invoice/{{$supplierInvoice->supplierInvoiceID}}/display" class="btn btn-info btn-sm btn-second pull-left"><i class="fa fa-file-text" aria-hidden="true"></i> </a>
+              </div>
+              </td>            
           </tr>
         @endforeach
       </tbody>
@@ -80,13 +83,12 @@
     <table class="m-item  table table-striped"  >
       <tr class="t-head">
         <th class="amount-col">#</th>
-        <th>System Code</th>
-        <th>Property Owner</th>
+        <th>Invoice System Code</th>
+        <th>Customer Name</th>
         <th>Invoice Date</th>
-        <th>Payment Recieved</th>
         <th>Amount</th>
-        <th>Edit</th>
-        <th>Document</th>
+        <th>Payment Status</th>
+        <th>Actions</th>
       </tr>
       @foreach($customerInvoices as $index => $customerInvoice)
           <tr class="maintenance-item">
@@ -98,10 +100,22 @@
               @endif
             </td>
             <td class="invoice-date format-date"> {{$customerInvoice->invoiceDate}} </td>
-            <td> {{($customerInvoice->paymentReceivedYN) ? "Yes" : "No"}} </td>            
             <td> <?= number_format((float)$customerInvoice->amount, 3, '.', '') ?></td>
-            <td> <a href="#" data-id="{{$customerInvoice->customerInvoiceID}}" class="btn bg-yellow customer-edit-invoice" data-toggle="modal" data-target="#clientModal"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></td>
-            <td> <a href="/customer/invoice/{{$customerInvoice->customerInvoiceID}}/display" class="btn btn-info"><i class="fa fa-file-text" aria-hidden="true"></i> PDF</a></td>            
+            <td>
+              @if ($customerInvoice->paymentReceivedYN == 0)
+                Not Received
+              @elseif ($customerInvoice->paymentReceivedYN == 1)
+                Partially Received
+              @else
+                Fully Received
+              @endif
+            </td>            
+            <td class="edit-button"> 
+              <div class="inner">
+                <a href="#" data-id="{{$customerInvoice->customerInvoiceID}}" class="btn bg-yellow customer-edit-invoice btn-sm pull-left" data-toggle="modal" data-target="#clientModal"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
+                 <a href="/customer/invoice/{{$customerInvoice->customerInvoiceID}}/display" class="btn btn-info btn-sm btn-second pull-left"><i class="fa fa-file-text" aria-hidden="true"></i> </a>
+              </div>
+             </td>            
           </tr>
         @endforeach
     </table>
