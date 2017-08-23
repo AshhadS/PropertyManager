@@ -61,7 +61,7 @@ class JobcardReceiptController extends Controller
 		$receipts = Receipt::where('documentID',5 )->where('documentAutoID', $jobcard->jobcardID)->get();
 		$invoices = null;
 		if(isset($customer->rentalOwnerID) && CustomerInvoice::where('propertyOwnerID', $customer->rentalOwnerID))
-			$invoices = CustomerInvoice::where('propertyOwnerID', $customer->rentalOwnerID)->where('jobcardID', $jobcard->jobcardID)->get();
+			$invoices = CustomerInvoice::where('propertyOwnerID', $customer->rentalOwnerID)->where('jobcardID', $jobcard->jobcardID)->where('paymentReceivedYN', '!=', 2)->get();
 		$paymentTypes = PaymentType::all();
 		return view('jobcard_receipt', [
             'jobcard' => $jobcard,
@@ -74,7 +74,7 @@ class JobcardReceiptController extends Controller
 	}
 
 	function getInvoiceItems($customer, $jobcard){
-		$invoice = CustomerInvoice::where('propertyOwnerID', $customer)->where('jobcardID', $jobcard)->get();
+		$invoice = CustomerInvoice::where('propertyOwnerID', $customer)->where('jobcardID', $jobcard)->where('paymentReceivedYN', '!=', 2)->get();
 		return $invoice;
 	}
 

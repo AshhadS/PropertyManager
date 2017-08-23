@@ -302,9 +302,14 @@ class JobCardsController extends Controller
         // For a jobcard to have receipt or payment it needs invoices
         // For a invoice to be there the jobcard needs to be submitted
         if($jobcard->isSubmitted == 1){
-            $request->session()->flash('alert-success', 'Cannot delete this jobcard.');
+            $request->session()->flash('alert-success', 'You cannot delete this job card as the job card is submitted');
             return Redirect::to('jobcards');
         }else{
+            $maintenance = Maintenance::where('jobcardID', $jobcard->jobcardID)->get();
+
+            foreach ($maintenance as $key => $item) {
+                $item->delete();
+            }
             $jobcard->delete();
             return Redirect::to('jobcards');
         }

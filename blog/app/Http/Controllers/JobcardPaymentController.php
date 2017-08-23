@@ -70,7 +70,7 @@ class JobcardPaymentController extends Controller
 	}
 
 	function getInvoiceItems(Request $request){
-		$invoice = SupplierInvoice::where('supplierID', $request->supplier)->where('jobcardID', $request->jobcard)->get();
+		$invoice = SupplierInvoice::where('supplierID', $request->supplier)->where('jobcardID', $request->jobcard)->where('paymentPaidYN', '!=', 2)->get();
 		return $invoice;
 	}
 
