@@ -3,8 +3,9 @@
 @section('content')
 <br />
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-lg-5ths col-xs-6">
+
+<div class="row">
+	<div class="col-lg-5ths col-xs-6">
 		  <!-- small box -->
 		  <div class="small-box bg-aqua">
 		    <div class="inner">
@@ -17,9 +18,9 @@
 		    </div>
 		    <a href="/props" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		  </div>
-		</div>
-		<!-- ./col -->
-		<div class="col-lg-5ths col-xs-6">
+	</div>
+	<!-- ./col -->
+	<div class="col-lg-5ths col-xs-6">
 		  <!-- small box -->
 		  <div class="small-box bg-green">
 		    <div class="inner">
@@ -32,9 +33,9 @@
 		    </div>
 		    <a href="/rentalowners" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		  </div>
-		</div>
-		<!-- ./col -->
-		<div class="col-lg-5ths col-xs-6">
+	</div>
+	<!-- ./col -->
+	<div class="col-lg-5ths col-xs-6">
 		  <!-- small box -->
 		  <div class="small-box bg-yellow">
 		    <div class="inner">
@@ -49,6 +50,7 @@
 		  </div>
 		</div>
 		<!-- ./col -->
+
 		<div class="col-lg-5ths col-xs-6">
 		  <!-- small box -->
 		  <div class="small-box bg-red">
@@ -64,6 +66,7 @@
 		  </div>
 		</div>
 		<!-- ./col -->
+
 		<div class="col-lg-5ths col-xs-6">
 		  <!-- small box -->
 		  <div class="small-box bg-light-purple">
@@ -78,12 +81,15 @@
 		    <a href="/jobcards" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		  </div>
 		</div>
-		<!-- ./col -->
-	</div>
+	
 
-	<div class="row">
-	    <div class="col-md-4">
-	      <div class="box box-primary">
+</div>
+
+<div class="row"><!-- /2nd row starting -->	
+
+	<div class="col-md-4">
+	     <div class="box box-primary">
+
 			<div class="box-header with-border">
 			  <h3 class="box-title text-light-blue"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;JOBCARD SUMMARY</h3>
 			</div>
@@ -113,10 +119,75 @@
 	          <!-- /.row -->
 	        </div>
 	        <!-- /.box-body -->
-	      </div>
-	    </div>
-	</div>
-</div>
+	     </div>
+	    </div><!-- /.col -->
+<!-- /.Payables -->
+	    <div class="col-md-4">
+
+	    		<div class="box box-primary">		
+        <div class="box-header with-border">
+          <h3 class="box-title text-light-blue"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;RECEIVABLES</h3>
+          <div class="box-tools pull-right">
+            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+          </div><!-- /.box-tools -->
+        </div><!-- /.box-header -->
+        <div class="box-body">
+          	<!-- <ul class="products-list product-list-in-box"> -->
+          	<ul class="nav nav-stacked">
+  				@foreach($TopFiveReceivables as $receivable)
+  				<li>  					
+                    	<a href="#">
+                    	{{$receivable->firstName}} {{$receivable->lastName}}
+                      	<span class="pull-right">OMR {{number_format($receivable->outstandingAmount,3)}}</span>
+                      	</a>
+                 	
+  				</li>
+  			@endforeach
+			</ul><!-- list -->
+        </div><!-- /.box-body -->
+       
+        <div class="box-footer text-center">
+              <a target="_blank" href="#" class="uppercase">View All</a>
+        </div>
+            <!-- /.box-footer -->
+      </div><!-- /.box -->
+
+	    </div><!-- /.col -->
+
+<!-- /Receivable -->
+	    <div class="col-md-4">
+
+	    		<div class="box box-primary">		
+        <div class="box-header with-border">
+          <h3 class="box-title text-light-blue"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;PAYABLES</h3>
+          <div class="box-tools pull-right">
+            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+          </div><!-- /.box-tools -->
+        </div><!-- /.box-header -->
+        <div class="box-body">
+          	<ul class="nav nav-stacked">
+          	@foreach($TopFivePayables as $payable)
+  				<li>  					
+                    	<a href="#">
+                    	{{$payable->supplierName}}
+                      	<span class="pull-right">OMR {{number_format($payable->outstandingAmount,3)}}</span>
+                      	</a>
+                 	
+  				</li>
+  			@endforeach 	
+			</ul><!-- list -->
+        </div><!-- /.box-body -->
+       
+        <div class="box-footer text-center">
+              <a target="_blank" href="#" class="uppercase">View All</a>
+        </div>
+            <!-- /.box-footer -->
+      </div><!-- /.box -->
+
+	    </div><!-- /.col -->
+
+</div>	 <!-- /.row -->	
+
 
 <!-- Expire Agreements -->
 <div class="row">
@@ -167,7 +238,7 @@
       </div><!-- /.box -->
      </div><!-- /Coloumn -->
  </div><!-- /Row -->
-
+</div><!-- /container-fluid -->
 
 @endsection
 

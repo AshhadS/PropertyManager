@@ -37,11 +37,36 @@ class DashboardController extends Controller
 		$jobCardStatusAll = JobCardStatus::all();
         $jobCardStatusCount = array();
 
+
+        //Payables
+
+        $TopFivePayables = DB::table('supplier')
+        ->Join ( 'supplierinvoice','supplier.supplierID', '=','supplierinvoice.supplierID')
+        ->where('supplierinvoice.paymentPaidYN','=',0)
+        ->selectRaw('supplier.supplierID, 
+            supplier.supplierName, 
+            sum(supplierinvoice.amount) AS outstandingAmount')
+        ->Orderby('outstandingAmount','DESC')
+        ->Groupby('supplier.supplierID', 'supplier.supplierName')
+        ->limit(5)
+        ->get();
+
+           //Receivables
+
+        $TopFiveReceivables = DB::table('customerinvoice')
+        ->Join ( 'rentalowners','customerinvoice.propertyOwnerID', '=','rentalowners.rentalOwnerID')
+        ->where('customerinvoice.paymentReceivedYN','=',0)
+        ->selectRaw('rentalowners.rentalOwnerID, 
+            rentalowners.firstName,
+            rentalowners.lastName, 
+            sum(customerinvoice.amount) AS outstandingAmount')
+        ->Orderby('outstandingAmount','DESC')
+        ->Groupby('rentalowners.rentalOwnerID', 'rentalowners.firstName','rentalowners.lastName')
+        ->limit(5)
+        ->get();
+
+
         //Expire Agreements
-    //    $ExpiringAgreemntsTwoMonthCount=ExpiringAgreemntsTwoMonth::count();
-        //$ExpiringAgreemntsThreeMonthCount=ExpiringAgreemntsThreeMonth::count();
-        
-     //   $ExpiringAgreemntsOneMonth = ExpiringAgreemntsOneMonth::all();
         $ExpiringAgreemntsOneMonth = DB::table('agreement')
         ->leftJoin('rentalowners','agreement.rentalOwnerID','=','rentalowners.rentalOwnerID')
         ->leftJoin('tenants','agreement.tenantID','=','tenants.tenantsID')
@@ -91,6 +116,11 @@ class DashboardController extends Controller
 	        'tenants' => $tenants,
 	        'paymentypes' => $paymentypes,
 	        'agreements' => $agreements,
+            'TopFivePayables' => $TopFivePayables,
+            'TopFiveReceivables' => $TopFiveReceivables,
+
+            
+            
 	    ]);
 	}
 
