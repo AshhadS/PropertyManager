@@ -57,7 +57,8 @@ class JobCardsMaintenanceController extends Controller
 		// Total = cost + percentage of cost 
 		// => Therefoe 1 + 0.20 is totalPercentage assuming margin given was 20%
 		$totalPercentage = 1 + (intval($request->margin) / 100);
-		$maintenanceItem->netTotal =  $maintenanceItem->total * $totalPercentage;
+		$netTotal =  $maintenanceItem->total * $totalPercentage;
+		$maintenanceItem->netTotal =  number_format((float)$netTotal, 3, '.', '');// rounding to nearest third deciml
 
 		$maintenanceItem->save();
 
