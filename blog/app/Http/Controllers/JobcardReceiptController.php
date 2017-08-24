@@ -14,6 +14,7 @@ use App\Model\PaymentType;
 use Redirect;
 use Sentinel;
 use App;
+use Debugbar;
 
 class JobcardReceiptController extends Controller
 {
@@ -25,15 +26,17 @@ class JobcardReceiptController extends Controller
 			$receipt->customerInvoiceDate = date("Y-m-d", strtotime($invoice->invoiceDate));
 			$receipt->customerInvoiceAmount = $invoice->amount;
 
-			$dueReceipt = $invoice->amount - Receipt::where('customerInvoiceID', $invoice->supplierInvoiceID)->where('documentID', 5)->where('documentAutoID', $request->jobcardID)->sum('receiptAmount');
+			$dueReceipt = $invoice->amount - Receipt::where('customerInvoiceID', $invoice->customerInvoiceID)->where('documentID', 5)->where('documentAutoID', $request->jobcardID)->sum('receiptAmount');
+
+			// dd($dueReceipt);
 
 			// Payment Made Y/N
-			if($request->receiptAmount && $dueReceipt > $request->receiptAmount){
+			if($request->receiptAmount && ($dueReceipt <= $request->receiptAmount)){
 				// partially paid
-				$invoice->paymentReceivedYN = 1;
+				$invoice->paymentReceivedYN = 2;
 			}else{
 				// fully paid
-				$invoice->paymentReceivedYN = 2;
+				$invoice->paymentReceivedYN = 1;
 			}
 			$invoice->save();
 		}
@@ -110,8 +113,20 @@ class JobcardReceiptController extends Controller
 
 		if(isset($receipt->customerInvoiceID)){
 			$invoice = CustomerInvoice::find($receipt->customerInvoiceID);
-			$invoice->paymentReceivedYN = 1;
-			$invoice->save();
+
+			// All receipts for invoice - this receipt
+			$thisReceiptAmount = Receipt::where('customerInvoiceID', $receipt->customerInvoiceID)->first()->receiptAmount;
+			$allReceiptAmount = Receipt::where('customerInvoiceID', $receipt->customerInvoiceID)->sum('receiptAmount');
+			$balence = $allReceiptAmount - $thisReceiptAmount;
+
+			if($balence > 0){
+				$invoice->paymentReceivedYN = 1;
+			}else{
+				$invoice->paymentReceivedYN = 0;
+			}
+			$invoice->save();				
+
+
 		}
 
 		$receipt->delete();

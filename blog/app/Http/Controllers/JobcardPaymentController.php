@@ -108,8 +108,18 @@ class JobcardPaymentController extends Controller
 
 		if(isset($payment->supplierInvoiceID)){
 			$invoice = SupplierInvoice::find($payment->supplierInvoiceID);
-			$invoice->paymentPaidYN = 1;
-			$invoice->save();
+			
+			// All payments for invoice - this payment
+			$thisPaymentAmount = Payment::where('supplierInvoiceID', $payment->supplierInvoiceID)->first()->paymentAmount;
+			$allPaymentAmount = Payment::where('supplierInvoiceID', $payment->supplierInvoiceID)->sum('paymentAmount');
+			$balence = $allPaymentAmount - $thisPaymentAmount;
+
+			if($balence > 0){
+				$invoice->paymentPaidYN = 1;
+			}else{
+				$invoice->paymentPaidYN = 0;
+			}
+			$invoice->save();				
 		}
 
 		$payment->delete();
