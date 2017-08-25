@@ -29,18 +29,6 @@ class ReceiptController extends Controller
 		return Redirect::back();
 	}
 
-	function index($documentAsutoID, $documentID){
-		$receipts = Receipt::where('documentAsutoID', $documentAsutoID)->where('documentID', $documentID)->get();
-		$paymentTypes = PaymentType::all();
-		return view('receipt', [
-            'jobcard' => $jobcard,
-            'customers' => $customers,
-            'receipts' => $receipts,
-            'paymentTypes' => $paymentTypes,
-            
-	    ]);
-	}
-
 	function updateReceipt(Request $request){
 		$receipt = Receipt::find($receiptID);
 		$receipt->receiptAmount = $request->receiptAmount;

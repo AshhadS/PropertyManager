@@ -27,7 +27,7 @@
           <td>{{$payment->paymentAmount}}</td>
           <td class="edit-button">
             <!-- <a class="btn bg-green btn-sm pull-left" href="prop/edit/1"><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp; Edit</a> -->
-            <form class="delete-form pull-left  " method="POST" action="/receipt/{{$receipt->receiptID}}">
+            <form class="delete-form pull-left  " method="POST" action="/custom/payment/{{$payment->paymentID}}">
               <a href="#" class="delete-btn btn btn-danger btn-sm button--winona">
                 <span><i class="fa fa-trash" aria-hidden="true"></i> Delete</span>
                 <span class="after">Sure ?</span>
@@ -46,7 +46,7 @@
       <div class="modal-content">
         <div class="modal-body box box-info">
           <div class="">
-            <form class="form-horizontal" action="/payment" method="POST">
+            <form class="form-horizontal" action="/custom/payment" method="POST">
               {{ csrf_field() }}
               <input type="hidden" name="documentID" value="{{$documentID}}">
               <input type="hidden" name="documentAutoID" value="{{$documentAutoID}}">
@@ -54,7 +54,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Amount</label>
                   <div class="col-sm-10">
-                    <input type="text" name="cost" class="form-control" placeholder="Amount">
+                    <input type="text" name="amount" class="form-control" placeholder="Amount">
                   </div>
                 </div>
                 <div class="form-group">

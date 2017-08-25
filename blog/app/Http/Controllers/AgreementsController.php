@@ -10,6 +10,9 @@ use App\Model\Attachment;
 use App\Model\DocumentMaster;
 use App\Model\Agreement;
 use App\Model\PaymentType;
+use App\Model\Receipt;
+use App\Model\Payment;
+use App\Model\RentalOwner;
 use Datatables;
 use Illuminate\Support\Facades\DB;
 use Debugbar;
@@ -77,6 +80,10 @@ class AgreementsController extends Controller
         $paymenttypelist = PaymentType::pluck('paymentDescription', 'paymentTypeID');
         $startDate=date_create_from_format("Y-m-d", $agreement->dateFrom)->format('j/m/Y');
         $endDate=date_create_from_format("Y-m-d", $agreement->dateTo)->format('j/m/Y');
+        $receipts = Receipt::where('documentID', 8)->where('documentAutoID', $agreement->agreementID)->get();
+        $payments = Payment::where('documentID', 8)->where('documentAutoID', $agreement->agreementID)->get();
+        $customers = RentalOwner::all();
+        $paymentTypes = PaymentType::all();
         return view('agreements_edit', [
             'agreement' => $agreement,
             'propertylist' => $propertylist,
@@ -85,7 +92,47 @@ class AgreementsController extends Controller
             'paymenttypelist' => $paymenttypelist,
             'startDate' => $startDate,
             'endDate' => $endDate,
+            'receipts' => $receipts,
+            'payments' => $payments,
+            'customers' => $customers,
+            'paymentTypes' => $paymentTypes,
            ]);
+    }
+
+    function submitHandler($agreementid){
+        $agreement = Agreement::find($agreementid);
+        $monthCount = $this->getMonthsDiff($agreement->dateFrom, $agreement->dateTo);
+
+        for ($i=0; $i < $monthCount ; $i++) { 
+            $payment = new Payment();
+            $payment->supplierID = $agreement->rentalOwnerID;
+            $payment->documentID = 8 ;
+            $payment->documentAutoID = $agreement->agreementID;
+            $payment->paymentAmount = $agreement->actualRent;
+            $payment->paymentTypeID = $agreement->paymentTypeID;
+            $payment->lastUpdatedByUserID = Sentinel::getUser()->id;
+            $payment->save();
+        }
+    }
+
+    // Calculate the number of months between 2 dates
+    static function getMonthsDiff($from, $to){
+        $date1 = $from;
+        $date2 = $to;
+
+        $ts1 = strtotime($date1);
+        $ts2 = strtotime($date2);
+        
+        $year1 = intval(date('Y', $ts1));
+        $year2 = intval(date('Y', $ts2));
+
+        $month1 = intval(date('m', $ts1));
+        $month2 = intval(date('m', $ts2));
+
+        $monthsDiff = (($year2 - $year1) * 12) + ($month2 - $month1);
+        return $monthsDiff;
+        return Redirect::back();
+        
     }
 
   

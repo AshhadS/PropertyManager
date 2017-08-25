@@ -300,8 +300,8 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		/**
 		 * Payments
 		 */		
-		Route::post('custom/payment', 'PaymentController@createReceipt');
-		Route::post('update/custom/payment', 'PaymentController@updateReceipt');
+		Route::post('custom/payment', 'PaymentController@createPayment');
+		Route::post('update/custom/payment', 'PaymentController@updatePayment');
 		Route::delete('custom/payment/{id}', 'PaymentController@delete');
 
 
