@@ -26,7 +26,7 @@
           <td> {{($payment->paymentTypeID) ? "Cash" : "Cheque"}} </td>
           <td>{{$payment->paymentAmount}}</td>
           <td class="edit-button">
-            <a class="btn bg-green btn-sm pull-left" href="prop/edit/1"><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp; Edit</a>
+            <!-- <a class="btn bg-green btn-sm pull-left" href="prop/edit/1"><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp; Edit</a> -->
             <form class="delete-form pull-left  " method="POST" action="/receipt/{{$receipt->receiptID}}">
               <a href="#" class="delete-btn btn btn-danger btn-sm button--winona">
                 <span><i class="fa fa-trash" aria-hidden="true"></i> Delete</span>
