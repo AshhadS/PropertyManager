@@ -204,13 +204,17 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 
 		
 		Route::get('test', function(){
-			$invoice = 44;		
-			// Check if payment has been made before
-			$invoiceAmount = App\Model\SupplierInvoice::find($invoice)->amount;
-			$paidAmountRef =  App\Model\JobcardPayment::where('supplierInvoiceID', $invoice)->first();
-			$paidAmount = ($paidAmountRef) ? $paidAmountRef->paymentAmount : 0;
-			$finalAmount = $invoiceAmount - $paidAmount;
-			dd($finalAmount);	
+			$maintenance = App\Model\Maintenance::where('jobcardID', 13)->get();
+			$r = App\Model\Receipt::where('customerInvoiceID', 1)->where('documentID', 5)->where('documentAutoID', 31)->sum('receiptAmount');
+			$invoice  = 24;
+			$invoiceAmount = App\Model\CustomerInvoice::find($invoice)->amount;
+			$receivedAmount = 0;
+			if(App\Model\Receipt::where('customerInvoiceID', $invoice)){
+				$receivedAmount = App\Model\Receipt::where('customerInvoiceID', $invoice)->sum('receiptAmount');
+			}
+			$finalAmount = $invoiceAmount - $receivedAmount;
+
+			dd($invoiceAmount);	
 		});
 
 		
