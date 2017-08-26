@@ -13,20 +13,24 @@
           <th>Description</th>
           <th>Type</th>
           <th>Amount</th>
+          <th>Cheque Number</th>
+          <th>Cheque Date</th>
           <th>Actions</th>
         </tr>
         @foreach($payments as $index => $payment)
         <tr>
-          <td>{{++$index}}</td>
+          <td class="id" data-val="{{$payment->paymentID}}">{{++$index}}</td>
           <td>
             @if(App\Model\Property::find($agreement->PropertiesID) && $agreement->PropertiesID != 0)
             For Property {{App\Model\Property::find($agreement->PropertiesID)->pPropertyName}}
             @endif
           </td>
-          <td> {{($payment->paymentTypeID) ? "Cash" : "Cheque"}} </td>
-          <td>{{$payment->paymentAmount}}</td>
+          <td class="type" data-val="{{($payment->paymentTypeID)}}"> {{($payment->paymentTypeID) == 1 ? "Cash" : "Cheque"}} </td>
+          <td class="amount">{{$payment->paymentAmount}}</td>
+          <td class="chequeNumber">{{$payment->chequeNumber}}</td>
+          <td class="chequeDate format-date">{{$payment->chequeDate}}</td>
           <td class="edit-button">
-            <!-- <a class="btn bg-green btn-sm pull-left" href="prop/edit/1"><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp; Edit</a> -->
+            <a class="btn bg-green btn-sm pull-left payment-edit" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp; Edit</a>
             <form class="delete-form pull-left  " method="POST" action="/custom/payment/{{$payment->paymentID}}">
               <a href="#" class="delete-btn btn btn-danger btn-sm button--winona">
                 <span><i class="fa fa-trash" aria-hidden="true"></i> Delete</span>
@@ -46,10 +50,11 @@
       <div class="modal-content">
         <div class="modal-body box box-info">
           <div class="">
-            <form class="form-horizontal" action="/custom/payment" method="POST">
+            <form class="form-horizontal" id="payment-form" action="/custom/payment" method="POST">
               {{ csrf_field() }}
               <input type="hidden" name="documentID" value="{{$documentID}}">
               <input type="hidden" name="documentAutoID" value="{{$documentAutoID}}">
+              <input type="hidden" name="paymentID">
               <div class="box-body">
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Amount</label>
@@ -64,6 +69,18 @@
                       <option value="1">Cash</option>
                       <option value="2">Cheque</option>
                     </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Cheque Number</label>
+                  <div class="col-sm-10">
+                    <input name="chequeNumber" class="form-control" />                      
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Cheque Date</label>
+                  <div class="col-sm-10">
+                    <input name="chequeDate" class="form-control datepicker" />                      
                   </div>
                 </div>
               </div>
@@ -82,6 +99,27 @@
 </div>  
 @push('scripts')
 <script>
+$(function() {
+  $('.payment-edit').on('click', function(e){
+    e.preventDefault();
+    $('[name="chequeDate"]').val($(this).data('id'));
+    $('[name="amount"]').val($(this).closest('tr').find('.amount').text());
+    $('[name="paymentTypeID"] option[value="'+$(this).closest('tr').find('.type').data('val')+'"').attr('selected', 'selected');
+    $('[name="chequeNumber"]').val($(this).closest('tr').find('.chequeNumber').text());
+    $('[name="chequeDate"]').val($(this).closest('tr').find('.chequeDate').text());
+    $('[name="paymentID"]').val($(this).closest('tr').find('.id').data('val'));
+    $('form').attr('action', '/update/custom/payment');
 
+
+    $('#payment').modal('show');
+
+  });
+
+  $('#payment').on('hidden.bs.modal', function (e) {
+    $('form').attr('action', '/custom/payment');
+    document.getElementById("payment-form").reset();
+
+  });
+});
 </script>
 @endpush

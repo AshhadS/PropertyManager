@@ -21,6 +21,8 @@ class PaymentController extends Controller
 		$payment = new Payment();
 		$payment->paymentAmount = $request->amount;
 		$payment->paymentTypeID = $request->paymentTypeID;
+		$payment->chequeNumber = $request->chequeNumber;
+		$payment->chequeDate = date_create_from_format("j/m/Y", $request->chequeDate)->format('Y-m-d');
 		$payment->lastUpdatedByUserID = Sentinel::getUser()->id;
 		$payment->documentID = $request->documentID;
 		$payment->documentAutoID = $request->documentAutoID;
@@ -29,10 +31,12 @@ class PaymentController extends Controller
 		return Redirect::back();
 	}
 
-	function updateReceipt(Request $request){
+	function updatePayment(Request $request){
 		$payment = Payment::find($request->paymentID);
-		$payment->paymentAmount = $request->receiptAmount;
+		$payment->paymentAmount = $request->amount;
 		$payment->paymentTypeID = $request->paymentTypeID;
+		$payment->chequeNumber = $request->chequeNumber;
+		$payment->chequeDate = date_create_from_format("j/m/Y", $request->chequeDate)->format('Y-m-d');
 		$payment->lastUpdatedByUserID = Sentinel::getUser()->id;
 		$payment->save();
 
