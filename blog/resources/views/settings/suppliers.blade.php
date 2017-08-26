@@ -24,7 +24,7 @@
         <td class='supplier item-editable' data-type="text" data-name="telephoneNumber" data-pk="{{$supplier->supplierID}}">{{$supplier->telephoneNumber}}</td>
         <td class='supplier item-editable' data-type="text" data-name="faxNumber" data-pk="{{$supplier->supplierID}}">{{$supplier->faxNumber}}</td>
         <td>
-          <button class="btn btn-info btn-sm edit-settings" data-id="{{$supplier->supplierID}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button>
+          <!-- <button class="btn btn-info btn-sm edit-settings" data-id="{{$supplier->supplierID}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button> -->
 
           <form class="delete-form clearfix" data-section="supplier" method="POST" action="supplier/{{$supplier->supplierID}}">
             <a href="#" class="delete-btn-ajax btn btn-danger btn-sm button--winona">

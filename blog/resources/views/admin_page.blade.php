@@ -91,7 +91,7 @@
 		<div class="col-md-9">
 			
 			<div class="page-content-wrapper">
-				<div class="container">
+				<div class="">
 					<div class="page-content"  style="display: none">
 						<div class="load-container" style="">
 							<div class="loader">Loading...</div>
