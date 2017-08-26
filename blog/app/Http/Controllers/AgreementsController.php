@@ -108,11 +108,22 @@ class AgreementsController extends Controller
             $payment->supplierID = $agreement->rentalOwnerID;
             $payment->documentID = 8 ;
             $payment->documentAutoID = $agreement->agreementID;
-            $payment->paymentAmount = $agreement->actualRent;
+            $payment->paymentAmount = $agreement->marketRent;
             $payment->paymentTypeID = $agreement->paymentTypeID;
             $payment->lastUpdatedByUserID = Sentinel::getUser()->id;
             $payment->save();
+
+
+            $receipt = new Receipt();
+            $receipt->customerID = $agreement->tenantID;
+            $receipt->documentID = 8 ;
+            $receipt->documentAutoID = $agreement->agreementID;
+            $receipt->receiptAmount = $agreement->actualRent;
+            $receipt->paymentTypeID = $agreement->paymentTypeID;
+            $receipt->lastUpdatedByUserID = Sentinel::getUser()->id;
+            $receipt->save();
         }
+        return Redirect::back();
     }
 
     // Calculate the number of months between 2 dates
@@ -131,8 +142,8 @@ class AgreementsController extends Controller
 
         $monthsDiff = (($year2 - $year1) * 12) + ($month2 - $month1);
         return $monthsDiff;
-        return Redirect::back();
-        
+        return Redirect::back(); 
+
     }
 
   
