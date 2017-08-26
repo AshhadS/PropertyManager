@@ -48,6 +48,9 @@ class JobcardReceiptController extends Controller
 		$receipt->customerInvoiceID = $request->invoiceID;
 		$receipt->receiptAmount = $request->receiptAmount;
 		$receipt->paymentTypeID = $request->paymentTypeID;
+		$receipt->chequeNumber = $request->chequeNumber;
+		if($request->chequeDate)
+			$receipt->chequeDate = date_create_from_format("j/m/Y", $request->chequeDate)->format('Y-m-d');
 		$receipt->lastUpdatedByUserID = Sentinel::getUser()->id;
 		$receipt->save();
 
