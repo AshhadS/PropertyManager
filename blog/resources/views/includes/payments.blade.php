@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <h4><b>PAYMENTS</b></h4>
     <div class="container-fluid">
-      <button type="button" class="btn btn-primary pull-right add-btn <?php ($agreement->isSubmitted == 0) ? print 'disabled' : false ?>" data-toggle="modal" data-target="#payment">
+      <button type="button" class="btn btn-primary pull-right add-btn <?php ($agreement->isSubmitted == 0) ? print 'disabled' : false ?>" <?php ($agreement->isSubmitted == 0) ? print 'disabled' : false ?> data-toggle="modal" data-target="#payment">
       <i class="fa fa-plus"></i> <b>Add Item</b>
       </button>
     </div>
