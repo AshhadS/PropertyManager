@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <h4><b>PAYMENTS</b></h4>
     <div class="container-fluid">
-      <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#payment">
+      <button type="button" class="btn btn-primary pull-right add-btn <?php ($agreement->isSubmitted == 0) ? print 'disabled' : false ?>" data-toggle="modal" data-target="#payment">
       <i class="fa fa-plus"></i> <b>Add Item</b>
       </button>
     </div>
@@ -10,6 +10,7 @@
       <tbody>
         <tr class="t-head">
           <th>#</th>
+          <th>Payment Code</th>
           <th>Description</th>
           <th>Type</th>
           <th>Amount</th>
@@ -20,6 +21,7 @@
         @foreach($payments as $index => $payment)
         <tr>
           <td class="id" data-val="{{$payment->paymentID}}">{{++$index}}</td>
+          <td><?= sprintf("SPV%'05d\n", $payment->paymentID); ?></td>
           <td>
             @if(App\Model\Property::find($agreement->PropertiesID) && $agreement->PropertiesID != 0)
             For Property {{App\Model\Property::find($agreement->PropertiesID)->pPropertyName}}

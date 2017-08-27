@@ -99,30 +99,40 @@ class AgreementsController extends Controller
            ]);
     }
 
-    function submitHandler($agreementid){
-        $agreement = Agreement::find($agreementid);
-        $monthCount = $this->getMonthsDiff($agreement->dateFrom, $agreement->dateTo);
+    function submitHandler(Request $request){
+        $agreement = Agreement::find($request->agreementID);
 
-        for ($i=0; $i < $monthCount ; $i++) { 
-            $payment = new Payment();
-            $payment->supplierID = $agreement->rentalOwnerID;
-            $payment->documentID = 8 ;
-            $payment->documentAutoID = $agreement->agreementID;
-            $payment->paymentAmount = $agreement->marketRent;
-            $payment->paymentTypeID = $agreement->paymentTypeID;
-            $payment->lastUpdatedByUserID = Sentinel::getUser()->id;
-            $payment->save();
+        if($request->flag == '0'){
+            $monthCount = $this->getMonthsDiff($agreement->dateFrom, $agreement->dateTo);
+
+            for ($i=0; $i < $monthCount ; $i++) { 
+                $payment = new Payment();
+                $payment->supplierID = $agreement->rentalOwnerID;
+                $payment->documentID = 8 ;
+                $payment->documentAutoID = $agreement->agreementID;
+                $payment->paymentAmount = $agreement->marketRent;
+                $payment->paymentTypeID = $agreement->paymentTypeID;
+                $payment->lastUpdatedByUserID = Sentinel::getUser()->id;
+                $payment->save();
 
 
-            $receipt = new Receipt();
-            $receipt->customerID = $agreement->tenantID;
-            $receipt->documentID = 8 ;
-            $receipt->documentAutoID = $agreement->agreementID;
-            $receipt->receiptAmount = $agreement->actualRent;
-            $receipt->paymentTypeID = $agreement->paymentTypeID;
-            $receipt->lastUpdatedByUserID = Sentinel::getUser()->id;
-            $receipt->save();
+                $receipt = new Receipt();
+                $receipt->customerID = $agreement->tenantID;
+                $receipt->documentID = 8 ;
+                $receipt->documentAutoID = $agreement->agreementID;
+                $receipt->receiptAmount = $agreement->actualRent;
+                $receipt->paymentTypeID = $agreement->paymentTypeID;
+                $receipt->lastUpdatedByUserID = Sentinel::getUser()->id;
+                $receipt->save();
+            }
+        }else{
+            // Delete all payments
+            Receipt::where('documentAutoID', $request->agreementID )->where('documentID', '8')->delete();
+            Payment::where('documentAutoID', $request->agreementID )->where('documentID', '8')->delete();
         }
+        $agreement->isSubmitted = ($request->flag == '1') ? '0' : '1';
+        $agreement->save();
+
         return Redirect::back();
     }
 
@@ -177,8 +187,13 @@ class AgreementsController extends Controller
 
     function delete($agreement){
         $agreement = Agreement::find($agreement);
-	    $agreement->delete();
-	    return Redirect::to('agreement');
+        $request = Request();
+        if($agreement->isSubmitted == 1){
+            $request->session()->flash('alert-success', 'You cannot delete this Agreement as the Agreement is submitted');
+        }else{
+    	    $agreement->delete();
+        }
+        return Redirect::to('agreements');
     }
 }
 

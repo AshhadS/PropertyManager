@@ -307,12 +307,14 @@ class SettingsController extends Controller
     function createChartofaccounts(Request $request){
         $chartofaccount = new ChartOfAccount;
         $chartofaccount->chartOfAccountID = $request->chartOfAccountID;
-        $chartofaccount->chartOfAccountCode = $request->chartOfAccountCode;
+        $chartofaccount->chartOfAccountCode = 0;
         $chartofaccount->accountDescription = $request->accountDescription;
         $chartofaccount->mainCode = $request->mainCode;
         $chartofaccount->type = $request->type;
 
 
+        $chartofaccount->save();
+        $chartofaccount->chartOfAccountCode = sprintf("GL%'05d\n", $chartofaccount->chartOfAccountID);
         $chartofaccount->save();
 
         return 'true';

@@ -48,7 +48,7 @@ Route::group(['middleware' => ['CustomAuth']], function () {
     'as' => 'agreement.update',
     'uses' => 'AgreementsController@update'
 	]);
-	Route::get('agreement/submit/{agreementid}', 'AgreementsController@submitHandler');
+	Route::post('agreement/submit/{agreementid}', 'AgreementsController@submitHandler');
 
 	
 
@@ -204,17 +204,18 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 
 		
 		Route::get('test', function(){
-			$maintenance = App\Model\Maintenance::where('jobcardID', 13)->get();
-			$r = App\Model\Receipt::where('customerInvoiceID', 1)->where('documentID', 5)->where('documentAutoID', 31)->sum('receiptAmount');
-			$invoice  = 24;
-			$invoiceAmount = App\Model\CustomerInvoice::find($invoice)->amount;
-			$receivedAmount = 0;
-			if(App\Model\Receipt::where('customerInvoiceID', $invoice)){
-				$receivedAmount = App\Model\Receipt::where('customerInvoiceID', $invoice)->sum('receiptAmount');
-			}
-			$finalAmount = $invoiceAmount - $receivedAmount;
+			$allSuppliers = App\Model\Supplier::all()->pluck('supplierID');
+			$totalAmounts = [];
 
-			dd($invoiceAmount);	
+			foreach ($allSuppliers as $key => $supplier) {
+				$totalSupplierInvoice = App\Model\SupplierInvoice::where('supplierID', $supplier)->sum('amount');
+				$totalSupplierPayment = App\Model\Payment::where('supplierID', $supplier)->sum('paymentAmount');
+
+				$totalAmounts[$supplier]['supplierInvoice'] = $totalSupplierInvoice;
+				$totalAmounts[$supplier]['supplierPayment'] = $totalSupplierPayment;
+			}
+
+			dd($totalAmounts);	
 		});
 
 		

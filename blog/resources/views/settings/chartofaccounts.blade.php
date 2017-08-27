@@ -18,7 +18,7 @@
       @foreach ($chartofaccounts as $account)
       <tr>
         <td>{{$account->chartOfAccountID}}</td>
-        <td class='accounts item-editable' data-type="text" data-name="chartOfAccountCode" data-pk="{{$account->chartOfAccountID}}" >{{$account->chartOfAccountCode }}</td>
+        <td class='accounts'>{{$account->chartOfAccountCode }}</td>
         <td class='accounts item-editable' data-type="textarea" data-name="accountDescription" data-pk="{{$account->chartOfAccountID}}" >{{$account->accountDescription}}</td>
         <td class='accounts item-editable' data-type="text" data-name="mainCode" data-pk="{{$account->chartOfAccountID}}" >{{$account->mainCode}}</td>
         <td class='accounts-type item-editable' data-type="select" data-name="type" data-pk="{{$account->chartOfAccountID}}" >{{$account->type }}</td>

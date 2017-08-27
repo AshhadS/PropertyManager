@@ -2,7 +2,8 @@
   <div class="col-md-12">
     <h4><b>RECEIPTS</b></h4>
     <div class="container-fluid">
-      <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#receipt">
+
+      <button type="button" class="btn btn-primary pull-right add-btn <?php ($agreement->isSubmitted == 0) ? print 'disabled' : false ?>" data-toggle="modal" data-target="#receipt">
       <i class="fa fa-plus"></i> <b>Add Item</b>
       </button>
     </div>
@@ -10,6 +11,7 @@
       <tbody>
         <tr class="t-head">
           <th>#</th>
+          <th>Receipt Code</th>
           <th>Description</th>
           <th>Type</th>
           <th>Amount</th>
@@ -20,6 +22,7 @@
         @foreach($receipts as $index => $receipt)
         <tr>
           <td class="id" data-val="{{$receipt->receiptID}}">{{++$index}}</td>
+          <td><?= sprintf("RC%'05d\n", $receipt->receiptID); ?></td>
           <td>
             @if(App\Model\Property::find($agreement->PropertiesID) && $agreement->PropertiesID != 0)
             For Property {{App\Model\Property::find($agreement->PropertiesID)->pPropertyName}}
