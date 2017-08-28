@@ -128,7 +128,14 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	Route::post('/rentalowners/all', 'RentalOwnersController@data');
 
 
-
+		/**
+	 * Reports
+	 */
+	Route::get('/reports',  'ReportsController@index');
+	Route::get('/reports_supplierstatement',  'ReportsController@getSupplierStatement');
+	Route::get('/supplierstatement-print',  'ReportsController@printSupplierStatement');
+	Route::get('/supplierstatement-excel', 'ReportsController@excelSupplierStatement');
+	Route::get('/supplierStatement_pdf', 'ReportsController@pdfSupplierStatement');
 
 
 	/**
