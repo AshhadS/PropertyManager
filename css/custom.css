@@ -771,3 +771,7 @@ table.m-item .amount-col, table.m-item .amount-col {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   border-top: 4px solid #3498db;
 }
+
+.dashboard-page .box {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}

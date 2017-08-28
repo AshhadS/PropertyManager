@@ -2,7 +2,7 @@
 
 @section('content')
 <br />
-<div class="container-fluid">
+<div class="container-fluid dashboard-page">
 
 <div class="row">
 	<div class="col-lg-5ths col-xs-6">
@@ -86,10 +86,10 @@
 <div class="row"><!-- /2nd row starting -->	
 
 	<div class="col-md-4">
-	     <div class="box box-primary">
+	     <div class="box box-danger">
 
 			<div class="box-header with-border">
-			  <h3 class="box-title text-light-blue"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;JOBCARD SUMMARY</h3>
+			  <h3 class="box-title text-red"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;JOBCARD SUMMARY</h3>
 			</div>	        
 	        <!-- /.box-header -->
 	        <div class="box-body">
@@ -120,9 +120,9 @@
 	    </div><!-- /.col -->
 <!-- /.Payables -->
 		<div class="col-md-4">
-			<div class="box box-primary">		
+			<div class="box box-success">		
 				<div class="box-header with-border">
-					<h3 class="box-title text-light-blue"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;RECEIVABLES</h3>
+					<h3 class="box-title text-green"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;RECEIVABLES</h3>
 					<div class="box-tools pull-right">
 					<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 					</div><!-- /.box-tools -->
@@ -150,9 +150,9 @@
 <!-- /Receivable -->
 		<div class="col-md-4">
 
-			<div class="box box-primary">		
+			<div class="box box-warning">		
 				<div class="box-header with-border">
-					<h3 class="box-title text-light-blue"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;PAYABLES</h3>
+					<h3 class="box-title text-yellow"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;PAYABLES</h3>
 					<div class="box-tools pull-right">
 						<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 					</div><!-- /.box-tools -->
@@ -178,9 +178,9 @@
 </div>	 <!-- /.row -->	
 <div class="row"><!-- /2nd row starting -->	
 	<div class="col-md-4">
-		<div class="box box-primary">		
+		<div class="box box-solid box-primary">		
 			<div class="box-header with-border">
-				<h3 class="box-title text-light-blue"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;EXPIRING AGREEMENTS</h3>
+				<h3 class="box-title"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;EXPIRING AGREEMENTS</h3>
 				<div class="box-tools pull-right">
 				<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 				</div><!-- /.box-tools -->
@@ -220,9 +220,9 @@
 	</div><!-- /Coloumn -->
 <!-- /.Payables -->
 		<div class="col-md-4">
-			<div class="box box-primary">		
+			<div class="box box-warning box-solid">		
 				<div class="box-header with-border">
-					<h3 class="box-title text-light-blue"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;SUPPLIER SUMMARY</h3>
+					<h3 class="box-title "><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;SUPPLIER SUMMARY</h3>
 					<div class="box-tools pull-right">
 					<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 					</div><!-- /.box-tools -->
@@ -248,9 +248,9 @@
 <!-- /Receivable -->
 		<div class="col-md-4">
 
-			<div class="box box-primary">		
+			<div class="box box-success box-solid">		
 				<div class="box-header with-border">
-					<h3 class="box-title text-light-blue"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;CUSTOMER SUMMARY</h3>
+					<h3 class="box-title"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;CUSTOMER SUMMARY</h3>
 					<div class="box-tools pull-right">
 						<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 					</div><!-- /.box-tools -->

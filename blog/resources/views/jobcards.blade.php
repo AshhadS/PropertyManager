@@ -118,18 +118,18 @@
    <br/>
 
   <div class="row clear-floats">
-        <br/>
-        @foreach($jobCardStatusCount as $status)
-          <div class="col-md-2 col-sm-6 col-xs-12">
-              <div class="info-box status-box bg-{{$status['color']}}">
-                  <span class="info-box-icon disabled"><i class="fa fa-external-link" aria-hidden="true"></i></span>
-                  <div class="info-box-content">
-                      <span class="info-box-text">{{$status['name']}}</span>
-                      <span class="info-box-number">{{$status['count']}}</span>
-                  </div>
+    <br/>
+    @foreach($jobCardStatusCount as $status)
+      <div class="col-md-2 col-sm-6 col-xs-12">
+          <div class="info-box status-box bg-{{$status['color']}}">
+              <span class="info-box-icon disabled"><i class="fa fa-external-link" aria-hidden="true"></i></span>
+              <div class="info-box-content">
+                  <span class="info-box-text">{{$status['name']}}</span>
+                  <span class="info-box-number">{{$status['count']}}</span>
               </div>
-          </div>        
-        @endforeach
+          </div>
+      </div>        
+    @endforeach
   </div>
 
   
