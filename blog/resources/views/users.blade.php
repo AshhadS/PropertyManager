@@ -83,7 +83,7 @@
 
   <!-- Button trigger modal -->
   <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
-    <i class="fa fa-plus"></i> <b>Add User</b>
+    <i class="fa fa-plus"></i> Add User
   </button>
 </div>
 

@@ -143,7 +143,7 @@
       </section>
       <!-- Button trigger modal -->
       <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
-        <i class="fa fa-plus"></i> <b>Add Jobcard</b>
+        <i class="fa fa-plus"></i> Add Jobcard
       </button>      
     </div>
     <div class="container-fluid" >

@@ -134,7 +134,7 @@
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
-          <i class="fa fa-plus"></i> <b>Add Property</b>
+          <i class="fa fa-plus"></i> Add Property
         </button>
       </div>
         @if (count($props) > 0)
