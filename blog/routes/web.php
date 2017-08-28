@@ -127,6 +127,10 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	Route::delete('/rentalowner/{rentalowner}', 'RentalOwnersController@delete');
 	Route::post('/rentalowners/all', 'RentalOwnersController@data');
 
+
+
+
+
 	/**
 	 * Job Card
 	 */

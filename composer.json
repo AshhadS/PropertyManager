@@ -1,5 +1,6 @@
 {
     "require": {
-        "laravelcollective/html": "^5.4"
+        "laravelcollective/html": "^5.4",
+        "maatwebsite/excel": "^2.1"
     }
 }
