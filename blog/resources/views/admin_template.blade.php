@@ -91,7 +91,7 @@
                         <li class="menu-item"><a href="/props"> <i class="fa fa-building" aria-hidden="true"></i> Properties</a></li>
                         <li class="menu-item"><a href="/units"> <i class="fa fa-university" aria-hidden="true"></i> Units</a></li>
                         <li class="menu-item"><a href="/tenants"> <i class="fa fa-users" aria-hidden="true"></i> Tenants</a></li>                     
-                        <li class="menu-item"><a href="#"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Reports</a></li>                     
+                        <li class="menu-item"><a href="/reports"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Reports</a></li>                     
                         <li class="menu-item"><a href="/admin"> <i class="fa fa-cog" aria-hidden="true"></i> Admin</a></li>                     
                         <li class="menu-item"><a href="/logout">Logout <i class="fa fa-sign-out" aria-hidden="true"></i> </a></li>                     
                     </ul>
@@ -184,5 +184,7 @@
         <script src="{{ asset ("/js/dropzone.js") }}"></script>
 
         @stack('scripts')
+        @stack('printScripts')
+        
     </body>
 </html>
