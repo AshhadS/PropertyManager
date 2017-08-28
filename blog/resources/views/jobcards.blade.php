@@ -114,9 +114,7 @@
   </div>
 </div>
 <div class="container-fluid">
-  <section class="content-header pull-left">
-      <h4><b>JOBCARDS</b></h4>
-  </section>
+
    <br/>
 
   <div class="row clear-floats">
@@ -133,44 +131,53 @@
           </div>        
         @endforeach
   </div>
-  <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
-    <i class="fa fa-plus"></i> <b>Add Jobcard</b>
-  </button>
 
   
 </div>
 
-<div class="container-fluid" >
-  @foreach (['danger', 'warning', 'success', 'info'] as $msg)
-    @if(Session::has('alert-' . $msg))
-      <p class="alert alert-danger"><b>{{ Session::get('alert-' . $msg) }}</b></p>
-    @endif
-  @endforeach
-
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class=""><a href="#my" aria-controls="my" role="tab" data-toggle="tab">My Jobs &nbsp;&nbsp;<span class="badge bg-light-blue">{{$myCount}}</span></a></li>
-    <li role="presentation" class="active"><a href="#opened" aria-controls="opened" role="tab" data-toggle="tab">Open Jobs &nbsp;&nbsp;<span class="badge bg-light-blue">{{$openCount}}</span></a></li>
-    <li role="presentation"><a href="#closed" aria-controls="closed" role="tab" data-toggle="tab">Job History &nbsp;&nbsp;<span class="badge bg-light-blue">{{$closedCount}}</span></a></li>
-  </ul>
-
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="opened">
-      @component('includes/jobcard_list', ['jobcards_list' => $openJobcards, 'hide_delete' => false])
-      @endcomponent
+<div  class="panel panel-default give-space">
+  <div class="panel-body" >
+    <div class="container-fluid clearfix">
+      <section class="content-header pull-left">
+        <h4><b>JOBCARDS</b></h4>
+      </section>
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
+        <i class="fa fa-plus"></i> <b>Add Jobcard</b>
+      </button>      
     </div>
-    <div role="tabpanel" class="tab-pane" id="closed">
-      @component('includes/jobcard_list', ['jobcards_list' => $closedJobcards, 'hide_delete' => true])
-      @endcomponent
-    </div>
-    <div class="tab-pane" id="my" role="tabpanel">
-      @component('includes/jobcard_list', ['jobcards_list' => $myJobcards, 'hide_delete' => false])
-      @endcomponent
-    </div>
-  </div>
+    <div class="container-fluid" >
+      @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+        @if(Session::has('alert-' . $msg))
+          <p class="alert alert-danger"><b>{{ Session::get('alert-' . $msg) }}</b></p>
+        @endif
+      @endforeach
 
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class=""><a href="#my" aria-controls="my" role="tab" data-toggle="tab">My Jobs &nbsp;&nbsp;<span class="badge bg-light-blue">{{$myCount}}</span></a></li>
+        <li role="presentation" class="active"><a href="#opened" aria-controls="opened" role="tab" data-toggle="tab">Open Jobs &nbsp;&nbsp;<span class="badge bg-light-blue">{{$openCount}}</span></a></li>
+        <li role="presentation"><a href="#closed" aria-controls="closed" role="tab" data-toggle="tab">Job History &nbsp;&nbsp;<span class="badge bg-light-blue">{{$closedCount}}</span></a></li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="opened">
+          @component('includes/jobcard_list', ['jobcards_list' => $openJobcards, 'hide_delete' => false])
+          @endcomponent
+        </div>
+        <div role="tabpanel" class="tab-pane" id="closed">
+          @component('includes/jobcard_list', ['jobcards_list' => $closedJobcards, 'hide_delete' => true])
+          @endcomponent
+        </div>
+        <div class="tab-pane" id="my" role="tabpanel">
+          @component('includes/jobcard_list', ['jobcards_list' => $myJobcards, 'hide_delete' => false])
+          @endcomponent
+        </div>
+      </div>
+
+    </div>    
+  </div>    
 </div>    
 @endsection
 @push('scripts')

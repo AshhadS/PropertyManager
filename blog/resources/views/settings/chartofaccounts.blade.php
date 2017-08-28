@@ -25,7 +25,7 @@
         <td>
           <!-- <button class="btn btn-info btn-sm edit-settings" data-id="{{$account->accountID}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button> -->
 
-          <form class="delete-form clearfix" data-section="accounts" method="POST" action="account/{{$account->accountID}}">
+          <form class="delete-form clearfix" data-section="accounts" method="POST" action="account/{{$account->chartOfAccountID}}">
             <a href="#" class="delete-btn-ajax btn btn-danger btn-sm button--winona">
               <span><i class="fa fa-trash" aria-hidden="true"></i> Delete</span><span class="after">Sure?</span>
             </a>
