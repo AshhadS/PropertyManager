@@ -47,7 +47,7 @@
                         <option value="{{$unit->unitID}}">{{ $unit->unitNumber }}</option>
                     @endforeach
                 </select>
-                <p class="no-units">No units belonging to this property</p>
+                <p class="no-units hide-element">No units belonging to this property</p>
               </div>
             </div>
 
@@ -117,7 +117,7 @@
         </section>
 
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#agreement-editModal">
+        <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
           <i class="fa fa-plus"></i> <b>Add Agreement</b>
         </button>
       </div>

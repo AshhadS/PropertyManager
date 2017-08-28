@@ -13,7 +13,7 @@
         <td>{{$currency->currencyID}}</td>
         <td class='currency item-editable' data-type="text" data-name="currencyCode" data-pk="{{$currency->currencyID}}">{{$currency->currencyCode}}</td>
         <td>
-          <button class="btn btn-info btn-sm edit-settings" data-id="{{$currency->currencyID}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button>
+          <!-- <button class="btn btn-info btn-sm edit-settings" data-id="{{$currency->currencyID}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button> -->
 
           <form class="delete-form clearfix" data-section="currency" method="POST" action="currency/{{$currency->currencyID}}">
             <a href="#" class="delete-btn-ajax btn btn-danger btn-sm button--winona">

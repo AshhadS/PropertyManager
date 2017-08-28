@@ -21,7 +21,7 @@
         <td>{{$single_user->last_login}}</td>
         <td>{{$single_user->created_at}}</td>
         <td>
-          <button class="btn btn-info btn-sm edit-settings" data-id="{{$single_user->id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button>
+          <!-- <button class="btn btn-info btn-sm edit-settings" data-id="{{$single_user->id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button> -->
 
           <form class="delete-form clearfix" method="POST" action="user/{{$single_user->id}}">
             <a href="#" class="delete-btn-ajax btn btn-danger btn-sm button--winona">
