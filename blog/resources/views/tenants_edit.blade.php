@@ -9,7 +9,9 @@
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab">View</a></li>
-    <li role="presentation"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Edit</a></li>
+    @if($tenant->isSubmitted == 0):
+      <li role="presentation"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Edit</a></li>
+    @endif
     <li role="presentation"><a href="#attachments" aria-controls="attachments" role="tab" data-toggle="tab">Attachments</a></li>
   </ul>
 
@@ -18,7 +20,7 @@
     <div role="tabpanel" class="tab-pane active" id="view">
      <div class="row">
         <div class="col-md-12">
-            <div class="box box-info">
+            <div class="">
                 <!-- /.box-header -->
                 <!-- form start -->
                     
@@ -66,6 +68,22 @@
                       </div><br/>  
                     
                   </div>
+            </div>
+            <div class="container-fluid">
+              <div class="row">
+                <div class="button-group">
+                  <form method="POST" action="/tenant/submit">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="tenantsID" value="{{$tenant->tenantsID}}">
+                    <input type="hidden" name="flag" value="{{$tenant->isSubmitted}}">
+                    @if($tenant->isSubmitted == 1)
+                      <input class="btn btn-primary" type="submit" value="Reverse">
+                    @else
+                      <input class="btn btn-primary" type="submit" value="Submit">
+                    @endif
+                  </form>
+                </div>
+              </div>
             </div>
         </div>
       </div>

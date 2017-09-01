@@ -30,6 +30,9 @@
 			        <tr>
 			          <td><a class='link' href="#supplier" data-section="supplier">Supplier</a></td>
 			        </tr>
+			        <tr>
+			          <td><a class='link' href="#customer" data-section="customer">Customer</a></td>
+			        </tr>
 			      </tbody>
 			      </table>
 			    </div>
@@ -351,6 +354,21 @@
               {value: "1", text:"Expense"},
               {value: "2", text:"Income"},
             ],       
+	    });
+		$('.customer.item-editable').editable({
+	        validate: function(value) {
+	            if($.trim(value) == '') 
+	                return 'Value is required.';
+	        },
+	        method: 'POST',
+	        url:'update/customer',  
+	        title: 'Edit',
+	        send:'always',   
+	        params: function(params) {
+	            //originally params contain pk, name and value
+	            params._token = '{{ csrf_token() }}';
+	            return params;
+	        }         
 	    });
     });
   });

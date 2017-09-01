@@ -10,6 +10,7 @@ use App\Model\PaymentType;
 use App\Model\Company;
 use App\Model\Country;
 use App\Model\Supplier;
+use App\Model\Customer;
 use App\Model\ChartOfAccount;
 use App\Model\Roles;
 
@@ -271,6 +272,10 @@ class SettingsController extends Controller
         $supplier->telephoneNumber = $request->telephoneNumber;
         $supplier->faxNumber   = $request->faxNumber;
         $supplier->timestamp = Carbon::now();
+
+        $supplier->fromPropertyOwnerOrTenant = ($request->fromPropertyOwnerOrTenant) ? $request->fromPropertyOwnerOrTenant : 0 ;
+        $supplier->IDFromTenantOrPropertyOwner = ($request->IDFromTenantOrPropertyOwner) ? $request->fromPropertyOwnerOrTenant : 0;
+        
         $supplier->save();
 
         return 'true';
@@ -336,6 +341,58 @@ class SettingsController extends Controller
     }
 
     /*************************************************************************/
+
+    /**
+     * Customer
+     */
+    function showCustomers(){
+        $customers = Customer::all();
+
+        return view('settings.customer', [
+            'customers' => $customers,
+        ]);
+    }
+
+    function createCustomer(Request $request){
+        $customer = new Customer;
+        $customer->customerName    = $request->customerName;
+        $customer->address = $request->address;
+        $customer->telephoneNumber = $request->telephoneNumber;
+        $customer->faxNumber   = $request->faxNumber;
+        $customer->timestamp = Carbon::now();
+        $customer->createdDate = date('Y-m-d');
+        $customer->updatedDate = date('Y-m-d');
+        $customer->customerCode = 0;
+
+        $customer->fromPropertyOwnerOrTenant = ($request->fromPropertyOwnerOrTenant) ? $request->fromPropertyOwnerOrTenant : 0 ;
+        $customer->IDFromTenantOrPropertyOwner = ($request->IDFromTenantOrPropertyOwner) ? $request->fromPropertyOwnerOrTenant : 0;
+
+        $customer->save();
+
+        $customer->customerCode = sprintf("CUST%'05d\n", $customer->customerID);
+        $customer->save();
+        return 'true';
+    }
+
+    function editCustomer(Request $request){
+        $customer = Customer::find($request->pk);
+        $customer->updatedDate = date('Y-m-d');
+        $customer->{$request->name} = $request->value;
+
+        $customer->save();
+        return $customer;
+    }
+
+    function deleteCustomer($customer){
+        $customer = Customer::find($customer);
+        $customer->delete();
+
+        return 'true';
+    }
+
+    /*************************************************************************/
+
+
 
 
 }

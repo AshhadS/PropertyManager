@@ -52,13 +52,13 @@
             </div>
 
             <div class="form-group">
-              <label class="col-sm-2 control-label">Market Rent</label>
+              <label class="col-sm-2 control-label">Rent Amount</label>
               <div class="col-sm-10">
                 <input type="tel" name="marketRent" class="form-control input-req" placeholder="Market Rent">
               </div>
             </div>
              <div class="form-group">
-              <label class="col-sm-2 control-label">Actual Rent</label>
+              <label class="col-sm-2 control-label">Rent Cost</label>
               <div class="col-sm-10">
                 <input type="tel" name="actualRent" class="form-control input-req"  placeholder="Actual Rent">
               </div>
@@ -136,8 +136,8 @@
                           <th>Property Name</th>
                           <th>Unit</th> 
                           <th>Tenant Name</th>
-                          <th>Market Rent</th>
-                          <th>Actual Rent</th>
+                          <th>Rent Amount</th>
+                          <th>Rent Cost</th>
                           <th>Payment Type</th>
                           <th>From</th>
                           <th>To</th>

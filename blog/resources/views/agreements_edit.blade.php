@@ -5,6 +5,13 @@
       <h4><b>Agreement</b></h4>
   </section>
   <br /><br />
+  <div class="container-fluid">
+    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+      @if(Session::has('alert-' . $msg))
+        <p class="alert alert-danger"><b>{{ Session::get('alert-' . $msg) }}</b></p>
+      @endif
+    @endforeach
+  </div>
     
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">

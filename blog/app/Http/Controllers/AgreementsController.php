@@ -177,10 +177,13 @@ class AgreementsController extends Controller
             $agreement->dateTo = date_create_from_format("j/m/Y", $request->dateTo)->format('Y-m-d');
 
         //$agreement->fill($request->all())->save();
-        $agreement->save();
-
-        return Redirect::to('agreements');
-    	
+        if($agreement->isSubmitted == 1){
+            $request->session()->flash('alert-success', 'You cannot update this Agreement as the Agreement is submitted');
+            return Redirect::back();
+        }else{
+            $agreement->save();
+            return Redirect::to('agreements');
+        }    	
     }
 
     

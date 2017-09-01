@@ -40,8 +40,15 @@ class JobcardReceiptController extends Controller
 			}
 			$invoice->save();
 		}
-		if($request->customerID)
-			$receipt->customerID = $request->customerID;
+		if($request->customerID){
+			if(Customer::where('fromPropertyOwnerOrTenant', 1)->where('IDFromTenantOrPropertyOwner', $request->customerID)){
+				$customerid = Customer::where('fromPropertyOwnerOrTenant', 1)->where('IDFromTenantOrPropertyOwner', $request->customerID)->first()->customerID;
+				$receipt->customerID = $customerid;
+			}else{
+				$receipt->customerID = $request->customerID;
+				
+			}
+		}
 
 		$receipt->documentID = 5;
 		$receipt->documentAutoID = $request->jobcardID;

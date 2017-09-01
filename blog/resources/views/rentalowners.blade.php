@@ -102,15 +102,26 @@
 <div class="panel panel-default give-space">
     <div class="panel-body">
     <div class="page-header container-fluid">
-      <section class="content-header pull-left">
-          <h4><b>PROPERTY OWNERS</b></h4>
-      </section>
+      <div class="container-fluid">
+        <section class="content-header pull-left">
+            <h4><b>PROPERTY OWNERS</b></h4>
+        </section>
 
-      <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
-        <i class="fa fa-plus"></i> Add Property Owner
-      </button>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
+          <i class="fa fa-plus"></i> Add Property Owner
+        </button>
+      </div>
+
+
     </div>
+      <div class="container-fluid">
+        @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+          @if(Session::has('alert-' . $msg))
+            <p class="alert alert-danger"><b>{{ Session::get('alert-' . $msg) }}</b></p>
+          @endif
+        @endforeach
+      </div>
         @if (count($rentalowners) > 0)
             <table class="table table-bordered table-hover table-striped" id="rentalowners-table">
 
