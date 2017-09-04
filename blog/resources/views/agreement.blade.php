@@ -121,13 +121,6 @@
           <i class="fa fa-plus"></i> Add Agreement
         </button>
       </div>
-        <div class="container-fluid">
-          @foreach (['danger', 'warning', 'success', 'info'] as $msg)
-            @if(Session::has('alert-' . $msg))
-              <p class="alert alert-danger"><b>{{ Session::get('alert-' . $msg) }}</b></p>
-            @endif
-          @endforeach
-        </div>
             <table class="table table-bordered table-striped" id="agreements-table">
 
                 <!-- Table Headings -->

@@ -16,6 +16,7 @@
           <th>Amount</th>
           <th>Cheque Number</th>
           <th>Cheque Date</th>
+          <th>Payment Date</th>
           <th>Actions</th>
         </tr>
         @foreach($payments as $index => $payment)
@@ -31,6 +32,7 @@
           <td class="amount">{{$payment->paymentAmount}}</td>
           <td class="chequeNumber">{{$payment->chequeNumber}}</td>
           <td class="chequeDate format-date">{{$payment->chequeDate}}</td>
+          <td class="paymentDate format-date">{{$payment->paymentDate}}</td>
           <td class="edit-button">
             <a class="btn bg-green btn-sm pull-left payment-edit" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp; Edit</a>
             <form class="delete-form pull-left  " method="POST" action="/custom/payment/{{$payment->paymentID}}">
@@ -85,11 +87,17 @@
                     <input name="chequeDate" class="form-control datepicker" />                      
                   </div>
                 </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Payment Date</label>
+                  <div class="col-sm-10">
+                    <input name="paymentDate" class="form-control datepicker" />                      
+                  </div>
+                </div>
               </div>
               <div class="box-footer">
                 <div class="form-buttons">
                   <input type="reset" class="btn btn-default" value="Reset" />
-                  <button type="submit" class="btn btn-info pull-right">Create</button>
+                  <button type="submit" class="btn btn-info pull-right">Save</button>
                 </div>
               </div>
             </form>
@@ -109,6 +117,7 @@ $(function() {
     $('[name="paymentTypeID"] option[value="'+$(this).closest('tr').find('.type').data('val')+'"').attr('selected', 'selected');
     $('[name="chequeNumber"]').val($(this).closest('tr').find('.chequeNumber').text());
     $('[name="chequeDate"]').val($(this).closest('tr').find('.chequeDate').text());
+    $('[name="paymentDate"]').val($(this).closest('tr').find('.paymentDate').text());
     $('[name="paymentID"]').val($(this).closest('tr').find('.id').data('val'));
     $('form').attr('action', '/update/custom/payment');
 

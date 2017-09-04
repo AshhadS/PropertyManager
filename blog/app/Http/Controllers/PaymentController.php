@@ -24,6 +24,8 @@ class PaymentController extends Controller
 		$payment->chequeNumber = $request->chequeNumber;
 		if($request->chequeDate)
 			$payment->chequeDate = date_create_from_format("j/m/Y", $request->chequeDate)->format('Y-m-d');
+		if($request->paymentDate)
+			$payment->paymentDate = date_create_from_format("j/m/Y", $request->paymentDate)->format('Y-m-d');
 		$payment->lastUpdatedByUserID = Sentinel::getUser()->id;
 		$payment->documentID = $request->documentID;
 		$payment->documentAutoID = $request->documentAutoID;
@@ -37,7 +39,10 @@ class PaymentController extends Controller
 		$payment->paymentAmount = $request->amount;
 		$payment->paymentTypeID = $request->paymentTypeID;
 		$payment->chequeNumber = $request->chequeNumber;
-		$payment->chequeDate = date_create_from_format("j/m/Y", $request->chequeDate)->format('Y-m-d');
+		if($request->chequeDate)
+			$payment->chequeDate = date_create_from_format("j/m/Y", $request->chequeDate)->format('Y-m-d');
+		if($request->paymentDate)
+			$payment->paymentDate = date_create_from_format("j/m/Y", $request->paymentDate)->format('Y-m-d');
 		$payment->lastUpdatedByUserID = Sentinel::getUser()->id;
 		$payment->save();
 

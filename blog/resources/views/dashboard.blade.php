@@ -178,7 +178,7 @@
 </div>	 <!-- /.row -->	
 <div class="row"><!-- /2nd row starting -->	
 	<div class="col-md-4">
-		<div class="box box-solid box-primary">		
+		<div class="box box-solid box-info">		
 			<div class="box-header with-border">
 				<h3 class="box-title"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;EXPIRING AGREEMENTS</h3>
 				<div class="box-tools pull-right">

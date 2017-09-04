@@ -28,7 +28,7 @@ class PropertyController extends Controller
 	    $props = Property::all();
 	    $propSubTypes = PropertySubType::all();
 	    $propTypes = PropertyType::all();
-    	$rentalowners = RentalOwner::all();
+    	$rentalowners = RentalOwner::where('isSubmitted', '1')->get();
     	$countries = Country::all();
 
 

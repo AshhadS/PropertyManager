@@ -24,6 +24,8 @@ class ReceiptController extends Controller
 		$receipt->chequeNumber = $request->chequeNumber;
 		if($request->chequeDate)
 			$receipt->chequeDate = date_create_from_format("j/m/Y", $request->chequeDate)->format('Y-m-d');
+		if($request->receiptDate)
+			$receipt->receiptDate = date_create_from_format("j/m/Y", $request->receiptDate)->format('Y-m-d');
 		$receipt->lastUpdatedByUserID = Sentinel::getUser()->id;
 		$receipt->documentID = $request->documentID;
 		$receipt->documentAutoID = $request->documentAutoID;
@@ -37,7 +39,10 @@ class ReceiptController extends Controller
 		$receipt->receiptAmount = $request->amount;
 		$receipt->paymentTypeID = $request->paymentTypeID;
 		$receipt->chequeNumber = $request->chequeNumber;
-		$receipt->chequeDate = date_create_from_format("j/m/Y", $request->chequeDate)->format('Y-m-d');
+		if($request->chequeDate)
+			$receipt->chequeDate = date_create_from_format("j/m/Y", $request->chequeDate)->format('Y-m-d');
+		if($request->receiptDate)
+			$receipt->receiptDate = date_create_from_format("j/m/Y", $request->receiptDate)->format('Y-m-d');
 		$receipt->lastUpdatedByUserID = Sentinel::getUser()->id;
 		$receipt->save();
 

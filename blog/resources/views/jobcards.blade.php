@@ -147,12 +147,6 @@
       </button>      
     </div>
     <div class="container-fluid" >
-      @foreach (['danger', 'warning', 'success', 'info'] as $msg)
-        @if(Session::has('alert-' . $msg))
-          <p class="alert alert-danger"><b>{{ Session::get('alert-' . $msg) }}</b></p>
-        @endif
-      @endforeach
-
       <!-- Nav tabs -->
       <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class=""><a href="#my" aria-controls="my" role="tab" data-toggle="tab">My Jobs &nbsp;&nbsp;<span class="badge bg-light-blue">{{$myCount}}</span></a></li>

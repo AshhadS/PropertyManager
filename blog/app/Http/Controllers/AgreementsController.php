@@ -13,6 +13,8 @@ use App\Model\PaymentType;
 use App\Model\Receipt;
 use App\Model\Payment;
 use App\Model\RentalOwner;
+use App\Model\Customer;
+use App\Model\Supplier;
 use Datatables;
 use Illuminate\Support\Facades\DB;
 use Debugbar;
@@ -80,8 +82,8 @@ class AgreementsController extends Controller
         $paymenttypelist = PaymentType::pluck('paymentDescription', 'paymentTypeID');
         $startDate=date_create_from_format("Y-m-d", $agreement->dateFrom)->format('j/m/Y');
         $endDate=date_create_from_format("Y-m-d", $agreement->dateTo)->format('j/m/Y');
-        $receipts = Receipt::where('documentID', 8)->where('documentAutoID', $agreement->agreementID)->get();
-        $payments = Payment::where('documentID', 8)->where('documentAutoID', $agreement->agreementID)->get();
+        $receipts = Receipt::where('documentID', 8)->where('documentAutoID', $agreement->agreementID)->orderBy('receiptID', 'ASC')->get();
+        $payments = Payment::where('documentID', 8)->where('documentAutoID', $agreement->agreementID)->orderBy('paymentID', 'ASC')->get();
         $customers = RentalOwner::all();
         $paymentTypes = PaymentType::all();
         return view('agreements_edit', [
@@ -105,23 +107,50 @@ class AgreementsController extends Controller
         if($request->flag == '0'){
             $monthCount = $this->getMonthsDiff($agreement->dateFrom, $agreement->dateTo);
 
-            for ($i=0; $i < $monthCount ; $i++) { 
+            for ($i=1; $i <= $monthCount ; $i++) { 
+
                 $payment = new Payment();
-                $payment->supplierID = $agreement->rentalOwnerID;
+                // Check if renatal owner has been submitted
+                if(Supplier::where('fromPropertyOwnerOrTenant', 1)->where('IDFromTenantOrPropertyOwner', $agreement->rentalOwnerID)->first()){
+                    $supplierid = Supplier::where('fromPropertyOwnerOrTenant', 1)->where('IDFromTenantOrPropertyOwner', $agreement->rentalOwnerID)->first()->supplierID;
+                    $payment->supplierID = $supplierid;
+                }else{
+                    // if not renturn without saving
+                    $request->session()->flash('alert-success', 'Cannot submit this agreement because the rental owner has not been submitted');
+                    return Redirect::back();                
+                }
+
+                // $payment->supplierID = $agreement->rentalOwnerID;
                 $payment->documentID = 8 ;
+                $payment->supplierInvoiceID = $agreement->agreementID;
+                $payment->invoiceSystemCode = sprintf("AGR%'05d\n", $agreement->agreementID);
                 $payment->documentAutoID = $agreement->agreementID;
                 $payment->paymentAmount = $agreement->marketRent;
                 $payment->paymentTypeID = $agreement->paymentTypeID;
+                $payment->paymentDate = $this->getAgreemntMonth($i, $agreement->dateFrom);
                 $payment->lastUpdatedByUserID = Sentinel::getUser()->id;
                 $payment->save();
 
 
                 $receipt = new Receipt();
-                $receipt->customerID = $agreement->tenantID;
+                // Check if tenant owner has been submitted
+                if(Customer::where('fromPropertyOwnerOrTenant', 2)->where('IDFromTenantOrPropertyOwner', $agreement->rentalOwnerID)->first()){
+                    $customerid = Customer::where('fromPropertyOwnerOrTenant', 2)->where('IDFromTenantOrPropertyOwner', $agreement->rentalOwnerID)->first()->customerID;
+                    $receipt->customerID = $customerid;
+                }else{
+                    // if not renturn without saving
+                    $request->session()->flash('alert-success', 'Cannot submit this agreement because the tenant has not been submitted');
+                    return Redirect::back();                
+                }
+
+                // $receipt->customerID = $agreement->tenantID;
                 $receipt->documentID = 8 ;
+                $receipt->customerInvoiceID = $agreement->agreementID;
+                $receipt->invoiceSystemCode = sprintf("AGR%'05d\n", $agreement->agreementID);
                 $receipt->documentAutoID = $agreement->agreementID;
                 $receipt->receiptAmount = $agreement->actualRent;
                 $receipt->paymentTypeID = $agreement->paymentTypeID;
+                $receipt->receiptDate = $this->getAgreemntMonth($i, $agreement->dateFrom);
                 $receipt->lastUpdatedByUserID = Sentinel::getUser()->id;
                 $receipt->save();
             }
@@ -134,6 +163,16 @@ class AgreementsController extends Controller
         $agreement->save();
 
         return Redirect::back();
+    }
+
+    static function getAgreemntMonth($i, $startDate){
+        // Add month
+        $date = date("Y-m-d", strtotime("+".$i." month", strtotime($startDate)));
+        
+        // Get first date of the month
+        $d = new DateTime($date);
+        $d->modify('first day of this month');
+        return $d->format('Y-m-d');
     }
 
     // Calculate the number of months between 2 dates
