@@ -187,16 +187,13 @@
 			</div><!-- /.box-header -->
 			<div class="box-body">
 				<ul class="products-list product-list-in-box">
-					@foreach($ExpiringAgreemntsOneMonth as $agreement)
-						<li class="item">
-							<div>
-								<a href="#" data-toggle="modal" data-target="#agreement-viewModal" data-id="{{$agreement->agreementID}}" class="attachment-edit-btn product-title">{{ $agreement->pPropertyName }}
-								<span class="label label-info pull-right">Flat No : {{ $agreement->unitNumber }}</span></a>        	
-							</div>
-						</li>
-						@component('agreements_view',['agreement' => $agreement,'units' => $units, 'properties' => $properties, 'tenants' => $tenants, 'paymentypes' => $paymentypes])
-						@endcomponent
-					@endforeach
+					<li class="item">
+						<div>
+							<a class="product-title">Agreements Expiring in 30 days
+							<span class="label label-danger pull-right">{{ $ExpiringAgreemntsOneMonthCount }}</span></a>
+						</div>
+					</li>
+					
 					<li class="item">
 						<div>
 							<a class="product-title">Agreements Expiring in 31-60 days

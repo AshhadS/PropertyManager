@@ -89,6 +89,7 @@ class DashboardController extends Controller
         'tenants.phoneNumber AS tenantsphoneNumber',
         'tenants.firstName AS tenantsfirstName')
         ->get();
+        $ExpiringAgreemntsOneMonthCount = DB::table('agreement')->whereBetween('dateTo', array(Carbon::now(), Carbon::now()->addMonths(1)))->count();
     
         $ExpiringAgreemntsTwoMonthCount = DB::table('agreement')->whereBetween('dateTo', array(Carbon::now()->addMonths(1), Carbon::now()->addMonths(2)))->count();
         $ExpiringAgreemntsThreeMonthCount = DB::table('agreement')->whereBetween('dateTo', array(Carbon::now()->addMonths(2), Carbon::now()->addMonths(3)))->count();
@@ -111,6 +112,7 @@ class DashboardController extends Controller
 	        'ExpiringAgreemntsThreeMonthCount' => $ExpiringAgreemntsThreeMonthCount,
 	        'ExpiringAgreemntsTwoMonthCount' => $ExpiringAgreemntsTwoMonthCount,
 	        'ExpiringAgreemntsOneMonth' => $ExpiringAgreemntsOneMonth,
+            'ExpiringAgreemntsOneMonthCount'=> $ExpiringAgreemntsOneMonthCount,
 	        'units' => $units,
 	        'properties' => $properties,
 	        'tenants' => $tenants,
