@@ -107,7 +107,7 @@
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
-          <i class="fa fa-plus"></i> <b>Add Tenants</b>
+          <i class="fa fa-plus"></i> Add Tenants
         </button>
       </div>
         <table class="table table-bordered table-hover table-striped" id="tenants-table">

@@ -121,7 +121,7 @@
       
       <div class="row">
         <button type="button" class="btn btn-primary pull-right add-btn <?php ($jobcard->isSubmitted == 1) ? print 'disabled' : false ?>" data-form-url="/jobcard/edit/maintenance" data-toggle="modal" data-target="#myModal">
-          <i class="fa fa-plus"></i> <b>Add Item</b>
+          <i class="fa fa-plus"></i> Add Item
         </button>        
       </div>
     </div>

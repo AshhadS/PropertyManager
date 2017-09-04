@@ -122,6 +122,18 @@
                   </select>
                 </div>
               </div>
+              <div class="form-group clearfix payment-number">
+                <label class="col-sm-3 control-label">Cheque Number</label>
+                <div class="col-sm-9">
+                  <input name="chequeNumber" class="form-control" />                      
+                </div>
+              </div>
+              <div class="form-group clearfix payment-date">
+                <label class="col-sm-3 control-label">Cheque Date</label>
+                <div class="col-sm-9">
+                  <input name="chequeDate" class="form-control datepicker" />                      
+                </div>
+              </div>
               <div class="box-footer">
                 <div class="form-buttons">
                   <input type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close" value="Cancel" />
@@ -189,6 +201,16 @@
         if(paid > payable){
           alert('cannot pay more that payable amount: '+payable);
           e.preventDefault();
+        }
+      });
+
+      $('[name="paymentTypeID"]').on('change', function(){
+        if($(this).val() == 3){
+          $('.payment-number label').text('Bank Transfer Number');
+          $('.payment-date label').text('Bank Transfer Date');
+        }else{
+          $('.payment-number label').text('Cheque Number');
+          $('.payment-date label').text('Cheque Date');
         }
       });
 

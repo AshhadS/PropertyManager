@@ -1,6 +1,6 @@
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
-          <i class="fa fa-plus"></i> <b>Add Attachment</b>
+          <i class="fa fa-plus"></i> Add Attachment
         </button>
         <br/><br/><br/>
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

@@ -108,7 +108,7 @@
 
       <!-- Button trigger modal -->
       <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
-        <i class="fa fa-plus"></i> <b>Add Property Owner</b>
+        <i class="fa fa-plus"></i> Add Property Owner
       </button>
     </div>
         @if (count($rentalowners) > 0)

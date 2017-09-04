@@ -90,7 +90,7 @@
         </section>
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
-          <i class="fa fa-plus"></i> <b>Add Unit</b>
+          <i class="fa fa-plus"></i> Add Unit
         </button>
       </div>
       <table class="table table-bordered table-striped" id="units-table">

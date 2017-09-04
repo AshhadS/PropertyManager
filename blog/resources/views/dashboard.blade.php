@@ -2,7 +2,7 @@
 
 @section('content')
 <br />
-<div class="container-fluid">
+<div class="container-fluid dashboard-page">
 
 <div class="row">
 	<div class="col-lg-5ths col-xs-6">
@@ -81,19 +81,16 @@
 		    <a href="/jobcards" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		  </div>
 		</div>
-	
-
 </div>
 
 <div class="row"><!-- /2nd row starting -->	
 
 	<div class="col-md-4">
-	     <div class="box box-primary">
+	     <div class="box box-danger">
 
 			<div class="box-header with-border">
-			  <h3 class="box-title text-light-blue"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;JOBCARD SUMMARY</h3>
-			</div>
-	        
+			  <h3 class="box-title text-red"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;JOBCARD SUMMARY</h3>
+			</div>	        
 	        <!-- /.box-header -->
 	        <div class="box-body">
 	          <div class="row">
@@ -122,121 +119,166 @@
 	     </div>
 	    </div><!-- /.col -->
 <!-- /.Payables -->
-	    <div class="col-md-4">
-
-	    		<div class="box box-primary">		
-        <div class="box-header with-border">
-          <h3 class="box-title text-light-blue"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;RECEIVABLES</h3>
-          <div class="box-tools pull-right">
-            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-          </div><!-- /.box-tools -->
-        </div><!-- /.box-header -->
-        <div class="box-body">
-          	<!-- <ul class="products-list product-list-in-box"> -->
-          	<ul class="nav nav-stacked">
-  				@foreach($TopFiveReceivables as $receivable)
-  				<li>  					
-                    	<a href="#">
-                    	{{$receivable->firstName}} {{$receivable->lastName}}
-                      	<span class="pull-right">OMR {{number_format($receivable->outstandingAmount,3)}}</span>
-                      	</a>
-                 	
-  				</li>
-  			@endforeach
-			</ul><!-- list -->
-        </div><!-- /.box-body -->
-       
-        <div class="box-footer text-center">
-              <a target="_blank" href="#" class="uppercase">View All</a>
-        </div>
-            <!-- /.box-footer -->
-      </div><!-- /.box -->
-
-	    </div><!-- /.col -->
+		<div class="col-md-4">
+			<div class="box box-success">		
+				<div class="box-header with-border">
+					<h3 class="box-title text-green"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;RECEIVABLES</h3>
+					<div class="box-tools pull-right">
+					<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+					</div><!-- /.box-tools -->
+				</div><!-- /.box-header -->
+				<div class="box-body">
+					<!-- <ul class="products-list product-list-in-box"> -->
+					<ul class="nav nav-stacked">
+						@foreach($TopFiveReceivables as $receivable)
+							<li>  					
+								<a href="#">
+									{{$receivable->firstName}} {{$receivable->lastName}}
+									<span class="pull-right">OMR {{number_format($receivable->outstandingAmount,3)}}</span>
+								</a>
+							</li>
+						@endforeach
+					</ul><!-- list -->
+				</div><!-- /.box-body -->
+				<div class="box-footer text-center">
+					<a target="_blank" href="#" class="uppercase">View All</a>
+				</div>
+				<!-- /.box-footer -->
+			</div><!-- /.box -->
+		</div><!-- /.col -->
 
 <!-- /Receivable -->
-	    <div class="col-md-4">
+		<div class="col-md-4">
 
-	    		<div class="box box-primary">		
-        <div class="box-header with-border">
-          <h3 class="box-title text-light-blue"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;PAYABLES</h3>
-          <div class="box-tools pull-right">
-            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-          </div><!-- /.box-tools -->
-        </div><!-- /.box-header -->
-        <div class="box-body">
-          	<ul class="nav nav-stacked">
-          	@foreach($TopFivePayables as $payable)
-  				<li>  					
-                    	<a href="#">
-                    	{{$payable->supplierName}}
-                      	<span class="pull-right">OMR {{number_format($payable->outstandingAmount,3)}}</span>
-                      	</a>
-                 	
-  				</li>
-  			@endforeach 	
-			</ul><!-- list -->
-        </div><!-- /.box-body -->
-       
-        <div class="box-footer text-center">
-              <a target="_blank" href="#" class="uppercase">View All</a>
-        </div>
-            <!-- /.box-footer -->
-      </div><!-- /.box -->
+			<div class="box box-warning">		
+				<div class="box-header with-border">
+					<h3 class="box-title text-yellow"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;PAYABLES</h3>
+					<div class="box-tools pull-right">
+						<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+					</div><!-- /.box-tools -->
+				</div><!-- /.box-header -->
+				<div class="box-body">
+					<ul class="nav nav-stacked">
+						@foreach($TopFivePayables as $payable)
+						<li>  					
+							<a href="#">
+								{{$payable->supplierName}}
+								<span class="pull-right">OMR {{number_format($payable->outstandingAmount,3)}}</span>
+							</a>
+						</li>
+						@endforeach 	
+					</ul><!-- list -->
+				</div><!-- /.box-body -->
+				<div class="box-footer text-center">
+					<a target="_blank" href="#" class="uppercase">View All</a>
+				</div>
+				<!-- /.box-footer -->
+			</div><!-- /.box -->
+		</div><!-- /.col -->
+</div>	 <!-- /.row -->	
+<div class="row"><!-- /2nd row starting -->	
+	<div class="col-md-4">
+		<div class="box box-solid box-primary">		
+			<div class="box-header with-border">
+				<h3 class="box-title"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;EXPIRING AGREEMENTS</h3>
+				<div class="box-tools pull-right">
+				<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+				</div><!-- /.box-tools -->
+			</div><!-- /.box-header -->
+			<div class="box-body">
+				<ul class="products-list product-list-in-box">
+					@foreach($ExpiringAgreemntsOneMonth as $agreement)
+						<li class="item">
+							<div>
+								<a href="#" data-toggle="modal" data-target="#agreement-viewModal" data-id="{{$agreement->agreementID}}" class="attachment-edit-btn product-title">{{ $agreement->pPropertyName }}
+								<span class="label label-info pull-right">Flat No : {{ $agreement->unitNumber }}</span></a>        	
+							</div>
+						</li>
+						@component('agreements_view',['agreement' => $agreement,'units' => $units, 'properties' => $properties, 'tenants' => $tenants, 'paymentypes' => $paymentypes])
+						@endcomponent
+					@endforeach
+					<li class="item">
+						<div>
+							<a class="product-title">Agreements Expiring in 31-60 days
+							<span class="label label-danger pull-right">{{ $ExpiringAgreemntsTwoMonthCount }}</span></a>
+						</div>
+					</li>
+					<li class="item">
+						<div>
+							<a class="product-title">Agreements Expiring in 61-90 days
+							<span class="label label-danger pull-right">{{ $ExpiringAgreemntsThreeMonthCount }}</span></a>
+						</div>
+					</li>
+				</ul>
+			</div><!-- /.box-body -->
 
-	    </div><!-- /.col -->
+			<div class="box-footer text-center">
+				<a target="_blank" href="/agreements" class="uppercase">View All Agreements</a>
+			</div>
+			<!-- /.box-footer -->
+		</div><!-- /.box -->
+	</div><!-- /Coloumn -->
+<!-- /.Payables -->
+		<div class="col-md-4">
+			<div class="box box-warning box-solid">		
+				<div class="box-header with-border">
+					<h3 class="box-title "><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;SUPPLIER SUMMARY</h3>
+					<div class="box-tools pull-right">
+					<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+					</div><!-- /.box-tools -->
+				</div><!-- /.box-header -->
+				<div class="box-body">
+					<table class="table">
+						<tbody>
+							<tr>
+								<th>#</th>
+								<th>Supplier</th>
+								<th>Supplier</th>
+							</tr>
+						</tbody>
+					</table>
+				</div><!-- /.box-body -->
+				<div class="box-footer text-center">
+					<a target="_blank" href="#" class="uppercase">View All</a>
+				</div>
+				<!-- /.box-footer -->
+			</div><!-- /.box -->
+		</div><!-- /.col -->
 
+<!-- /Receivable -->
+		<div class="col-md-4">
+
+			<div class="box box-success box-solid">		
+				<div class="box-header with-border">
+					<h3 class="box-title"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;CUSTOMER SUMMARY</h3>
+					<div class="box-tools pull-right">
+						<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+					</div><!-- /.box-tools -->
+				</div><!-- /.box-header -->
+				<div class="box-body">
+					<ul class="nav nav-stacked">
+						@foreach($TopFivePayables as $payable)
+						<li>  					
+							<a href="#">
+								{{$payable->supplierName}}
+								<span class="pull-right">OMR {{number_format($payable->outstandingAmount,3)}}</span>
+							</a>
+						</li>
+						@endforeach 	
+					</ul><!-- list -->
+				</div><!-- /.box-body -->
+				<div class="box-footer text-center">
+					<a target="_blank" href="#" class="uppercase">View All</a>
+				</div>
+				<!-- /.box-footer -->
+			</div><!-- /.box -->
+		</div><!-- /.col -->
 </div>	 <!-- /.row -->	
 
 
 <!-- Expire Agreements -->
 <div class="row">
-	<div class="col-md-4">
-	<div class="box box-primary">		
-        <div class="box-header with-border">
-          <h3 class="box-title text-light-blue"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;EXPIRING AGREEMENTS</h3>
-          <div class="box-tools pull-right">
-            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-          </div><!-- /.box-tools -->
-        </div><!-- /.box-header -->
-        <div class="box-body">
-          	<ul class="products-list product-list-in-box">
-
-          	@foreach($ExpiringAgreemntsOneMonth as $agreement)
-  				<li class="item">
-  				 	<div>
-                    	<a href="#" data-toggle="modal" data-target="#agreement-viewModal" data-id="{{$agreement->agreementID}}" class="attachment-edit-btn product-title">{{ $agreement->pPropertyName }}
-
-                      	<span class="label label-info pull-right">Flat No : {{ $agreement->unitNumber }}</span></a>        	
-                  	</div>
-  				</li>
-  				@component('agreements_view',['agreement' => $agreement,'units' => $units, 'properties' => $properties, 'tenants' => $tenants, 'paymentypes' => $paymentypes])
-        		@endcomponent
-  			@endforeach
-
-  				<li class="item">
-  					<div>
-                    	<a class="product-title">Agreements Expiring in 31-60 days
-                      	<span class="label label-danger pull-right">{{ $ExpiringAgreemntsTwoMonthCount }}</span></a>
-                  	</div>
-  				</li>
-  				<li class="item">
-  					<div>
-                    	<a class="product-title">Agreements Expiring in 61-90 days
-                      	<span class="label label-danger pull-right">{{ $ExpiringAgreemntsThreeMonthCount }}</span></a>
-                    	
-                  	</div>
-
-  				</li>
-			</ul>
-        </div><!-- /.box-body -->
-       
-        <div class="box-footer text-center">
-              <a target="_blank" href="/agreements" class="uppercase">View All Agreements</a>
-        </div>
-            <!-- /.box-footer -->
-      </div><!-- /.box -->
-     </div><!-- /Coloumn -->
+	
  </div><!-- /Row -->
 </div><!-- /container-fluid -->
 

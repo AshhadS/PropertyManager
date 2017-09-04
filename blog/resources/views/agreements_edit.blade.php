@@ -104,7 +104,23 @@
                     {!! Form::close() !!}
                 </div>  
                 <hr />
-                <a href="/agreement/submit/{{$agreement->agreementID}}" class="pull-right btn btn-primary">Submit</a>
+                <!-- <a href="/agreement/submit/{{$agreement->agreementID}}" class="pull-right btn btn-primary">Submit</a> -->
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="button-group pull-right">
+                      <form method="POST" action="/agreement/submit/{{$agreement->agreementID}}">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="agreementID" value="{{$agreement->agreementID}}">
+                        <input type="hidden" name="flag" value="{{$agreement->isSubmitted}}">
+                        @if($agreement->isSubmitted == 1)
+                          <input class="btn btn-primary" type="submit" value="Reverse">
+                        @else
+                          <input class="btn btn-primary" type="submit" value="Submit">
+                        @endif
+                      </form>
+                    </div>
+                  </div>
+                </div>
             </div>
         </div>
     </div>

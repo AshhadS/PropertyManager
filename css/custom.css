@@ -489,10 +489,13 @@ a.paginate_button.current {
 .page-content {
   float: left;
   width: 100%;
-  border: 2px solid #f4f4f4;
+
+  /*border: 2px solid #f4f4f4;*/
   padding: 30px;
   border-radius: 5px;
   min-height: 300px;
+  border-top: 4px solid #2980b9;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .page-content .title {
@@ -743,4 +746,32 @@ table.m-item .amount-col, table.m-item .amount-col {
 
 .table-col {
   display: table-cell;
+}
+
+.btn.btn-primary,
+.btn.btn-primary:active,
+.btn.btn-primary:active:hover,
+.btn.btn-info {
+  background-color: #37BC9B;
+  border-color: #37BC9B;
+}
+
+.bg-green {
+  background-color: #37BC9B !important;
+}
+
+.buttons .btn.btn-primary,
+.buttons .btn.btn-primary:active,
+.buttons .btn.btn-primary:active:hover {
+  background: #2980b9;
+  border-color: #2980b9;
+}
+
+.panel-body {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border-top: 4px solid #3498db;
+}
+
+.dashboard-page .box {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
