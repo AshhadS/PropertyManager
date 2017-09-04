@@ -136,6 +136,9 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	Route::get('/supplierstatement-print',  'ReportsController@printSupplierStatement');
 	Route::get('/supplierstatement-excel', 'ReportsController@excelSupplierStatement');
 	Route::get('/supplierStatement_pdf', 'ReportsController@pdfSupplierStatement');
+	Route::get('/reports_suppliersummary',  'ReportsController@getSupplierSummary');
+	Route::get('/reports_customerstatement',  'ReportsController@getCustomerStatement');
+	Route::get('/reports_customersummary',  'ReportsController@getCustomerSummary');
 
 
 	/**

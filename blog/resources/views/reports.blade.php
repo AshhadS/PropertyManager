@@ -3,43 +3,92 @@
 @section('content')
 
 <div class="container-fluid">
-  <section class="content-header pull-left">
-      <h4><b>REPORTS</b></h4>
-  </section>
+ <h2>Reports</h2>
+  <br />
    <br/>
 </div>
-<div class="content">
+
 <div class="row">
-    <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="info-box">
-            <span class="info-box-icon bg-yellow"><i class="fa fa-files-o"></i></span>
-
-            <div class="info-box-content">
-              <a href="/reports_supplierstatement">
-                <span class="info-box-text">Supplier Statement</span>
-                <span class="info-box-number">{{number_format($supplierStatementCount,0)}}</span>
-              </a>
-            </div>
-            <!-- /.info-box-content -->
+    <div class="col-md-2">
+      <div class="box simple-list">
+          <div class="box-header">
+            <h3 class="box-title">Supplier</h3>
+            <div class="box-tools pull-right">
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  </button>
+                </div>
           </div>
-          <!-- /.info-box -->
-    </div>
-
-    <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="info-box">
-            <span class="info-box-icon bg-green"><i class="fa fa-files-o"></i></span>
-
-            <div class="info-box-content">
-              <a href="#">
-                <span class="info-box-text">Customer Statement</span>
-                <span class="info-box-number">{{number_format($supplierStatementCount,0)}}</span>
-              </a>
-            </div>
-            <!-- /.info-box-content -->
+          <!-- /.box-header -->
+          <div class="box-body no-padding">
+            <table class="table table-striped">
+              <tbody>
+              <tr>
+                <td><a class='link' href="/reports_supplierstatement" data-section="reports_supplierstatement">Supplier Statement</a></td>
+              </tr>
+              <tr>
+                <td><a class='link' href="/reports_suppliersummary" data-section="reports_suppliersummary">Supplier Summary</a></td>
+              </tr>
+            </tbody>
+            </table>
           </div>
-          <!-- /.info-box -->
+          <!-- /.box-body -->
+      </div>
+
+      <div class="box simple-list">
+          <div class="box-header">
+            <h3 class="box-title">Customer</h3>
+            <div class="box-tools pull-right">
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  </button>
+                </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body no-padding" >
+            <table class="table table-striped">
+              <tbody >
+              <tr>
+                <td><a class='link' href="/reports_customerstatement" data-section="reports_customerstatement">Customer Statement</a></td>
+              </tr>
+              <tr>
+                <td><a href="/reports_customersummary" data-section="reports_customersummary" class="link">Customer Summary</a></td>
+              </tr>
+            </tbody></table>
+          </div>
+          <!-- /.box-body -->
+      </div>
+
+      <div class="col-md-9">
+      
+      <div class="page-content-wrapper">
+        <div class="">
+          <div class="page-content"  style="display: none">
+            <div class="load-container" style="">
+              <div class="loader">Loading...</div>
+            </div>    
+            <div class="body">
+              
+                <section id="">
+                    
+                    @com
+
+                </section>
+
+            </div>  
+          </div>
+        </div>
+      </div>
     </div>
-</div>
-</div>
 
 @endsection
+@push('scripts')
+<script>
+ $(function() {
+    $('.link').on('click', function(event){
+      event.preventDefault();
+      $('.page-content').show();
+      $('.load-container').fadeIn();
+      $('.page-content .body').load( "/"+$(this).data('section')+"/");
+    });
+
+</script>
+@endpush
