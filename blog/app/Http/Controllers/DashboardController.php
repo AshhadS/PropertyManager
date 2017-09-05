@@ -40,30 +40,47 @@ class DashboardController extends Controller
 
         //Payables
 
-        $TopFivePayables = DB::table('supplier')
-        ->Join ( 'supplierinvoice','supplier.supplierID', '=','supplierinvoice.supplierID')
-        ->where('supplierinvoice.paymentPaidYN','=',0)
-        ->selectRaw('supplier.supplierID, 
+        $TopFivePayables= DB::select('select suppliers.supplierID,suppliers.supplierName,suppliers.invoiceAmount,suppliers.paidAmount,(suppliers.invoiceAmount-suppliers.paidAmount) as outstandingAmount
+            FROM
+            (SELECT supplierinvoice.supplierID, 
             supplier.supplierName, 
-            sum(supplierinvoice.amount) AS outstandingAmount')
-        ->Orderby('outstandingAmount','DESC')
-        ->Groupby('supplier.supplierID', 'supplier.supplierName')
-        ->limit(5)
-        ->get();
+            SUM(supplierinvoice.amount) as invoiceAmount, payment.paidAmount
+            FROM supplierinvoice 
+            LEFT JOIN supplier ON supplierinvoice.supplierID = supplier.supplierID
+            LEFT JOIN (SELECT supplierID,sum(payments.paymentAmount) as paidAmount 
+            FROM payments 
+            where payments.documentID=5
+            GROUP BY supplierID) payment 
+            ON supplierinvoice.supplierID = payment.supplierID
+            GROUP BY supplierinvoice.supplierID, supplier.supplierName,payment.paidAmount)suppliers
+            Order by (suppliers.invoiceAmount-suppliers.paidAmount) DESC
+            LIMIT 5;');
+            //dd($TopFivePayables);
 
            //Receivables
 
-        $TopFiveReceivables = DB::table('customerinvoice')
-        ->Join ( 'rentalowners','customerinvoice.propertyOwnerID', '=','rentalowners.rentalOwnerID')
-        ->where('customerinvoice.paymentReceivedYN','=',0)
-        ->selectRaw('rentalowners.rentalOwnerID, 
-            rentalowners.firstName,
-            rentalowners.lastName, 
-            sum(customerinvoice.amount) AS outstandingAmount')
-        ->Orderby('outstandingAmount','DESC')
-        ->Groupby('rentalowners.rentalOwnerID', 'rentalowners.firstName','rentalowners.lastName')
-        ->limit(5)
-        ->get();
+                  
+
+            $TopFiveReceivables= DB::select('select customers.firstName,customers.lastName,customers.propertyOwnerID,customers.totalInvoiceAmount,customers.totalReceived,(customers.totalInvoiceAmount-customers.totalReceived) as outstandingAmount
+                FROM
+                    (SELECT rentalowners.firstName, 
+                    rentalowners.lastName,
+                    customerinvoice.propertyOwnerID,
+                    sum(customerinvoice.amount) AS totalInvoiceAmount,
+                    received.totalReceived
+                    FROM customerinvoice
+                    left Join rentalowners ON rentalowners.rentalOwnerID = customerinvoice.propertyOwnerID 
+                    left Join (SELECT customerID,sum(receipt.receiptAmount) as totalReceived 
+                    FROM receipt 
+                    GROUP BY customerID) received
+                    ON customerinvoice.propertyOwnerID = received.customerID
+                    Group by rentalowners.firstName,rentalowners.lastName,customerinvoice.propertyOwnerID, received.totalReceived)customers
+                    Order by (customers.totalInvoiceAmount-customers.totalReceived) DESC
+                    LIMIT 5');
+           // dd($TopFiveReceivables);
+
+            
+             
 
 
         //Expire Agreements

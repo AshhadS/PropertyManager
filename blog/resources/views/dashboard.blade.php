@@ -141,7 +141,7 @@
 					</ul><!-- list -->
 				</div><!-- /.box-body -->
 				<div class="box-footer text-center">
-					<a target="_blank" href="#" class="uppercase">View All</a>
+					<a target="_blank" href="/reports_customersummary" class="uppercase">View All</a>
 				</div>
 				<!-- /.box-footer -->
 			</div><!-- /.box -->
@@ -170,7 +170,7 @@
 					</ul><!-- list -->
 				</div><!-- /.box-body -->
 				<div class="box-footer text-center">
-					<a target="_blank" href="#" class="uppercase">View All</a>
+					<a target="_blank" href="/reports_suppliersummary" class="uppercase">View All</a>
 				</div>
 				<!-- /.box-footer -->
 			</div><!-- /.box -->
