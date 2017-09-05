@@ -216,60 +216,7 @@
 		</div><!-- /.box -->
 	</div><!-- /Coloumn -->
 <!-- /.Payables -->
-		<div class="col-md-4">
-			<div class="box box-warning box-solid">		
-				<div class="box-header with-border">
-					<h3 class="box-title "><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;SUPPLIER SUMMARY</h3>
-					<div class="box-tools pull-right">
-					<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-					</div><!-- /.box-tools -->
-				</div><!-- /.box-header -->
-				<div class="box-body">
-					<table class="table">
-						<tbody>
-							<tr>
-								<th>#</th>
-								<th>Supplier</th>
-								<th>Supplier</th>
-							</tr>
-						</tbody>
-					</table>
-				</div><!-- /.box-body -->
-				<div class="box-footer text-center">
-					<a target="_blank" href="#" class="uppercase">View All</a>
-				</div>
-				<!-- /.box-footer -->
-			</div><!-- /.box -->
-		</div><!-- /.col -->
-
-<!-- /Receivable -->
-		<div class="col-md-4">
-
-			<div class="box box-success box-solid">		
-				<div class="box-header with-border">
-					<h3 class="box-title"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;CUSTOMER SUMMARY</h3>
-					<div class="box-tools pull-right">
-						<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-					</div><!-- /.box-tools -->
-				</div><!-- /.box-header -->
-				<div class="box-body">
-					<ul class="nav nav-stacked">
-						@foreach($TopFivePayables as $payable)
-						<li>  					
-							<a href="#">
-								{{$payable->supplierName}}
-								<span class="pull-right">OMR {{number_format($payable->outstandingAmount,3)}}</span>
-							</a>
-						</li>
-						@endforeach 	
-					</ul><!-- list -->
-				</div><!-- /.box-body -->
-				<div class="box-footer text-center">
-					<a target="_blank" href="#" class="uppercase">View All</a>
-				</div>
-				<!-- /.box-footer -->
-			</div><!-- /.box -->
-		</div><!-- /.col -->
+		
 </div>	 <!-- /.row -->	
 
 
