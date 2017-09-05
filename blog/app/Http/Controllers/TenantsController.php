@@ -87,6 +87,8 @@ class TenantsController extends Controller
         $supplier->timestamp = Carbon::now();
 
         $supplier->save();
+        $supplier->supplierCode = sprintf("S%'05d\n", $supplier->supplierID);
+        $supplier->save();
         return true;
     }
 
@@ -107,7 +109,7 @@ class TenantsController extends Controller
 
         $customer->save();
 
-        $customer->customerCode = sprintf("CUST%'05d\n", $customer->customerID);
+        $customer->customerCode = sprintf("CUST%'05d", $customer->customerID);
         $customer->save();
     }
 

@@ -8,7 +8,7 @@
     <tbody>
       <tr>
         <th style="width: 10px">Id</th>
-        <th>Supplier Id</th>
+        <th>Supplier Code</th>
         <th>Supplier Name</th>
         <th>Address </th>
         <th>telephone</th>

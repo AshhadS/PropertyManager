@@ -90,6 +90,8 @@ class RentalOwnersController extends Controller
         $supplier->timestamp = Carbon::now();
 
         $supplier->save();
+        $supplier->supplierCode = sprintf("S%'05d\n", $supplier->supplierID);
+        $supplier->save();
         return true;
     }
 
