@@ -2,3 +2,4 @@
 blog/resources/views/jobcards.blade - Copy.php
 blog/resources/views/jobcard_maintenance.blade - Copy.php
 blog/app/Http/Middleware/VerifyCsrfToken.php
+blog/app/Http/Middleware/VerifyCsrfToken.php
