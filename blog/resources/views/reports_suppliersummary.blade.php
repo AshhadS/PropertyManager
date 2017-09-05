@@ -11,7 +11,7 @@
       <div class="row">
         <div class="col-xs-12">
           <h2 class="page-header">
-            <i class="fa fa-globe"></i> Supplier Statement
+            <i class="fa fa-globe"></i> Supplier Summary
             <small class="pull-right">Date: {{ date("Y/m/d")}}</small>
           </h2>
         </div>
@@ -25,33 +25,26 @@
 
       <!-- Table row -->
       <div class="row">
-        <div class="col-xs-12 table-responsive">
-          <table class="table table-striped">
+        <div class="col-xs-12 table-responsive" >
+          <table class="table table-striped" width="50%">
             <thead>
             <tr>
-              <th>Supplier Name</th>
-              <th>Invoice Code</th>
-              <th>Invoice Date</th>
-              <th>Invoice No</th>
+              <th>Supplier</th>
               <th>Currency</th>
               <th>Invoice Amount</th>
               <th>Balance Amount</th>
             </tr>
             </thead>
             <tbody>
-        
-            @foreach ($supplierStatements as $supplierStatement)
-                @if($supplierStatement->supplierInvoiceAmount-$supplierStatement->totalpaidAmount > 0)
-                <tr>
-                  <td>{{$supplierStatement->supplierName}}</td>
-                  <td>{{$supplierStatement->invoiceSystemCode}}</td>
-                  <td>{{$supplierStatement->invoiceDate}}</td>
-                  <td>{{$supplierStatement->supplierInvoiceCode}}</td>
-                  <td>OMR</td>
-                  <td>{{number_format($supplierStatement->supplierInvoiceAmount,3)}}</td>
-                  <td>{{number_format(($supplierStatement->supplierInvoiceAmount-$supplierStatement->totalpaidAmount),3)}}</td>
-                </tr>
-                @endif
+            @foreach ($supplierSummary as $supplier)
+            @if($supplier->supplierInvoiceAmount-$supplier->totalpaidAmount > 0)
+            <tr>
+              <td>{{$supplier->supplierName}}</td>
+              <td>OMR</td>
+              <td>{{number_format($supplier->supplierInvoiceAmount,3)}}</td>              
+              <td>{{number_format($supplier->supplierInvoiceAmount-$supplier->totalpaidAmount,3)}}</td>
+            </tr>
+            @endif
            @endforeach
             </tbody>
           </table>

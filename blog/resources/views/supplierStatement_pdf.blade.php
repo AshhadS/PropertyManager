@@ -73,24 +73,28 @@
           <table class="table table-striped" width="100%">
             <thead>
             <tr>
+              <th>Supplier Name</th>
               <th>Invoice Code</th>
               <th>Invoice Date</th>
-              <th>Supplier Name</th>
-              <th>Job Card</th>
+              <th>Invoice No</th>
               <th>Currency</th>
-              <th>Amount</th>
+              <th>Invoice Amount</th>
+              <th>Balance Amount</th>
             </tr>
             </thead>
             <tbody>
             @foreach ($supplierStatements as $supplierStatement)
-            <tr>
-              <td>{{$supplierStatement->invoiceSystemCode}}</td>
-              <td>{{$supplierStatement->invoiceDate}}</td>
-              <td>{{$supplierStatement->supplierName}}</td>
-              <td>{{$supplierStatement->jobCardCode}}</td>
-              <td>OMR</td>
-              <td align="right">{{number_format($supplierStatement->amount,3)}}</td>
-            </tr>
+                @if($supplierStatement->supplierInvoiceAmount-$supplierStatement->totalpaidAmount > 0)
+                <tr>
+                  <td>{{$supplierStatement->supplierName}}</td>
+                  <td>{{$supplierStatement->invoiceSystemCode}}</td>
+                  <td>{{$supplierStatement->invoiceDate}}</td>
+                  <td>{{$supplierStatement->supplierInvoiceCode}}</td>
+                  <td>OMR</td>
+                  <td>{{number_format($supplierStatement->supplierInvoiceAmount,3)}}</td>
+                  <td>{{number_format(($supplierStatement->supplierInvoiceAmount-$supplierStatement->totalpaidAmount),3)}}</td>
+                </tr>
+                @endif
            @endforeach
             </tbody>
           </table>
