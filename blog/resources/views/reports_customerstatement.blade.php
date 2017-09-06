@@ -19,6 +19,18 @@
       </div>
       <!-- info row -->
       <div class="row invoice-info">
+      <div class="form-group col-xs-3">
+            <label for="">Filter By Customer</label>
+
+            <select class="form-control input-sm" id="state" name="state" >
+              <option value="0">Please select a customer</option>
+             @foreach ($customers as $customer)
+                  <option value="{{$customer->rentalOwnerID}}">{{$customer->firstName}} {{$customer->lastName}}</option>
+            @endforeach
+                  
+            </select>
+
+      </div>
       	
       </div>
       <!-- /.row -->
@@ -26,7 +38,7 @@
       <!-- Table row -->
       <div class="row">
         <div class="col-xs-12 table-responsive">
-          <table class="table table-striped">
+          <table id="domains_table" class="table table-striped">
             <thead>
             <tr>
               <th>Customer Name</th>
@@ -39,20 +51,9 @@
             </tr>
             </thead>
             <tbody>
-      
-            @foreach ($customerStatements as $customerStatement)
-                @if($customerStatement->customerInvoiceAmount-$customerStatement->totalReceived > 0)
-                <tr>
-                  <td>{{$customerStatement->firstName}} {{$customerStatement->lastName}}</td>
-                  <td>{{$customerStatement->invoiceSystemCode}}</td>
-                  <td>{{$customerStatement->customerInvoiceDate}}</td>
-                  <td>{{$customerStatement->customerInvoiceCode}}</td>
-                  <td>OMR</td>
-                  <td>{{number_format($customerStatement->customerInvoiceAmount,3)}}</td>
-                  <td>{{number_format(($customerStatement->customerInvoiceAmount-$customerStatement->totalReceived),3)}}</td>
-                </tr>
-                @endif
-           @endforeach
+            
+            @include('reports_customerstatement_data')
+            
             </tbody>
           </table>
         </div>
@@ -69,13 +70,13 @@
       <!-- this row will not appear when printing -->
       <div class="row no-print">
         <div class="col-xs-12">
-          <a href="/supplierstatement-print" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-          <a href="/supplierstatement-excel">
+          <a href="/customerstatement-print" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
+          <a href="/customerstatement-excel">
           	<button type="button" class="btn btn-success pull-right">
           		<i class="fa fa-file-excel-o"></i> Export to Excel
           	</button>
           </a>
-          <a href="/supplierStatement_pdf">
+          <a href="/customerStatement_pdf">
           	<button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
             	<i class="fa fa-download"></i> Generate PDF 
           	</button>
@@ -93,3 +94,24 @@
 
 
 @endsection
+@push('scripts')
+<script>
+  
+$( "#state" ).change(function() 
+  {
+    //this is the #state dom element
+    var state = $(this).val();
+    
+    // parameter 1 : url
+        // parameter 2: post data
+        //parameter 3: callback function 
+    $.get( '/reports_customerstatement_data' , { state : state } , function(htmlCode){ //htmlCode is the code retured from your controller
+        $("#domains_table tbody").html(htmlCode);
+    });
+  });
+
+
+</script>>
+
+
+@endpush

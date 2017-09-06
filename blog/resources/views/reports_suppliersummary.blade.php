@@ -62,13 +62,13 @@
       <!-- this row will not appear when printing -->
       <div class="row no-print">
         <div class="col-xs-12">
-          <a href="/supplierstatement-print" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-          <a href="/supplierstatement-excel">
+          <a href="/suppliersuppliersummary-print" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
+          <a href="/suppliersuppliersummary-excel">
           	<button type="button" class="btn btn-success pull-right">
           		<i class="fa fa-file-excel-o"></i> Export to Excel
           	</button>
           </a>
-          <a href="/supplierStatement_pdf">
+          <a href="/supplierSummary_pdf">
           	<button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
             	<i class="fa fa-download"></i> Generate PDF 
           	</button>

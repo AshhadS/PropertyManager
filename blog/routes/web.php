@@ -133,11 +133,27 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	 */
 	Route::get('/reports',  'ReportsController@index');
 	Route::get('/reports_supplierstatement',  'ReportsController@getSupplierStatement');
+	Route::get('/reports_supplierstatement_data',  'ReportsController@getFilteredStatements');
+	
 	Route::get('/supplierstatement-print',  'ReportsController@printSupplierStatement');
 	Route::get('/supplierstatement-excel', 'ReportsController@excelSupplierStatement');
 	Route::get('/supplierStatement_pdf', 'ReportsController@pdfSupplierStatement');
+
+
 	Route::get('/reports_suppliersummary',  'ReportsController@getSupplierSummary');
+	Route::get('/suppliersuppliersummary-print',  'ReportsController@printSupplierSummary');
+	Route::get('/suppliersuppliersummary-excel', 'ReportsController@excelSupplierSummary');
+	Route::get('/supplierSummary_pdf', 'ReportsController@pdfSupplierSummary');
+
+
 	Route::get('/reports_customerstatement',  'ReportsController@getCustomerStatement');
+	Route::get('/customerstatement-print',  'ReportsController@printCustomerStatement');
+	Route::get('/customerstatement-excel', 'ReportsController@excelCustomerStatement');
+	Route::get('/customerStatement_pdf', 'ReportsController@pdfSupplierSummary');
+	Route::get('/reports_customerstatement_data',  'ReportsController@getCustomerFilteredStatements');
+	
+
+
 	Route::get('/reports_customersummary',  'ReportsController@getCustomerSummary');
 
 

@@ -31,7 +31,7 @@
       <div class="row">
         <div class="col-xs-12">
           <h2 class="page-header">
-            <i class="fa fa-globe"></i> Supplier Statement
+            <i class="fa fa-globe"></i> Customer Statement
             <small class="pull-right">Date: {{ date("Y/m/d")}}</small>
           </h2>
         </div>
@@ -39,12 +39,9 @@
       </div>
       <!-- info row -->
       <div class="row invoice-info">
-
-       
         
       </div>
       <!-- /.row -->
-
 
       <!-- Table row -->
       <div class="row">
@@ -52,7 +49,7 @@
           <table class="table table-striped">
             <thead>
             <tr>
-              <th>Supplier Name</th>
+              <th>Customer Name</th>
               <th>Invoice Code</th>
               <th>Invoice Date</th>
               <th>Invoice No</th>
@@ -62,16 +59,16 @@
             </tr>
             </thead>
             <tbody>
-            @foreach ($supplierStatements as $supplierStatement)
-                @if($supplierStatement->supplierInvoiceAmount-$supplierStatement->totalpaidAmount > 0)
+            @foreach ($customerStatements as $customerStatement)
+                @if($customerStatement->customerInvoiceAmount-$customerStatement->totalReceived > 0)
                 <tr>
-                  <td>{{$supplierStatement->supplierName}}</td>
-                  <td>{{$supplierStatement->invoiceSystemCode}}</td>
-                  <td>{{$supplierStatement->invoiceDate}}</td>
-                  <td>{{$supplierStatement->supplierInvoiceCode}}</td>
+                  <td>{{$customerStatement->firstName}} {{$customerStatement->lastName}}</td>
+                  <td>{{$customerStatement->invoiceSystemCode}}</td>
+                   <td>{{$customerStatement->customerInvoiceDate}}</td>
+                  <td>{{$customerStatement->customerInvoiceCode}}</td>
                   <td>OMR</td>
-                  <td>{{number_format($supplierStatement->supplierInvoiceAmount,3)}}</td>
-                  <td>{{number_format(($supplierStatement->supplierInvoiceAmount-$supplierStatement->totalpaidAmount),3)}}</td>
+                  <td>{{number_format($customerStatement->customerInvoiceAmount,3)}}</td>
+                  <td>{{number_format(($customerStatement->customerInvoiceAmount-$customerStatement->totalReceived),3)}}</td>
                 </tr>
                 @endif
            @endforeach

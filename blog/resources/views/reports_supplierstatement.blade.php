@@ -6,7 +6,10 @@
 <br>
 </br>
 
-<section class="invoice">
+<br>
+</br>
+
+<section class="invoice table-responsive">
       <!-- title row -->
       <div class="row">
         <div class="col-xs-12">
@@ -19,6 +22,19 @@
       </div>
       <!-- info row -->
       <div class="row invoice-info">
+
+      <div class="form-group col-xs-3">
+            <label for="">Filter By Supplier</label>
+
+            <select class="form-control input-sm" id="state" name="state" >
+            <option value="0">Please select a supplier</option>
+             @foreach ($suppliers as $supplier)
+                  <option value="{{$supplier->supplierID}}">{{$supplier->supplierName}}</option>
+            @endforeach
+                  
+            </select>
+
+      </div>  
       	
       </div>
       <!-- /.row -->
@@ -26,7 +42,7 @@
       <!-- Table row -->
       <div class="row">
         <div class="col-xs-12 table-responsive">
-          <table class="table table-striped">
+          <table id="domains_table" class="table table-striped">
             <thead>
             <tr>
               <th>Supplier Name</th>
@@ -40,19 +56,7 @@
             </thead>
             <tbody>
         
-            @foreach ($supplierStatements as $supplierStatement)
-                @if($supplierStatement->supplierInvoiceAmount-$supplierStatement->totalpaidAmount > 0)
-                <tr>
-                  <td>{{$supplierStatement->supplierName}}</td>
-                  <td>{{$supplierStatement->invoiceSystemCode}}</td>
-                  <td>{{$supplierStatement->invoiceDate}}</td>
-                  <td>{{$supplierStatement->supplierInvoiceCode}}</td>
-                  <td>OMR</td>
-                  <td>{{number_format($supplierStatement->supplierInvoiceAmount,3)}}</td>
-                  <td>{{number_format(($supplierStatement->supplierInvoiceAmount-$supplierStatement->totalpaidAmount),3)}}</td>
-                </tr>
-                @endif
-           @endforeach
+             @include('reports_supplierstatement_data')
             </tbody>
           </table>
         </div>
@@ -88,8 +92,26 @@
 </div>
 
 
-
-
-
-
 @endsection
+
+@push('scripts')
+<script>
+  
+$( "#state" ).change(function() 
+  {
+    //this is the #state dom element
+    var state = $(this).val();
+    
+    // parameter 1 : url
+        // parameter 2: post data
+        //parameter 3: callback function 
+    $.get( '/reports_supplierstatement_data' , { state : state } , function(htmlCode){ //htmlCode is the code retured from your controller
+        $("#domains_table tbody").html(htmlCode);
+    });
+  });
+
+
+</script>>
+
+
+@endpush

@@ -59,7 +59,7 @@ class ReportsController extends Controller
 
     function getSupplierStatement(){
 
-
+         $suppliers= DB::table('Supplier')->get();
         $supplierStatements = DB::table('supplierinvoice')
         ->leftJoin('supplier','supplierinvoice.supplierID','=','supplier.supplierID')
         ->leftJoin(DB::raw('(SELECT supplierInvoiceID,sum(payments.paymentAmount) as totalpaidAmount FROM payments where payments.documentID=5       GROUP BY supplierInvoiceID,SupplierInvoiceDate,supplierID) payment'),'supplierinvoice.supplierInvoiceID','=', 'payment.supplierInvoiceID')
@@ -72,7 +72,7 @@ class ReportsController extends Controller
                     supplierinvoice.invoiceDate,
                     payment.totalpaidAmount')
         ->get();
-        //dd($supplierStatements);
+       // dd($suppliers);
 
       //  $supplierStatements =
 
@@ -80,6 +80,7 @@ class ReportsController extends Controller
 
         return view('reports_supplierstatement',[
         	'supplierStatements' => $supplierStatements,
+            'suppliers' => $suppliers,
 
         	]);
 
@@ -87,6 +88,34 @@ class ReportsController extends Controller
 
 
     }
+
+    public function getFilteredStatements(Request $request){
+
+            $state = $request->state;
+            //dd($state); 
+           // $supplierStatements = DB::table('domains')->where('state' ,'=', $state )->get();
+            $supplierStatements = DB::table('supplierinvoice')
+             ->leftJoin('supplier','supplierinvoice.supplierID','=','supplier.supplierID')
+            ->leftJoin(DB::raw('(SELECT supplierInvoiceID,sum(payments.paymentAmount) as totalpaidAmount FROM payments where payments.documentID=5       GROUP BY supplierInvoiceID,SupplierInvoiceDate,supplierID) payment'),'supplierinvoice.supplierInvoiceID','=', 'payment.supplierInvoiceID')
+            ->where('supplierinvoice.supplierID' ,'=', $state )
+            ->selectRaw('supplier.supplierID, 
+                    supplierinvoice.supplierInvoiceID,
+                    supplier.supplierName, 
+                    supplierinvoice.invoiceSystemCode, 
+                    supplierinvoice.supplierInvoiceCode,
+                    supplierinvoice.amount as supplierInvoiceAmount,
+                    supplierinvoice.invoiceDate,
+                    payment.totalpaidAmount')
+            ->get(); 
+
+           // dd($supplierStatements); 
+            $html = view('reports_supplierstatement_data', compact('supplierStatements'))->render();
+
+            return  $html;
+    }
+
+
+
 
 
 
@@ -202,6 +231,7 @@ class ReportsController extends Controller
         function getSupplierSummary(){
 
 
+       
         $supplierSummary = DB::table('supplierinvoice')
         ->leftJoin('supplier','supplierinvoice.supplierID','=','supplier.supplierID')
         ->leftJoin(DB::raw('(SELECT supplierID,sum(payments.paymentAmount) as totalpaidAmount FROM payments where payments.documentID=5       GROUP BY supplierID) payment'),'supplierinvoice.supplierID','=', 'payment.supplierID')
@@ -217,6 +247,7 @@ class ReportsController extends Controller
             return view('reports_suppliersummary',[
 
             'supplierSummary' => $supplierSummary,
+            
 
             ]) ;
 
@@ -225,9 +256,63 @@ class ReportsController extends Controller
 
         }
 
+        function printSupplierSummary(){
+
+         $supplierSummary = DB::table('supplierinvoice')
+        ->leftJoin('supplier','supplierinvoice.supplierID','=','supplier.supplierID')
+        ->leftJoin(DB::raw('(SELECT supplierID,sum(payments.paymentAmount) as totalpaidAmount FROM payments where payments.documentID=5       GROUP BY supplierID) payment'),'supplierinvoice.supplierID','=', 'payment.supplierID')
+        ->Groupby('supplierID','supplierName','payment.totalpaidAmount')
+        ->selectRaw('supplier.supplierID,                    
+                    supplier.supplierName,
+                    sum(supplierinvoice.amount) as supplierInvoiceAmount,
+                    payment.totalpaidAmount')
+        
+        ->get();
+
+
+
+            return view('supplierSummary-print',[
+            'supplierSummary' => $supplierSummary,
+            ]);
+        }
+
+
+        function pdfSupplierSummary(){
+
+          $supplierSummary = DB::table('supplierinvoice')
+        ->leftJoin('supplier','supplierinvoice.supplierID','=','supplier.supplierID')
+        ->leftJoin(DB::raw('(SELECT supplierID,sum(payments.paymentAmount) as totalpaidAmount FROM payments where payments.documentID=5       GROUP BY supplierID) payment'),'supplierinvoice.supplierID','=', 'payment.supplierID')
+        ->Groupby('supplierID','supplierName','payment.totalpaidAmount')
+        ->selectRaw('supplier.supplierID,                    
+                    supplier.supplierName,
+                    sum(supplierinvoice.amount) as supplierInvoiceAmount,
+                    payment.totalpaidAmount')
+        
+        ->get();
+
+        $company = Company::find(Sentinel::getUser()->companyID);
+
+        $pdf = App::make('dompdf.wrapper');
+
+        $data = array(
+            'supplierSummary' => $supplierSummary,
+            'company' => $company,
+            
+        );
+
+            $pdf->loadView('supplierSummary_pdf',$data,$data);
+            return $pdf->stream();
+        
+        }
+
+
+
+
+
         function getCustomerStatement(){
 
           
+            $customers= DB::table('rentalowners')->orderby('firstName','ASC')->get();
             $customerStatements = DB::table('customerinvoice')
             ->leftJoin('rentalowners','rentalowners.rentalOwnerID','=','customerinvoice.propertyOwnerID')
             ->leftJoin(DB::raw('(SELECT customerID,invoiceSystemCode,customerInvoiceID, sum(receiptAmount) as totalReceived,customerInvoiceCode FROM receipt GROUP BY customerID,invoiceSystemCode,customerInvoiceID,customerInvoiceCode) received'),'customerinvoice.customerInvoiceID','=', 'received.customerInvoiceID')
@@ -248,6 +333,7 @@ class ReportsController extends Controller
             return view('reports_customerstatement',[
 
             'customerStatements' => $customerStatements,
+            'customers' => $customers,
 
             ]) ;
 
@@ -255,6 +341,36 @@ class ReportsController extends Controller
 
 
         }
+
+
+        public function getCustomerFilteredStatements(Request $request){
+
+            $state = $request->state;
+            //dd($state); 
+           // $supplierStatements = DB::table('domains')->where('state' ,'=', $state )->get();
+
+            $customerStatements = DB::table('customerinvoice')
+            ->leftJoin('rentalowners','rentalowners.rentalOwnerID','=','customerinvoice.propertyOwnerID')
+            ->leftJoin(DB::raw('(SELECT customerID,invoiceSystemCode,customerInvoiceID, sum(receiptAmount) as totalReceived,customerInvoiceCode FROM receipt GROUP BY customerID,invoiceSystemCode,customerInvoiceID,customerInvoiceCode) received'),'customerinvoice.customerInvoiceID','=', 'received.customerInvoiceID')
+            ->where('customerinvoice.propertyOwnerID' ,'=', $state )
+            ->Groupby('rentalowners.firstName', 'rentalowners.lastName','customerinvoice.propertyOwnerID','received.totalReceived','customerinvoice.invoiceDate','customerinvoice.customerInvoiceID','received.customerInvoiceCode')
+            ->selectRaw('rentalowners.firstName, 
+                    rentalowners.lastName,
+                    customerinvoice.propertyOwnerID,
+                    customerinvoice.CustomerInvoiceSystemCode AS invoiceSystemCode,
+                    customerinvoice.invoiceDate AS customerInvoiceDate,
+                    received.customerInvoiceCode,
+                    amount AS customerInvoiceAmount,
+                    received.totalReceived')
+            ->get();
+
+        
+
+           // dd($supplierStatements); 
+            $html = view('reports_customerstatement_data', compact('customerStatements'))->render();
+
+            return  $html;
+    }
 
         function pdfCustomerStatement(){
 
