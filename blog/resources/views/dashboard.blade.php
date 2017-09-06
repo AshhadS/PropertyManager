@@ -178,33 +178,36 @@
 </div>	 <!-- /.row -->	
 <div class="row"><!-- /2nd row starting -->	
 	<div class="col-md-4">
-		<div class="box box-solid box-info">		
+		<div class="box box-primary">		
 			<div class="box-header with-border">
-				<h3 class="box-title"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;EXPIRING AGREEMENTS</h3>
+				<h3 class="box-title text-light-blue"><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;EXPIRING AGREEMENTS</h3>
 				<div class="box-tools pull-right">
 				<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 				</div><!-- /.box-tools -->
 			</div><!-- /.box-header -->
 			<div class="box-body">
-				<ul class="products-list product-list-in-box">
-					<li class="item">
-						<div>
-							<a class="product-title">Agreements Expiring in 30 days
+				<ul class="nav nav-stacked">
+					<li class>
+						
+							<a href="#">
+							Agreements Expiring in 30 days
 							<span class="label label-danger pull-right">{{ $ExpiringAgreemntsOneMonthCount }}</span></a>
-						</div>
+						
 					</li>
 					
-					<li class="item">
-						<div>
-							<a class="product-title">Agreements Expiring in 31-60 days
+					<li>
+						
+							<a href="#">
+							Agreements Expiring in 31-60 days
 							<span class="label label-danger pull-right">{{ $ExpiringAgreemntsTwoMonthCount }}</span></a>
-						</div>
+						
 					</li>
-					<li class="item">
-						<div>
-							<a class="product-title">Agreements Expiring in 61-90 days
+					<li>
+						
+							<a href="#">
+							Agreements Expiring in 61-90 days
 							<span class="label label-danger pull-right">{{ $ExpiringAgreemntsThreeMonthCount }}</span></a>
-						</div>
+						
 					</li>
 				</ul>
 			</div><!-- /.box-body -->

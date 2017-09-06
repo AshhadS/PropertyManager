@@ -60,7 +60,7 @@
       <!-- info row -->
       <div class="row">
       <h2>
-            </i> Supplier Statement
+            </i> Customer Statement
             
       </h2>
       <small class="pull-right">Date: {{ date("Y/m/d")}}</small>

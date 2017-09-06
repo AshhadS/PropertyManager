@@ -40,7 +40,7 @@ class DashboardController extends Controller
 
         //Payables
 
-        $TopFivePayables= DB::select('select suppliers.supplierID,suppliers.supplierName,suppliers.invoiceAmount,suppliers.paidAmount,(suppliers.invoiceAmount-suppliers.paidAmount) as outstandingAmount
+        $TopFivePayables= DB::select('select suppliers.supplierID,suppliers.supplierName,suppliers.invoiceAmount,ifnull(suppliers.paidAmount,0),(suppliers.invoiceAmount-ifnull(suppliers.paidAmount,0)) as outstandingAmount
             FROM
             (SELECT supplierinvoice.supplierID, 
             supplier.supplierName, 
@@ -61,7 +61,7 @@ class DashboardController extends Controller
 
                   
 
-            $TopFiveReceivables= DB::select('select customers.firstName,customers.lastName,customers.propertyOwnerID,customers.totalInvoiceAmount,customers.totalReceived,(customers.totalInvoiceAmount-customers.totalReceived) as outstandingAmount
+            $TopFiveReceivables= DB::select('select customers.firstName,customers.lastName,customers.propertyOwnerID,customers.totalInvoiceAmount,ifnull(customers.totalReceived,0),(customers.totalInvoiceAmount-ifnull(customers.totalReceived,0)) as outstandingAmount
                 FROM
                     (SELECT rentalowners.firstName, 
                     rentalowners.lastName,

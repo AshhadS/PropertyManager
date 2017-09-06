@@ -377,7 +377,6 @@ class ReportsController extends Controller
              $customerStatements = DB::table('customerinvoice')
             ->leftJoin('rentalowners','rentalowners.rentalOwnerID','=','customerinvoice.propertyOwnerID')
             ->leftJoin(DB::raw('(SELECT customerID,invoiceSystemCode,customerInvoiceID, sum(receiptAmount) as totalReceived,customerInvoiceCode FROM receipt GROUP BY customerID,invoiceSystemCode,customerInvoiceID,customerInvoiceCode) received'),'customerinvoice.customerInvoiceID','=', 'received.customerInvoiceID')
-            ->Groupby('rentalowners.firstName', 'rentalowners.lastName','customerinvoice.propertyOwnerID','received.totalReceived','customerinvoice.invoiceDate','customerinvoice.customerInvoiceID','received.customerInvoiceCode')
             ->selectRaw('rentalowners.firstName, 
                     rentalowners.lastName,
                     customerinvoice.propertyOwnerID,

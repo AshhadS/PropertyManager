@@ -69,7 +69,7 @@
               
                 <section id="">
                     
-                    @com
+                  
 
                 </section>
 
