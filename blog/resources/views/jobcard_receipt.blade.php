@@ -37,6 +37,7 @@
         <th>Invoice Date</th>
         <th>Amount</th>
         <th>Payment Type</th>
+        <th>Receipt Date</th>
         <th>Actions</th>
       </tr>
       @foreach($receipts as $receipt)
@@ -55,6 +56,7 @@
               {{App\Model\PaymentType::find($receipt->paymentTypeID)->paymentDescription}}
             @endif
           </td>
+          <td>{{$receipt->receiptDate}}</td>
           <td class="edit-button">
             <div class="inner">
               <a href="/jobcard/edit/receipt/{{$receipt->receiptID}}/pdf" class="btn btn-info btn-sm"><i class="fa fa-file-text" aria-hidden="true"></i></a>

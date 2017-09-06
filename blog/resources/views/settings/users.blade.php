@@ -1,5 +1,73 @@
-
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog wide" role="document">
+    <div class="modal-content">
+     
+      <div class="modal-body">
+        
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal ajax-process" action="/users" method="POST">
+            {{ csrf_field() }}
+          <div class="box-body">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">First Name</label>
+              <div class="col-sm-10">
+                <input type="text" name="first_name" class="form-control input-req" required placeholder="First Name">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Last Name</label>
+              <div class="col-sm-10">
+                <input type="text" name="last_name" class="form-control" placeholder="Last Name">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Password</label>
+              <div class="col-sm-10">
+                <input type="password" name="password" class="form-control" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Confirm Password</label>
+              <div class="col-sm-10">
+                <input type="password" name="confirm" class="form-control" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Email</label>
+              <div class="col-sm-10">
+                <input type="text" name="email" class="form-control" required placeholder="Email">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="col-sm-2 control-label">User Role</label>
+              <div class="col-sm-10">
+                <select name="roles" class="form-control" >
+                    @foreach ($roles as $role)
+                        <option value="{{$role->id}}">{{ $role->name }}</option>
+                    @endforeach
+                </select>
+              </div>
+            </div> 
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <div class="form-buttons">
+              <input type="reset" class="btn btn-default" value="Reset" />
+              <button type="submit" data-section="users" class="btn btn-info pull-right">Save</button>
+            </div>
+          </div>
+          <!-- /.box-footer -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 <h3 class="title">Users</h3>
+<button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#myModal">
+    <i class="fa fa-plus"></i> Add User
+  </button>
 <div class="col-md-12">
   <table class="table table-bordered">
     <tbody>
@@ -23,12 +91,13 @@
         <td>
           <!-- <button class="btn btn-info btn-sm edit-settings" data-id="{{$single_user->id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button> -->
 
-          <form class="delete-form clearfix" method="POST" action="user/{{$single_user->id}}">
-            <a href="#" class="delete-btn-ajax btn btn-danger btn-sm button--winona">
+          <form class="delete-form clearfix ajax-process" method="POST" action="user/{{$single_user->id}}">
+            <a href="#" class="delete-btn-ajax btn btn-danger btn-sm button--winona" >
               <span><i class="fa fa-trash" aria-hidden="true"></i> Delete</span><span class="after">Sure?</span>
             </a>
             <input type="hidden" name="_method" value="DELETE"> 
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <button data-section="users" class="hide-element"></button>
           </form>
         </td>
       </tr>
@@ -38,21 +107,4 @@
     </tbody>
   </table>
 </div>
-<div class="col-md-12">
-  <h4>Add User</h4>
-  <form class="form-horizontal ajax-process  pull add-user" data-section="users" action="/users" method="POST">
-      {{ csrf_field() }}
-        <input type="text" name="first_name" placeholder="First Name" class="input-req">
-        <input type="text" name="last_name" placeholder="Last Name" >
-        <select name="roles" class="" >
-            @foreach ($roles as $role)
-                <option value="{{$role->id}}">{{ $role->name }}</option>
-            @endforeach
-        </select>
-        <input type="text" name="email" placeholder="Email">
-        <input type="password" name="password" placeholder="Password">
-        
-      <button type="submit" class="btn btn-info " data-section="users"><i class="fa fa-plus"></i> Add</button>
-  </form>
-  
-</div>
+

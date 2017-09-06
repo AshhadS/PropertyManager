@@ -8,11 +8,15 @@ use App\Model\Country;
 use App\Model\Attachment;
 use App\Model\DocumentMaster;
 use App\Model\Property;
+use App\Model\Supplier;
+use App\Model\Customer;
 use Datatables;
 use Illuminate\Support\Facades\DB;
 use Debugbar;
 use Sentinel;
 use Redirect;
+use Carbon\Carbon;
+
 class RentalOwnersController extends Controller
 {
     function index() {
@@ -56,6 +60,61 @@ class RentalOwnersController extends Controller
 	    return Redirect::to('rentalowners');
     }
 
+    function submitHandler(Request $request){
+        $rentalowner = RentalOwner::find($request->rentalownerID);
+
+        if($request->flag == '0'){        
+            $this->createSupplier($request->rentalownerID);
+            $this->createCustomer($request->rentalownerID);
+        }else{
+           Supplier::where('fromPropertyOwnerOrTenant', 1)->where('IDFromTenantOrPropertyOwner', $request->rentalownerID)->delete();
+           Customer::where('fromPropertyOwnerOrTenant', 1)->where('IDFromTenantOrPropertyOwner', $request->rentalownerID)->delete();
+        }
+        $rentalowner->isSubmitted = ($request->flag == '1') ? '0' : '1';
+        $rentalowner->save();
+
+        return Redirect::back();
+    }
+
+
+    function createSupplier($rentalownerID){
+        $rentalowner = RentalOwner::find($rentalownerID);
+    	$supplier = new Supplier;
+        $supplier->supplierCode = '';
+        $supplier->supplierName    = $rentalowner->firstName.' '.$rentalowner->lastName;
+        $supplier->address = $rentalowner->address;
+        $supplier->telephoneNumber = $rentalowner->phoneNumber;
+        $supplier->faxNumber   = $rentalowner->officeNumber;
+        $supplier->fromPropertyOwnerOrTenant   = 1;
+        $supplier->IDFromTenantOrPropertyOwner   = $rentalownerID;
+        $supplier->timestamp = Carbon::now();
+
+        $supplier->save();
+        return true;
+    }
+
+    function createCustomer($rentalownerID){
+        $rentalowner = RentalOwner::find($rentalownerID);
+
+        $customer = new Customer;
+        $customer->customerName    = $rentalowner->firstName.' '.$rentalowner->lastName;
+        $customer->address = $rentalowner->address;
+        $customer->telephoneNumber = $rentalowner->phoneNumber;
+        $customer->faxNumber   = $rentalowner->officeNumber;   
+        $customer->fromPropertyOwnerOrTenant   = 1;
+        $customer->IDFromTenantOrPropertyOwner   = $rentalownerID;
+        $customer->timestamp = Carbon::now();
+        $customer->createdDate = date('Y-m-d');
+        $customer->updatedDate = date('Y-m-d');
+        $customer->customerCode = 0;
+
+        $customer->save();
+
+        $customer->customerCode = sprintf("CUST%'05d\n", $customer->customerID);
+        $customer->save();
+    }
+
+
     function edit(RentalOwner $rentalowner){
     	// Debugbar::info($rentalowner); 
     	$rentalowner = RentalOwner::find($rentalowner->rentalOwnerID);
@@ -95,9 +154,13 @@ class RentalOwnersController extends Controller
 	    return Redirect::to('rentalowners');
     }
 
-    function delete(RentalOwner $rentalowner){
-    	$rentalowner = RentalOwner::find($rentalowner->rentalOwnerID);
-    	$rentalowner->delete();
+    function delete(Request $request, $rentalOwnerID){
+    	$rentalowner = RentalOwner::find($rentalOwnerID);
+        if($rentalowner->isSubmitted == 1){
+            $request->session()->flash('alert-success', 'You cannot delete this RentalOwner as this is submitted');
+        }else{
+            $rentalowner->delete();
+        }
 	    return Redirect::to('rentalowners');
     }
 }

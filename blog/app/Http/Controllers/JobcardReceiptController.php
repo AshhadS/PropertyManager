@@ -11,6 +11,7 @@ use App\Model\Property;
 use App\Model\CustomerInvoice;
 use App\Model\Receipt;
 use App\Model\PaymentType;
+use App\Model\Customer;
 use Redirect;
 use Sentinel;
 use App;
@@ -40,8 +41,18 @@ class JobcardReceiptController extends Controller
 			}
 			$invoice->save();
 		}
-		if($request->customerID)
-			$receipt->customerID = $request->customerID;
+		if($request->customerID){
+			// Check if renatal owner has been submitted
+			if(Customer::where('fromPropertyOwnerOrTenant', 1)->where('IDFromTenantOrPropertyOwner', $request->customerID)->first()){
+				$customerid = Customer::where('fromPropertyOwnerOrTenant', 1)->where('IDFromTenantOrPropertyOwner', $request->customerID)->first()->customerID;
+				$receipt->customerID = $customerid;
+			}else{
+				// if not renturn without saving
+				$request->session()->flash('alert-success', 'This rental owner has not been submitted so this action cannot be done');
+				return Redirect::back();				
+			}
+		}
+
 
 		$receipt->documentID = 5;
 		$receipt->documentAutoID = $request->jobcardID;

@@ -116,6 +116,7 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	Route::post('/tenants/update',  'TenantsController@update');
 	Route::delete('/tenant/{tenant}', 'TenantsController@delete');
 	Route::post('/tenants/all', 'TenantsController@data');
+	Route::post('/tenant/submit', 'TenantsController@submitHandler');
 
 	/**
 	 * Rental Owners
@@ -126,6 +127,8 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	Route::post('/rentalowners/update',  'RentalOwnersController@update');
 	Route::delete('/rentalowner/{rentalowner}', 'RentalOwnersController@delete');
 	Route::post('/rentalowners/all', 'RentalOwnersController@data');
+	Route::post('/rentalowner/submit', 'RentalOwnersController@submitHandler');
+
 
 
 		/**
@@ -334,6 +337,15 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::post('custom/payment', 'PaymentController@createPayment');
 		Route::post('update/custom/payment', 'PaymentController@updatePayment');
 		Route::delete('custom/payment/{id}', 'PaymentController@delete');
+
+		/**
+		 * Customer
+		 */		
+		Route::get('/customer', 'SettingsController@showCustomers');
+		Route::post('/customer', 'SettingsController@createCustomer');
+		Route::post('update/customer', 'SettingsController@editCustomer');
+		Route::delete('/customer/{customer}', 'SettingsController@deleteCustomer');
+
 
 
 

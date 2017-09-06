@@ -7,7 +7,7 @@
   <br />
   <br />
   <br />
-  <a role="presentation" href="#edit" class='edit-remove-actives pull-right btn btn-info' aria-controls="edit" role="tab" data-toggle="tab"><i class="fa fa-pencil" aria-hidden="true"></i> edit</a>
+  <a role="presentation" href="#edit" class='edit-remove-actives pull-right btn btn-info <?php ($rentalowner->isSubmitted == 1) ? print 'disabled' : false ?>' aria-controls="edit" role="tab" data-toggle="tab"><i class="fa fa-pencil" aria-hidden="true"></i> edit</a>
 </div>
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
@@ -50,6 +50,24 @@
                           </div>
                         </div><br/>  
                       </div>
+
+                      <div class="container-fluid">
+                        <div class="row">
+                          <div class="button-group">
+                            <form method="POST" action="/rentalowner/submit">
+                              <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                              <input type="hidden" name="rentalownerID" value="{{$rentalowner->rentalOwnerID}}">
+                              <input type="hidden" name="flag" value="{{$rentalowner->isSubmitted}}">
+                              @if($rentalowner->isSubmitted == 1)
+                                <input class="btn btn-primary" type="submit" value="Reverse">
+                              @else
+                                <input class="btn btn-primary" type="submit" value="Submit">
+                              @endif
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                      <br />
                       <!-- <div class="row">
                         <b><p class="col-sm-2 control-label">Country</p></b>
                         <p class='col-sm-10 conrol-label'>{{ $countryName }}</p>
