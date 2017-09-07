@@ -125,6 +125,7 @@
                       <th>Address</th>
                       <th>City</th>
                       <th>Comments</th>
+                      <th>Status</th>
                       <th>Actions</th>
                     </tr>
             </thead>
@@ -172,13 +173,30 @@ $(function() {
             { data: 'address', name: 'address'},  
             { data: 'city', name: 'city'},  
             { data: 'comments', name: 'comments'},  
+            { 
+              data: 'isSubmitted',
+              name: 'isSubmitted',
+              render: function( data ){
+                return (data == 1) ? "submitted" : "Not Submitted";
+              }
+            },  
             {
                 data: 'tenantsID',
                 className: 'edit-button',
                 orderable: false,
                 render: function ( data, type, full, meta ) {
                   // Create action buttons
-                  var action = '<div class="inner"><a class="btn bg-green btn-sm" href="tenant/edit/'+data+'"><i class="fa fa-eye" aria-hidden="true"></i>View</a>';
+                  var action = '<div class="inner wide"><a class="btn bg-green btn-sm" href="tenant/edit/'+data+'"><i class="fa fa-eye" aria-hidden="true"></i>View</a>';
+                  action += '<form class="delete-form" method="POST" action="/tenant/submit">';
+                  action += '<input type="hidden" name="_token" value="'+ $('meta[name="_token_del"]').attr('content') +'">';
+                  action +=   '<input type="hidden" name="tenantID" value="'+data+'">';
+                  action +=   '<input type="hidden" name="flag" value="'+full.isSubmitted+'">';
+                  if(full.isSubmitted == 1){
+                    action += '<input class="btn bg-green btn-sm btn-second" type="submit" value="Reverse">';
+                  }else{
+                    action += '<input class="btn bg-green btn-sm btn-second" type="submit" value="Submit">';
+                  }
+                  action += '</form>';
                   action += '<form class="delete-form" method="POST" action="tenant/'+data+'">';
                   action += '<a href="" class="delete-btn btn btn-danger btn-sm button--winona"><span>';
                   action += '<i class="fa fa-trash" aria-hidden="true"></i> Delete</span><span class="after">Sure?</span></a>';

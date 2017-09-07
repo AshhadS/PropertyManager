@@ -31,7 +31,7 @@ class RentalOwnersController extends Controller
     function data(){
     	$t = DB::table('rentalowners')
     		->leftJoin('countries', 'rentalowners.country', '=', 'countries.id')
-	    	->select('rentalownerID', 'firstName', 'lastName', 'dateOfBirth', 'email', 'phoneNumber', 'officeNumber', 'countries.countryName', 'address', 'city', 'comments');
+	    	->select('rentalownerID', 'firstName', 'lastName', 'dateOfBirth', 'email', 'phoneNumber', 'officeNumber', 'countries.countryName', 'address', 'city', 'comments', 'isSubmitted');
     	return Datatables::of($t)->make(true);
 
     	// return Datatables::of(rentalowner::query())->make(true);

@@ -289,12 +289,21 @@
 	        url:'update/supplier',  
 	        title: 'Edit',
 	        send:'always',   
+	        inputclass: 'input-tel',
 	        params: function(params) {
 	            //originally params contain pk, name and value
 	            params._token = '{{ csrf_token() }}';
 	            return params;
 	        }         
 	    });
+	    $('.input-tel').on('shown', function(e, editable) {
+		    // editable.input.$input.keyup(function () { 
+		    //     this.value = this.value.replace(/[^0-9\.]/g,'');
+		    // });
+		    $(editable.input.$input).keyup(function () { 
+		        this.value = this.value.replace(/[^0-9\.]/g,'');
+		    });
+		});
 	    $('.accounts.item-editable').editable({
 	        validate: function(value) {
 	            if($.trim(value) == '') 
@@ -342,7 +351,7 @@
 	                return 'Value is required.';
 	        },
 	        method: 'POST',
-	        url:'update/account',  
+	        url:'users/update',  
 	        title: 'Edit',
 	        send:'always',   
 	        params: function(params) {

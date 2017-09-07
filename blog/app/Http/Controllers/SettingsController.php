@@ -325,6 +325,22 @@ class SettingsController extends Controller
         return 'true';
     }
 
+    static function getAccountType($value){
+        $typeMap = [
+            '1' => 'Expense',
+            '2' => 'Income',
+            '3' => 'Current Asset',
+            '4' => 'Fixed Asset',
+            '5' => 'Current Liability',
+            '6' => 'Long Term Liability',
+            '7' => 'Equity',
+            '8' => 'Non-Operating Income',
+            '9' => 'Non-Operating Expense',
+        ];
+
+        return $typeMap[$value];
+    }
+
     function editChartofaccounts(Request $request){
         $chartofaccount = ChartOfAccount::find($request->pk);
         $chartofaccount->{$request->name} = $request->value;

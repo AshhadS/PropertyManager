@@ -48,7 +48,7 @@
 
                     <br></br>
                     <div class="form-group">
-                        {!! Form::label('actualRent', 'Actual Rent', ['class' => 'text-right col-sm-2 control-label']) !!}
+                        {!! Form::label('actualRent', 'Rent Cost', ['class' => 'text-right col-sm-2 control-label']) !!}
                         <div class="col-sm-10">
                             {!! Form::text('actualRent', $agreement->actualRent, ['class' => 'col-sm-10 form-control']) !!}
                         </div>
@@ -56,7 +56,7 @@
 
                     <br></br>
                     <div class="form-group">
-                        {!! Form::label('marketRent', 'Market Rent', ['class' => 'text-right col-sm-2 control-label']) !!}
+                        {!! Form::label('marketRent', 'Rent Amount', ['class' => 'text-right col-sm-2 control-label']) !!}
                         <div class="col-sm-10">
                             {!! Form::text('marketRent', $agreement->marketRent, ['class' => 'col-sm-10 form-control']) !!}
                         </div>

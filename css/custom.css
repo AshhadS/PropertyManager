@@ -325,6 +325,10 @@ th.edit-button {
   margin: 0 15px;
 }
 
+.edit-button .inner.wide {
+  width: auto;
+}
+
 .amount-col.edit-button .inner {
   margin: 0;
 }

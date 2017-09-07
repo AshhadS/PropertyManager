@@ -13,16 +13,28 @@
         <th>Address </th>
         <th>telephone</th>
         <th>Fax</th>
+        <th>Type</th>
         <th>Actions </th>
       </tr>
       @foreach ($suppliers as $supplier)
       <tr>
         <td >{{$supplier->supplierID}}</td>
-        <td class='supplier item-editable' data-type="text" data-name="supplierCode" data-pk="{{$supplier->supplierID}}">{{$supplier->supplierCode}}</td>
+        <td >{{$supplier->supplierCode}}</td>
         <td class='supplier item-editable' data-type="text" data-name="supplierName" data-pk="{{$supplier->supplierID}}">{{$supplier->supplierName}}</td>
         <td class='supplier item-editable' data-type="textarea" data-name="address" data-pk="{{$supplier->supplierID}}">{{$supplier->address}}</td>
-        <td class='supplier item-editable' data-type="text" data-name="telephoneNumber" data-pk="{{$supplier->supplierID}}">{{$supplier->telephoneNumber}}</td>
-        <td class='supplier item-editable' data-type="text" data-name="faxNumber" data-pk="{{$supplier->supplierID}}">{{$supplier->faxNumber}}</td>
+        <td class='supplier item-editable input-tel' data-type="text" data-name="telephoneNumber" data-pk="{{$supplier->supplierID}}">{{$supplier->telephoneNumber}}</td>
+        <td class='supplier item-editable input-tel' data-type="tel" data-name="faxNumber" data-pk="{{$supplier->supplierID}}">{{$supplier->faxNumber}}</td>
+        <td >
+          <?php
+            if($supplier->fromPropertyOwnerOrTenant == 1){
+              echo "Proeprty Owner";
+            }else if($supplier->fromPropertyOwnerOrTenant == 2){
+              echo "Tenant";
+            }else{
+              echo "Normal";
+            }
+          ?>
+        </td>
         <td>
           <!-- <button class="btn btn-info btn-sm edit-settings" data-id="{{$supplier->supplierID}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button> -->
 

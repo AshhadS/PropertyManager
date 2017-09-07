@@ -13,6 +13,7 @@
         <th>Address </th>
         <th>telephone</th>
         <th>Fax</th>
+        <th>Type</th>
         <th>Actions </th>
       </tr>
       @foreach ($customers as $customer)
@@ -21,8 +22,19 @@
         <td >{{$customer->customerCode}}</td>
         <td class='customer item-editable' data-type="text" data-name="customerName" data-pk="{{$customer->customerID}}">{{$customer->customerName}}</td>
         <td class='customer item-editable' data-type="textarea" data-name="address" data-pk="{{$customer->customerID}}">{{$customer->address}}</td>
-        <td class='customer item-editable' data-type="text" data-name="telephoneNumber" data-pk="{{$customer->customerID}}">{{$customer->telephoneNumber}}</td>
-        <td class='customer item-editable' data-type="text" data-name="faxNumber" data-pk="{{$customer->customerID}}">{{$customer->faxNumber}}</td>
+        <td class='customer item-editable input-tel' data-type="text" data-name="telephoneNumber" data-pk="{{$customer->customerID}}">{{$customer->telephoneNumber}}</td>
+        <td class='customer item-editable input-tel' data-type="text" data-name="faxNumber" data-pk="{{$customer->customerID}}">{{$customer->faxNumber}}</td>
+        <td >
+          <?php
+            if($customer->fromPropertyOwnerOrTenant == 1){
+              echo "Proeprty Owner";
+            }else if($customer->fromPropertyOwnerOrTenant == 2){
+              echo "Tenant";
+            }else{
+              echo "Normal";
+            }
+          ?>
+        </td>
         <td>
           <!-- <button class="btn btn-info btn-sm edit-settings" data-id="{{$customer->supplierID}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button> -->
 

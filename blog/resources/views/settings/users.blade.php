@@ -82,10 +82,11 @@
       </tr>
       @foreach ($user as $single_user)
       <tr>
-        <td>{{$single_user->id}}</td>
-        <td>{{$single_user->first_name}}</td>
-        <td>{{$single_user->last_name}}</td>
-        <td>{{$single_user->email}}</td>
+        <td  class='user item-editable' data-type="text" data-name="id" data-pk="{{$single_user->id}}">{{$single_user->id}}</td>
+        <td  class='user item-editable' data-type="text" data-name="first_name" data-pk="{{$single_user->id}}">{{$single_user->first_name}}</td>
+        <td  class='user item-editable' data-type="text" data-name="last_name" data-pk="{{$single_user->id}}">{{$single_user->last_name}}</td>
+        <td  class='user item-editable' data-type="text" data-name="email" data-pk="{{$single_user->id}}">{{$single_user->email}}</td>
+        <!-- <td></td> -->
         <td>{{$single_user->last_login}}</td>
         <td>{{$single_user->created_at}}</td>
         <td>

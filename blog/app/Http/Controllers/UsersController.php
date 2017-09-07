@@ -54,11 +54,16 @@ class UsersController extends Controller
 
     function update(Request $request){
         $user = Sentinel::findById($request->id);
-        $updated_user = Sentinel::update($user,$request->all());
-        $role = Sentinel::findRoleByID($request->roles);
-        $role->users()->attach($user);
-        $user->companyID = Sentinel::getUser()->companyID;
-        return Redirect::to('/admin');
+
+        if($request->name == 'roles'){
+            $role = Sentinel::findRoleByID($request->roles);
+            $role->users()->attach($user);
+        }else{
+            $updated_user = Sentinel::update($user,$request->all());           
+        }
+
+        $user->save();
+        return $user;
     }
 
     function delete(User $user){

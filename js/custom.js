@@ -155,6 +155,9 @@ function initializeTeleValidation(){
     $('[type="tel"]').keyup(function () { 
         this.value = this.value.replace(/[^0-9\.]/g,'');
     });
+    $('.input-tel').keyup(function () { 
+        this.value = this.value.replace(/[^0-9\.]/g,'');
+    });
 
     // max 10 digits
     $("input[type=tel]").attr('maxlength', '10');

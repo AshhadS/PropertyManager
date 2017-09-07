@@ -55,7 +55,12 @@ class JobCardsController extends Controller
         // dd($jobCardStatusCount);
 
     	$units = Unit::all();
-    	$properties = Property::all();
+    	// $properties = Property::all();
+        $properties = DB::table('properties')
+        ->join('rentalowners', 'properties.rentalOwnerID', '=', 'rentalowners.rentalOwnerID')
+        ->where('rentalowners.isSubmitted', '=', '1')
+        ->get();
+
     	$tenants = Tenant::all();
     	$jobcardstatuss = JobCardStatus::all();
         $jobcardcomments = JobCardComment::all();//---------------

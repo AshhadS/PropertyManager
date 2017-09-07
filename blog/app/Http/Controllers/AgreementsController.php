@@ -134,8 +134,8 @@ class AgreementsController extends Controller
 
                 $receipt = new Receipt();
                 // Check if tenant owner has been submitted
-                if(Customer::where('fromPropertyOwnerOrTenant', 2)->where('IDFromTenantOrPropertyOwner', $agreement->rentalOwnerID)->first()){
-                    $customerid = Customer::where('fromPropertyOwnerOrTenant', 2)->where('IDFromTenantOrPropertyOwner', $agreement->rentalOwnerID)->first()->customerID;
+                if(Customer::where('fromPropertyOwnerOrTenant', 2)->where('IDFromTenantOrPropertyOwner', $agreement->tenantID)->first()){
+                    $customerid = Customer::where('fromPropertyOwnerOrTenant', 2)->where('IDFromTenantOrPropertyOwner', $agreement->tenantID)->first()->customerID;
                     $receipt->customerID = $customerid;
                 }else{
                     // if not renturn without saving
