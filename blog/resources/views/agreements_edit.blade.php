@@ -42,7 +42,7 @@
                     <div class="form-group">
                         {!! Form::label('UnunitIDit', 'Unit', ['class' => 'text-right col-sm-2 control-label']) !!}
                         <div class="col-sm-10">
-                            {!! Form::select('unitID', $unitlist, $agreement->unitID ,['class' => 'input-req col-sm-10 form-control selection-child-item']) !!}
+                            {!! Form::select('unitID', $unitlist, $agreement->unitID ,['class' => 'input-req col-sm-10 form-control selection-child-item edit']) !!}
                             <p class="no-units">No units belonging to this property</p>
                         </div>
                     </div>
