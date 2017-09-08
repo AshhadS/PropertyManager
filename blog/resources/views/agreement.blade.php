@@ -47,7 +47,7 @@
                         <option value="{{$unit->unitID}}">{{ $unit->unitNumber }}</option>
                     @endforeach
                 </select>
-                <p class="no-units hide-element">No units belonging to this property</p>
+                <p class="no-units">No units belonging to this property</p>
               </div>
             </div>
 
@@ -134,7 +134,8 @@
                           <th>Payment Type</th>
                           <th>From</th>
                           <th>To</th>
-                          <th>Cheque Number</th>
+                          <th>Status</th>
+                          <th>Actions</th>
                         </tr>
                 </thead>
 
@@ -230,6 +231,13 @@ $(function() {
                 }
               }
             },  
+            { 
+              data: 'isSubmitted',
+              name: 'agreement.isSubmitted',
+              render: function(data){
+                return (data == 1) ? "Submitted" : "Not Submitted";
+              }
+            },
             {
                 data: 'agreementID',
                 name: 'agreement.agreementID',
@@ -251,58 +259,58 @@ $(function() {
         ]
     });
       // filter child selection on page load
-      // childSelection($('.selection-parent-item'));
+      childSelection($('.selection-parent-item'));
       
 
       // $('.no-units').hide();
       // Load content based on previous selection
-      // $('.selection-parent-item').on('change', function(){
-      //   childSelection(this)
-      // });
+      $('.selection-parent-item').on('change', function(){
+        childSelection(this)
+      });
 
-      // function childSelection(elem){
-      //   var prev_selection = $('.selection-child-item.edit').val();
-      //   console.log(prev_selection); 
-      //   if ($(elem).val() != 0) {
-      //     $('.selection-child-item').show();
-      //     $('.no-units').hide();
-      //     $.ajax({
-      //         url: "/jobcard/getunit/"+$(elem).val()+"",
-      //         context: document.body,
-      //         method: 'POST',
-      //         headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
-      //     })
-      //     .done(function(data) {
-      //         // show message if no units for the selected property
-      //         if(data.length){
-      //           $('.selection-child-item').html(function(){
-      //               // Generate the seletect list
-      //               var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
-      //               output += '<option value="">Select a unit</option>';
-      //               data.forEach(function( index, element ){
-      //                   if(prev_selection == data[element].unitID){
-      //                     output += '<option value="'+data[element].unitID+'" selected="selected">'+data[element].unitNumber+'</option>';
-      //                   }else{
-      //                     output += '<option value="'+data[element].unitID+'">'+data[element].unitNumber+'</option>';
-      //                   }
-      //               });
-      //               output += '</select>';
-      //               return output;
-      //           });
-      //         }else{
-      //           $('.selection-child-item').hide();
-      //           $('.no-units').show();
-      //         }         
-      //     });
-      //   }else{
-      //     $('.selection-child-item').hide();
-      //     $('.no-units').show();
-      //   }      
+      function childSelection(elem){
+        var prev_selection = $('.selection-child-item.edit').val();
+        console.log(prev_selection); 
+        if ($(elem).val() != 0) {
+          $('.selection-child-item').show();
+          $('.no-units').hide();
+          $.ajax({
+              url: "/jobcard/getunit/"+$(elem).val()+"",
+              context: document.body,
+              method: 'POST',
+              headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
+          })
+          .done(function(data) {
+              // show message if no units for the selected property
+              if(data.length){
+                $('.selection-child-item').html(function(){
+                    // Generate the seletect list
+                    var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
+                    output += '<option value="">Select a unit</option>';
+                    data.forEach(function( index, element ){
+                        if(prev_selection == data[element].unitID){
+                          output += '<option value="'+data[element].unitID+'" selected="selected">'+data[element].unitNumber+'</option>';
+                        }else{
+                          output += '<option value="'+data[element].unitID+'">'+data[element].unitNumber+'</option>';
+                        }
+                    });
+                    output += '</select>';
+                    return output;
+                });
+              }else{
+                $('.selection-child-item').hide();
+                $('.no-units').show();
+              }         
+          });
+        }else{
+          $('.selection-child-item').hide();
+          $('.no-units').show();
+        }      
 
-      // }
+      }
 
       
-      // $('#agreement-editModal').modal({ show: false})
+      $('#agreement-editModal').modal({ show: false})
 
       
 
