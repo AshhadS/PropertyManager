@@ -45,7 +45,7 @@ class AgreementsController extends Controller
     		->leftJoin('units', 'agreement.unitID', '=', 'units.unitID')
             ->leftJoin('properties', 'agreement.PropertiesID', '=', 'properties.PropertiesID')
     		->leftJoin('paymenttype', 'agreement.paymentTypeID', '=', 'paymenttype.paymentTypeID')
-    		->select('agreement.agreementID', 'properties.pPropertyName', 'units.unitNumber' , 'tenants.firstName', 'agreement.dateFrom','agreement.dateTo','agreement.marketRent','agreement.actualRent', 'paymenttype.paymentDescription');
+    		->select('agreement.agreementID', 'properties.pPropertyName', 'units.unitNumber' , 'tenants.firstName', 'agreement.dateFrom','agreement.dateTo','agreement.marketRent','agreement.actualRent','agreement.isSubmitted', 'paymenttype.paymentDescription');
     	return Datatables::of($t)->make(true);
 
     }
@@ -129,7 +129,6 @@ class AgreementsController extends Controller
                 $payment->paymentTypeID = $agreement->paymentTypeID;
                 $payment->paymentDate = $this->getAgreemntMonth($i, $agreement->dateFrom);
                 $payment->lastUpdatedByUserID = Sentinel::getUser()->id;
-                $payment->save();
 
 
                 $receipt = new Receipt();
@@ -152,6 +151,9 @@ class AgreementsController extends Controller
                 $receipt->paymentTypeID = $agreement->paymentTypeID;
                 $receipt->receiptDate = $this->getAgreemntMonth($i, $agreement->dateFrom);
                 $receipt->lastUpdatedByUserID = Sentinel::getUser()->id;
+
+                // Save only if no errors
+                $payment->save();
                 $receipt->save();
             }
         }else{

@@ -27,14 +27,14 @@
                     <div class="form-group">
                         {!! Form::label('PropertiesID', 'Property', ['class' => 'text-right col-sm-2 control-label']) !!} 
                         <div class="col-sm-10">
-                            {!! Form::select('PropertiesID', $propertylist, $agreement->PropertiesID ,['class' => 'col-sm-10 form-control']) !!}
+                            {!! Form::select('PropertiesID', $propertylist, $agreement->PropertiesID ,['class' => 'input-req col-sm-10 form-control selection-parent-item']) !!}
                         </div>
                     </div>
                     <br></br>
                     <div class="form-group">
                         {!! Form::label('tenantID', 'Tenant', ['class' => 'text-right col-sm-2 control-label']) !!}
                         <div class="col-sm-10">
-                            {!! Form::select('tenantsID', $tenantlist, $agreement->tenantID ,['class' => 'col-sm-10 form-control']) !!}
+                            {!! Form::select('tenantsID', $tenantlist, $agreement->tenantID ,['class' => 'input-req col-sm-10 form-control']) !!}
                         </div>
                     </div>
 
@@ -42,7 +42,8 @@
                     <div class="form-group">
                         {!! Form::label('UnunitIDit', 'Unit', ['class' => 'text-right col-sm-2 control-label']) !!}
                         <div class="col-sm-10">
-                            {!! Form::select('unitID', $unitlist, $agreement->unitID ,['class' => 'col-sm-10 form-control']) !!}
+                            {!! Form::select('unitID', $unitlist, $agreement->unitID ,['class' => 'input-req col-sm-10 form-control selection-child-item']) !!}
+                            <p class="no-units">No units belonging to this property</p>
                         </div>
                     </div>
 
@@ -50,7 +51,7 @@
                     <div class="form-group">
                         {!! Form::label('actualRent', 'Rent Cost', ['class' => 'text-right col-sm-2 control-label']) !!}
                         <div class="col-sm-10">
-                            {!! Form::text('actualRent', $agreement->actualRent, ['class' => 'col-sm-10 form-control']) !!}
+                            {!! Form::text('actualRent', $agreement->actualRent, ['class' => 'input-req col-sm-10 form-control']) !!}
                         </div>
                     </div>
 
@@ -58,7 +59,7 @@
                     <div class="form-group">
                         {!! Form::label('marketRent', 'Rent Amount', ['class' => 'text-right col-sm-2 control-label']) !!}
                         <div class="col-sm-10">
-                            {!! Form::text('marketRent', $agreement->marketRent, ['class' => 'col-sm-10 form-control']) !!}
+                            {!! Form::text('marketRent', $agreement->marketRent, ['class' => 'input-req col-sm-10 form-control']) !!}
                         </div>
                     </div>
 
@@ -66,7 +67,7 @@
                     <div class="form-group">
                         {!! Form::label('dateFrom', 'Agreement Start Date', ['class' => 'text-right col-sm-2 control-label']) !!}
                         <div class="col-sm-10">
-                            {!! Form::text('dateFrom', $startDate, array('id' => 'datepicker','class' => 'col-sm-10 form-control') ) !!}
+                            {!! Form::text('dateFrom', $startDate, array('id' => 'datepicker','class' => 'input-req col-sm-10 form-control') ) !!}
                         </div>
                     </div>
 
@@ -74,7 +75,7 @@
                     <div class="form-group">
                         {!! Form::label('dateTo', 'Agreement End Date', ['class' => 'text-right col-sm-2 control-label']) !!}
                         <div class="col-sm-10">
-                           {!! Form::text('dateTo', $endDate, array('id' => 'datepicker2','class' => 'col-sm-10 form-control') ) !!}
+                           {!! Form::text('dateTo', $endDate, array('id' => 'datepicker2','class' => 'input-req col-sm-10 form-control') ) !!}
                         </div>
                     </div>
 
@@ -82,7 +83,7 @@
                     <div class="form-group">
                         {!! Form::label('paymentTypeID', 'Payment Type', ['class' => 'text-right col-sm-2 control-label']) !!}
                         <div class="col-sm-10">
-                            {!! Form::select('paymentTypeID', $paymenttypelist, $agreement->paymentTypeID ,['class' => 'col-sm-10 form-control']) !!}
+                            {!! Form::select('paymentTypeID', $paymenttypelist, $agreement->paymentTypeID ,['class' => 'input-req col-sm-10 form-control']) !!}
                         </div>
                     </div>
 
@@ -159,7 +160,7 @@
 @stop
 
 
-@push('txtDatepickerScript')
+@push('scripts')
 
 <script>
 
@@ -175,6 +176,60 @@
     // $datepicker.datepicker('setDate', new Date());
     // var date = new Date(document.getElementById("datepicker").data);
     // $datepicker.datepicker('setDate',date);
+
+    // filter child selection on page load
+      childSelection($('.selection-parent-item'));
+      
+
+      // $('.no-units').hide();
+      // Load content based on previous selection
+      $('.selection-parent-item').on('change', function(){
+        childSelection(this)
+      });
+
+      function childSelection(elem){
+        var prev_selection = $('.selection-child-item.edit').val();
+        console.log(prev_selection); 
+        if ($(elem).val() != 0) {
+          $('.selection-child-item').show();
+          $('.no-units').hide();
+          $.ajax({
+              url: "/jobcard/getunit/"+$(elem).val()+"",
+              context: document.body,
+              method: 'POST',
+              headers : {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
+          })
+          .done(function(data) {
+              // show message if no units for the selected property
+              if(data.length){
+                $('.selection-child-item').html(function(){
+                    // Generate the seletect list
+                    var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
+                    output += '<option value="">Select a unit</option>';
+                    data.forEach(function( index, element ){
+                        if(prev_selection == data[element].unitID){
+                          output += '<option value="'+data[element].unitID+'" selected="selected">'+data[element].unitNumber+'</option>';
+                        }else{
+                          output += '<option value="'+data[element].unitID+'">'+data[element].unitNumber+'</option>';
+                        }
+                    });
+                    output += '</select>';
+                    return output;
+                });
+              }else{
+                $('.selection-child-item').hide();
+                $('.no-units').show();
+              }         
+          });
+        }else{
+          $('.selection-child-item').hide();
+          $('.no-units').show();
+        }      
+
+      }
+
+      
+      $('#agreement-editModal').modal({ show: false})
   });
 
 </script>
