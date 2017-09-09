@@ -81,7 +81,12 @@ class AgreementsController extends Controller
      //   $agreement = Agreement::where('agreementID', $agreementid)->get();
         $agreement = Agreement::where('agreementID', $agreementid)->firstOrFail();
         $propertylist = Property::pluck('pPropertyName', 'PropertiesID');
-        $tenantlist = Tenant::pluck('firstName', 'tenantsID');
+        $propertylist = DB::table('properties')
+        ->join('rentalowners', 'properties.rentalOwnerID', '=', 'rentalowners.rentalOwnerID')
+        ->where('rentalowners.isSubmitted', '=', '1')
+        ->pluck('pPropertyName', 'PropertiesID');
+        
+        $tenantlist = Tenant::where('isSubmitted', '1')->pluck('firstName', 'tenantsID');
         $unitlist = Unit::pluck('unitNumber', 'unitID');
         $paymenttypelist = PaymentType::pluck('paymentDescription', 'paymentTypeID');
         $startDate=date_create_from_format("Y-m-d", $agreement->dateFrom)->format('j/m/Y');
@@ -129,7 +134,7 @@ class AgreementsController extends Controller
                 $payment->supplierInvoiceID = $agreement->agreementID;
                 $payment->invoiceSystemCode = sprintf("AGR%'05d\n", $agreement->agreementID);
                 $payment->documentAutoID = $agreement->agreementID;
-                $payment->paymentAmount = $agreement->marketRent;
+                $payment->paymentAmount = $agreement->actualRent;
                 $payment->paymentTypeID = $agreement->paymentTypeID;
                 $payment->paymentDate = $this->getAgreemntMonth($i, $agreement->dateFrom);
                 $payment->lastUpdatedByUserID = Sentinel::getUser()->id;
@@ -151,7 +156,7 @@ class AgreementsController extends Controller
                 $receipt->customerInvoiceID = $agreement->agreementID;
                 $receipt->invoiceSystemCode = sprintf("AGR%'05d\n", $agreement->agreementID);
                 $receipt->documentAutoID = $agreement->agreementID;
-                $receipt->receiptAmount = $agreement->actualRent;
+                $receipt->receiptAmount = $agreement->marketRent;
                 $receipt->paymentTypeID = $agreement->paymentTypeID;
                 $receipt->receiptDate = $this->getAgreemntMonth($i, $agreement->dateFrom);
                 $receipt->lastUpdatedByUserID = Sentinel::getUser()->id;
