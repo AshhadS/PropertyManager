@@ -28,7 +28,7 @@ class TenantsController extends Controller
     function data(){
     	$t = DB::table('tenants')
     		->leftJoin('countries', 'tenants.country', '=', 'countries.id')
-	    	->select('tenantsID', 'firstName', 'lastName', 'dateOfBirth', 'email', 'phoneNumber', 'officeNumber', 'countries.countryName', 'address', 'city', 'comments', 'companyID');
+	    	->select('tenantsID', 'firstName', 'lastName', 'dateOfBirth', 'email', 'phoneNumber', 'officeNumber', 'countries.countryName', 'address', 'city', 'comments', 'companyID', 'isSubmitted');
 	    	// ->where('tenants.companyID', Sentinel::getUser()->companyID);
     	return Datatables::of($t)->make(true);
 

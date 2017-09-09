@@ -78,6 +78,7 @@
         <th>Email</th>
         <th>Last login</th>
         <th>Created On</th>
+        <th>Role</th>
         <th>Actions </th>
       </tr>
       @foreach ($user as $single_user)
@@ -89,6 +90,11 @@
         <!-- <td></td> -->
         <td>{{$single_user->last_login}}</td>
         <td>{{$single_user->created_at}}</td>
+        <td><?php 
+        $roleID = Sentinel::findById($single_user->id)->roles->pluck('pivot')->pluck('role_id');
+        $roleName = Sentinel::findRoleById($roleID)->pluck('name');
+        print $roleName;
+        ?></td>
         <td>
           <!-- <button class="btn btn-info btn-sm edit-settings" data-id="{{$single_user->id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button> -->
 

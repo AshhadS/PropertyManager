@@ -176,8 +176,9 @@ $(function() {
             { 
               data: 'isSubmitted',
               name: 'isSubmitted',
-              render: function( data ){
-                return (data == 1) ? "submitted" : "Not Submitted";
+              className: 'center-parent',
+              render: function(data){
+                return (data == 1) ? '<span class="simple-box green"></span>' : '<span class="simple-box red"></span>';
               }
             },  
             {
@@ -186,20 +187,21 @@ $(function() {
                 orderable: false,
                 render: function ( data, type, full, meta ) {
                   // Create action buttons
-                  var action = '<div class="inner wide"><a class="btn bg-green btn-sm" href="tenant/edit/'+data+'"><i class="fa fa-eye" aria-hidden="true"></i>View</a>';
+                  var action = '<div class="inner wide"><a class="btn bg-green btn-sm" href="tenant/edit/'+data+'"><i class="fa fa-eye" aria-hidden="true"></i></a>';
                   action += '<form class="delete-form" method="POST" action="/tenant/submit">';
                   action += '<input type="hidden" name="_token" value="'+ $('meta[name="_token_del"]').attr('content') +'">';
-                  action +=   '<input type="hidden" name="tenantID" value="'+data+'">';
+                  action +=   '<input type="hidden" name="tenantsID" value="'+data+'">';
                   action +=   '<input type="hidden" name="flag" value="'+full.isSubmitted+'">';
                   if(full.isSubmitted == 1){
-                    action += '<input class="btn bg-green btn-sm btn-second" type="submit" value="Reverse">';
+                    // action += '<input class="btn bg-green btn-sm btn-second" type="submit" value="<i class="fa fa-undo" aria-hidden="true"></i>">';
+                    action += '<button class="btn bg-green btn-sm btn-second" type="submit"><i class="fa fa-undo" aria-hidden="true"></i></button>';
                   }else{
-                    action += '<input class="btn bg-green btn-sm btn-second" type="submit" value="Submit">';
+                    action += '<button class="btn bg-green btn-sm btn-second" type="submit" > <i class="fa fa-check-square-o" aria-hidden="true"></i></button>';
                   }
                   action += '</form>';
                   action += '<form class="delete-form" method="POST" action="tenant/'+data+'">';
                   action += '<a href="" class="delete-btn btn btn-danger btn-sm button--winona"><span>';
-                  action += '<i class="fa fa-trash" aria-hidden="true"></i> Delete</span><span class="after">Sure?</span></a>';
+                  action += '<i class="fa fa-trash" aria-hidden="true"></i> </span><span class="after">?</span></a>';
                   action += '<input type="hidden" name="_method" value="DELETE"> ';
                   action += '<input type="hidden" name="_token" value="'+ $('meta[name="_token_del"]').attr('content') +'">';
                   action += '</form></div>';

@@ -134,7 +134,7 @@
                           <th>Payment Type</th>
                           <th>From</th>
                           <th>To</th>
-                          <th>Status</th>
+                          <th>Submitted</th>
                           <th>Actions</th>
                         </tr>
                 </thead>
@@ -234,8 +234,9 @@ $(function() {
             { 
               data: 'isSubmitted',
               name: 'agreement.isSubmitted',
+              className: 'center-parent',
               render: function(data){
-                return (data == 1) ? "Submitted" : "Not Submitted";
+                return (data == 1) ? '<span class="simple-box green"></span>' : '<span class="simple-box red"></span>';
               }
             },
             {
