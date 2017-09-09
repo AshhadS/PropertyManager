@@ -26,8 +26,12 @@ class AgreementsController extends Controller
 {
     function index() {
     	$units = Unit::all();
-    	$properties = Property::all();
-    	$tenants = Tenant::all();
+        $tenants = Tenant::where('isSubmitted', '1')->get();
+        $properties = DB::table('properties')
+        ->join('rentalowners', 'properties.rentalOwnerID', '=', 'rentalowners.rentalOwnerID')
+        ->where('rentalowners.isSubmitted', '=', '1')
+        ->get();    
+
         $paymentypes = PaymentType::all();
     	
     	// Debugbar::info($tenants);

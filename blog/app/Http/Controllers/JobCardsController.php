@@ -61,7 +61,7 @@ class JobCardsController extends Controller
         ->where('rentalowners.isSubmitted', '=', '1')
         ->get();
 
-    	$tenants = Tenant::all();
+    	$tenants = Tenant::where('isSubmitted', '1')->get();
     	$jobcardstatuss = JobCardStatus::all();
         $jobcardcomments = JobCardComment::all();//---------------
         $jobcardlog = JobCardLog::all();//-------------------
@@ -139,8 +139,13 @@ class JobCardsController extends Controller
     function edit(JobCard $jobcard){
     	$jobcard = JobCard::find($jobcard->jobcardID);
     	$units = Unit::all();
-    	$properties = Property::all();
-    	$tenants = Tenant::all();
+
+        $tenants = Tenant::where('isSubmitted', '1')->get();
+        $properties = DB::table('properties')
+        ->join('rentalowners', 'properties.rentalOwnerID', '=', 'rentalowners.rentalOwnerID')
+        ->where('rentalowners.isSubmitted', '=', '1')
+        ->get();    
+
     	$jobcardstatuss = JobCardStatus::all();
     	$documentmaster = DocumentMaster::all();
     	$attachments = Attachment::where('documentAutoID', $jobcard->jobcardID)->where('documentID', 5)->get();
