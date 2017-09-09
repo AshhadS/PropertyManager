@@ -2,8 +2,6 @@
 
 @section('content')
 <div class="container-fluid">
-	<h2>Administrator</h2>
-	<br />
 	<div class="row">
 		<div class="col-md-2">
 			<div class="box simple-list">

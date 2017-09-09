@@ -3,12 +3,7 @@
 @section('content')
 
 <div class="container-fluid">
- <h2>Reports</h2>
-  <br />
-   <br/>
-</div>
-
-<div class="row">
+  <div class="row">
     <div class="col-md-2">
       <div class="box simple-list">
           <div class="box-header">
@@ -70,6 +65,8 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
 
 @endsection
 @push('scripts')

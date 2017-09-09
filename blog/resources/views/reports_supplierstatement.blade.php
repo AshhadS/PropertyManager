@@ -1,11 +1,4 @@
-<div class="container-fluid">
-<br>
-</br>
-
-<br>
-</br>
-
-<section class="invoice table-responsive">
+<section class="table-responsive">
       <!-- title row -->
       <div class="row">
         <div class="col-xs-12">
@@ -85,4 +78,3 @@
     </section>
 
 
-</div>

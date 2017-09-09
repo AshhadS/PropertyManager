@@ -1,9 +1,4 @@
-
-<div class="container-fluid">
-<br>
-</br>
-
-<section class="invoice">
+<section class="">
       <!-- title row -->
       <div class="row">
         <div class="col-xs-12">
@@ -81,6 +76,3 @@
         </div>
       </div>
     </section>
-
-
-</div>
