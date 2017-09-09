@@ -194,9 +194,9 @@ $(function() {
                   action +=   '<input type="hidden" name="flag" value="'+full.isSubmitted+'">';
                   if(full.isSubmitted == 1){
                     // action += '<input class="btn bg-green btn-sm btn-second" type="submit" value="<i class="fa fa-undo" aria-hidden="true"></i>">';
-                    action += '<button class="btn bg-green btn-sm btn-second" type="submit"><i class="fa fa-undo" aria-hidden="true"></i></button>';
+                    action += '<button class="btn bg-green btn-sm btn-second" title="Reverse" type="submit"><i class="fa fa-undo" aria-hidden="true"></i></button>';
                   }else{
-                    action += '<button class="btn bg-green btn-sm btn-second" type="submit" > <i class="fa fa-check-square-o" aria-hidden="true"></i></button>';
+                    action += '<button class="btn bg-green btn-sm btn-second" title="Submit" type="submit" > <i class="fa fa-check-square-o" aria-hidden="true"></i></button>';
                   }
                   action += '</form>';
                   action += '<form class="delete-form" method="POST" action="tenant/'+data+'">';

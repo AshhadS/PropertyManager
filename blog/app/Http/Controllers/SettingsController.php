@@ -266,7 +266,7 @@ class SettingsController extends Controller
 
     function createSuppliers(Request $request){
         $supplier = new Supplier;
-        $supplier->supplierCode = $request->supplierCode;
+        $supplier->supplierCode = '0';
         $supplier->supplierName    = $request->supplierName;
         $supplier->address = $request->address;
         $supplier->telephoneNumber = $request->telephoneNumber;
@@ -276,6 +276,8 @@ class SettingsController extends Controller
         $supplier->fromPropertyOwnerOrTenant = ($request->fromPropertyOwnerOrTenant) ? $request->fromPropertyOwnerOrTenant : 0 ;
         $supplier->IDFromTenantOrPropertyOwner = ($request->IDFromTenantOrPropertyOwner) ? $request->fromPropertyOwnerOrTenant : 0;
         
+        $supplier->save();
+        $supplier->supplierCode = sprintf("S%'05d\n", $supplier->supplierID);
         $supplier->save();
 
         return 'true';

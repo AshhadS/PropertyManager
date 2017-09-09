@@ -66,12 +66,6 @@
           <form class="form-horizontal ajax-process  pull add-user" action="/supplier" method="POST">
               {{ csrf_field() }}
               <div class="form-group">
-                <label class="col-sm-2 control-label">Supplier code</label>
-                <div class="col-sm-10">
-                  <input type="text" name="supplierCode" class="form-control input-req">
-                </div>
-              </div>
-              <div class="form-group">
                 <label class="col-sm-2 control-label">Supplier Name</label>
                 <div class="col-sm-10">
                   <input type="text" name="supplierName" class="form-control">
