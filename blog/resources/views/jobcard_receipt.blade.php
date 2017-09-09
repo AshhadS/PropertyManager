@@ -137,6 +137,12 @@
                     <input name="chequeDate" class="form-control datepicker" />                      
                   </div>
                 </div>
+                <div class="form-group clearfix payment-date">
+                  <label class="col-sm-3 control-label">Receipt Date</label>
+                  <div class="col-sm-9">
+                    <input name="receiptDate" class="form-control datepicker" />                      
+                  </div>
+                </div>
                 <div class="box-footer">
                   <div class="form-buttons">
                     <input type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close" value="Cancel" />

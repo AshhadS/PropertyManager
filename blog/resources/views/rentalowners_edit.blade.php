@@ -54,7 +54,7 @@
                       <div class="container-fluid">
                         <div class="row">
                           <div class="button-group">
-                            <form method="POST" action="/rentalowner/submit">
+                            <form method="POST" class="confirm-submit" action="/rentalowner/submit">
                               <input type="hidden" name="_token" value="{{ csrf_token() }}">
                               <input type="hidden" name="rentalownerID" value="{{$rentalowner->rentalOwnerID}}">
                               <input type="hidden" name="flag" value="{{$rentalowner->isSubmitted}}">

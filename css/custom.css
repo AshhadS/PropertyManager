@@ -788,12 +788,15 @@ span.simple-box {
   width: 20px;
   height: 20px;
   display: inline-block;
+  border-radius: 20%;
 }
 
 .red {
   background: #dd4b39;
+  border: 2px solid #7f1c10;
 }
 
 .green {
   background: #37bc9b;
+  border: 2px solid #c72815;
 }

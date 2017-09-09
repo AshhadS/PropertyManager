@@ -23,10 +23,10 @@
             <table class="table table-striped">
               <tbody>
               <tr>
-                <td><a class='link' href="/reports_supplierstatement" data-section="reports_supplierstatement">Supplier Statement</a></td>
+                <td><a class='link' href="#reports_supplierstatement" data-section="reports_supplierstatement">Supplier Statement</a></td>
               </tr>
               <tr>
-                <td><a class='link' href="/reports_suppliersummary" data-section="reports_suppliersummary">Supplier Summary</a></td>
+                <td><a class='link' href="#reports_suppliersummary" data-section="reports_suppliersummary">Supplier Summary</a></td>
               </tr>
             </tbody>
             </table>
@@ -47,33 +47,25 @@
             <table class="table table-striped">
               <tbody >
               <tr>
-                <td><a class='link' href="/reports_customerstatement" data-section="reports_customerstatement">Customer Statement</a></td>
+                <td><a class='link' href="#reports_customerstatement" data-section="reports_customerstatement">Customer Statement</a></td>
               </tr>
               <tr>
-                <td><a href="/reports_customersummary" data-section="reports_customersummary" class="link">Customer Summary</a></td>
+                <td><a href="#reports_customersummary" data-section="reports_customersummary" class="link">Customer Summary</a></td>
               </tr>
             </tbody></table>
           </div>
           <!-- /.box-body -->
       </div>
+    </div>
 
-      <div class="col-md-9">
-      
+    <div class="col-md-9">      
       <div class="page-content-wrapper">
         <div class="">
           <div class="page-content"  style="display: none">
             <div class="load-container" style="">
               <div class="loader">Loading...</div>
-            </div>    
-            <div class="body">
-              
-                <section id="">
-                    
-                  
-
-                </section>
-
-            </div>  
+            </div>
+            <div class="body"></div>  
           </div>
         </div>
       </div>
@@ -89,6 +81,37 @@
       $('.load-container').fadeIn();
       $('.page-content .body').load( "/"+$(this).data('section')+"/");
     });
+
+    
+
+    $( document ).ajaxComplete(function() {
+      $('.load-container').fadeOut();
+
+      $( "#supplier-state" ).change(function() {
+        //this is the #state dom element
+        var state = $(this).val();
+        
+        // parameter 1 : url
+        // parameter 2: post data
+        //parameter 3: callback function 
+        $.get( '/reports_supplierstatement_data' , { state : state } , function(htmlCode){ //htmlCode is the code retured from your controller
+            $("#domains_table tbody").html(htmlCode);
+        });
+      });
+
+      $( "#customer-state" ).change(function() {
+        //this is the #state dom element
+        var state = $(this).val();
+        
+        // parameter 1 : url
+        // parameter 2: post data
+        //parameter 3: callback function 
+        $.get( '/reports_customerstatement_data' , { state : state } , function(htmlCode){ //htmlCode is the code retured from your controller
+            $("#domains_table tbody").html(htmlCode);
+        });
+      });
+    });
+});
 
 </script>
 @endpush

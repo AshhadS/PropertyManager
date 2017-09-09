@@ -110,7 +110,7 @@
                 <div class="container-fluid">
                   <div class="row">
                     <div class="button-group pull-right">
-                      <form method="POST" action="/agreement/submit/{{$agreement->agreementID}}">
+                      <form method="POST" class="confirm-submit" action="/agreement/submit/{{$agreement->agreementID}}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="agreementID" value="{{$agreement->agreementID}}">
                         <input type="hidden" name="flag" value="{{$agreement->isSubmitted}}">

@@ -193,10 +193,9 @@ $(function() {
                 className: 'edit-button',
                 orderable: false,
                 render: function ( data, type, full, meta , row) {
-                  console.log(full.isSubmitted); 
                     // Create action buttons
                   var action = '<div class="inner wide"><a class="btn bg-green btn-sm" href="rentalowner/edit/'+data+'"><i class="fa fa-eye" aria-hidden="true"></i></a>';
-                  action += '<form class="delete-form" method="POST" action="/rentalowner/submit">';
+                  action += '<form class="delete-form confirm-submit" method="POST" action="/rentalowner/submit">';
                   action += '<input type="hidden" name="_token" value="'+ $('meta[name="_token_del"]').attr('content') +'">';
                   action +=   '<input type="hidden" name="rentalownerID" value="'+data+'">';
                   action +=   '<input type="hidden" name="flag" value="'+full.isSubmitted+'">';

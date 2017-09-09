@@ -1,6 +1,3 @@
-@extends('admin_template')
-
-@section('content')
 
 <div class="container-fluid">
 <br>
@@ -79,10 +76,3 @@
 
 
 </div>
-
-
-
-
-
-
-@endsection

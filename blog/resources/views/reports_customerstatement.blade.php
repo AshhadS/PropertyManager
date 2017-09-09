@@ -1,6 +1,3 @@
-@extends('admin_template')
-
-@section('content')
 
 <div class="container-fluid">
 <br>
@@ -22,7 +19,7 @@
       <div class="form-group col-xs-3">
             <label for="">Filter By Customer</label>
 
-            <select class="form-control input-sm" id="state" name="state" >
+            <select class="form-control input-sm" id="customer-state" name="state" >
               <option value="0">Please select a customer</option>
              @foreach ($customers as $customer)
                   <option value="{{$customer->rentalOwnerID}}">{{$customer->firstName}} {{$customer->lastName}}</option>
@@ -87,31 +84,3 @@
 
 
 </div>
-
-
-
-
-
-
-@endsection
-@push('scripts')
-<script>
-  
-$( "#state" ).change(function() 
-  {
-    //this is the #state dom element
-    var state = $(this).val();
-    
-    // parameter 1 : url
-        // parameter 2: post data
-        //parameter 3: callback function 
-    $.get( '/reports_customerstatement_data' , { state : state } , function(htmlCode){ //htmlCode is the code retured from your controller
-        $("#domains_table tbody").html(htmlCode);
-    });
-  });
-
-
-</script>>
-
-
-@endpush

@@ -48,6 +48,8 @@ $(function() {
         }
     });
 
+
+
     // Attachments edit autofill
     $('.edit-attachment').on('click', function(){
         data = $(this).siblings('.data-defined');
@@ -112,12 +114,15 @@ $(function() {
     });
 
     initializeTeleValidation();
-    initializePercentageValidation()
+    initializePercentageValidation();
+    confirmSubmit();
 
     // Remove active if a link with no tab is clicked example property owner edit
     $('.edit-remove-actives').on('click', function(){
         $('li.active').removeClass('active');
     })
+
+
 
 
     $(document).ajaxComplete(function() {
@@ -141,9 +146,11 @@ $(function() {
             }
         });
 
-        initializeTeleValidation();
-        initializePercentageValidation()
+        
 
+        initializeTeleValidation();
+        initializePercentageValidation();
+        confirmSubmit();
 
     });
              
@@ -177,6 +184,20 @@ function initializePercentageValidation(){
     // max 3 digits
     $(".percentage").attr('maxlength', '3');
 }
+
+function confirmSubmit(){
+    // Confirm Submit - Rentalowner, Tentant, Agreement
+    $('form.confirm-submit').on('submit', function(e){
+        var r = confirm("Confirm Performing this action?");
+        if (r == false) {
+            return false;
+        }
+    });
+}
+
+
+
+
 
 // Margin validation
 

@@ -188,7 +188,7 @@ $(function() {
                 render: function ( data, type, full, meta ) {
                   // Create action buttons
                   var action = '<div class="inner wide"><a class="btn bg-green btn-sm" href="tenant/edit/'+data+'"><i class="fa fa-eye" aria-hidden="true"></i></a>';
-                  action += '<form class="delete-form" method="POST" action="/tenant/submit">';
+                  action += '<form class="delete-form confirm-submit" method="POST" action="/tenant/submit">';
                   action += '<input type="hidden" name="_token" value="'+ $('meta[name="_token_del"]').attr('content') +'">';
                   action +=   '<input type="hidden" name="tenantsID" value="'+data+'">';
                   action +=   '<input type="hidden" name="flag" value="'+full.isSubmitted+'">';

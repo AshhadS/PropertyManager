@@ -32,9 +32,9 @@ use Carbon\Carbon;
 class JobCardsController extends Controller
 {
     function index() {
-        $openJobcards = JobCard::where('jobcardStatusID', '!=' , 4)->orderBy('lastUpdatedDateTime', 'ASC')->get();
-        $closedJobcards = JobCard::where('jobcardStatusID', 4)->orderBy('lastUpdatedDateTime', 'ASC')->get();
-        $myJobcards = JobCard::where('assignedToID', Sentinel::getUser()->id)->orderBy('lastUpdatedDateTime', 'ASC')->get();
+        $openJobcards = JobCard::where('jobcardStatusID', '!=' , 4)->orderBy('createdDateTime', 'DESC')->get();
+        $closedJobcards = JobCard::where('jobcardStatusID', 4)->orderBy('createdDateTime', 'DESC')->get();
+        $myJobcards = JobCard::where('assignedToID', Sentinel::getUser()->id)->orderBy('createdDateTime', 'DESC')->get();
 
         $openCount = JobCard::where('jobcardStatusID', '!=' , 4)->count();
         $closedCount = JobCard::where('jobcardStatusID', 4)->count();
