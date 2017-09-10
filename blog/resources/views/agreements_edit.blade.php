@@ -1,6 +1,7 @@
 @extends('admin_template')
 
 @section('content')
+<title>IDSS | Agreement</title>
 <section class="content-header">
       <h4><b>Agreement</b></h4>
   </section>

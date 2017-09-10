@@ -194,19 +194,19 @@ $(function() {
                 orderable: false,
                 render: function ( data, type, full, meta , row) {
                     // Create action buttons
-                  var action = '<div class="inner wide"><a class="btn bg-green btn-sm" href="rentalowner/edit/'+data+'"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                  var action = '<div class="inner wide"><a class="btn bg-green btn-sm" data-toggle="tooltip" title="View" href="rentalowner/edit/'+data+'"><i class="fa fa-eye" aria-hidden="true"></i></a>';
                   action += '<form class="delete-form confirm-submit" method="POST" action="/rentalowner/submit">';
                   action += '<input type="hidden" name="_token" value="'+ $('meta[name="_token_del"]').attr('content') +'">';
                   action +=   '<input type="hidden" name="rentalownerID" value="'+data+'">';
                   action +=   '<input type="hidden" name="flag" value="'+full.isSubmitted+'">';
                   if(full.isSubmitted == 1){
-                    action += '<button class="btn bg-green btn-sm btn-second" type="submit"><i class="fa fa-undo" aria-hidden="true"></i></button>';
+                    action += '<button class="btn bg-green btn-sm btn-second" data-toggle="tooltip" title="Reverse" type="submit"><i class="fa fa-undo" aria-hidden="true"></i></button>';
                   }else{
-                    action += '<button class="btn bg-green btn-sm btn-second" type="submit" > <i class="fa fa-check-square-o" aria-hidden="true"></i></button>';
+                    action += '<button class="btn bg-green btn-sm btn-second" data-toggle="tooltip" title="Submit" type="submit" > <i class="fa fa-check-square-o" aria-hidden="true"></i></button>';
                   }
                   action += '</form>';
                   action += '<form class="delete-form" method="POST" action="rentalowner/'+data+'">';
-                  action += '<a href="" class="delete-btn btn btn-danger btn-sm button--winona"><span>';
+                  action += '<a href="" class="delete-btn btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete"><span>';
                   action += '<i class="fa fa-trash" aria-hidden="true"></i></span><span class="after">?</span></a>';
                   action += '<input type="hidden" name="_method" value="DELETE"> ';
                   action += '<input type="hidden" name="_token" value="'+ $('meta[name="_token_del"]').attr('content') +'">';

@@ -1,5 +1,6 @@
 @extends('admin_template')
 @section('content')
+<title>IDSS | Jobcard Invoice</title>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-8">
@@ -66,8 +67,8 @@
             </td>            
             <td class="edit-button"> 
               <div class="inner">
-                <a href="#" data-id="{{$supplierInvoice->supplierInvoiceID}}" class="btn bg-yellow supplier-edit-invoice btn-sm pull-left" data-toggle="modal" data-target="#supplierModal"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
-                <a href="/invoice/{{$supplierInvoice->supplierInvoiceID}}/display" class="btn btn-info btn-sm btn-second pull-left"><i class="fa fa-file-text" aria-hidden="true"></i> </a>
+                <a href="#" data-id="{{$supplierInvoice->supplierInvoiceID}}" data-toggle="tooltip" title="Edit" class="btn bg-yellow supplier-edit-invoice btn-sm pull-left" data-toggle="modal" data-target="#supplierModal"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
+                <a href="/invoice/{{$supplierInvoice->supplierInvoiceID}}/display" data-toggle="tooltip" title="PDF" class="btn btn-info btn-sm btn-second pull-left"><i class="fa fa-file-text" aria-hidden="true"></i> </a>
               </div>
               </td>            
           </tr>

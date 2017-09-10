@@ -1,6 +1,7 @@
 @extends('admin_template')
 
 @section('content')
+<title>IDSS | Agreement</title>
 <meta name="_token_del" content="{{ csrf_token() }}">
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -246,19 +247,19 @@ $(function() {
                 orderable: false,
                 render: function ( data, type, full, meta ) {
                   // Create action buttons
-                  var action = '<center><span class="inner wide"><a class="btn bg-green btn-sm attachment-edit-btn" href="/agreement/getfields/'+data+'"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                  var action = '<center><span class="inner wide"><a class="btn bg-green btn-sm attachment-edit-btn" data-toggle="tooltip" title="View" href="/agreement/getfields/'+data+'"><i class="fa fa-eye" aria-hidden="true"></i></a>';
                   action += '<form class="delete-form confirm-submit" method="POST" action="/agreement/submit/'+data+'">';
                   action += '<input type="hidden" name="_token" value="'+ $('meta[name="_token_del"]').attr('content') +'">';
                   action +=   '<input type="hidden" name="agreementID" value="'+data+'">';
                   action +=   '<input type="hidden" name="flag" value="'+full.isSubmitted+'">';
                   if(full.isSubmitted == 1){
-                    action += '<button class="btn bg-green btn-sm btn-second" type="submit"><i class="fa fa-undo" aria-hidden="true"></i></button>';
+                    action += '<button class="btn bg-green btn-sm btn-second" data-toggle="tooltip" title="Reverse" type="submit"><i class="fa fa-undo" aria-hidden="true"></i></button>';
                   }else{
-                    action += '<button class="btn bg-green btn-sm btn-second" type="submit" > <i class="fa fa-check-square-o" aria-hidden="true"></i></button>';
+                    action += '<button class="btn bg-green btn-sm btn-second" data-toggle="tooltip" title="Submit" type="submit" > <i class="fa fa-check-square-o" aria-hidden="true"></i></button>';
                   }
                   action += '</form>';
                   action += '<form class="delete-form" method="POST" action="agreement/'+data+'">';
-                  action += '<a href="" class="delete-btn btn btn-danger btn-sm button--winona"><span>';
+                  action += '<a href="" class="delete-btn btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete"><span>';
                   action += '<i class="fa fa-trash" aria-hidden="true"></i></span><span class="after"></span></a>';
                   action += '<input type="hidden" name="_method" value="DELETE"> ';
                   action += '<input type="hidden" name="_token" value="'+ $('meta[name="_token_del"]').attr('content') +'">';

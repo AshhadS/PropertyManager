@@ -1,6 +1,7 @@
 @extends('admin_template')
 
 @section('content')
+<title>IDSS | Reports</title>
 
 <div class="container-fluid">
   <div class="row">
@@ -53,7 +54,7 @@
       </div>
     </div>
 
-    <div class="col-md-9">      
+    <div class="col-md-10">      
       <div class="page-content-wrapper">
         <div class="">
           <div class="page-content"  style="display: none">

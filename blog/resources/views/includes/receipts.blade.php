@@ -35,9 +35,9 @@
           <td class="chequeDate format-date">{{$receipt->chequeDate}}</td>
           <td class="receiptDate format-date">{{$receipt->receiptDate}}</td>
           <td class="edit-button">
-            <a class="btn bg-green btn-sm pull-left receipt-edit" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
+            <a class="btn bg-green btn-sm pull-left receipt-edit" data-toggle="tooltip" title="Edit" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
             <form class="delete-form pull-left" method="POST" action="/custom/receipt/{{$receipt->receiptID}}">
-              <a href="#" class="delete-btn btn btn-danger btn-sm button--winona">
+              <a href="#" class="delete-btn btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete">
                 <span><i class="fa fa-trash" aria-hidden="true"></i> </span>
                 <span class="after">Sure ?</span>
               </a>

@@ -1,6 +1,7 @@
 @extends('admin_template')
 
 @section('content')
+<title>IDSS | Units</title>
 
     <meta name="_token_del" content="{{ csrf_token() }}">
     <!-- Modal -->

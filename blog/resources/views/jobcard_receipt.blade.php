@@ -1,5 +1,6 @@
 @extends('admin_template')
 @section('content')
+<title>IDSS | Jobcard Receipt</title>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-8">
@@ -59,11 +60,11 @@
           <td>{{$receipt->receiptDate}}</td>
           <td class="edit-button">
             <div class="inner">
-              <a href="/jobcard/edit/receipt/{{$receipt->receiptID}}/pdf" class="btn btn-info btn-sm"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+              <a href="/jobcard/edit/receipt/{{$receipt->receiptID}}/pdf" data-toggle="tooltip" title="PDF" class="btn btn-info btn-sm"><i class="fa fa-file-text" aria-hidden="true"></i></a>
               <form class="delete-form" action="/receipt/{{$receipt->receiptID}}" method="POST">
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
-                <a href="#" class="delete-btn btn btn-danger btn-sm button--winona">
+                <a href="#" class="delete-btn btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete">
                   <span><i class="fa fa-trash" aria-hidden="true"></i></span>
                   <span class="after">Sure?</span>
                 </a>

@@ -1,4 +1,4 @@
-<section class="table-responsive">
+<section class="">
       <!-- title row -->
       <div class="row">
         <div class="col-xs-12">

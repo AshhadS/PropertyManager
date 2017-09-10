@@ -1,6 +1,7 @@
 @extends('admin_template')
 
 @section('content')
+<title>IDSS | Dashboard</title>
 <br />
 <div class="container-fluid dashboard-page">
 

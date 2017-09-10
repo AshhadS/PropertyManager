@@ -1,6 +1,7 @@
 @extends('admin_template')
 
 @section('content')
+<title>IDSS | Admin</title>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-2">
@@ -89,7 +90,7 @@
 			    <!-- /.box-body -->
 			</div>
 		</div>
-		<div class="col-md-9">
+		<div class="col-md-10">
 			
 			<div class="page-content-wrapper">
 				<div class="">

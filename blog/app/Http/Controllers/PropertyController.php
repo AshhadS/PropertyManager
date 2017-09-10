@@ -46,7 +46,7 @@ class PropertyController extends Controller
 			->leftJoin('propertysubtypeid', 'properties.propertySubTypeID', '=', 'propertysubtypeid.propertySubTypeID')
 			->leftJoin('rentalowners', 'properties.rentalOwnerID', '=', 'rentalowners.rentalOwnerID')
 			->leftJoin('countries', 'properties.country', '=', 'countries.id')
-    		->select('PropertiesID', 'pPropertyName', 'description', 'countries.countryName', 'propertysubtypeid.propertySubTypeDescription', 'numberOfUnits', 'rentalowners.firstName', 'properties.address', 'properties.city', 'forRentOrOwn');
+    		->select('PropertiesID', 'pPropertyName', 'description', 'countries.countryName', 'propertysubtypeid.propertySubTypeDescription', 'numberOfUnits', 'rentalowners.firstName', 'properties.address', 'properties.city', 'forRentOrOwn', 'rentalowners.isSubmitted', 'properties.rentalOwnerID');
     	return Datatables::of($t)->make(true);
 
 

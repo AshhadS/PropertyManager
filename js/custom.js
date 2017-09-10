@@ -77,6 +77,8 @@ $(function() {
         }
     });
 
+    $('[data-toggle="tooltip"]').tooltip()
+
 
     // Show file upload field only if no image has been added 
     $('.remove-attachment, .remove-image').click(function(){

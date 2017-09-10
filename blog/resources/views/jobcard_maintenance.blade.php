@@ -1,5 +1,7 @@
 @extends('admin_template')
 @section('content')
+<title>IDSS | Maintenance</title>
+
 <div class="container-fluid">
     <!-- Modal -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -167,8 +169,8 @@
               <td class="amount-col"><?= number_format((float)$item->netTotal, 3, '.', '') ?></td>
               <td class="amount-col edit-button">
                 <div class="inner">
-                  <a class="btn bg-green btn-sm item-edit <?php ($jobcard->isSubmitted == 1) ? print 'disabled' : false ?>" href="#" data-form-url="/jobcard/edit/maintenance/update" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                  <form class="delete-form" method="POST" action="/jobcard/edit/maintenance/{{$item->itemID}}">
+                  <a class="btn bg-green btn-sm item-edit <?php ($jobcard->isSubmitted == 1) ? print 'disabled' : false ?>" data-toggle="tooltip" title="Edit" href="#" data-form-url="/jobcard/edit/maintenance/update" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                  <form class="delete-form" method="POST" action="/jobcard/edit/maintenance/{{$item->itemID}}" data-toggle="tooltip" title="Delete">
                     <a href="#" class="delete-btn btn btn-danger btn-sm button--winona <?php ($jobcard->isSubmitted == 1) ? print 'disabled' : false ?>"><span><i class="fa fa-trash" aria-hidden="true"></i></span><span class="after">?</span></a>
                     <input type="hidden" name="_method" value="DELETE"> 
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">

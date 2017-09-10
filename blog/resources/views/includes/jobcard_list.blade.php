@@ -75,11 +75,11 @@
         <div class="jc-edit-button clearfix">
           <div class="inner">
           <div>
-            <a class="btn bg-green btn-sm" href="jobcard/edit/{{$jobcard->jobcardID}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+            <a class="btn bg-green btn-sm" data-toggle="tooltip" title="View" href="jobcard/edit/{{$jobcard->jobcardID}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
           </div>
           @if(!$hide_delete)
             <form class="delete-form" method="POST" action="jobcard/{{$jobcard->jobcardID}}">
-              <a href="" class="delete-btn btn btn-danger btn-sm button--winona"><span>
+              <a href="" class="delete-btn btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete"><span>
               <i class="fa fa-trash" aria-hidden="true"></i></span><span class="after"><i class="fa fa-question" aria-hidden="true"></i></span></a>
               <input type="hidden" name="_method" value="DELETE">
               <input type="hidden" name="_token" value="{{csrf_token()}}">

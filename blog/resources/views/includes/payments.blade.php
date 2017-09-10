@@ -34,9 +34,9 @@
           <td class="chequeDate format-date">{{$payment->chequeDate}}</td>
           <td class="paymentDate format-date">{{$payment->paymentDate}}</td>
           <td class="edit-button">
-            <a class="btn bg-green btn-sm pull-left payment-edit" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
+            <a class="btn bg-green btn-sm pull-left payment-edit" data-toggle="tooltip" title="Edit" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
             <form class="delete-form pull-left  " method="POST" action="/custom/payment/{{$payment->paymentID}}">
-              <a href="#" class="delete-btn btn btn-danger btn-sm button--winona">
+              <a href="#" class="delete-btn btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete">
                 <span><i class="fa fa-trash" aria-hidden="true"></i> </span>
                 <span class="after">Sure ?</span>
               </a>

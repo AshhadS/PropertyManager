@@ -1,6 +1,7 @@
 @extends('admin_template')
 
 @section('content')
+<title>IDSS | Tenants</title>
   <section class="content-header">
       <h4><b>TENANT</b></h4>
   </section>
