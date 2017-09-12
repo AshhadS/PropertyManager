@@ -85,6 +85,12 @@
 			        <tr>
 			          <td><a class='link' data-section="paymenttype" href="#paymenttype">Payment Type</a></td>
 			        </tr>
+			        <tr>
+			          <td><a class='link' data-section="banks" href="#bank">Bank</a></td>
+			        </tr>
+			        <tr>
+			          <td><a class='link' data-section="accounts" href="#accounts">Account</a></td>
+			        </tr>
 			      </tbody></table>
 			    </div>
 			    <!-- /.box-body -->
@@ -363,6 +369,30 @@
               {value: "2", text:"Income"},
             ],       
 	    });
+	    // $('.user-role.item-editable').editable({
+	    //     validate: function(value) {
+	    //         if($.trim(value) == '') 
+	    //             return 'Value is required.';
+	    //     },
+	    //         method: 'POST',
+	    //         url:'users/update',  
+	    //         title: 'Edit',
+	    //         send:'always',
+	    //         type: "select",
+	    //         tpl: "<select></select>",
+	    //         params: function(params) {
+	    //             //originally params contain pk, name and value
+	    //             params.field = $(this).attr('jcfield');
+	    //             params._token = '{{ csrf_token() }}';
+	    //             return params;
+	    //         },
+	    //         source : [
+	    //         {{--@foreach ($jobcardstatuss as $jobcardstatus)
+	    	    	    //           {value: "{{$jobcardstatus->jobcardStatusID}}", text:"{{ $jobcardstatus->statusDescription }}"},
+	    	    	    //         @endforeach--}}
+	    //         ],
+	    // });
+
 		$('.customer.item-editable').editable({
 	        validate: function(value) {
 	            if($.trim(value) == '') 
@@ -370,6 +400,22 @@
 	        },
 	        method: 'POST',
 	        url:'update/customer',  
+	        title: 'Edit',
+	        send:'always',   
+	        params: function(params) {
+	            //originally params contain pk, name and value
+	            params._token = '{{ csrf_token() }}';
+	            return params;
+	        }         
+	    });
+
+	    $('.bank.item-editable').editable({
+	        validate: function(value) {
+	            if($.trim(value) == '') 
+	                return 'Value is required.';
+	        },
+	        method: 'POST',
+	        url:'update/bank',  
 	        title: 'Edit',
 	        send:'always',   
 	        params: function(params) {

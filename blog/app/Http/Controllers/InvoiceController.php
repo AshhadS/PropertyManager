@@ -145,6 +145,16 @@ class InvoiceController extends Controller
 			$invoice->amount = $this->getJobcardGrandTotal($jobcard->jobcardID);
 			$invoice->invoiceDate = date("Y-m-d H:i:s");
 			$invoice->lastUpdatedByUserID = Sentinel::getUser()->id;
+
+			// Check if tenant owner has been submitted
+            if(isset(Customer::where('fromPropertyOwnerOrTenant', 1)->where('IDFromTenantOrPropertyOwner', Property::find($jobcard->PropertiesID)->rentalOwnerID)->first())){
+                $invoice->propertyOwnerID = Customer::where('fromPropertyOwnerOrTenant', 1)->where('IDFromTenantOrPropertyOwner', Property::find($jobcard->PropertiesID)->rentalOwnerID)->first()->customerID;
+            }else{
+                // if not renturn without saving
+                $request->session()->flash('alert-success', 'Cannot submit this agreement because the rental owner has not been submitted');
+                return Redirect::back();                
+            }
+
 			$invoice->save();
 			$invoice->CustomerInvoiceSystemCode = sprintf("CINV%'05d\n", $invoice->customerInvoiceID);
 			$invoice->save();

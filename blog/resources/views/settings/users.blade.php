@@ -90,13 +90,12 @@
         <!-- <td></td> -->
         <td>{{$single_user->last_login}}</td>
         <td>{{$single_user->created_at}}</td>
-        <td><?php 
-        $roleID = Sentinel::findById($single_user->id)->roles->pluck('pivot')->pluck('role_id');
-        $roleName = Sentinel::findRoleById($roleID)->pluck('name');
-        print $roleName;
+        <td class='user-role item-editable' data-name="role" data-pk="{{$single_user->id}}"><?php 
+        $roleID = Sentinel::findById($single_user->id)->roles->pluck('pivot')->pluck('role_id')->first();
+        if($roleID)
+          print App\Model\Roles::find($roleID)->name;
         ?></td>
         <td>
-          <!-- <button class="btn btn-info btn-sm edit-settings" data-id="{{$single_user->id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button> -->
 
           <form class="delete-form clearfix ajax-process" method="POST" action="user/{{$single_user->id}}">
             <a href="#" class="delete-btn-ajax btn btn-danger btn-sm button--winona" >

@@ -13,6 +13,8 @@ use App\Model\Supplier;
 use App\Model\Customer;
 use App\Model\ChartOfAccount;
 use App\Model\Roles;
+use App\Model\Bank;
+use App\Model\BankAccount;
 
 use Datatables;
 use Illuminate\Support\Facades\DB;
@@ -410,6 +412,71 @@ class SettingsController extends Controller
 
     /*************************************************************************/
 
+    /**
+     * Banks
+     */
+    function showBanks(){
+        $banks = Bank::all();
+
+        return view('settings.bank', [
+            'banks' => $banks,
+        ]);
+    }
+
+    function createBank(Request $request){
+        $bank = new Bank;
+        $bank->bankName = $request->bankName;
+        $bank->save();
+        return 'true';
+    }
+
+    function editBank(Request $request){
+        $bank = Bank::find($request->pk);
+        $bank->bankName = $request->value;
+        $bank->save();
+        return $bank;
+    }
+
+    function deleteBank($bank){
+        $bank = Bank::find($bank);
+        $bank->delete();
+        return 'true';
+    }
+    /*************************************************************************/
+
+    /**
+     * Bank Account
+     */
+    function showAccounts(){
+        $bankAccounts = BankAccount::all();
+        $banks = Bank::all();
+
+        return view('settings.accounts', [
+            'bankAccounts' => $bankAccounts,
+            'banks' => $banks,
+        ]);
+    }
+
+    function createAccount(Request $request){
+        $bankAccounts = new BankAccount;
+        $bankAccounts->accountNumber = $request->accountNumber;
+        $bankAccounts->bankmasterID = $request->bankmasterID;
+        $bankAccounts->save();
+        return 'true';
+    }
+
+    function editAccount(Request $request){
+        $bankAccounts = BankAccount::find($request->pk);
+        $bankAccounts->{$request->name} = $request->value;
+        $bankAccounts->save();
+        return $bankAccounts;
+    }
+
+    function deleteAccount($bankAccounts){
+        $bankAccounts = BankAccount::find($bankAccounts);
+        $bankAccounts->delete();
+        return 'true';
+    }
 
 
 

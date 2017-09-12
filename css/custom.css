@@ -321,12 +321,12 @@ th.edit-button {
 
 .edit-button .inner {
   float: left;
-  width: 150px;
+  min-width: 150px;
   margin: 0 15px;
 }
 
 .edit-button .inner.wide {
-  width: auto;
+  min-width: 170px;
   margin: 0;
 }
 
@@ -786,18 +786,30 @@ table.m-item .amount-col, table.m-item .amount-col {
 }
 
 span.simple-box {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   display: inline-block;
-  border-radius: 20%;
+  border-radius: 15%;
 }
 
 .red {
   background: #fe6552;
-  border: 2px solid #c72815;
 }
 
 .green {
   background: #37bc9b;
-  border: 2px solid #1c8d71;
 }
+
+/*
+.btn.bg-green, .btn {
+  background: transparent !important;
+  border: none;
+}
+
+.btn.bg-green i {
+  color: #37bc9b;
+}
+
+.btn.btn-danger i {
+  color: #dd4b39;
+}*/
