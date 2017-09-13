@@ -10,6 +10,8 @@ use App\Model\Company;
 use App\Model\Property;
 use App\Model\SupplierInvoice;
 use App\Model\Payment;
+use App\Model\Bank;
+use App\Model\BankAccount;
 use Debugbar;
 use App\Model\PaymentType;
 use Redirect;
@@ -54,6 +56,10 @@ class JobcardPaymentController extends Controller
 			$payment->chequeDate = date_create_from_format("j/m/Y", $request->chequeDate)->format('Y-m-d');	
 		if($request->paymentDate)
 			$payment->paymentDate = date_create_from_format("j/m/Y", $request->paymentDate)->format('Y-m-d');	
+
+		$payment->bankAccountID = $request->bankAccountID;
+		$payment->bankmasterID = $request->bankmasterID;
+		
 		$payment->lastUpdatedByUserID = Sentinel::getUser()->id;
 		$payment->save();
 
@@ -65,11 +71,15 @@ class JobcardPaymentController extends Controller
 		$suppliers = Supplier::all();
 		$payments = Payment::where('documentID', 5)->where('documentAutoID', $jobcard->jobcardID)->get();
 		$paymentTypes = PaymentType::all();
+		$banks = Bank::all();
+		$accounts = BankAccount::all();
 		return view('jobcard_payment', [
             'jobcard' => $jobcard,
             'suppliers' => $suppliers,
             'payments' => $payments,
             'paymentTypes' => $paymentTypes,
+            'banks' => $banks,
+            'accounts' => $accounts,
             
 	    ]);
 	}

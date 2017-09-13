@@ -14,7 +14,11 @@
 
         <td  >{{$account->bankAccountID}}</td>
         <td class='account item-editable' data-type="text" data-name="accountNumber" data-pk="{{$account->bankAccountID}}" >{{$account->accountNumber}}</td>
-        <td class='account item-editable' data-type="text" data-name="bankmasterID" data-pk="{{$account->bankAccountID}}" >{{App\Model\Bank::find($account->bankmasterID)->bankName}}</td>
+        <td class='account item-editable' data-type="text" data-name="bankmasterID" data-pk="{{$account->bankAccountID}}" >
+          @if($account->bankmasterID)
+            {{App\Model\Bank::find($account->bankmasterID)->bankName}}
+          @endif
+        </td>
         <td>
           <form class="delete-form clearfix" data-section="accounts" method="POST" action="account/{{$account->bankAccountID}}">
           <input type="hidden" name="bankAccountID" value="{{$account->bankAccountID}}">
@@ -42,7 +46,7 @@
       <div class="form-group">
         <div class="">
           <select class="form-control input-req" name="bankmasterID">
-              <option value="0">Select a Bank</option>
+              <option value="">Select a Bank</option>
               @foreach ($banks as $bank)
                 <option value="{{$bank->bankmasterID}}">{{ $bank->bankName }}</option>
               @endforeach

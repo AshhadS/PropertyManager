@@ -1,4 +1,4 @@
-
+<meta name="_token_del" content="{{ csrf_token() }}">
 <h3 class="title">Bank</h3>
 <div class="col-md-6">
   <table class="table table-bordered">
@@ -13,7 +13,7 @@
 
         <td  >{{$bank->bankmasterID}}</td>
         <td class='bank item-editable' data-type="text" data-name="bankName" data-pk="{{$bank->bankmasterID}}" >{{$bank->bankName}}</td>
-        <td>
+        <td class="edit-button">
 
           <form class="delete-form clearfix" data-section="banks" method="POST" action="bank/{{$bank->bankmasterID}}">
             <a href="#" class="delete-btn-ajax btn btn-danger btn-sm button--winona">
@@ -22,6 +22,8 @@
             <input type="hidden" name="_method" value="DELETE"> 
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
           </form>
+
+          <a href="#" class="btn btn-primary btn-second btn-sm account-popover-launch" data-bankid="{{$bank->bankmasterID}}" data-toggle="popover"><i class="fa fa-plus"></i> Add Bank Account</a>
         </td>
       </tr>
       @endforeach

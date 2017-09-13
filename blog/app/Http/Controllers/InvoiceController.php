@@ -8,6 +8,7 @@ use App\Model\Supplier;
 use App\Model\Maintenance;
 use App\Model\Company;
 use App\Model\Property;
+use App\Model\Customer;
 use App\Model\SupplierInvoice;
 use App\Model\CustomerInvoice;
 use Redirect;
@@ -147,7 +148,7 @@ class InvoiceController extends Controller
 			$invoice->lastUpdatedByUserID = Sentinel::getUser()->id;
 
 			// Check if tenant owner has been submitted
-            if(isset(Customer::where('fromPropertyOwnerOrTenant', 1)->where('IDFromTenantOrPropertyOwner', Property::find($jobcard->PropertiesID)->rentalOwnerID)->first())){
+            if(Customer::where('fromPropertyOwnerOrTenant', 1)->where('IDFromTenantOrPropertyOwner', Property::find($jobcard->PropertiesID)->rentalOwnerID)->first()){
                 $invoice->propertyOwnerID = Customer::where('fromPropertyOwnerOrTenant', 1)->where('IDFromTenantOrPropertyOwner', Property::find($jobcard->PropertiesID)->rentalOwnerID)->first()->customerID;
             }else{
                 // if not renturn without saving

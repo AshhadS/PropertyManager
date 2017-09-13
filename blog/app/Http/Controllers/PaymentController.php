@@ -29,6 +29,10 @@ class PaymentController extends Controller
 		$payment->lastUpdatedByUserID = Sentinel::getUser()->id;
 		$payment->documentID = $request->documentID;
 		$payment->documentAutoID = $request->documentAutoID;
+
+		$payment->bankAccountID = $request->bankAccountID;
+		$payment->bankmasterID = $request->bankmasterID;
+		
 		$payment->save();
 
 		return Redirect::back();

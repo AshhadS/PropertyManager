@@ -12,6 +12,8 @@ use App\Model\CustomerInvoice;
 use App\Model\Receipt;
 use App\Model\PaymentType;
 use App\Model\Customer;
+use App\Model\Bank;
+use App\Model\BankAccount;
 use Redirect;
 use Sentinel;
 use App;
@@ -63,6 +65,10 @@ class JobcardReceiptController extends Controller
 		if($request->receiptDate)
 			$receipt->receiptDate = date_create_from_format("j/m/Y", $request->receiptDate)->format('Y-m-d');
 		$receipt->lastUpdatedByUserID = Sentinel::getUser()->id;
+
+		$receipt->bankAccountID = $request->bankAccountID;
+		$receipt->bankmasterID = $request->bankmasterID;
+		
 		$receipt->save();
 
 		return Redirect::to('jobcard/edit/'.$request->jobcardID.'/receipt');
@@ -80,12 +86,18 @@ class JobcardReceiptController extends Controller
 		if(isset($customer->rentalOwnerID) && CustomerInvoice::where('propertyOwnerID', $customer->rentalOwnerID))
 			$invoices = CustomerInvoice::where('propertyOwnerID', $customer->rentalOwnerID)->where('jobcardID', $jobcard->jobcardID)->where('paymentReceivedYN', '!=', 2)->get();
 		$paymentTypes = PaymentType::all();
+
+		$banks = Bank::all();
+		$accounts = BankAccount::all();
+
 		return view('jobcard_receipt', [
             'jobcard' => $jobcard,
             'customer' => $customer,
             'invoices' => $invoices,
             'receipts' => $receipts,
             'paymentTypes' => $paymentTypes,
+            'banks' => $banks,
+            'accounts' => $accounts,
             
 	    ]);
 	}
