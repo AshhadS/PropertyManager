@@ -20,7 +20,7 @@
           @endif
         </td>
         <td>
-          <form class="delete-form clearfix" data-section="accounts" method="POST" action="account/{{$account->bankAccountID}}">
+          <form class="delete-form clearfix" data-section="accounts" method="POST" action="bankaccount/{{$account->bankAccountID}}">
           <input type="hidden" name="bankAccountID" value="{{$account->bankAccountID}}">
             <a href="#" class="delete-btn-ajax btn btn-danger btn-sm button--winona">
               <span><i class="fa fa-trash" aria-hidden="true"></i> Delete</span><span class="after">Sure?</span>
