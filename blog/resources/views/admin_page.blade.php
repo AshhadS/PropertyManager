@@ -170,10 +170,13 @@
 	            type: "POST",
 	            data: $(this).serialize(),
 	            success: function (data) {
-	                console.info('success');
-					$('.page-content').show();
-					$('.load-container').fadeIn();
-					$('.page-content .body').load( "/"+section+"/");
+	                if(data == 'true'){
+						$('.page-content').show();
+						$('.load-container').fadeIn();
+						$('.page-content .body').load( "/"+section+"/");
+	                }else{
+		                alert(data);
+	                }
 
 	            },
 	            error: function (jXHR, textStatus, errorThrown) {

@@ -96,7 +96,7 @@
                 <div class="form-group clearfix">
                   <label class="col-sm-2 control-label">Bank Name</label>
                   <div class="col-sm-10">
-                    <select class="form-control payemnt-type-field" name="bankmasterID">
+                    <select class="form-control selection-parent-item-bank" name="bankmasterID">
                         <option value="0">Select Bank</option>
                       @foreach($banks as $bank)
                         <option value="{{$bank->bankmasterID}}">{{$bank->bankName}}</option>
@@ -107,7 +107,7 @@
                 <div class="form-group clearfix">
                   <label class="col-sm-2 control-label">Account Number</label>
                   <div class="col-sm-10">
-                    <select class="form-control payemnt-type-field" name="bankAccountID">
+                    <select class="form-control selection-child-item-account" name="bankAccountID">
                         <option value="0">Select Account</option>
                       @foreach($accounts as $account)
                         <option value="{{$account->bankAccountID}}">{{$account->accountNumber}}</option>
