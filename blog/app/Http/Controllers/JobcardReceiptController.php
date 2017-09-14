@@ -78,13 +78,15 @@ class JobcardReceiptController extends Controller
 		$jobcard = JobCard::find($jobcard);
 		$customer = null;
 		if($jobcard->rentalOwnerID){
+			$customerID = Customer::where('fromPropertyOwnerOrTenant', 1)->where('IDFromTenantOrPropertyOwner', $jobcard->rentalOwnerID)->first()->customerID;			
+			// dd($jobcard->rentalOwnerID);
 			$customer = RentalOwner::find($jobcard->rentalOwnerID);			
 		}
-		// dd($customer);
+		// $rentalOwnerID = Customer::find($jobcard->rentalOwnerID);			
 		$receipts = Receipt::where('documentID',5 )->where('documentAutoID', $jobcard->jobcardID)->get();
 		$invoices = null;
-		if(isset($customer->rentalOwnerID) && CustomerInvoice::where('propertyOwnerID', $customer->rentalOwnerID))
-			$invoices = CustomerInvoice::where('propertyOwnerID', $customer->rentalOwnerID)->where('jobcardID', $jobcard->jobcardID)->where('paymentReceivedYN', '!=', 2)->get();
+		if(isset($customer->rentalOwnerID) && CustomerInvoice::where('propertyOwnerID', $customerID))
+			$invoices = CustomerInvoice::where('propertyOwnerID', $customerID)->where('jobcardID', $jobcard->jobcardID)->where('paymentReceivedYN', '!=', 2)->get();
 		$paymentTypes = PaymentType::all();
 
 		$banks = Bank::all();
