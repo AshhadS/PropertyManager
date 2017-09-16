@@ -24,24 +24,24 @@ class ReportsController extends Controller
 {
     function index(){    
 
-    	$supplierStatementCount = DB::table('supplierinvoice')
+        $supplierStatementCount = DB::table('supplierinvoice')
         ->leftJoin('supplier','supplierinvoice.supplierID','=','supplier.supplierID')
         ->leftJoin('jobcard','supplierinvoice.jobCardID','=','jobcard.jobCardID')
         ->leftJoin('properties','supplierinvoice.PropertiesID','=','properties.PropertiesID')
         ->leftJoin('units','supplierinvoice.unitID','=','units.unitID')
         ->where('supplierinvoice.paymentPaidYN','=',0)
         ->Select('supplierinvoice.supplierInvoiceID',
-        		'supplierinvoice.invoiceSystemCode', 
-        		'supplierinvoice.supplierInvoiceCode', 
-        		'supplier.supplierName', 
-        		'jobcard.jobCardCode',
-        		'jobcard.jobcardID', 
-        		'supplierinvoice.amount', 
-        		'supplierinvoice.paymentPaidYN', 
-        		'supplierinvoice.invoiceDate', 
-        		'supplierinvoice.description', 
-        		'properties.pPropertyName', 
-        		'units.unitNumber')
+                'supplierinvoice.invoiceSystemCode', 
+                'supplierinvoice.supplierInvoiceCode', 
+                'supplier.supplierName', 
+                'jobcard.jobCardCode',
+                'jobcard.jobcardID', 
+                'supplierinvoice.amount', 
+                'supplierinvoice.paymentPaidYN', 
+                'supplierinvoice.invoiceDate', 
+                'supplierinvoice.description', 
+                'properties.pPropertyName', 
+                'units.unitNumber')
         ->count();
 
         $supplierSummaryTotal = DB::table('supplierinvoice')
@@ -50,16 +50,16 @@ class ReportsController extends Controller
 
         return view('reports',[
 
-        	'supplierStatementCount' => $supplierStatementCount,
+            'supplierStatementCount' => $supplierStatementCount,
             'supplierSummaryTotal' => $supplierSummaryTotal,
 
-        	]) ;
+            ]) ;
     }
 
 
     function getSupplierStatement(){
 
-         $suppliers= DB::table('Supplier')->get();
+         $suppliers= DB::table('supplier')->get();
         $supplierStatements = DB::table('supplierinvoice')
         ->leftJoin('supplier','supplierinvoice.supplierID','=','supplier.supplierID')
         ->leftJoin(DB::raw('(SELECT supplierInvoiceID,sum(payments.paymentAmount) as totalpaidAmount FROM payments where payments.documentID=5       GROUP BY supplierInvoiceID,SupplierInvoiceDate,supplierID) payment'),'supplierinvoice.supplierInvoiceID','=', 'payment.supplierInvoiceID')
@@ -79,10 +79,10 @@ class ReportsController extends Controller
  
 
         return view('reports_supplierstatement',[
-        	'supplierStatements' => $supplierStatements,
+            'supplierStatements' => $supplierStatements,
             'suppliers' => $suppliers,
 
-        	]);
+            ]);
 
         
 
@@ -156,15 +156,15 @@ class ReportsController extends Controller
 
 
 
-        	return view('supplierstatement-print',[
-        	'supplierStatements' => $supplierStatements,
-			]);
+            return view('supplierstatement-print',[
+            'supplierStatements' => $supplierStatements,
+            ]);
         }
 
 
         function pdfSupplierStatement(){
 
-    	 $supplierStatements = DB::table('supplierinvoice')
+         $supplierStatements = DB::table('supplierinvoice')
         ->leftJoin('supplier','supplierinvoice.supplierID','=','supplier.supplierID')
         ->leftJoin(DB::raw('(SELECT supplierInvoiceID,sum(payments.paymentAmount) as totalpaidAmount FROM payments where payments.documentID=5       GROUP BY supplierInvoiceID,SupplierInvoiceDate,supplierID) payment'),'supplierinvoice.supplierInvoiceID','=', 'payment.supplierInvoiceID')
         ->selectRaw('supplier.supplierID, 
@@ -428,12 +428,12 @@ class ReportsController extends Controller
 
         function getCustomerStatement(){
 
-          
+          //comehere
             $customers= DB::table('customer')->orderby('CustomerName','ASC')->get();
             $customerStatements = DB::table('customerinvoice')
             ->leftJoin('customer','customer.customerID','=','customerinvoice.propertyOwnerID')
             ->leftJoin(DB::raw('(SELECT customerID,invoiceSystemCode,customerInvoiceID, sum(receiptAmount) as totalReceived,customerInvoiceCode FROM receipt GROUP BY customerID,invoiceSystemCode,customerInvoiceID,customerInvoiceCode) received'),'customerinvoice.customerInvoiceID','=', 'received.customerInvoiceID')
-            ->Groupby('customer.customerName','customerinvoice.propertyOwnerID','received.totalReceived','customerinvoice.invoiceDate','customerinvoice.customerInvoiceID','received.customerInvoiceCode')
+            ->Groupby('customer.customerName','customerinvoice.propertyOwnerID','received.totalReceived','customerinvoice.invoiceDate','customerinvoice.customerInvoiceID','received.customerInvoiceCode','customerinvoice.CustomerInvoiceSystemCode','customerinvoice.amount')
             ->selectRaw('customer.customerName,
                     customerinvoice.propertyOwnerID,
                     customerinvoice.CustomerInvoiceSystemCode AS invoiceSystemCode,
@@ -443,7 +443,7 @@ class ReportsController extends Controller
                     received.totalReceived')
             ->get();
 
-            //dd($customerStatements);
+           // dd($customerStatements);
 
 
             return view('reports_customerstatement',[
@@ -470,7 +470,7 @@ class ReportsController extends Controller
                  $customerStatements = DB::table('customerinvoice')
             ->leftJoin('customer','customer.customerID','=','customerinvoice.propertyOwnerID')
             ->leftJoin(DB::raw('(SELECT customerID,invoiceSystemCode,customerInvoiceID, sum(receiptAmount) as totalReceived,customerInvoiceCode FROM receipt GROUP BY customerID,invoiceSystemCode,customerInvoiceID,customerInvoiceCode) received'),'customerinvoice.customerInvoiceID','=', 'received.customerInvoiceID')
-            ->Groupby('customer.customerName','customerinvoice.propertyOwnerID','received.totalReceived','customerinvoice.invoiceDate','customerinvoice.customerInvoiceID','received.customerInvoiceCode')
+            ->Groupby('customer.customerName','customerinvoice.propertyOwnerID','received.totalReceived','customerinvoice.invoiceDate','customerinvoice.customerInvoiceID','received.customerInvoiceCode','customerinvoice.CustomerInvoiceSystemCode','customerinvoice.amount')
             ->selectRaw('customer.customerName,
                     customerinvoice.propertyOwnerID,
                     customerinvoice.CustomerInvoiceSystemCode AS invoiceSystemCode,
@@ -484,12 +484,11 @@ class ReportsController extends Controller
             }
             else{
 
-                
-            $customerStatements = DB::table('customerinvoice')
+       $customerStatements = DB::table('customerinvoice')
             ->leftJoin('customer','customer.customerID','=','customerinvoice.propertyOwnerID')
             ->leftJoin(DB::raw('(SELECT customerID,invoiceSystemCode,customerInvoiceID, sum(receiptAmount) as totalReceived,customerInvoiceCode FROM receipt GROUP BY customerID,invoiceSystemCode,customerInvoiceID,customerInvoiceCode) received'),'customerinvoice.customerInvoiceID','=', 'received.customerInvoiceID')
-            ->where('customerinvoice.propertyOwnerID' ,'=', $state )
-            ->Groupby('customer.customerName','customerinvoice.propertyOwnerID','received.totalReceived','customerinvoice.invoiceDate','customerinvoice.customerInvoiceID','received.customerInvoiceCode')
+    ->where('customerinvoice.propertyOwnerID' ,'=', $state )
+            ->Groupby('customer.customerName','customerinvoice.propertyOwnerID','received.totalReceived','customerinvoice.invoiceDate','customerinvoice.customerInvoiceID','received.customerInvoiceCode','customerinvoice.CustomerInvoiceSystemCode','customerinvoice.amount')
             ->selectRaw('customer.customerName,
                     customerinvoice.propertyOwnerID,
                     customerinvoice.CustomerInvoiceSystemCode AS invoiceSystemCode,
@@ -498,7 +497,9 @@ class ReportsController extends Controller
                     amount AS customerInvoiceAmount,
                     received.totalReceived')
             ->get();
-               
+
+                
+                        
 
             }
 
@@ -519,7 +520,7 @@ class ReportsController extends Controller
            $customerStatements = DB::table('customerinvoice')
             ->leftJoin('customer','customer.customerID','=','customerinvoice.propertyOwnerID')
             ->leftJoin(DB::raw('(SELECT customerID,invoiceSystemCode,customerInvoiceID, sum(receiptAmount) as totalReceived,customerInvoiceCode FROM receipt GROUP BY customerID,invoiceSystemCode,customerInvoiceID,customerInvoiceCode) received'),'customerinvoice.customerInvoiceID','=', 'received.customerInvoiceID')
-            ->Groupby('customer.customerName','customerinvoice.propertyOwnerID','received.totalReceived','customerinvoice.invoiceDate','customerinvoice.customerInvoiceID','received.customerInvoiceCode')
+            ->Groupby('customer.customerName','customerinvoice.propertyOwnerID','received.totalReceived','customerinvoice.invoiceDate','customerinvoice.customerInvoiceID','received.customerInvoiceCode','customerinvoice.CustomerInvoiceSystemCode','customerinvoice.amount')
             ->selectRaw('customer.customerName,
                     customerinvoice.propertyOwnerID,
                     customerinvoice.CustomerInvoiceSystemCode AS invoiceSystemCode,
@@ -541,7 +542,7 @@ class ReportsController extends Controller
             $customerStatements = DB::table('customerinvoice')
             ->leftJoin('customer','customer.customerID','=','customerinvoice.propertyOwnerID')
             ->leftJoin(DB::raw('(SELECT customerID,invoiceSystemCode,customerInvoiceID, sum(receiptAmount) as totalReceived,customerInvoiceCode FROM receipt GROUP BY customerID,invoiceSystemCode,customerInvoiceID,customerInvoiceCode) received'),'customerinvoice.customerInvoiceID','=', 'received.customerInvoiceID')
-            ->Groupby('customer.customerName','customerinvoice.propertyOwnerID','received.totalReceived','customerinvoice.invoiceDate','customerinvoice.customerInvoiceID','received.customerInvoiceCode')
+            ->Groupby('customer.customerName','customerinvoice.propertyOwnerID','received.totalReceived','customerinvoice.invoiceDate','customerinvoice.customerInvoiceID','received.customerInvoiceCode','customerinvoice.CustomerInvoiceSystemCode','customerinvoice.amount')
             ->selectRaw('customer.customerName,
                     customerinvoice.propertyOwnerID,
                     customerinvoice.CustomerInvoiceSystemCode AS invoiceSystemCode,
