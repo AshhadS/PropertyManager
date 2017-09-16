@@ -357,8 +357,10 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::get('/accounts', 'SettingsController@showAccounts');
 		Route::post('/account', 'SettingsController@createAccount');
 		Route::post('update/account', 'SettingsController@editAccount');
-		Route::delete('/account/{account}', 'SettingsController@deleteAccount');
+		Route::delete('/bankaccount/{account}', 'SettingsController@deleteAccount');
 		
+		Route::post('/bank/getaccounts/{bank}', 'SettingsController@getBanksAccounts');
+
 });
 
 ?>

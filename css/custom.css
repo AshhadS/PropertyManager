@@ -800,6 +800,10 @@ span.simple-box {
   background: #37bc9b;
 }
 
+.popover-content {
+  float: left;
+}
+
 /*
 .btn.bg-green, .btn {
   background: transparent !important;

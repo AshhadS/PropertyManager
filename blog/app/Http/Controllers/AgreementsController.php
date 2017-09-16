@@ -15,6 +15,8 @@ use App\Model\Payment;
 use App\Model\RentalOwner;
 use App\Model\Customer;
 use App\Model\Supplier;
+use App\Model\Bank;
+use App\Model\BankAccount;
 use Datatables;
 use Illuminate\Support\Facades\DB;
 use Debugbar;
@@ -95,6 +97,8 @@ class AgreementsController extends Controller
         $payments = Payment::where('documentID', 8)->where('documentAutoID', $agreement->agreementID)->orderBy('paymentID', 'ASC')->get();
         $customers = RentalOwner::all();
         $paymentTypes = PaymentType::all();
+        $banks = Bank::all();
+        $accounts = BankAccount::all();
         return view('agreements_edit', [
             'agreement' => $agreement,
             'propertylist' => $propertylist,
@@ -107,6 +111,8 @@ class AgreementsController extends Controller
             'payments' => $payments,
             'customers' => $customers,
             'paymentTypes' => $paymentTypes,
+            'banks' => $banks,
+            'accounts' => $accounts,
            ]);
     }
 

@@ -78,7 +78,9 @@ $(function() {
     });
 
     $('[data-toggle="tooltip"]').tooltip()
-
+    $('[data-toggle="popover"]').popover()
+    
+    
 
     // Show file upload field only if no image has been added 
     $('.remove-attachment, .remove-image').click(function(){
@@ -117,6 +119,7 @@ $(function() {
 
     initializeTeleValidation();
     initializePercentageValidation();
+    addBankPopover()
     confirmSubmit();
 
     // Remove active if a link with no tab is clicked example property owner edit
@@ -153,6 +156,7 @@ $(function() {
         initializeTeleValidation();
         initializePercentageValidation();
         confirmSubmit();
+        addBankPopover()
 
     });
              
@@ -197,9 +201,62 @@ function confirmSubmit(){
     });
 }
 
+function addBankPopover(){
+    $('.account-popover-launch').popover({
+        html: true,
+        title: 'Add Account',
+        content: function(){
+            var output = '';
+            output += '<form class="form-horizontal ajax-process pull" action="/account" method="POST">';
+            output += '<input type="hidden" name="_token" value="'+ $('meta[name="_token_del"]').attr('content') +'">';
+            output += '<input type="hidden" name="bankmasterID" value="'+ $(this).data('bankid') +'">';
+            output += '<div class="simple-add-textbox-wrapper pull-left">';
+            output += '<span class="input-req" required="required"><input type="text" name="accountNumber" placeholder="Account Number" class="input-req  form-control" required="required"><span class="input-req-inner"></span></span>';
+            output += '</div>';
+            output += '<button type="submit" data-section="banks" class="btn btn-info simple-add-btn pull-left " data-section="banks"><i class="fa fa-plus"></i> Add</button>';
+            output += '</form>';
+            return output;
+        },
+    });
+
+    $('.account-popover-launch').on('inserted.bs.popover', function () {
+      initAjaxSubmit();
+    });
+
+    $('html').on('click', function(e) {
+      if (typeof $(e.target).data('original-title') == 'undefined' &&
+         !$(e.target).parents().is('.popover.in')) {
+        $('[data-original-title]').popover('hide');
+      }
+    });
+
+    
+}
+
+function initAjaxSubmit() {
+    console.log('init ajax submit'); 
+    $('.ajax-process').on('submit', function(e) {
+        e.preventDefault();
+        $('#myModal').modal('hide');
+        var section = $(this).find('button').data('section');
+        $.ajax({
+            url : $(this).attr('action'),
+            type: "POST",
+            data: $(this).serialize(),
+            success: function (data) {
+                console.info('success');
+                $('.page-content').show();
+                $('.load-container').fadeIn();
+                $('.page-content .body').load( "/"+section+"/");
+
+            },
+            error: function (jXHR, textStatus, errorThrown) {
+                console.info(errorThrown);
+            }
+        });
+    });
+}
 
 
 
-
-// Margin validation
 

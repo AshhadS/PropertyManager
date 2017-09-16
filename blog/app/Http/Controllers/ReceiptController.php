@@ -11,6 +11,8 @@ use App\Model\Property;
 use App\Model\CustomerInvoice;
 use App\Model\Receipt;
 use App\Model\PaymentType;
+use App\Model\Bank;
+use App\Model\BankAccount;
 use Redirect;
 use Sentinel;
 use App;
@@ -29,6 +31,10 @@ class ReceiptController extends Controller
 		$receipt->lastUpdatedByUserID = Sentinel::getUser()->id;
 		$receipt->documentID = $request->documentID;
 		$receipt->documentAutoID = $request->documentAutoID;
+		
+		$receipt->bankAccountID = $request->bankAccountID;
+		$receipt->bankmasterID = $request->bankmasterID;
+		
 		$receipt->save();
 
 		return Redirect::back();

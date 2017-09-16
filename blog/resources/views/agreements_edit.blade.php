@@ -142,6 +142,8 @@
          'paymentTypes' => $paymentTypes,
          'documentID' => 8,
          'documentAutoID' => $agreement->agreementID,
+         'banks' => $banks,
+         'accounts' => $accounts,
          ])
         @endcomponent       
     </div>
@@ -152,7 +154,9 @@
          'customers' => $customers,
          'paymentTypes' => $paymentTypes,
          'documentID' => 8,
-         'documentAutoID' => $agreement->agreementID,
+         'documentAutoID' => $agreement->agreementID,         
+         'banks' => $banks,
+         'accounts' => $accounts,
          ])
         @endcomponent    
     </div>

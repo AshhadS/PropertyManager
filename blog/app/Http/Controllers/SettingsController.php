@@ -472,10 +472,14 @@ class SettingsController extends Controller
         return $bankAccounts;
     }
 
-    function deleteAccount($bankAccounts){
-        $bankAccounts = BankAccount::find($bankAccounts);
-        $bankAccounts->delete();
+    function deleteAccount($account){
+        $account = BankAccount::find($account);
+        $account->delete();
         return 'true';
+    }
+
+    function getBanksAccounts($bank){
+        $accounts = BankAccountAccount::where('bankmasterID', $bank)->get();
     }
 
 
