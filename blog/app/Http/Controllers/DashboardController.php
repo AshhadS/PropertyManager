@@ -61,20 +61,20 @@ class DashboardController extends Controller
 
                   
 
-            $TopFiveReceivables= DB::select('select customers.firstName,customers.lastName,customers.propertyOwnerID,customers.totalInvoiceAmount,ifnull(customers.totalReceived,0),(customers.totalInvoiceAmount-ifnull(customers.totalReceived,0)) as outstandingAmount
+            $TopFiveReceivables= DB::select('select customers.customerName,customers.propertyOwnerID,customers.totalInvoiceAmount,ifnull(customers.totalReceived,0),(customers.totalInvoiceAmount-ifnull(customers.totalReceived,0)) as outstandingAmount
                 FROM
-                    (SELECT rentalowners.firstName, 
-                    rentalowners.lastName,
+                    (SELECT 
+                    customer.customerName,
                     customerinvoice.propertyOwnerID,
                     sum(customerinvoice.amount) AS totalInvoiceAmount,
                     received.totalReceived
                     FROM customerinvoice
-                    left Join rentalowners ON rentalowners.rentalOwnerID = customerinvoice.propertyOwnerID 
+                    left Join customer ON customer.customerID = customerinvoice.propertyOwnerID 
                     left Join (SELECT customerID,sum(receipt.receiptAmount) as totalReceived 
                     FROM receipt 
                     GROUP BY customerID) received
                     ON customerinvoice.propertyOwnerID = received.customerID
-                    Group by rentalowners.firstName,rentalowners.lastName,customerinvoice.propertyOwnerID, received.totalReceived)customers
+                    Group by customer.customerName,customerinvoice.propertyOwnerID, received.totalReceived)customers
                     Order by (customers.totalInvoiceAmount-customers.totalReceived) DESC
                     LIMIT 5');
            // dd($TopFiveReceivables);

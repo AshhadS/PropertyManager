@@ -1,7 +1,7 @@
 @foreach ($customerStatements as $customerStatement)
                 @if($customerStatement->customerInvoiceAmount-$customerStatement->totalReceived > 0)
                 <tr>
-                  <td>{{$customerStatement->firstName}} {{$customerStatement->lastName}}</td>
+                  <td>{{$customerStatement->customerName}}</td>
                   <td>{{$customerStatement->invoiceSystemCode}}</td>
                   <td>{{$customerStatement->customerInvoiceDate}}</td>
                   <td>{{$customerStatement->customerInvoiceCode}}</td>

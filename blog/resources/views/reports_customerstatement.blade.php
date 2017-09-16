@@ -17,12 +17,23 @@
             <select class="form-control input-sm" id="customer-state" name="state" >
               <option value="0">Please select a customer</option>
              @foreach ($customers as $customer)
-                  <option value="{{$customer->rentalOwnerID}}">{{$customer->firstName}} {{$customer->lastName}}</option>
+                  <option value="{{$customer->customerID}}">{{$customer->customerName}}</option>
             @endforeach
                   
             </select>
 
       </div>
+
+      <a href="/supplierstatement-excel/{{ $param = 'CST' }}">
+            <button type="button" class="btn btn-success pull-right">
+              <i class="fa fa-file-excel-o"></i> Export to Excel
+            </button>
+          </a>
+          <a href="/customerStatement_pdf">
+            <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
+              <i class="fa fa-download"></i> Generate PDF 
+            </button>
+          </a>
       	
       </div>
       <!-- /.row -->
@@ -63,16 +74,7 @@
       <div class="row no-print">
         <div class="col-xs-12">
           <a href="/customerstatement-print" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-          <a href="/customerstatement-excel">
-          	<button type="button" class="btn btn-success pull-right">
-          		<i class="fa fa-file-excel-o"></i> Export to Excel
-          	</button>
-          </a>
-          <a href="/customerStatement_pdf">
-          	<button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
-            	<i class="fa fa-download"></i> Generate PDF 
-          	</button>
-          </a>
+          
         </div>
       </div>
     </section>

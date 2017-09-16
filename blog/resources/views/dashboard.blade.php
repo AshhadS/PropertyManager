@@ -134,7 +134,7 @@
 						@foreach($TopFiveReceivables as $receivable)
 							<li>  					
 								<a href="#">
-									{{$receivable->firstName}} {{$receivable->lastName}}
+									{{$receivable->customerName}}
 									<span class="pull-right">OMR {{number_format($receivable->outstandingAmount,3)}}</span>
 								</a>
 							</li>

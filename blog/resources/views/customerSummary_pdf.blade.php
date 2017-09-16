@@ -6,7 +6,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Customer Statement</title>
+        <title>Customer Summary</title>
          <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
        
         <!-- Bootstrap data tables -->
@@ -60,7 +60,7 @@
       <!-- info row -->
       <div class="row">
       <h2>
-            </i> Customer Statement
+            </i> Customer Summary
             
       </h2>
       <small class="pull-right">Date: {{ date("Y/m/d")}}</small>
@@ -73,28 +73,22 @@
           <table class="table table-striped" width="100%">
             <thead>
             <tr>
-              <th>Customer Name</th>
-              <th>Invoice Code</th>
-              <th>Invoice Date</th>
-              <th>Invoice No</th>
+              <th>Customer</th>
               <th>Currency</th>
               <th>Invoice Amount</th>
               <th>Balance Amount</th>
             </tr>
             </thead>
             <tbody>
-            @foreach ($customerStatements as $customerStatement)
-                @if($customerStatement->customerInvoiceAmount-$customerStatement->totalReceived > 0)
-                <tr>
-                  <td>{{$customerStatement->customerName}}</td>
-                  <td>{{$customerStatement->invoiceSystemCode}}</td>
-                   <td>{{$customerStatement->customerInvoiceDate}}</td>
-                  <td>{{$customerStatement->customerInvoiceCode}}</td>
-                  <td>OMR</td>
-                  <td>{{number_format($customerStatement->customerInvoiceAmount,3)}}</td>
-                  <td>{{number_format(($customerStatement->customerInvoiceAmount-$customerStatement->totalReceived),3)}}</td>
-                </tr>
-                @endif
+            @foreach ($customerSummary as $customer)
+              @if($customer->totalInvoiceAmount-$customer->totalReceived > 0)
+            <tr>
+              <td>{{$customer->customerName}}</td>
+              <td>OMR</td>
+              <td>{{number_format($customer->totalInvoiceAmount,3)}}</td>              
+              <td>{{number_format($customer->totalInvoiceAmount-$customer->totalReceived,3)}}</td>
+            </tr>
+              @endif
            @endforeach
             </tbody>
           </table>

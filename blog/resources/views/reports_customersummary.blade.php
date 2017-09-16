@@ -11,7 +11,24 @@
       </div>
       <!-- info row -->
       <div class="row invoice-info">
+
+      <a href="/supplierstatement-excel/{{ $param = 'CSU' }}">
+            <button type="button" class="btn btn-success pull-right">
+              <i class="fa fa-file-excel-o"></i> Export to Excel
+            </button>
+          </a>
+          <a href="/customerSummary_pdf">
+            <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
+              <i class="fa fa-download"></i> Generate PDF 
+            </button>
+          </a>
       	
+      </div>
+      <div class="row">
+        <br>
+          
+        </br>
+
       </div>
       <!-- /.row -->
 
@@ -21,7 +38,7 @@
           <table class="table table-striped" width="50%">
             <thead>
             <tr>
-              <th>Supplier</th>
+              <th>Customer</th>
               <th>Currency</th>
               <th>Invoice Amount</th>
               <th>Balance Amount</th>
@@ -31,7 +48,7 @@
             @foreach ($customerSummary as $customer)
               @if($customer->totalInvoiceAmount-$customer->totalReceived > 0)
             <tr>
-              <td>{{$customer->firstName}} {{$customer->lastName}}</td>
+              <td>{{$customer->customerName}}</td>
               <td>OMR</td>
               <td>{{number_format($customer->totalInvoiceAmount,3)}}</td>              
               <td>{{number_format($customer->totalInvoiceAmount-$customer->totalReceived,3)}}</td>
@@ -54,17 +71,8 @@
       <!-- this row will not appear when printing -->
       <div class="row no-print">
         <div class="col-xs-12">
-          <a href="/supplierstatement-print" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-          <a href="/supplierstatement-excel">
-          	<button type="button" class="btn btn-success pull-right">
-          		<i class="fa fa-file-excel-o"></i> Export to Excel
-          	</button>
-          </a>
-          <a href="/supplierStatement_pdf">
-          	<button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
-            	<i class="fa fa-download"></i> Generate PDF 
-          	</button>
-          </a>
+          <a href="/customerSummary-print" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
+          
         </div>
       </div>
     </section>
