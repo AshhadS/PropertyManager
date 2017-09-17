@@ -138,7 +138,7 @@
                     <input name="chequeDate" class="form-control datepicker" />                      
                   </div>
                 </div>
-                <div class="form-group clearfix payment-date">
+                <div class="form-group clearfix ">
                   <label class="col-sm-3 control-label">Receipt Date</label>
                   <div class="col-sm-9">
                     <input name="receiptDate" class="form-control datepicker" />                      
