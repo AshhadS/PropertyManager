@@ -135,7 +135,11 @@
             </table>
 
             @if($reconciliation->submittedYN != 1)
-              <button type="submit" v="{{$reconciliation->submittedYN}}" class="pull-right btn btn-primary submit-reconcillation">Submit</button>
+              <form action="/reconciliation/submit" method="POST">
+                <input type="text" name="reconciliation" value="{{$reconciliation->bankReconciliationMasterID}}">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <button type="submit" v="{{$reconciliation->submittedYN}}" class="pull-right btn btn-primary submit-reconcillation">Submit</button>                
+              </form>
             @endif
     </div>
 </div>
@@ -145,25 +149,26 @@
 <script>
   $(function() {    
 
-    $('.submit-reconcillation').on('click', function(){      
-      $('.cleared-checkbox').each(function(){
-        if($(this).is(':checked')){
-          clearCheque($(this).closest('form'));
-        }
-      });
-      window.location.reload();
-    });
+    // $('.submit-reconcillation').on('click', function(){      
+    //   $('.cleared-checkbox').each(function(){
+    //     if($(this).is(':checked')){
+    //       clearCheque($(this).closest('form'));
+    //     }
+    //   });
+    //   window.location.reload();
+    // });
+
+
     $('.cleared-checkbox').change(function(){
         // this will contain a reference to the checkbox   
+      clearCheque($(this).closest('form'));
       if (this.checked) {
           // the checkbox is now checked 
           var amount = $(this).closest('tr').find('.amount').text();
           $(this).closest('tr').find('.clearedAmount').text(amount);
       } else {
           // the checkbox is now no longer checked
-          $(this).closest('tr').find('.clearedAmount').text('');
-
-      
+          $(this).closest('tr').find('.clearedAmount').text('');      
       }
     });
 

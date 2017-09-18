@@ -373,6 +373,7 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 
 	Route::get('/reconciliation/{reconciliation}/items', 'ReconciliationController@showItems');
 	Route::post('/reconciliation/clearcheque', 'ReconciliationController@clearCheque');
+	Route::post('/reconciliation/submit', 'ReconciliationController@submitHandler');
 
 		
 
