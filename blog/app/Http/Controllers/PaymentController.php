@@ -48,6 +48,10 @@ class PaymentController extends Controller
 		if($request->paymentDate)
 			$payment->paymentDate = date_create_from_format("j/m/Y", $request->paymentDate)->format('Y-m-d');
 		$payment->lastUpdatedByUserID = Sentinel::getUser()->id;
+
+		$payment->bankAccountID = $request->bankAccountID;
+		$payment->bankmasterID = $request->bankmasterID;
+		
 		$payment->save();
 
 		return Redirect::back();

@@ -66,13 +66,19 @@ class ReconciliationController extends Controller{
 			$reconciliaion->submittedByUserID = 0;
 			$reconciliaion->save();
 
-			return Redirect::to($request->bankAccountID.'/reconciliaion');
+			return Redirect::to($request->bankAccountID.'/reconciliation');
 		}
 
 		function showItems($reconciliation){			
 			$reconciliation = Reconciliation::find($reconciliation);
-			$receipts = Receipt::where('bankAccountID', $reconciliation->bankAccountID)->where('clearedYN', "!=" ,'1')->get();
-			$payments = Payment::where('bankAccountID', $reconciliation->bankAccountID)->where('clearedYN', "!=" ,'1')->get();
+
+			if($reconciliation->submittedYN == 1){ //Reconciliation submitted - show only cleared items
+				$receipts = Receipt::where('bankAccountID', $reconciliation->bankAccountID)->where('clearedYN','1')->get();
+				$payments = Payment::where('bankAccountID', $reconciliation->bankAccountID)->where('clearedYN','1')->get();
+			}else{ //Reconciliation not submitted - show all items
+				$receipts = Receipt::where('bankAccountID', $reconciliation->bankAccountID)->get();
+				$payments = Payment::where('bankAccountID', $reconciliation->bankAccountID)->get();
+			}
 			$thisAccount = BankAccount::find($reconciliation->bankAccountID);
 			return view('reconciliationsitems', [
 				'reconciliation' => $reconciliation,
@@ -82,26 +88,34 @@ class ReconciliationController extends Controller{
 			]);
 		}
 
+
 		function clearCheque(Request $request){
 			if($request->type == 'receipt'){
 				$receipt = Receipt::find($request->id);
 				$receipt->clearedYN = '1';
 				$receipt->clearedDate = Carbon::now();
 				$receipt->clearedAmount = $receipt->receiptAmount;
+				$receipt->bankReconciliationID = $request->reconciliation;
 				$receipt->clearedUserID = Sentinel::getUser()->id;
 				$receipt->save();
-				return true;
 
 			}else if($request->type == 'payment'){
 				$payment = Payment::find($request->id);
 				$payment->clearedYN = '1';
 				$payment->clearedDate = Carbon::now();
 				$payment->clearedAmount = $payment->paymentAmount;
+				$payment->bankReconciliationID = $request->reconciliation;
 				$payment->clearedUserID = Sentinel::getUser()->id;
 				$payment->save();
-				return true;
 
 			}
+			Debugbar::info($request->reconciliation);
+			$reconciliation = Reconciliation::find($request->reconciliation);
+			$reconciliation->submittedYN = '1';
+			$reconciliation->submittedByUserID = Sentinel::getUser()->id;
+			$reconciliation->save();
+				return 'true';
+			
 		}
 
 		function editItem(Request $request){

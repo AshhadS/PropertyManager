@@ -35,6 +35,9 @@
                       <th>#</th>
                       <th>Cheque Number</th> 
                       <th>Cheque Date</th>
+                      <th>Customer</th>
+                      <th>Docuemnt Code</th>
+                      <th>Receipt Date</th>
                       <th>Amount</th>
                       <th>Narration</th>
                       <th>Cleared</th>
@@ -45,18 +48,30 @@
                   <tr>
                     <td>{{++$index}}</td>
                     <td>{{$receipt->chequeNumber}}</td>
-                    <td>{{$receipt->chequeDate}}</td>
-                    <td>{{$receipt->receiptAmount}}</td>
+                    <td class="format-date">{{$receipt->chequeDate}}</td>
+                    <td>
+                      @if(App\Model\Customer::find($receipt->customerID))
+                        {{App\Model\Customer::find($receipt->customerID)->customerName}}
+                      @endif
+                    </td>
+                    <td><?php 
+                      $code = $receipt->documentAutoID;
+                      print sprintf("REC%'05d\n", $code);
+                     ?>
+                    </td>
+                    <td class="format-date">{{$receipt->receiptDate}}</td>
+                    <td class="amount">{{$receipt->receiptAmount}}</td>
                     <td>[Narration]</td>
                     <td>
                       <form action="/reconciliation/clearcheque" method="POST">
                         <input type="hidden" name="id" value="{{$receipt->receiptID}}">
                         <input type="hidden" name="type" value="receipt">                          
-                        <input type="checkbox" class="cleared-checkbox" value="{{$receipt->clearedYN}}">
+                        <input type="checkbox" class="cleared-checkbox" <?php print ($receipt->clearedYN) ? 'checked' : '' ?> <?php print ($reconciliation->submittedYN) ? 'disabled' : '' ?>>
+                        <input type="hidden" name="reconciliation" value="{{$reconciliation->bankReconciliationMasterID}}">                          
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                       </form>
                     </td>
-                    <td>{{$receipt->clearedAmount}}</td>                       
+                    <td class="clearedAmount">{{$receipt->clearedAmount}}</td>                       
                   </tr>
                 @endforeach
                     
@@ -74,6 +89,9 @@
                       <th>#</th>
                       <th>Cheque Number</th> 
                       <th>Cheque Date</th>
+                      <th>Supplier</th>
+                      <th>Document Code</th>
+                      <th>Payment Date</th>
                       <th>Amount</th>
                       <th>Narration</th>
                       <th>Cleared</th>
@@ -84,18 +102,31 @@
                   <tr>
                     <td>{{++$index}}</td>
                     <td>{{$payment->chequeNumber}}</td>
-                    <td>{{$payment->chequeDate}}</td>
-                    <td>{{$payment->paymentAmount}}</td>
+                    <td class="format-date">{{$payment->chequeDate}}</td>
+                    <td>
+                      @if(App\Model\Supplier::find($payment->supplierID))
+                        {{App\Model\Supplier::find($payment->supplierID)->supplierName}}
+                      @endif
+                    </td>
+                    <td>
+                      <?php 
+                        $code = $payment->documentAutoID;
+                        print sprintf("PA%'05d\n", $code);
+                      ?>
+                    </td>
+                    <td class="format-date">{{$payment->paymentDate}}</td>
+                    <td class="amount">{{$payment->paymentAmount}}</td>
                     <td>[Narration]</td>
                     <td>
                       <form action="/reconciliation/clearcheque" method="POST">
                         <input type="hidden" name="id" value="{{$payment->paymentID}}">
                         <input type="hidden" name="type" value="payment">                          
-                        <input type="checkbox" class="cleared-checkbox" value="{{$receipt->clearedYN}}">
+                        <input type="hidden" name="reconciliation" value="{{$reconciliation->bankReconciliationMasterID}}">                          
+                        <input type="checkbox" class="cleared-checkbox" <?php print ($payment->clearedYN) ? 'checked' : '' ?> <?php print ($reconciliation->submittedYN) ? 'disabled' : '' ?> >
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                       </form>
                     </td>
-                    <td>{{$payment->clearedAmount}}</td>                       
+                    <td class="clearedAmount">{{$payment->clearedAmount}}</td>                       
                   </tr>
                 @endforeach
                     
@@ -103,7 +134,9 @@
                        
             </table>
 
-            <button type="submit" class="pull-right btn btn-primary submit-reconcillation">Submit</button>
+            @if($reconciliation->submittedYN != 1)
+              <button type="submit" v="{{$reconciliation->submittedYN}}" class="pull-right btn btn-primary submit-reconcillation">Submit</button>
+            @endif
     </div>
 </div>
 
@@ -120,6 +153,20 @@
       });
       window.location.reload();
     });
+    $('.cleared-checkbox').change(function(){
+        // this will contain a reference to the checkbox   
+      if (this.checked) {
+          // the checkbox is now checked 
+          var amount = $(this).closest('tr').find('.amount').text();
+          $(this).closest('tr').find('.clearedAmount').text(amount);
+      } else {
+          // the checkbox is now no longer checked
+          $(this).closest('tr').find('.clearedAmount').text('');
+
+      
+      }
+    });
+
   });
 
   function clearCheque(form){
