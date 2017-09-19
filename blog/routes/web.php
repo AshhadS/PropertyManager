@@ -28,6 +28,7 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	Route::get('/', 'DashboardController@index');
 	Route::get('/dashboard', 'DashboardController@index');
 	Route::get('/agreement/getfields/{agreementid}','DashboardController@getFields');
+	Route::get('/dasboard_rev', 'DashboardController@getRevenue');
 	
 
 	Route::get('/todo', function () {

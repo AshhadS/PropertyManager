@@ -114,6 +114,59 @@ class DashboardController extends Controller
 
        // BETWEEN (CURDATE() + INTERVAL 1 MONTH) AND (CURDATE() + INTERVAL 2 MONTH)
 
+        $clearedAmounts= DB::select('Select bankmaster.bankName,bankaccount.accountNumber,bankaccount.bankAccountID,ifnull(clearedPayments.totalclearedPaymentAmount,0) as totalclearedPaymentAmount ,ifnull(clearedReceipt.totalclearedReceiptAmount,0) as totalclearedReceiptAmount
+            from bankaccount
+            left join (Select bankAccountID,SUM(clearedAmount) as totalclearedReceiptAmount 
+            from receipt
+            group by bankAccountID)clearedReceipt
+            ON
+            bankaccount.bankAccountID = clearedReceipt.bankAccountID
+            left join (Select bankAccountID,SUM(clearedAmount) as totalclearedPaymentAmount 
+            from payments
+            group by bankAccountID)clearedPayments
+            ON
+            bankaccount.bankAccountID = clearedPayments.bankAccountID
+            left join bankmaster ON
+            bankaccount.bankMasterID = bankmaster.bankMasterID');
+       
+
+
+        // dd($clearedAmounts);
+        $monthlyRevenue=DB::select('select MONTH(receiptDate) as receiptMonth,Year(receiptDate) as receiptYear,SUM(receiptAmount) as receiptAmount
+            FROM ibsspropertymanagement_spexxon.receipt
+            WHERE Year(receiptDate) = Year(now())
+            GROUP BY Year(receiptDate), MONTH(receiptDate),receiptDate
+            order by receiptDate DESC');
+
+        $monthlyRevenueYear=DB::table('receipt')
+        ->Orderby('revYear', 'DESC')
+        ->selectRaw('DISTINCT Year(receiptDate) as revYear')
+        ->get();
+
+       // dd($monthlyRevenueYear);
+        
+
+        $monthlyRevenueArray=[];
+
+        for ($i=0; $i <12 ; $i++) { 
+
+            foreach ($monthlyRevenue as $value) {
+
+                if ($value->receiptMonth==$i+1){
+
+                    $monthlyRevenueArray[$i]=$value->receiptAmount;
+                }               
+            }
+
+            if (empty($monthlyRevenueArray[$i])){
+
+                $monthlyRevenueArray[$i]=0;
+            }
+            
+        }
+         
+        
+
         foreach ($jobCardStatusAll as $status) {
             $count = JobCard::where('jobcardStatusID', $status->jobcardStatusID)->count();
             $jobCardStatusCount[$status->jobcardStatusID] = $count;
@@ -137,6 +190,9 @@ class DashboardController extends Controller
 	        'agreements' => $agreements,
             'TopFivePayables' => $TopFivePayables,
             'TopFiveReceivables' => $TopFiveReceivables,
+            'clearedAmounts' => $clearedAmounts,
+            'monthlyRevenueArray' => $monthlyRevenueArray,
+            'monthlyRevenueYear'=>$monthlyRevenueYear,
 
             
             
@@ -146,5 +202,38 @@ class DashboardController extends Controller
 	 function getFields($agreementid){
         $agreement = Agreement::where('agreementID', $agreementid)->get();
         return $agreement;
+    }
+
+    function getRevenue(Request $request){
+
+        $state = $request->state;
+        
+
+        $query = 'select MONTH(receiptDate) as receiptMonth,Year(receiptDate) as receiptYear,SUM(receiptAmount) as receiptAmount FROM ibsspropertymanagement_spexxon.receipt WHERE Year(receiptDate) ='. $state. ' GROUP BY Year(receiptDate), MONTH(receiptDate),receiptDate order by receiptDate DESC';
+        
+        $monthlyRevenue=DB::select($query);
+
+        $monthlyRevenueArray=[];
+
+        for ($i=0; $i <12 ; $i++) { 
+
+            foreach ($monthlyRevenue as $value) {
+
+                if ($value->receiptMonth==$i+1){
+
+                    $monthlyRevenueArray[$i]=$value->receiptAmount;
+                }                # code...
+            }
+
+            if (empty($monthlyRevenueArray[$i])){
+
+                $monthlyRevenueArray[$i]=0;
+            }
+            // # code...
+        }
+       // dd($monthlyRevenueArray);
+        return($monthlyRevenueArray);
+
+
     }
 }
