@@ -121,6 +121,8 @@ $(function() {
     initializePercentageValidation();
     addBankPopover()
     confirmSubmit();
+    relatedAccouts();
+
 
     // Remove active if a link with no tab is clicked example property owner edit
     $('.edit-remove-actives').on('click', function(){
@@ -258,5 +260,55 @@ function initAjaxSubmit() {
 }
 
 
+function relatedAccouts() {
+    // filter child selection on page load
+      childSelection($('.selection-parent-item-bank'));
+      
 
+      // $('.no-units').hide();
+      // Load content based on previous selection
+      $('.selection-parent-item-bank').on('change', function(){
+        childSelection(this)
+      });
 
+      
+}
+
+function childSelection(elem){
+    var prev_selection = $('.selection-child-item-account.edit').val();
+    if ($(elem).val() != 0) {
+      $('.selection-child-item-account').show();
+      $('.no-units').hide();
+      $.ajax({
+          url: "/bank/getaccounts/"+$(elem).val()+"",
+          context: document.body,
+          method: 'POST',
+          headers : {'X-CSRF-TOKEN': $('meta[name="_token_del"]').attr('content')}
+      })
+      .done(function(data) {
+          // show message if no units for the selected property
+          if(data.length){
+            $('.selection-child-item-account').html(function(){
+                // Generate the seletect list
+                var output = '<select class="form-control selection-child-item" name="bankAccountID">';
+                output += '<option value="">Select a account</option>';
+                data.forEach(function( index, element ){
+                    if(prev_selection == data[element].bankAccountID){
+                      output += '<option value="'+data[element].bankAccountID+'" selected="selected">'+data[element].accountNumber+'</option>';
+                    }else{
+                      output += '<option value="'+data[element].bankAccountID+'">'+data[element].accountNumber+'</option>';
+                    }
+                });
+                output += '</select>';
+                return output;
+            });
+          }else{
+            $('.selection-child-item-account').hide();
+            $('.no-units').show();
+          }         
+      });
+    }else{
+      $('.selection-child-item-account').hide();
+      $('.no-units').show();
+    }      
+}

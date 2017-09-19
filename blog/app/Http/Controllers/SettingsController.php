@@ -437,10 +437,16 @@ class SettingsController extends Controller
         return $bank;
     }
 
-    function deleteBank($bank){
+    function deleteBank($bank, Request $request){
         $bank = Bank::find($bank);
-        $bank->delete();
-        return 'true';
+
+        if($this->getBanksAccounts($bank)){
+           // $request->session()->flash('alert-success', 'You cannot delete this bank as it has accounts created under it');
+           return "You cannot delete this bank as it has accounts created under it";
+        }else{
+           $bank->delete();
+           return 'true';            
+        }
     }
     /*************************************************************************/
 
@@ -478,8 +484,9 @@ class SettingsController extends Controller
         return 'true';
     }
 
-    function getBanksAccounts($bank){
-        $accounts = BankAccountAccount::where('bankmasterID', $bank)->get();
+    static function getBanksAccounts($bank){
+        return BankAccount::where('bankmasterID', $bank)->get();
+
     }
 
 

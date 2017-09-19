@@ -362,6 +362,21 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		
 		Route::post('/bank/getaccounts/{bank}', 'SettingsController@getBanksAccounts');
 
+	/**
+	 * Reconciliation
+	 */		
+	Route::get('{banksccount}/reconciliation', 'ReconciliationController@showall');
+	Route::get('/reconciliation/all', 'ReconciliationController@allAccounts');
+	Route::post('/reconciliation', 'ReconciliationController@createItem');
+	Route::post('update/reconciliation', 'ReconciliationController@editItem');
+	Route::delete('/reconciliation/{reconciliation}', 'ReconciliationController@deleteItem');
+
+
+	Route::get('/reconciliation/{reconciliation}/items', 'ReconciliationController@showItems');
+	Route::post('/reconciliation/clearcheque', 'ReconciliationController@clearCheque');
+
+		
+
 });
 
 ?>

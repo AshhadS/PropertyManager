@@ -95,9 +95,9 @@
           <tr class="maintenance-item">
             <td> {{++$index}} </td>
             <td> {{$customerInvoice->CustomerInvoiceSystemCode}} </td>
-            <td data-supplier-val="{{$customerInvoice->supplierID}}">
-              @if(App\Model\RentalOwner::find($customerInvoice->propertyOwnerID) && $customerInvoice->propertyOwnerID != 0)
-                 {{App\Model\RentalOwner::find($customerInvoice->propertyOwnerID)->firstName}} {{App\Model\RentalOwner::find($customerInvoice->propertyOwnerID)->lastName}}
+            <td data-supplier-val="{{$customerInvoice->propertyOwnerID}}">
+              @if(App\Model\Customer::find($customerInvoice->propertyOwnerID))
+                 {{App\Model\Customer::find($customerInvoice->propertyOwnerID)->customerName}}
               @endif
             </td>
             <td class="invoice-date format-date"> {{$customerInvoice->invoiceDate}} </td>

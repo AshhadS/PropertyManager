@@ -1,6 +1,7 @@
 @extends('admin_template')
 
 @section('content')
+<meta name="_token_del" content="{{ csrf_token() }}">
 <title>IDSS | Agreement</title>
 <section class="content-header">
       <h4><b>Agreement</b></h4>

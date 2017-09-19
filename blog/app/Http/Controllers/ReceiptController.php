@@ -50,6 +50,10 @@ class ReceiptController extends Controller
 		if($request->receiptDate)
 			$receipt->receiptDate = date_create_from_format("j/m/Y", $request->receiptDate)->format('Y-m-d');
 		$receipt->lastUpdatedByUserID = Sentinel::getUser()->id;
+
+		$receipt->bankAccountID = $request->bankAccountID;
+		$receipt->bankmasterID = $request->bankmasterID;
+		
 		$receipt->save();
 
 		return Redirect::back();
