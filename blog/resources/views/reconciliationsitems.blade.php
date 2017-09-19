@@ -136,7 +136,7 @@
 
             @if($reconciliation->submittedYN != 1)
               <form action="/reconciliation/submit" method="POST">
-                <input type="text" name="reconciliation" value="{{$reconciliation->bankReconciliationMasterID}}">
+                <input type="hidden" name="reconciliation" value="{{$reconciliation->bankReconciliationMasterID}}">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <button type="submit" v="{{$reconciliation->submittedYN}}" class="pull-right btn btn-primary submit-reconcillation">Submit</button>                
               </form>
