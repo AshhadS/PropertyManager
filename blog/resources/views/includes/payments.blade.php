@@ -63,7 +63,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Amount</label>
                   <div class="col-sm-10">
-                    <input type="text" name="amount" class="form-control" placeholder="Amount">
+                    <input type="text" name="amount" class="form-control input-req" placeholder="Amount">
                   </div>
                 </div>
                 <div class="form-group">
@@ -90,13 +90,13 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Payment Date</label>
                   <div class="col-sm-10">
-                    <input name="paymentDate" class="form-control datepicker" />                      
+                    <input name="paymentDate" class="form-control datepicker input-req" />                      
                   </div>
                 </div>
                 <div class="form-group clearfix">
                   <label class="col-sm-2 control-label">Bank Name</label>
                   <div class="col-sm-10">
-                    <select class="form-control selection-parent-item-bank edit" name="bankmasterID">
+                    <select class="form-control selection-parent-item-bank edit input-req" name="bankmasterID">
                         <option value="0">Select Bank</option>
                       @foreach($banks as $bank)
                         <option value="{{$bank->bankmasterID}}">{{$bank->bankName}}</option>
@@ -162,8 +162,9 @@ $(function() {
   $('#payment').on('hidden.bs.modal', function (e) {
     $('form').attr('action', '/custom/payment');
     document.getElementById("payment-form").reset();
-
+    $('[selected="selected"]').attr('selected', false);
   });
+
 });
 
 
@@ -184,7 +185,7 @@ function childSelection(elem){
           if(data.length){
             $('.selection-child-item-account').html(function(){
                 // Generate the seletect list
-                var output = '<select class="form-control selection-child-item" name="bankAccountID">';
+                var output = '<select class="form-control selection-child-item input-req" name="bankAccountID">';
                 output += '<option value="">Select a account</option>';
                 data.forEach(function( index, element ){
                     if(prev_selection == data[element].bankAccountID){
