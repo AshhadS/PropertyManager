@@ -29,13 +29,6 @@
                   </div>
                   
                   <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">Size</label>
-                    <div class="col-sm-10">
-                      <input type="text" name="size" class="form-control input-req" id="inputEmail3" placeholder="Size">
-                    </div>
-                  </div>
-                  
-                  <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">Market Rent</label>
                     <div class="col-sm-10">
                       <input type="text" name="marketRent" class="form-control input-req" id="inputEmail3" placeholder="Market Rent">
@@ -64,7 +57,53 @@
                           @endforeach
                       </select>
                     </div>
-                  </div>                            
+                  </div>     
+  <br />
+                  <div class="col-sm-2">
+                    <label  class="col-sm-2 control-label">Curreny</label>
+                  </div>
+                  <div class="row col-sm-10">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Size</label>
+                        <div class="col-sm-10">
+                          <input type="text" name="size" class="form-control input-req" id="inputEmail3" placeholder="Size">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Rooms</label>
+                        <div class="col-sm-10">
+                          <input type="text" name="roomsCount" class="form-control input-req" id="inputEmail3" placeholder="Count">
+                        </div>
+                      </div> 
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-5 control-label">Bathrooms</label>
+                        <div class="col-sm-7">
+                          <input type="text" name="bathroomCount" class="form-control input-req" id="inputEmail3" placeholder="Count">
+                        </div>
+                      </div> 
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-5 control-label">Kitchens</label>
+                        <div class="col-sm-7">
+                          <input type="text" name="kitchenCount" class="form-control input-req" id="inputEmail3" placeholder="Count">
+                        </div>
+                      </div> 
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-5 control-label">Halls</label>
+                        <div class="col-sm-7">
+                          <input type="text" name="hallCount" class="form-control input-req" id="inputEmail3" placeholder="Count">
+                        </div>
+                      </div> 
+                    </div>
+                  </div>                         
                   
                 </div>
                 <!-- /.box-body -->

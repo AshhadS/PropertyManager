@@ -47,6 +47,22 @@
                           <b><p class="col-sm-2 control-label">Property</p></b>
                           <p class='col-sm-10 conrol-label'>{{ $property_name}}</p>
                         </div>
+                        <div class="row">
+                          <b><p class="col-sm-2 control-label">Number of Rooms</p></b>
+                          <p class='col-sm-10 conrol-label'>{{ $unit->roomsCount}}</p>
+                        </div>
+                        <div class="row">
+                          <b><p class="col-sm-2 control-label">Number of Bathrooms</p></b>
+                          <p class='col-sm-10 conrol-label'>{{ $unit->bothroomCount}}</p>
+                        </div>
+                        <div class="row">
+                          <b><p class="col-sm-2 control-label">Number of Kitchens</p></b>
+                          <p class='col-sm-10 conrol-label'>{{ $unit->kitchenCount}}</p>
+                        </div>
+                        <div class="row">
+                          <b><p class="col-sm-2 control-label">Number of Halls</p></b>
+                          <p class='col-sm-10 conrol-label'>{{ $unit->hallCount}}</p>
+                        </div>
                         <br/> <br/>  
                       
                     </div>
@@ -79,12 +95,7 @@
                             </div>
                           </div>
                           
-                          <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">Size</label>
-                            <div class="col-sm-10">
-                              <input type="text" name="size" value="{{ $unit->size}}" class="form-control input-req" id="inputEmail3" placeholder="Size">
-                            </div>
-                          </div>
+                          
                           
                           <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">Market Rent</label>
@@ -122,6 +133,51 @@
                                       @endif
                                   @endforeach
                               </select>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Size</label>
+                                <div class="col-sm-10">
+                                  <input type="text" name="size" value="{{ $unit->size}}" class="form-control input-req" id="inputEmail3" placeholder="Size">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Rooms</label>
+                                <div class="col-sm-10">
+                                  <input type="text" name="roomsCount" class="form-control input-req" id="inputEmail3" placeholder="Count">
+                                </div>
+                              </div> 
+                            </div>
+                          </div>                       
+                          <div class="row">
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Bathrooms</label>
+                                <div class="col-sm-10">
+                                  <input type="text" name="bathroomCount" class="form-control input-req" id="inputEmail3" placeholder="Count">
+                                </div>
+                              </div> 
+                            </div>
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Kitchens</label>
+                                <div class="col-sm-10">
+                                  <input type="text" name="kitchenCount" class="form-control input-req" id="inputEmail3" placeholder="Count">
+                                </div>
+                              </div> 
+                            </div>
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Halls</label>
+                                <div class="col-sm-10">
+                                  <input type="text" name="hallCount" class="form-control input-req" id="inputEmail3" placeholder="Count">
+                                </div>
+                              </div> 
                             </div>
                           </div>                                 
                           

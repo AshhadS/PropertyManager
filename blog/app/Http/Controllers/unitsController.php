@@ -47,6 +47,10 @@ class UnitsController extends Controller
 	    $units->PropertiesID = $request->PropertiesID;
 	    $units->marketRent = $request->marketRent;
 	    $units->currencyID = $request->currencyID;
+	    $units->roomsCount = $request->roomsCount;
+	    $units->bathroomCount = $request->bathroomCount;
+	    $units->kitchenCount = $request->kitchenCount;
+	    $units->hallCount = $request->hallCount;
 	    $units->companyID = Sentinel::getUser()->companyID;
 	    $units->documentID = 3;
 
@@ -88,6 +92,10 @@ class UnitsController extends Controller
 	    $unit->marketRent = $request->marketRent;
 	    $unit->PropertiesID = $request->PropertiesID;
 	    $unit->currencyID = $request->currencyID;
+	    $unit->roomsCount = $request->roomsCount;
+	    $unit->bathroomCount = $request->bathroomCount;
+	    $unit->kitchenCount = $request->kitchenCount;
+	    $unit->hallCount = $request->hallCount;
 	    $unit->save();
 	    
 	    return Redirect::to('units');
