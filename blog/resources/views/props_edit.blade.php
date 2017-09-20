@@ -1,7 +1,7 @@
 @extends('admin_template')
 
 @section('content')
-<title>IDSS | Properties</title>
+<title>IBSS | Properties</title>
   <section class="content-header">
       <h4><b>PROPERTY</b></h4>
   </section>
@@ -136,14 +136,14 @@
             <div class="form-group">
               <label for="inputEmail3" class="col-sm-2 control-label">Number of units</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputEmail3" value="{{ $props->numberOfUnits}}" name="numberOfUnits" placeholder="Number of units">
+                <input type="text" class="form-control input-req" id="inputEmail3" value="{{ $props->numberOfUnits}}" name="numberOfUnits" placeholder="Number of units">
               </div>
             </div>  
 
             <div class="form-group">
               <label for="inputEmail3" class="col-sm-2 control-label">Property Type</label>
               <div class="col-sm-10">
-                <select class="form-control selection-parent-item" name="propertyTypeID">
+                <select class="form-control selection-parent-item input-req" name="propertyTypeID">
                         <option value="0">Select a type</option>
                     @foreach ($propTypes as $prop)
                         @if ($props->propertyTypeID == $prop->propertyTypeID)
@@ -159,7 +159,7 @@
             <div class="form-group">
               <label for="inputEmail3" class="col-sm-2 control-label">Property Sub Type</label>
               <div class="col-sm-10">
-                <select class="form-control selection-child-item" name="propertySubTypeID" >
+                <select class="form-control selection-child-item input-req" name="propertySubTypeID" >
                         <option value="0">Select a type</option>
                     @foreach ($propSubTypes as $prop)
                         @if ($props->propertySubTypeID == $prop->propertySubTypeID)
@@ -175,19 +175,17 @@
             <div class="form-group">
               <label for="inputEmail3" name="forRentOrOwn" value="{{ $props->forRentOrOwn }}" class="col-sm-2 control-label">Rent / Own</label>
               <div class="col-sm-10">
-                <select class="form-control" name="forRentOrOwn">
+                <select class="form-control input-req" name="forRentOrOwn">
                     <option value="">Select an ownership type</option>
                     <option value="1" {{ $props->forRentOrOwn == 1 ? "Selected='selected'" : "" }}>Rent</option>
                     <option value="2" {{ $props->forRentOrOwn == 2 ? "Selected='selected'" : "" }}>Own</option>
                 </select>
               </div>
             </div>             
-                    
-
             <div class="form-group">
               <label name="tenant"  class="col-sm-2 control-label">Rental Owner</label>
               <div class="col-sm-10">
-                <select class="form-control" name="rentalOwnerID" value="{{ $props->rentalOwnerID }}">
+                <select class="form-control input-req" name="rentalOwnerID" value="{{ $props->rentalOwnerID }}">
                     <option value="">Select a rental owner</option>
                     @foreach ($rentalowners as $rentalowner)
                         @if ($props->rentalOwnerID == $rentalowner->rentalOwnerID)
