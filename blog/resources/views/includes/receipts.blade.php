@@ -22,7 +22,7 @@
         </tr>
         @foreach($receipts as $index => $receipt)
         <tr>
-          <td class="id" data-val="{{$receipt->receiptID}}">{{++$index}}</td>
+          <td class="id" data-bank="{{$receipt->bankmasterID}}" data-account="{{$receipt->bankAccountID}}" data-val="{{$receipt->receiptID}}">{{++$index}}</td>
           <td><?= sprintf("RC%'05d\n", $receipt->receiptID); ?></td>
           <td>
             @if(App\Model\Property::find($agreement->PropertiesID) && $agreement->PropertiesID != 0)
@@ -140,9 +140,20 @@ $(function() {
     $('[name="chequeDate"]').val($(this).closest('tr').find('.chequeDate').text());
     $('[name="receiptDate"]').val($(this).closest('tr').find('.receiptDate').text());
     $('[name="receiptID"]').val($(this).closest('tr').find('.id').data('val'));
+
+    var bankID = $(this).closest('tr').find('.id').data('bank');
+    if(bankID){
+      $('[name="bankmasterID"] option[value="'+bankID+'"]').attr('selected', true);      
+    } 
+
+    childSelection($('[name="bankmasterID'));
+
+    var accountID = $(this).closest('tr').find('.id').data('account');
+    if(accountID){
+      $('[name="bankAccountID"] option[value="'+accountID+'"]').attr('selected', true);      
+    }
+
     $('form').attr('action', '/update/custom/receipt');
-
-
     $('#receipt').modal('show');
 
   });
@@ -153,5 +164,46 @@ $(function() {
 
   });
 });
+
+
+function childSelection(elem){
+    var prev_selection = $('.selection-child-item-account.edit').val();
+    if ($(elem).val() != 0) {
+      $('.selection-child-item-account').show();
+      $('.no-units').hide();
+      $.ajax({
+          url: "/bank/getaccounts/"+$(elem).val()+"",
+          context: document.body,
+          method: 'POST',
+          async: false,
+          headers : {'X-CSRF-TOKEN': $('meta[name="_token_del"]').attr('content')}
+      })
+      .done(function(data) {
+          // show message if no units for the selected property
+          if(data.length){
+            $('.selection-child-item-account').html(function(){
+                // Generate the seletect list
+                var output = '<select class="form-control selection-child-item" name="bankAccountID">';
+                output += '<option value="">Select a account</option>';
+                data.forEach(function( index, element ){
+                    if(prev_selection == data[element].bankAccountID){
+                      output += '<option value="'+data[element].bankAccountID+'" selected="selected">'+data[element].accountNumber+'</option>';
+                    }else{
+                      output += '<option value="'+data[element].bankAccountID+'">'+data[element].accountNumber+'</option>';
+                    }
+                });
+                output += '</select>';
+                return output;
+            });
+          }else{
+            $('.selection-child-item-account').hide();
+            $('.no-units').show();
+          }         
+      });
+    }else{
+      $('.selection-child-item-account').hide();
+      $('.no-units').show();
+    }      
+}
 </script>
 @endpush

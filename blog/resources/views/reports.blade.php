@@ -1,7 +1,7 @@
 @extends('admin_template')
 
 @section('content')
-<title>IDSS | Reports</title>
+<title>IBSS | Reports</title>
 
 <div class="container-fluid">
   <div class="row">

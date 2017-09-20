@@ -51,7 +51,7 @@
         <header class="main-header">
 
             <!-- Logo -->
-            <a href="/" class="logo"><b>IDSS</b> <span ><br />Property Management</span></a>
+            <a href="/" class="logo"><b>IBSS</b> <span ><br />Property Management</span></a>
             
 
             <!-- Header Navbar -->

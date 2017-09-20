@@ -1,7 +1,7 @@
 @extends('admin_template')
 
 @section('content')
-<title>IDSS | Rental Owners</title>
+<title>IBSS | Rental Owners</title>
 
 <div class="container-fluid">
   <h3 class="pull-left">{{ $rentalowner->firstName}}  {{ $rentalowner->lastName}}</h3>

@@ -2,7 +2,7 @@
 
 @section('content')
 <meta name="_token_del" content="{{ csrf_token() }}">
-<title>IDSS | Agreement</title>
+<title>IBSS | Agreement</title>
 <section class="content-header">
       <h4><b>Agreement</b></h4>
   </section>

@@ -6,7 +6,7 @@
   <li role="presentation"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Edit</a></li>
 </ul> -->
 <!-- Tab panes -->
-<title>IDSS | Jobcards</title>
+<title>IBSS | Jobcards</title>
 <div class="tab-content">
   <div role="tabpanel" class="tab-pane active" id="view">
     <div class="row">

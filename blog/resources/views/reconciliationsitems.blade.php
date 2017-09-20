@@ -1,6 +1,6 @@
 @extends('admin_template')
 @section('content')
-<title>IDSS | Reconciliation</title>
+<title>IBSS | Reconciliation</title>
 <meta name="_token_del" content="{{ csrf_token() }}">
 
 <div class="panel panel-default give-space">

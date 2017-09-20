@@ -1,7 +1,7 @@
 @extends('admin_template')
 
 @section('content')
-<title>IDSS | Units</title>
+<title>IBSS | Units</title>
   <section class="content-header">
       <h4><b>UNITS</b></h4>
   </section>

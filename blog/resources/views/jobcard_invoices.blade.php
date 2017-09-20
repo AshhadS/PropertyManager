@@ -1,6 +1,6 @@
 @extends('admin_template')
 @section('content')
-<title>IDSS | Jobcard Invoice</title>
+<title>IBSS | Jobcard Invoice</title>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-8">
