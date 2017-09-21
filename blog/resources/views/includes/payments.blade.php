@@ -36,7 +36,7 @@
           <td class="edit-button">
             <a class="btn bg-green btn-sm pull-left payment-edit" data-toggle="tooltip" title="Edit" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
             <form class="delete-form pull-left  " method="POST" action="/custom/payment/{{$payment->paymentID}}">
-              <a href="#" class="delete-btn btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete">
+              <a href="#" class="delete-btn-rp btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete">
                 <span><i class="fa fa-trash" aria-hidden="true"></i> </span>
                 <span class="after">Sure ?</span>
               </a>
@@ -146,6 +146,7 @@ $(function() {
       $('[name="bankmasterID"] option[value="'+bankID+'"]').attr('selected', true);      
     } 
 
+    // defined in custom js
     childSelection($('[name="bankmasterID'));
 
     var accountID = $(this).closest('tr').find('.id').data('account');
@@ -153,59 +154,21 @@ $(function() {
       $('[name="bankAccountID"] option[value="'+accountID+'"]').attr('selected', true);      
     }
 
-    $('form').attr('action', '/update/custom/payment');
+    $('.form-horizontal').attr('action', '/update/custom/payment');
 
 
     $('#payment').modal('show');
   });
 
   $('#payment').on('hidden.bs.modal', function (e) {
-    $('form').attr('action', '/custom/payment');
+    $('.form-horizontal').attr('action', '/custom/payment');
     document.getElementById("payment-form").reset();
     $('[selected="selected"]').attr('selected', false);
+    $('[type="reset"]').trigger('click');
   });
 
 });
 
 
-function childSelection(elem){
-    var prev_selection = $('.selection-child-item-account.edit').val();
-    if ($(elem).val() != 0) {
-      $('.selection-child-item-account').show();
-      $('.no-units').hide();
-      $.ajax({
-          url: "/bank/getaccounts/"+$(elem).val()+"",
-          context: document.body,
-          method: 'POST',
-          async: false,
-          headers : {'X-CSRF-TOKEN': $('meta[name="_token_del"]').attr('content')}
-      })
-      .done(function(data) {
-          // show message if no units for the selected property
-          if(data.length){
-            $('.selection-child-item-account').html(function(){
-                // Generate the seletect list
-                var output = '<select class="form-control selection-child-item input-req" name="bankAccountID">';
-                output += '<option value="">Select a account</option>';
-                data.forEach(function( index, element ){
-                    if(prev_selection == data[element].bankAccountID){
-                      output += '<option value="'+data[element].bankAccountID+'" selected="selected">'+data[element].accountNumber+'</option>';
-                    }else{
-                      output += '<option value="'+data[element].bankAccountID+'">'+data[element].accountNumber+'</option>';
-                    }
-                });
-                output += '</select>';
-                return output;
-            });
-          }else{
-            $('.selection-child-item-account').hide();
-            $('.no-units').show();
-          }         
-      });
-    }else{
-      $('.selection-child-item-account').hide();
-      $('.no-units').show();
-    }      
-}
 </script>
 @endpush

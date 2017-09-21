@@ -48,6 +48,22 @@ $(function() {
         }
     });
 
+    // Confirm on delete
+  $('.delete-btn-rp').on('click', function(e){
+      e.preventDefault();
+          btn = this;
+          if($(btn).hasClass('activate')){
+          console.log('Now delete!'); 
+          $(btn).closest('form.delete-form').submit();
+      } else{
+          $(btn).addClass('activate');
+          setTimeout(function(){
+            $(btn).removeClass('activate');
+          }, 5000);
+      }
+  });
+
+
 
 
     // Attachments edit autofill
@@ -288,9 +304,9 @@ function childSelection(elem){
       .done(function(data) {
           // show message if no units for the selected property
           if(data.length){
-            $('.selection-child-item-account').html(function(){
+            $('.selection-child-item-account').parent().html(function(){
                 // Generate the seletect list
-                var output = '<select class="form-control selection-child-item" name="bankAccountID">';
+                var output = '<span class="input-req"><select class="form-control " required="required" name="bankAccountID">';
                 output += '<option value="">Select a account</option>';
                 data.forEach(function( index, element ){
                     if(prev_selection == data[element].bankAccountID){
@@ -299,7 +315,7 @@ function childSelection(elem){
                       output += '<option value="'+data[element].bankAccountID+'">'+data[element].accountNumber+'</option>';
                     }
                 });
-                output += '</select>';
+                output += '</select><span class="input-req-inner"></span>';
                 return output;
             });
           }else{

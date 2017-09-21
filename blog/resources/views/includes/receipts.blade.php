@@ -37,7 +37,7 @@
           <td class="edit-button">
             <a class="btn bg-green btn-sm pull-left receipt-edit" data-toggle="tooltip" title="Edit" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
             <form class="delete-form pull-left" method="POST" action="/custom/receipt/{{$receipt->receiptID}}">
-              <a href="#" class="delete-btn btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete">
+              <a href="#" class="delete-btn-rp btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete">
                 <span><i class="fa fa-trash" aria-hidden="true"></i> </span>
                 <span class="after">Sure ?</span>
               </a>
@@ -105,7 +105,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="form-group clearfix">
+                <div class="form-group clearfix account">
                   <label class="col-sm-2 control-label">Account Number</label>
                   <div class="col-sm-10">
                     <select class="form-control selection-child-item-account edit" name="bankAccountID">
@@ -151,60 +151,29 @@ $(function() {
     var accountID = $(this).closest('tr').find('.id').data('account');
     if(accountID){
       $('[name="bankAccountID"] option[value="'+accountID+'"]').attr('selected', true);      
+    }else{
+      $('.form-group.account [name="bankAccountID"],.form-group.account  .input-req').remove();
+      $('.form-group.account [name="bankAccountID"]').attr('required', false);
+      $('.form-group.account .input-req-inner').hide();
+      $('.form-group.account [name="bankAccountID"] ').hide();
     }
 
-    $('form').attr('action', '/update/custom/receipt');
+    $('.form-horizontal').attr('action', '/update/custom/receipt');
     $('#receipt').modal('show');
 
   });
 
+  // defined in custom js
   $('#receipt').on('hidden.bs.modal', function (e) {
-    $('form').attr('action', '/custom/receipt');
+    $('.form-horizontal').attr('action', '/custom/receipt');
     document.getElementById("receipt-form").reset();
     $('[selected="selected"]').attr('selected', false);
 
   });
+
+  
 });
 
 
-function childSelection(elem){
-    var prev_selection = $('.selection-child-item-account.edit').val();
-    if ($(elem).val() != 0) {
-      $('.selection-child-item-account').show();
-      $('.no-units').hide();
-      $.ajax({
-          url: "/bank/getaccounts/"+$(elem).val()+"",
-          context: document.body,
-          method: 'POST',
-          async: false,
-          headers : {'X-CSRF-TOKEN': $('meta[name="_token_del"]').attr('content')}
-      })
-      .done(function(data) {
-          // show message if no units for the selected property
-          if(data.length){
-            $('.selection-child-item-account').html(function(){
-                // Generate the seletect list
-                var output = '<select class="form-control selection-child-item input-req" name="bankAccountID">';
-                output += '<option value="">Select a account</option>';
-                data.forEach(function( index, element ){
-                    if(prev_selection == data[element].bankAccountID){
-                      output += '<option value="'+data[element].bankAccountID+'" selected="selected">'+data[element].accountNumber+'</option>';
-                    }else{
-                      output += '<option value="'+data[element].bankAccountID+'">'+data[element].accountNumber+'</option>';
-                    }
-                });
-                output += '</select>';
-                return output;
-            });
-          }else{
-            $('.selection-child-item-account').hide();
-            $('.no-units').show();
-          }         
-      });
-    }else{
-      $('.selection-child-item-account').hide();
-      $('.no-units').show();
-    }      
-}
 </script>
 @endpush
