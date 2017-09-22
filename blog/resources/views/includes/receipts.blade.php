@@ -150,12 +150,8 @@ $(function() {
 
     var accountID = $(this).closest('tr').find('.id').data('account');
     if(accountID){
+      $('[name="bankAccountID"]').show();
       $('[name="bankAccountID"] option[value="'+accountID+'"]').attr('selected', true);      
-    }else{
-      $('.form-group.account [name="bankAccountID"],.form-group.account  .input-req').remove();
-      $('.form-group.account [name="bankAccountID"]').attr('required', false);
-      $('.form-group.account .input-req-inner').hide();
-      $('.form-group.account [name="bankAccountID"] ').hide();
     }
 
     $('.form-horizontal').attr('action', '/update/custom/receipt');
@@ -168,6 +164,10 @@ $(function() {
     $('.form-horizontal').attr('action', '/custom/receipt');
     document.getElementById("receipt-form").reset();
     $('[selected="selected"]').attr('selected', false);
+    $('[type="reset"]').trigger('click');
+
+    $('[name="bankAccountID"]').html('<option value="0">Select Account</option>');
+    $('[name="bankAccountID"]').hide();
 
   });
 

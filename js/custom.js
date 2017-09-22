@@ -23,9 +23,9 @@ $(function() {
     
 
     // Adding the required indicator and property to block form submit
-    $( ".input-req" ).wrap( "<span class='input-req'></span>" );
-    $( ".input-req" ).attr( "required", true );
-    $( "span.input-req" ).append('<span class="input-req-inner"></span>');
+    // $( ".input-req" ).wrap( "<span class='input-req'></span>" );
+    // $( ".input-req" ).attr( "required", true );
+    // $( "span.input-req" ).append('<span class="input-req-inner"></span>');
 
     //Date picker
     $('.datepicker').datepicker({
@@ -299,14 +299,16 @@ function childSelection(elem){
           url: "/bank/getaccounts/"+$(elem).val()+"",
           context: document.body,
           method: 'POST',
+          async: false,
           headers : {'X-CSRF-TOKEN': $('meta[name="_token_del"]').attr('content')}
       })
       .done(function(data) {
           // show message if no units for the selected property
           if(data.length){
+                console.log($('.selection-child-item-account').parent()); 
             $('.selection-child-item-account').parent().html(function(){
                 // Generate the seletect list
-                var output = '<span class="input-req"><select class="form-control " required="required" name="bankAccountID">';
+                var output = '<span class="input-req"><select class="form-control selection-child-item-account" required="required" name="bankAccountID">';
                 output += '<option value="">Select a account</option>';
                 data.forEach(function( index, element ){
                     if(prev_selection == data[element].bankAccountID){

@@ -149,15 +149,16 @@ $(function() {
     // defined in custom js
     childSelection($('[name="bankmasterID'));
 
+
     var accountID = $(this).closest('tr').find('.id').data('account');
     if(accountID){
+      $('[name="bankAccountID"]').show();
       $('[name="bankAccountID"] option[value="'+accountID+'"]').attr('selected', true);      
     }
 
-    $('.form-horizontal').attr('action', '/update/custom/payment');
-
-
+    $('.form-horizontal').attr('action', '/update/custom/payment')
     $('#payment').modal('show');
+  
   });
 
   $('#payment').on('hidden.bs.modal', function (e) {
@@ -165,6 +166,9 @@ $(function() {
     document.getElementById("payment-form").reset();
     $('[selected="selected"]').attr('selected', false);
     $('[type="reset"]').trigger('click');
+
+    $('[name="bankAccountID"]').html('<option value="0">Select Account</option>');
+    $('[name="bankAccountID"]').hide();
   });
 
 });
