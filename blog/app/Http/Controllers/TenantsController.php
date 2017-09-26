@@ -9,6 +9,7 @@ use App\Model\Attachment;
 use App\Model\DocumentMaster;
 use App\Model\Supplier;
 use App\Model\Customer;
+use App\Model\Agreement;
 use Datatables;
 use Illuminate\Support\Facades\DB;
 use Debugbar;
@@ -153,8 +154,10 @@ class TenantsController extends Controller
     }
 
     function delete(Request $request, Tenant $tenant){
-	    if($tenant->isSubmitted == 1){
+        if($tenant->isSubmitted == 1){
             $request->session()->flash('alert-success', 'You cannot delete this tenant as this is submitted');
+        }else if(Agreement::where('tenantID', $tenant->tenantsID)->first()){
+            $request->session()->flash('alert-success', 'You cannot delete this tenant as this has an Agreement created under it');
         }else{
             $tenant->delete();
         }

@@ -8,6 +8,7 @@ use App\Model\Property;
 use App\Model\Attachment;
 use App\Model\DocumentMaster;
 use App\Model\Currency;
+use App\Model\Agreement;
 use Debugbar;
 use Datatables;
 use Sentinel;
@@ -101,8 +102,13 @@ class UnitsController extends Controller
 	    return Redirect::to('units');
     }
 
-    function delete(Unit $unit){
-	    $unit->delete();
+    function delete(Request $request, Unit $unit){
+    	if(Agreement::where('unitID', $unit->unitID)->first()){
+            $request->session()->flash('alert-success', 'You cannot delete this unit as this has an Agreement created under it');
+        }else{
+		    $unit->delete();
+		}
 	    return Redirect::to('units');
     }
+
 }

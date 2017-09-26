@@ -10,6 +10,7 @@ use App\Model\Country;
 use App\Model\Attachment;
 use App\Model\DocumentMaster;
 use App\Model\RentalOwner;
+use App\Model\Agreement;
 use App\Model\ImageFile;
 use App\Model\Note;
 use App\Model\Unit;
@@ -156,9 +157,12 @@ class PropertyController extends Controller
 	    return Redirect::to('props');
     }
 
-    function delete(Property $property){
-    	$property = Property::find($property->PropertiesID);
-	    $property->delete();
+    function delete(Request $request, Property $property){
+    	if(Unit::where('PropertiesID', $property->PropertiesID)->first()){
+            $request->session()->flash('alert-success', 'You cannot delete this Property as this has a Unit created under it');
+        }else{
+		    $property->delete();
+		}
 	    return Redirect::to('props');
     }
 
