@@ -35,6 +35,13 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	    return view('todo');
 	});
 
+	/**
+	 * Image Files
+	 */
+	Route::post('/image/create', 'ImageFileController@create');
+	Route::get('/image/{filename}',  'ImageFileController@getFile');
+	Route::get('/image/delete/{fileid}', 'ImageFileController@delete');
+
 	
 	/**
 	 * Agreements

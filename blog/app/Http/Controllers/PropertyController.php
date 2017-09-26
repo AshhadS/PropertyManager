@@ -10,6 +10,7 @@ use App\Model\Country;
 use App\Model\Attachment;
 use App\Model\DocumentMaster;
 use App\Model\RentalOwner;
+use App\Model\ImageFile;
 use App\Model\Note;
 use App\Model\Unit;
 use App\Model\JobCard;
@@ -92,6 +93,7 @@ class PropertyController extends Controller
     	$countries = Country::all();
     	$documentmaster = DocumentMaster::all();
     	$attachments = Attachment::where('documentAutoID', $property->PropertiesID)->where('documentID', 1)->get();
+    	$propertyImages = ImageFile::where('documentID', 1)->where('documentAutoID', $property->PropertiesID)->get();
     	$notes = Note::where('documentAutoID', $property->PropertiesID)->where('documentID', 1)->get();
 	    
 
@@ -110,6 +112,7 @@ class PropertyController extends Controller
 	        'rentalowners' => $rentalowners,
 	        'documentmaster' => $documentmaster,
 	        'attachments' => $attachments,
+	        'propertyImages' => $propertyImages,
 	        'countries' => $countries,
 	        'property_type_name' => $property_type_name,
 	        'property_parent_type_name' => $property_parent_type_name,

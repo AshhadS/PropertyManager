@@ -11,6 +11,7 @@
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab">Summary</a></li>
     <li role="presentation"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Edit</a></li>
+    <li role="presentation"><a href="#propertyImages" aria-controls="edit" role="tab" data-toggle="tab">Images</a></li>
     <li role="presentation"><a href="#units" aria-controls="units" role="tab" data-toggle="tab">Units</a></li>
     <li role="presentation"><a href="#jobcards" aria-controls="jobcards" role="tab" data-toggle="tab">Jobs</a></li>
   </ul>
@@ -27,7 +28,29 @@
                   <div class="box-body">
                     <div class="image-column col-md-4">
                       <h2 class='conrol-label'>{{ $props->pPropertyName}}</h2>
-                      <img class='show-image' src="/blog/storage/app/uploads/{{$props->propertyImage}}" alt="Property Image">
+                      <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                          
+                          <!-- Wrapper for slides -->
+                          <div class="carousel-inner">
+                            <div class="carousel-inner">
+                              @foreach ($propertyImages as $index => $image)
+                                <div class="item <?php ($index == 0)? print 'active' : ''?>">
+                                  <img src="/blog/storage/app/uploads/images/{{$image->fileNameSlug}}" alt="{{$image->fileName}}">
+                                </div>
+                              @endforeach
+                            </div>
+                          </div>
+
+                          <!-- Left and right controls -->
+                          <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                            <span class="sr-only">Previous</span>
+                          </a>
+                          <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                            <span class="sr-only">Next</span>
+                          </a>
+                        </div>
                       <br />
                       <br />
                       <p class='description'>{{ $props->description}}</p>
@@ -208,6 +231,8 @@
                 </div>
               </div>
             </div>
+
+            
           </div>                          
             
           </div>
@@ -221,6 +246,38 @@
           <!-- /.box-footer -->
         </form>
             </div>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="propertyImages">
+        <div class="container-fluid">
+          <h4><b>PROPERTY IMAGES</b></h4>
+            <hr/>
+            <form action="/image/create" class="dropzone-images attachments-drop-box" id="dropzoneImages">
+              {{ csrf_field() }}
+              <input type="hidden" name="documentAutoID" value="{{$props->PropertiesID}}">
+              <input type="hidden" name="documentID" value="1">
+              <div class="dz-message"><span>Drop files here or click here to upload</span></div>
+                <input type="file" name="file-upload">
+                <br/>
+              <div class="">
+                @foreach ($propertyImages as $image)
+                  <div class="dz-preview dz-processing dz-image-preview dz-success dz-complete">
+                    <div class="dz-image">
+                      <span class="file-type"></span>
+                      @if(substr(File::mimeType(storage_path('app\\uploads\\images\\' . $image->fileNameSlug)), 0, 5) == 'image')
+                        <img class="dz-server-file" data-dz-remove src="/blog/storage/app/uploads/images/{{$image->fileNameSlug}}">
+                      @endif
+                    </div>
+                    <div class="dz-details">
+                        <div class="dz-size"><span data-dz-size="{{File::size(storage_path('app\\uploads\\images\\' . $image->fileNameSlug))}}"></span></div>
+                        <div class="dz-filename"><span data-dz-name="">{{$image->fileName}}</span></div>
+                    </div>
+                    <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress="" style="width: 100%;"></span></div>
+                    <a href="#" attachemnt-id="{{$image->fileID}}" class="jc-attachment">Remove</a>
+                  </div>
+                @endforeach
+              </div>
+            </form>
         </div>
       </div>
       <div role="tabpanel" class="tab-pane" id="units">
@@ -314,6 +371,17 @@ $(function() {
         $('.selection-child-item').parent().parent('.form-group').hide();
       }
     }
+
+    // The setting up of the dropzone
+    Dropzone.options.dropzoneImages = {
+      uploadMultiple: true,
+      parallelUploads: 100,
+      maxFilesize: 2,
+      addRemoveLinks: true,
+      dictRemoveFile: "Remove1",
+      acceptedFiles: 'image/*',
+    }
+
 });
 </script>
 @endpush
