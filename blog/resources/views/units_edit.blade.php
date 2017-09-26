@@ -53,7 +53,7 @@
                         </div>
                         <div class="row">
                           <b><p class="col-sm-2 control-label">Number of Bathrooms</p></b>
-                          <p class='col-sm-10 conrol-label'>{{ $unit->bothroomCount}}</p>
+                          <p class='col-sm-10 conrol-label'>{{ $unit->bathroomCount}}</p>
                         </div>
                         <div class="row">
                           <b><p class="col-sm-2 control-label">Number of Kitchens</p></b>
@@ -149,7 +149,7 @@
                               <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-2 control-label">Rooms</label>
                                 <div class="col-sm-10">
-                                  <input type="text" name="roomsCount" class="form-control input-req" id="inputEmail3" placeholder="Count">
+                                  <input type="text" name="roomsCount" class="form-control input-req" value="{{ $unit->roomsCount}}" id="inputEmail3" placeholder="Count">
                                 </div>
                               </div> 
                             </div>
@@ -159,7 +159,7 @@
                               <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-2 control-label">Bathrooms</label>
                                 <div class="col-sm-10">
-                                  <input type="text" name="bathroomCount" class="form-control input-req" id="inputEmail3" placeholder="Count">
+                                  <input type="text" name="bathroomCount" class="form-control input-req" value="{{ $unit->bathroomCount}}" id="inputEmail3" placeholder="Count">
                                 </div>
                               </div> 
                             </div>
@@ -167,7 +167,7 @@
                               <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-2 control-label">Kitchens</label>
                                 <div class="col-sm-10">
-                                  <input type="text" name="kitchenCount" class="form-control input-req" id="inputEmail3" placeholder="Count">
+                                  <input type="text" name="kitchenCount" class="form-control input-req" value="{{ $unit->kitchenCount}}" id="inputEmail3" placeholder="Count">
                                 </div>
                               </div> 
                             </div>
@@ -175,7 +175,7 @@
                               <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-2 control-label">Halls</label>
                                 <div class="col-sm-10">
-                                  <input type="text" name="hallCount" class="form-control input-req" id="inputEmail3" placeholder="Count">
+                                  <input type="text" name="hallCount" class="form-control input-req" value="{{ $unit->hallCount}}" id="inputEmail3" placeholder="Count">
                                 </div>
                               </div> 
                             </div>

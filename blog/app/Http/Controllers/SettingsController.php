@@ -438,12 +438,10 @@ class SettingsController extends Controller
     }
 
     function deleteBank($bank, Request $request){
-        $bank = Bank::find($bank);
-
-        if($this->getBanksAccounts($bank)){
-           // $request->session()->flash('alert-success', 'You cannot delete this bank as it has accounts created under it');
+        if($this->getBanksAccounts($bank)->first()){
            return "You cannot delete this bank as it has accounts created under it";
         }else{
+           $bank = Bank::find($bank);
            $bank->delete();
            return 'true';            
         }

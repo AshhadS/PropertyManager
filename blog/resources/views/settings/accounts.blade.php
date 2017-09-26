@@ -15,7 +15,7 @@
         <td  >{{$account->bankAccountID}}</td>
         <td class='account item-editable' data-type="text" data-name="accountNumber" data-pk="{{$account->bankAccountID}}" >{{$account->accountNumber}}</td>
         <td class='account item-editable' data-bank="{{$account->bankmasterID}}" data-type="text" data-name="bankmasterID" data-pk="{{$account->bankAccountID}}" >
-          @if($account->bankmasterID)
+          @if(App\Model\Bank::where('bankmasterID', $account->bankmasterID)->first())
             {{App\Model\Bank::find($account->bankmasterID)->bankName}}
           @endif
         </td>

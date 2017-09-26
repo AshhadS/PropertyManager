@@ -67,16 +67,19 @@ class AgreementsController extends Controller
         $agreement->paymentTypeID  = $request->paymentTypeID;
         $agreement->companyID = Sentinel::getUser()->companyID;
         $agreement->isPDCYN  = (isset($request->pdcyn)) ? $request->pdcyn : '0';
+        $agreement->agreementCode = 0;
 
         if($request->dateFrom)
             $agreement->dateFrom = date_create_from_format("j/m/Y", $request->dateFrom)->format('Y-m-d');
         
         if($request->dateTo)
             $agreement->dateTo = date_create_from_format("j/m/Y", $request->dateTo)->format('Y-m-d');
-	
-	    $agreement->save();
+    
+        $agreement->save();
+        $agreement->agreementCode = sprintf("AGR%'05d\n", $agreement->agreementID);
+        $agreement->save();
 
-	    return Redirect::to('agreements');
+        return Redirect::to('agreements');
     }
 
     function getFields($agreementid){

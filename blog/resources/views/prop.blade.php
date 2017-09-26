@@ -153,6 +153,7 @@
                           <th>Address</th>
                           <th>City</th>
                           <th>Rent/Own</th>
+                          <th>Status</th>
                           <th>Actions</th>
                         </tr>
                 </thead>
@@ -207,6 +208,18 @@ $(function() {
                   return 'Own';
               }
             },
+            { 
+              data: 'isSubmitted',
+              name: 'rentalowner.isSubmitted',
+              className: 'center-parent',
+              render: function( data, type, full, meta ){
+                if(data == '1'){
+                  return '<span data-val='+data+' class="simple-box green"></span>';
+                }else{
+                  return '<span data-val='+data+' class="simple-box red"></span>';
+                }
+              }
+            },  
             {
                 data: 'PropertiesID',
                 className: 'edit-button',
