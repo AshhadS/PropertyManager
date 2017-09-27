@@ -53,7 +53,7 @@
             <div class="form-group">
               <label for="inputEmail3" class="col-sm-2 control-label">Number of units</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control input-req" id="inputEmail3" name="numberOfUnits" placeholder="Number of units">
+                <input type="number" class="form-control input-req" id="inputEmail3" name="numberOfUnits" placeholder="Number of units">
               </div>
             </div>  
 
@@ -61,7 +61,7 @@
               <label for="inputEmail3" class="col-sm-2 control-label">Property Type</label>
               <div class="col-sm-10">
                 <select class="form-control selection-parent-item input-req" name="propertyTypeID" ">
-                      <option value="0">Select a type</option>
+                      <option value="">Select a type</option>
                     @foreach ($propTypes as $prop)
                       <option value="{{$prop->propertyTypeID}}">{{ $prop->propertyDescription }}</option>
                     @endforeach
@@ -73,7 +73,7 @@
               <label for="inputEmail3" class="col-sm-2 control-label">Property Sub Type</label>
               <div class="col-sm-10">
                 <select class="form-control selection-child-item input-req" name="propertySubTypeID">
-                      <option value="0">Select a type</option>
+                      <option value="">Select a type</option>
                     @foreach ($propSubTypes as $prop)
                       <option value="{{$prop->propertySubTypeID}}">{{ $prop->propertySubTypeDescription }}</option>
                     @endforeach

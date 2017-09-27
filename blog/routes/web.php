@@ -40,7 +40,7 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	 */
 	Route::post('/image/create', 'ImageFileController@create');
 	Route::get('/image/{filename}',  'ImageFileController@getFile');
-	Route::get('/image/delete/{fileid}', 'ImageFileController@delete');
+	Route::delete('/image/delete/{fileid}', 'ImageFileController@delete');
 
 	
 	/**

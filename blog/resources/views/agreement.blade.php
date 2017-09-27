@@ -127,6 +127,7 @@
                 <!-- Table Headings -->
                 <thead>
                     <tr>
+                          <th>Agreement Code</th>
                           <th>Property Name</th>
                           <th>Unit</th> 
                           <th>Tenant Name</th>
@@ -198,6 +199,7 @@ $(function() {
           { "width": "10%", "targets": 8 }
         ],
         columns: [
+            { data: 'agreementCode', name: 'agreement.agreementCode'},  
             { data: 'pPropertyName', name: 'Properties.pPropertyName'},  
             { data: 'unitNumber', name: 'units.unitNumber'},  
             { data: 'firstName', name: 'tenants.firstName'},  

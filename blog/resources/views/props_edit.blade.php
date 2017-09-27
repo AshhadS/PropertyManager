@@ -159,7 +159,7 @@
             <div class="form-group">
               <label for="inputEmail3" class="col-sm-2 control-label">Number of units</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control input-req" id="inputEmail3" value="{{ $props->numberOfUnits}}" name="numberOfUnits" placeholder="Number of units">
+                <input type="number" class="form-control input-req" id="inputEmail3" value="{{ $props->numberOfUnits}}" name="numberOfUnits" placeholder="Number of units">
               </div>
             </div>  
 
@@ -167,7 +167,7 @@
               <label for="inputEmail3" class="col-sm-2 control-label">Property Type</label>
               <div class="col-sm-10">
                 <select class="form-control selection-parent-item input-req" name="propertyTypeID">
-                        <option value="0">Select a type</option>
+                        <option value="">Select a type</option>
                     @foreach ($propTypes as $prop)
                         @if ($props->propertyTypeID == $prop->propertyTypeID)
                           <option value="{{$prop->propertyTypeID}}" selected="selected">{{ $prop->propertyDescription }}</option>
@@ -183,7 +183,7 @@
               <label for="inputEmail3" class="col-sm-2 control-label">Property Sub Type</label>
               <div class="col-sm-10">
                 <select class="form-control selection-child-item input-req" name="propertySubTypeID" >
-                        <option value="0">Select a type</option>
+                        <option value="">Select a type</option>
                     @foreach ($propSubTypes as $prop)
                         @if ($props->propertySubTypeID == $prop->propertySubTypeID)
                           <option value="{{$prop->propertySubTypeID}}" selected="selected">{{ $prop->propertySubTypeDescription }}</option>
@@ -252,30 +252,32 @@
         <div class="container-fluid">
           <h4><b>PROPERTY IMAGES</b></h4>
             <hr/>
-            <form action="/image/create" class="dropzone-images attachments-drop-box" id="dropzoneImages">
+            <form action="/image/create" class="attachments-drop-box" id="images-dropzone">
               {{ csrf_field() }}
               <input type="hidden" name="documentAutoID" value="{{$props->PropertiesID}}">
               <input type="hidden" name="documentID" value="1">
-              <div class="dz-message"><span>Drop files here or click here to upload</span></div>
-                <input type="file" name="file-upload">
+              <div class="dz-message"><h4>Drop files here to upload</h4></div>
+                <!-- <input type="file" name="file-upload"> -->
                 <br/>
               <div class="">
-                @foreach ($propertyImages as $image)
-                  <div class="dz-preview dz-processing dz-image-preview dz-success dz-complete">
-                    <div class="dz-image">
-                      <span class="file-type"></span>
-                      @if(substr(File::mimeType(storage_path('app\\uploads\\images\\' . $image->fileNameSlug)), 0, 5) == 'image')
-                        <img class="dz-server-file" data-dz-remove src="/blog/storage/app/uploads/images/{{$image->fileNameSlug}}">
-                      @endif
+                @if($propertyImages->first())
+                  @foreach ($propertyImages as $image)
+                    <div class="dz-preview dz-processing dz-image-preview dz-success dz-complete">
+                      <div class="dz-image">
+                        <span class="file-type"></span>
+                        @if(substr(File::mimeType(storage_path('app/uploads/images/' . $image->fileNameSlug)), 0, 5) == 'image')
+                          <img class="dz-server-file" data-dz-remove src="/blog/storage/app/uploads/images/{{$image->fileNameSlug}}">
+                        @endif
+                      </div>
+                      <div class="dz-details">
+                          <div class="dz-size"><span data-dz-size="{{File::size(storage_path('app/uploads/images/' . $image->fileNameSlug))}}"></span></div>
+                          <div class="dz-filename"><span data-dz-name="">{{$image->fileName}}</span></div>
+                      </div>
+                      <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress="" style="width: 100%;"></span></div>
+                      <a href="#" attachemnt-id="{{$image->fileID}}" class="jc-attachment">Remove</a>
                     </div>
-                    <div class="dz-details">
-                        <div class="dz-size"><span data-dz-size="{{File::size(storage_path('app\\uploads\\images\\' . $image->fileNameSlug))}}"></span></div>
-                        <div class="dz-filename"><span data-dz-name="">{{$image->fileName}}</span></div>
-                    </div>
-                    <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress="" style="width: 100%;"></span></div>
-                    <a href="#" attachemnt-id="{{$image->fileID}}" class="jc-attachment">Remove</a>
-                  </div>
-                @endforeach
+                  @endforeach
+                @endif
               </div>
             </form>
         </div>
@@ -373,15 +375,35 @@ $(function() {
     }
 
     // The setting up of the dropzone
-    Dropzone.options.dropzoneImages = {
-      uploadMultiple: true,
-      parallelUploads: 100,
-      maxFilesize: 2,
-      addRemoveLinks: true,
-      dictRemoveFile: "Remove1",
-      acceptedFiles: 'image/*',
-    }
+    // Dropzone.options.imagesDropzone = {
+    //   uploadMultiple: true,
+    //   parallelUploads: 100,
+    //   maxFilesize: 2,
+    //   addRemoveLinks: false,
+    //   dictRemoveFile: "Remove",
+    //   acceptedFiles: 'image/*',
+    // }
+    $('.jc-attachment').on('click', function(e){
+      e.preventDefault();
+      // Hide preview to show its deleted
+      $(this).closest('.dz-preview').hide();
+      // Send request to delete from db
+      $.ajax({
+        type: 'POST',
+        url: '/image/delete/'+ $(this).attr('attachemnt-id'),
+        data: { 
+          _token: '{{ csrf_token() }}',
+          _method: 'delete',
+        },
+        
+      })
+    });
 
+    var myDropzone = new Dropzone("#images-dropzone", {
+     addRemoveLinks: true,
+     dictRemoveFile: 'Tets',
+     acceptedFiles: 'image/*',
+   });
 });
 </script>
 @endpush

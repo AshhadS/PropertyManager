@@ -21,8 +21,9 @@ use Carbon\Carbon;
 class ImageFileController extends Controller
 {
 	function getFile($slugName){
-	    $path = storage_path('app\\uploads\\images\\' . $slugName);
-
+	    // $path = storage_path('app/uploads/images/' . $slugName);
+	    $path = storage_path('app/uploads/images/' . $slugName);
+	    // dd($path);
 	    // if the images does not exist => 404
 	    if (!File::exists($path)) {
 	        abort(404);
@@ -61,15 +62,16 @@ class ImageFileController extends Controller
 
 
 
-    function delete(Attachment $attachment){
-    	$documentID = $attachment->documentID;
-    	$documentAutoID = $attachment->documentAutoID;
+    function delete($fileid){
+    	$file = ImageFile::find($fileid);
+    	$documentID = $file->documentID;
+    	$documentAutoID = $file->documentAutoID;
 
-    	$fileNameSlug = $attachment->fileNameSlug;
+    	$fileNameSlug = $file->fileNameSlug;
 
 
     	// Delete row from db
-    	$attachment->delete();
+    	$file->delete();
     	
     	// Delete the file associated with it
     	Storage::delete('uploads/attachments/'.$fileNameSlug);   

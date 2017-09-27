@@ -10,6 +10,7 @@
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab">View</a></li>
     <li role="presentation"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Edit</a></li>
+    <li role="presentation"><a href="#propertyImages" aria-controls="edit" role="tab" data-toggle="tab">Images</a></li>
     <li role="presentation"><a href="#attachments" aria-controls="attachments" role="tab" data-toggle="tab">Attachments</a></li>
   </ul>
 
@@ -23,53 +24,77 @@
                   <!-- form start -->
                       
                     <div class="box-body">
-                        <div class="row">
-                          <b><p class="col-sm-2 control-label">Unit Number</p></b>
-                          <p class='col-sm-10 conrol-label'>{{ $unit->unitNumber}}</p>
+                        <div class="image-column col-md-4">
+                          <h2 class='conrol-label'>{{$unit->unitNumber}}</h2>
+                          <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                              
+                              <!-- Wrapper for slides -->
+                              <div class="carousel-inner">
+                                <div class="carousel-inner">
+                                  @foreach ($unitImages as $index => $image)
+                                    <div class="item <?php ($index == 0)? print 'active' : ''?>">
+                                      <img src="/blog/storage/app/uploads/images/{{$image->fileNameSlug}}" alt="{{$image->fileName}}">
+                                    </div>
+                                  @endforeach
+                                </div>
+                              </div>
+
+                              <!-- Left and right controls -->
+                              <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                                <span class="sr-only">Previous</span>
+                              </a>
+                              <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                                <span class="sr-only">Next</span>
+                              </a>
+                            </div>
+                          <br />
+                          <br />
+                          <p class='description'>{{ $unit->description}}</p>
                         </div>
-                        <div class="row">
-                          <b><p class="col-sm-2 control-label">Description</p></b>
-                          <p class='col-sm-10 conrol-label'>{{ $unit->description}}</p>
+                        <div class="details col-md-8">
+                          <div class="row">
+                            <b><p class="col-sm-2 control-label">Size</p></b>
+                            <p class='col-sm-10 conrol-label'>{{ $unit->size}}</p>
+                          </div>
+                          <div class="row">
+                            <b><p class="col-sm-2 control-label">Market Rent</p></b>
+                            <p class='col-sm-10 conrol-label'>{{ $unit->marketRent}}</p>
+                          </div>
+                          <div class="row">
+                            <b><p class="col-sm-2 control-label">Currency</p></b>
+                            <p class='col-sm-10 conrol-label'>{{ $currencyName}}</p>
+                          </div>
+                          <div class="row">
+                            <b><p class="col-sm-2 control-label">Property</p></b>
+                            <p class='col-sm-10 conrol-label'>{{ $property_name}}</p>
+                          </div>
+                          <div class="row">
+                            <b><p class="col-sm-2 control-label">Number of Rooms</p></b>
+                            <p class='col-sm-10 conrol-label'>{{ $unit->roomsCount}}</p>
+                          </div>
+                          <div class="row">
+                            <b><p class="col-sm-2 control-label">Number of Bathrooms</p></b>
+                            <p class='col-sm-10 conrol-label'>{{ $unit->bathroomCount}}</p>
+                          </div>
+                          <div class="row">
+                            <b><p class="col-sm-2 control-label">Number of Kitchens</p></b>
+                            <p class='col-sm-10 conrol-label'>{{ $unit->kitchenCount}}</p>
+                          </div>
+                          <div class="row">
+                            <b><p class="col-sm-2 control-label">Number of Halls</p></b>
+                            <p class='col-sm-10 conrol-label'>{{ $unit->hallCount}}</p>
+                          </div>
+                          <br/> <br/>  
                         </div>
-                        <div class="row">
-                          <b><p class="col-sm-2 control-label">Size</p></b>
-                          <p class='col-sm-10 conrol-label'>{{ $unit->size}}</p>
-                        </div>
-                        <div class="row">
-                          <b><p class="col-sm-2 control-label">Market Rent</p></b>
-                          <p class='col-sm-10 conrol-label'>{{ $unit->marketRent}}</p>
-                        </div>
-                        <div class="row">
-                          <b><p class="col-sm-2 control-label">Currency</p></b>
-                          <p class='col-sm-10 conrol-label'>{{ $currencyName}}</p>
-                        </div>
-                        <div class="row">
-                          <b><p class="col-sm-2 control-label">Property</p></b>
-                          <p class='col-sm-10 conrol-label'>{{ $property_name}}</p>
-                        </div>
-                        <div class="row">
-                          <b><p class="col-sm-2 control-label">Number of Rooms</p></b>
-                          <p class='col-sm-10 conrol-label'>{{ $unit->roomsCount}}</p>
-                        </div>
-                        <div class="row">
-                          <b><p class="col-sm-2 control-label">Number of Bathrooms</p></b>
-                          <p class='col-sm-10 conrol-label'>{{ $unit->bathroomCount}}</p>
-                        </div>
-                        <div class="row">
-                          <b><p class="col-sm-2 control-label">Number of Kitchens</p></b>
-                          <p class='col-sm-10 conrol-label'>{{ $unit->kitchenCount}}</p>
-                        </div>
-                        <div class="row">
-                          <b><p class="col-sm-2 control-label">Number of Halls</p></b>
-                          <p class='col-sm-10 conrol-label'>{{ $unit->hallCount}}</p>
-                        </div>
-                        <br/> <br/>  
-                      
                     </div>
               </div>
           </div>
         </div>
       </div>
+                        
+                      
       
       <div role="tabpanel" class="tab-pane" id="edit">          
           <div class="row">
@@ -195,6 +220,40 @@
               </div>
           </div>
       </div>
+      <div role="tabpanel" class="tab-pane" id="propertyImages">
+        <div class="container-fluid">
+          <h4><b>PROPERTY IMAGES</b></h4>
+            <hr/>
+            <form action="/image/create" class="attachments-drop-box" id="images-dropzone">
+              {{ csrf_field() }}
+              <input type="hidden" name="documentAutoID" value="{{$unit->unitID}}">
+              <input type="hidden" name="documentID" value="3">
+              <div class="dz-message"><h4>Drop files here to upload</h4></div>
+                <!-- <input type="file" name="file-upload"> -->
+                <br/>
+              <div class="">
+                @if($unitImages->first())
+                  @foreach ($unitImages as $image)
+                    <div class="dz-preview dz-processing dz-image-preview dz-success dz-complete">
+                      <div class="dz-image">
+                        <span class="file-type"></span>
+                        @if(substr(File::mimeType(storage_path('app/uploads/images/' . $image->fileNameSlug)), 0, 5) == 'image')
+                          <img class="dz-server-file" data-dz-remove src="/blog/storage/app/uploads/images/{{$image->fileNameSlug}}">
+                        @endif
+                      </div>
+                      <div class="dz-details">
+                          <div class="dz-size"><span data-dz-size="{{File::size(storage_path('app/uploads/images/' . $image->fileNameSlug))}}"></span></div>
+                          <div class="dz-filename"><span data-dz-name="">{{$image->fileName}}</span></div>
+                      </div>
+                      <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress="" style="width: 100%;"></span></div>
+                      <a href="#" attachemnt-id="{{$image->fileID}}" class="jc-attachment">Remove</a>
+                    </div>
+                  @endforeach
+                @endif
+              </div>
+            </form>
+        </div>
+      </div>
       <div role="tabpanel" class="tab-pane" id="attachments">
     <br/>
       <div class="container-fluid">
@@ -285,3 +344,30 @@
     </div>
   </div>    
 @endsection
+@push('scripts')
+<script>
+$(function() {
+    $('.jc-attachment').on('click', function(e){
+      e.preventDefault();
+      // Hide preview to show its deleted
+      $(this).closest('.dz-preview').hide();
+      // Send request to delete from db
+      $.ajax({
+        type: 'POST',
+        url: '/image/delete/'+ $(this).attr('attachemnt-id'),
+        data: { 
+          _token: '{{ csrf_token() }}',
+          _method: 'delete',
+        },
+        
+      })
+    });
+
+    var myDropzone = new Dropzone("#images-dropzone", {
+     addRemoveLinks: true,
+     dictRemoveFile: 'Tets',
+     acceptedFiles: 'image/*',
+   });
+});
+</script>
+@endpush

@@ -9,6 +9,7 @@ use App\Model\Attachment;
 use App\Model\DocumentMaster;
 use App\Model\Currency;
 use App\Model\Agreement;
+use App\Model\ImageFile;
 use Debugbar;
 use Datatables;
 use Sentinel;
@@ -74,6 +75,7 @@ class UnitsController extends Controller
 	    	$currencyName = Currency::where('currencyID', $unit->currencyID)->first()->currencyCode;
 
     	$property_name = (Property::find($unit->PropertiesID)) ? Property::find($unit->PropertiesID)->pPropertyName : '';
+    	$unitImages = ImageFile::where('documentID', 3)->where('documentAutoID', $unit->unitID)->get();
 	    return view('units_edit', [
 	        'unit' => $unit,
 	        'properties' => $properties,
@@ -82,6 +84,7 @@ class UnitsController extends Controller
 	        'property_name' => $property_name,
 	        'currencyName' => $currencyName,
 	        'currencies' => $currencies,
+	        'unitImages' => $unitImages,
 	    ]);
     }
 
