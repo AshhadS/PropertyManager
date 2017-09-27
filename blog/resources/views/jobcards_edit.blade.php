@@ -577,7 +577,7 @@ $(function() {
         uploadMultiple: true,
         parallelUploads: 100,
         maxFilesize: 2,
-        addRemoveLinks: true,
+        addRemoveLinks: false,
         dictRemoveFile: "Remove"
     }
 

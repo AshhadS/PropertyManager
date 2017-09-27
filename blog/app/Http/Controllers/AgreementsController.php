@@ -51,7 +51,7 @@ class AgreementsController extends Controller
     		->leftJoin('units', 'agreement.unitID', '=', 'units.unitID')
             ->leftJoin('properties', 'agreement.PropertiesID', '=', 'properties.PropertiesID')
     		->leftJoin('paymenttype', 'agreement.paymentTypeID', '=', 'paymenttype.paymentTypeID')
-    		->select('agreement.agreementID', 'properties.pPropertyName', 'units.unitNumber' , 'tenants.firstName', 'agreement.dateFrom','agreement.dateTo','agreement.marketRent','agreement.actualRent','agreement.isSubmitted', 'paymenttype.paymentDescription');
+    		->select('agreement.agreementID', 'properties.pPropertyName', 'units.unitNumber' , 'tenants.firstName', 'agreement.dateFrom','agreement.dateTo','agreement.marketRent','agreement.actualRent','agreement.isSubmitted','agreement.agreementCode', 'paymenttype.paymentDescription');
     	return Datatables::of($t)->make(true);
 
     }

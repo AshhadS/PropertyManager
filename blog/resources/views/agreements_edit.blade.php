@@ -27,6 +27,13 @@
                     ]) !!}
                     <div class="box-body">
                     <div class="form-group">
+                        {!! Form::label('code', 'Agreement Code', ['class' => 'text-right col-sm-2 control-label']) !!}
+                        <div class="col-sm-10">
+                            {!! Form::text('', $agreement->agreementCode, ['class' => 'col-sm-10 form-control' , 'disabled' => 'true']) !!}
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="form-group">
                         {!! Form::label('PropertiesID', 'Property', ['class' => 'text-right col-sm-2 control-label']) !!} 
                         <div class="col-sm-10">
                             {!! Form::select('PropertiesID', $propertylist, $agreement->PropertiesID ,['class' => 'input-req col-sm-10 form-control selection-parent-item']) !!}
