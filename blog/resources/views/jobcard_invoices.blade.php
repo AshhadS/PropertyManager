@@ -3,10 +3,11 @@
 <title>IBSS | Jobcard Invoice</title>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
       <div class="row">
         <div class="col-md-12">
             <a href="/jobcard/edit/{{$jobcard->jobcardID}}" class="btn btn-default"><i class="fa fa-angle-left" aria-hidden="true"></i> Back To Jobcard</a>
+
           <h2> 
             <i class="fa fa-briefcase" aria-hidden="true"></i> Jobcard 
           @if($jobcard->jobCardCode)
@@ -17,8 +18,10 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-12">
           <h2 class='conrol-label'>{{ $jobcard->subject}}</h2>
+          <button type="button" class="btn btn-primary pull-right add-btn" data-toggle="modal" data-target="#invoiceModal"><i class="fa fa-plus"></i> Add Invoice</button>
+          <!-- <button class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Invoice</button> -->
         </div>
       </div>
     </div>
@@ -28,7 +31,86 @@
           <h4><b>SUPPLIER</b></h4>
         </div>
       </div>
+    
+      <div class="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog wide" role="document">
+        <div class="modal-content">
+          <div class="modal-body box box-info">
+            <div class=""> 
+            <!-- form start -->
+            <form class="form-horizontal" id="maintenance-form" action="/custom/invoice" method="POST">
+                {{ csrf_field() }}
+              <input type="hidden" name="jobcardID" value="{{$jobcard->jobcardID}}">
+              <input type="hidden" name="PropertiesID" value="{{$jobcard->PropertiesID}}">
+              <input type="hidden" name="unitID" value="{{$jobcard->unitID}}">
+              <div class="box-body">
+                <div class="form-group">
+                  <label name="supplierID" class="col-sm-2 control-label">Invoice Type</label>
+                  <div class="col-sm-10">
+                    <select class="form-control input-req" name="invoiceType">
+                      <!-- <option value="">Select a type</option> -->
+                      <option value="0">Supplier</option>
+                      <option value="1">Customer</option>
+                    </select>
+                  </div>
+                </div>
 
+                <div class="form-group supplier">
+                  <label name="supplierID" class="col-sm-2 control-label">Supplier</label>
+                  <div class="col-sm-10">
+                    <select class="form-control input-req" name="supplierID">
+                            <option value="">Select a supplier</option>
+                        @foreach ($suppliers as $supplier)
+                            <option value="{{$supplier->supplierID}}">{{ $supplier->supplierName }}</option>
+                        @endforeach
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group clearfix customer">
+                  <label class="col-sm-2 control-label">Select Customer</label>
+                  <div class="col-sm-10">
+                    <select class="form-control customer-field" disabled name="customerID">
+                      @if($customer)
+                        <option value="{{$customer->rentalOwnerID}}" selected="selected">{{$customer->firstName}}</option>
+                      @endif
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group invoice-code">
+                  <label class="col-sm-2 control-label">Invoice Number</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="supplierInvoiceCode" class="form-control" placeholder="Invoice Code">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Invoice Date</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="invoiceDate" class="form-control datepicker" placeholder="Invoice Date">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Amount</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="amount" class="form-control input-req" placeholder="Amount">
+                  </div>
+                </div>           
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <div class="form-buttons">
+                  <input type="reset" class="btn btn-default" value="Reset" />
+                  <button type="submit" class="btn btn-info pull-right">Save</button>
+                </div>
+              </div>
+              <!-- /.box-footer -->
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div> 
   
   <table class="m-item  table table-striped">
       <thead>
@@ -69,6 +151,18 @@
               <div class="inner">
                 <a href="#" data-id="{{$supplierInvoice->supplierInvoiceID}}" data-toggle="tooltip" title="Edit" class="btn bg-yellow supplier-edit-invoice btn-sm pull-left" data-toggle="modal" data-target="#supplierModal"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
                 <a href="/invoice/{{$supplierInvoice->supplierInvoiceID}}/display" data-toggle="tooltip" title="PDF" class="btn btn-info btn-sm btn-second pull-left"><i class="fa fa-file-text" aria-hidden="true"></i> </a>
+                @if($supplierInvoice->manuallyAdded == '1')
+                  <form class="delete-form pull-left" method="POST" action="/custom/invoice/delete">
+                    <a href="#" class="delete-btn-rp btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete">
+                      <span><i class="fa fa-trash" aria-hidden="true"></i> </span>
+                      <span class="after">Sure ?</span>
+                    </a>
+                    <input type="hidden" name="invoiceID" value="{{$supplierInvoice->supplierInvoiceID}}">
+                    <input type="hidden" name="invoiceType" value="0">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                  </form>
+                @endif
               </div>
               </td>            
           </tr>
@@ -114,7 +208,19 @@
             <td class="edit-button"> 
               <div class="inner">
                 <a href="#" data-id="{{$customerInvoice->customerInvoiceID}}" class="btn bg-yellow customer-edit-invoice btn-sm pull-left" data-toggle="modal" data-target="#clientModal"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
-                 <a href="/customer/invoice/{{$customerInvoice->customerInvoiceID}}/display" class="btn btn-info btn-sm btn-second pull-left"><i class="fa fa-file-text" aria-hidden="true"></i> </a>
+                <a href="/customer/invoice/{{$customerInvoice->customerInvoiceID}}/display" class="btn btn-info btn-sm btn-second pull-left"><i class="fa fa-file-text" aria-hidden="true"></i> </a>
+                @if($customerInvoice->manuallyAdded == '1')
+                  <form class="delete-form pull-left" method="POST" action="/custom/invoice/delete">
+                    <a href="#" class="delete-btn-rp btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete">
+                      <span><i class="fa fa-trash" aria-hidden="true"></i> </span>
+                      <span class="after">Sure ?</span>
+                    </a>
+                    <input type="hidden" name="invoiceID" value="{{$customerInvoice->customerInvoiceID}}">
+                    <input type="hidden" name="invoiceType" value="1">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                  </form>
+                @endif
               </div>
              </td>            
           </tr>
@@ -195,6 +301,22 @@
       $('.customer-edit-invoice').on('click', function(){
         $('[name="invoiceDate"]').val($(this).closest('tr').find('.invoice-date').text());
         $('[name="customerInvoiceID"]').val($(this).data('id'));
+      });
+
+
+      $('.form-group.customer').hide();
+      $('[name="invoiceType"]').on('change', function(){
+        console.log($(this).val());
+        if($(this).val() == '0'){
+          $('.form-group.supplier').show();
+          $('.form-group.invoice-code').show();
+          $('.form-group.customer').hide();
+        }else{
+          $('.form-group.customer').show();
+          $('.form-group.invoice-code').hide();
+          $('.form-group.supplier').hide();
+
+        }
       });
     });
 

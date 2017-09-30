@@ -11,9 +11,11 @@ use App\Model\Property;
 use App\Model\Customer;
 use App\Model\SupplierInvoice;
 use App\Model\CustomerInvoice;
+use App\Model\RentalOwner;
 use Redirect;
 use Sentinel;
 use App;
+use Carbon\Carbon;
 
 class InvoiceController extends Controller
 {
@@ -69,8 +71,8 @@ class InvoiceController extends Controller
 				$supplierTotal = Maintenance::where('supplierID', $supplierid)->where('jobcardID', $request->jobcardID)->sum('total');
 				$this->createSuppliersInvoice($supplierid, $request->jobcardID, $supplierTotal);
 			}
-		}else{ //Delete all the invoices for that jobcard
-			SupplierInvoice::where('jobcardID', $request->jobcardID)->delete();
+		}else{ //Delete all the invoices for that jobcard that have been automatically created
+			SupplierInvoice::where('jobcardID', $request->jobcardID)->where('manuallyAdded', '0')->delete();
 		}
 	}
 
@@ -79,13 +81,21 @@ class InvoiceController extends Controller
 		$jobcard = JobCard::find($jobcard);
     	$supplierInvoices = SupplierInvoice::where('jobcardID', $jobcard->jobcardID)->get();
     	$customerInvoices = CustomerInvoice::where('jobcardID', $jobcard->jobcardID)->get();
-    	
+    	$suppliers = Supplier::where('fromPropertyOwnerOrTenant', '0')->get();
+    	if($jobcard->rentalOwnerID){
+			$customer = RentalOwner::find($jobcard->rentalOwnerID);			
+		}
+
 		return view('jobcard_invoices', [
             'jobcard' => $jobcard,
             'supplierInvoices' => $supplierInvoices,
             'customerInvoices' => $customerInvoices,
+            'suppliers' => $suppliers,
+            'customer' => $customer,
 	    ]);
 	}
+
+	
 
 	// Returns a list of maintenace items belonging to a specific supplier and jobcard
 	function getMaintenanceItems($supplierid, $jobcardID){
@@ -162,7 +172,7 @@ class InvoiceController extends Controller
 
 
 		}else{ //Delete all the invoices for that jobcard
-			CustomerInvoice::where('jobcardID', $request->jobcardID)->delete();
+			CustomerInvoice::where('jobcardID', $request->jobcardID)->where('manuallyAdded', '0')->delete();
 		}
 	}
 
@@ -206,6 +216,80 @@ class InvoiceController extends Controller
 		return Redirect::back();
 	}
 
+	/**
+	* Common to both invoices
+	*/
+	function createInvoice(Request $request){
+		//supplier
+		if($request->invoiceType == '0'){
+			$invoice = new SupplierInvoice;
+			$jobcard = JobCard::find($request->jobcardID);
+			$invoice->supplierID = $request->supplierID;
+			$invoice->jobCardID = $request->jobcardID;
+			$invoice->PropertiesID = $request->PropertiesID;
+			$invoice->unitID = $request->unitID;
+			$invoice->supplierInvoiceCode = $request->supplierInvoiceCode;
+			$invoice->invoiceSystemCode = 0;
+			$invoice->invoiceDate = date_create_from_format("j/m/Y", $request->invoiceDate)->format('Y-m-d');
+			$invoice->amount = $request->amount;
+			$invoice->paymentPaidYN = 0;
+			$invoice->manuallyAdded = 1;
+			$invoice->createdDateTime = Carbon::now();
+			$invoice->lastUpdatedDateTime = Carbon::now();
+			$invoice->lastUpdatedByUserID = Sentinel::getUser()->id;
+			$invoice->description = 'invoice for '.$jobcard->jobCardCode ;
+
+			$invoice->save();
+			$invoice->invoiceSystemCode = sprintf("SINV%'05d\n", $invoice->supplierInvoiceID);
+			$invoice->save();
+            return Redirect::back();    
+        }
+
+		//customer
+		if($request->invoiceType == '1'){ 
+			$invoice = new CustomerInvoice;
+			$jobcard = JobCard::find($request->jobcardID);
+			$invoice->jobcardID = $request->jobcardID;
+			$invoice->PropertiesID = $request->PropertiesID;
+			$invoice->unitID = $request->unitID;
+			$invoice->CustomerInvoiceSystemCode = 0;
+			$invoice->invoiceDate = date_create_from_format("j/m/Y", $request->invoiceDate)->format('Y-m-d');
+			$invoice->amount = $request->amount;
+			$invoice->paymentReceivedYN = 0;
+			$invoice->manuallyAdded = 1;
+			$invoice->createdDateTime = Carbon::now();
+			$invoice->lastUpdatedDateTime = Carbon::now();
+			$invoice->lastUpdatedByUserID = Sentinel::getUser()->id;
+			$invoice->description = 'invoice for '.$jobcard->jobCardCode ;
+
+			// Check if owner has been submitted
+            if(Customer::where('fromPropertyOwnerOrTenant', 1)->where('IDFromTenantOrPropertyOwner', Property::find($jobcard->PropertiesID)->rentalOwnerID)->first()){
+                $invoice->propertyOwnerID = Customer::where('fromPropertyOwnerOrTenant', 1)->where('IDFromTenantOrPropertyOwner', Property::find($jobcard->PropertiesID)->rentalOwnerID)->first()->customerID;
+            }else{
+                // if not renturn without saving
+                $request->session()->flash('alert-success', 'Cannot create this invoice because the rental owner has not been submitted');
+                return Redirect::back();                
+            }
+
+			$invoice->save();
+			$invoice->CustomerInvoiceSystemCode = sprintf("CINV%'05d\n", $invoice->customerInvoiceID);
+			$invoice->save();
+		}
+        return Redirect::back();                
+	}
+
+	function deleteManualInvoice(Request $request){
+		//Supplier
+		if($request->invoiceType == '0'){
+			$invoice = SupplierInvoice::find($request->invoiceID);
+		}
+		//Customer
+		if($request->invoiceType == '1'){
+			$invoice = CustomerInvoice::find($request->invoiceID);
+		}
+		$invoice->delete();
+        return Redirect::back();                
+	}
 
 
 }
