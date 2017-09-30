@@ -9,6 +9,7 @@ use App\Model\Attachment;
 use App\Model\DocumentMaster;
 use App\Model\Property;
 use App\Model\Supplier;
+use App\Model\ImageFile;
 use App\Model\Customer;
 use Datatables;
 use Illuminate\Support\Facades\DB;
@@ -126,13 +127,16 @@ class RentalOwnersController extends Controller
     	$ownedProperties = Property::where('rentalOwnerID', $rentalowner->rentalOwnerID)->get();
     	$countryName = (isset($rentalowner->country)) ? Country::find($rentalowner->country)->countryName : '';
 
+        $ownerImage = ImageFile::where('documentID', 2)->where('documentAutoID', $rentalowner->rentalOwnerID)->first();
+
 	    return view('rentalowners_edit', [
 	        'rentalowner' => $rentalowner,
 	        'countries' => $countries,
 	        'attachments' => $attachments,
 	        'documentmaster' => $documentmaster,
 	        'countryName' => $countryName,
-	        'ownedProperties' => $ownedProperties,
+            'ownedProperties' => $ownedProperties,
+	        'ownerImage' => $ownerImage,
 	    ]);
     }
 

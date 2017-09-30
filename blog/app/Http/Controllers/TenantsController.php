@@ -10,6 +10,7 @@ use App\Model\DocumentMaster;
 use App\Model\Supplier;
 use App\Model\Customer;
 use App\Model\Agreement;
+use App\Model\ImageFile;
 use Datatables;
 use Illuminate\Support\Facades\DB;
 use Debugbar;
@@ -122,14 +123,15 @@ class TenantsController extends Controller
     	$attachments = Attachment::where('documentAutoID', $tenant->tenantsID)->where('documentID', 4)->get();
 
     	$countryName = (isset($tenant->country)) ? Country::find($tenant->country)->countryName : '';
+        $tenantImage = ImageFile::where('documentID', 4)->where('documentAutoID', $tenant->tenantsID)->first();
     	
 	    return view('tenants_edit', [
 	        'countries' => $countries,
 	        'tenant' => $tenant,
 	        'attachments' => $attachments,
 	        'documentmaster' => $documentmaster,
-	        'countryName' => $countryName,
-
+            'countryName' => $countryName,
+	        'tenantImage' => $tenantImage,
 	    ]);
     }
 
