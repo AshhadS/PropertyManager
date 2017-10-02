@@ -25,7 +25,7 @@
         <td>
           <!-- <button class="btn btn-info btn-sm edit-settings" data-id="{{$account->accountID}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button> -->
 
-          <form class="delete-form clearfix" data-section="accounts" method="POST" action="account/{{$account->chartOfAccountID}}">
+          <form class="delete-form clearfix" data-section="chartofaccounts" method="POST" action="chartofaccount/{{$account->chartOfAccountID}}">
             <a href="#" class="delete-btn-ajax btn btn-danger btn-sm button--winona">
               <span><i class="fa fa-trash" aria-hidden="true"></i> Delete</span><span class="after">Sure?</span>
             </a>
@@ -45,16 +45,8 @@
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog wide" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Chart of Accounts</h4>
-      </div>
       <div class="modal-body">
-        <div class="box box-info">
-          <div class="box-header with-border">
-            <h3 class="box-title">Add Chart of Account</h3>
-          </div>
-          <form class="form-horizontal ajax-process  pull add-user" action="/account" method="POST">
+          <form class="form-horizontal ajax-process  pull add-user" action="/chartofaccount" method="POST">
               {{ csrf_field() }}
               <!-- <div class="form-group">
                 <label class="col-sm-2 control-label">Name</label>
@@ -90,14 +82,22 @@
                   </select>     
                 </div>
               </div>  
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Category BS or PL</label>
+                <div class="col-sm-10">
+                  <select name="PLOrBS" id="plorbs" class="form-control">
+                    <option value="1">PL</option>
+                    <option value="2">BS</option>
+                  </select>     
+                </div>
+              </div>  
               <div class="box-footer">
                 <div class="form-buttons">
                   <input type="reset" class="btn btn-default" value="Reset">
-                  <button type="submit" data-section="accounts" class="btn btn-info pull-right">Save</button>
+                  <button type="submit" data-section="chartofaccounts" class="btn btn-info pull-right">Save</button>
                 </div>
               </div> 
           </form>
-        </div>
       </div>
     </div>
   </div>

@@ -22,10 +22,10 @@ $(function() {
 
     
 
-    // Adding the required indicator and property to block form submit
-    // $( ".input-req" ).wrap( "<span class='input-req'></span>" );
-    // $( ".input-req" ).attr( "required", true );
-    // $( "span.input-req" ).append('<span class="input-req-inner"></span>');
+    //Adding the required indicator and property to block form submit
+    $( ".input-req" ).wrap( "<span class='input-req'></span>" );
+    $( ".input-req" ).attr( "required", true );
+    $( "span.input-req" ).append('<span class="input-req-inner"></span>');
 
     //Date picker
     $('.datepicker').datepicker({

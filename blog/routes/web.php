@@ -328,10 +328,10 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		/**
 		 * Chart of accounts
 		 */		
-		Route::get('/accounts', 'SettingsController@showChartofaccounts');
-		Route::post('/account', 'SettingsController@createChartofaccounts');
-		Route::post('update/account', 'SettingsController@editChartofaccounts');
-		Route::delete('/account/{chartofaccounts}', 'SettingsController@deleteChartofaccounts');
+		Route::get('/chartofaccounts', 'SettingsController@showChartofaccounts');
+		Route::post('/chartofaccount', 'SettingsController@createChartofaccounts');
+		Route::post('update/chartofaccount', 'SettingsController@editChartofaccounts');
+		Route::delete('/chartofaccount/{chartofaccounts}', 'SettingsController@deleteChartofaccounts');
 
 		/**
 		 * Receipts

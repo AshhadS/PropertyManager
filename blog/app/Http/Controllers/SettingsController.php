@@ -320,6 +320,8 @@ class SettingsController extends Controller
         $chartofaccount->accountDescription = $request->accountDescription;
         $chartofaccount->mainCode = $request->mainCode;
         $chartofaccount->type = $request->type;
+        $chartofaccount->PLOrBS = $request->PLOrBS;
+        
 
 
         $chartofaccount->save();

@@ -77,7 +77,7 @@
 			      <table class="table table-striped">
 			        <tbody>
 			        <tr>
-			          <td><a href="#accounts" data-section="accounts" class="link">Chart of Accounts</a></td>
+			          <td><a href="#chartofaccounts" data-section="chartofaccounts" class="link">Chart of Accounts</a></td>
 			        </tr>
 			        <tr>
 			          <td><a class='link' data-section="currency" href="#currency">Currency</a></td>
@@ -318,7 +318,7 @@
 	                return 'Value is required.';
 	        },
 	        method: 'POST',
-	        url:'update/account',  
+	        url:'update/chartofaccount',  
 	        title: 'Edit',
 	        send:'always',   
 	        params: function(params) {
@@ -333,7 +333,7 @@
 	                return 'Value is required.';
 	        },
 	        method: 'POST',
-	        url:'update/account',  
+	        url:'update/chartofaccount',  
 	        title: 'Edit',
 	        send:'always',   
 	        params: function(params) {
