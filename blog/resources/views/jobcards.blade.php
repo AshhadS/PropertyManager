@@ -77,7 +77,7 @@
               <label class="col-sm-2 control-label">Job Card Priority</label>
               <div class="col-sm-10">
                 <select name="priorityID" class="form-control  input-req" >
-                        <option value="0">Select a priority</option>
+                        <option value="">Select a priority</option>
                     @foreach ($jobcardprioritys as $jobcardpriority)
                         <option value="{{$jobcardpriority->priorityID}}">{{ $jobcardpriority->priorityDescription }}</option>
                     @endforeach
@@ -89,7 +89,7 @@
               <label class="col-sm-2 control-label">Job Card Type</label>
               <div class="col-sm-10">
                 <select name="jobcardTypeID" class="form-control input-req" >
-                        <option value="0">Select a type</option>
+                        <option value="">Select a type</option>
                     @foreach ($jobcardtypes as $jobcardtype)
                         <option value="{{$jobcardtype->jobcardTypeID}}">{{ $jobcardtype->jobcardTypeDescription }}</option>
                     @endforeach
