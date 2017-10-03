@@ -353,6 +353,25 @@
               {value: "9", text:"Non-Operating Expense"},
             ],       
 	    });
+	    $('.accounts-plbs.item-editable').editable({
+	        validate: function(value) {
+	            if($.trim(value) == '') 
+	                return 'Value is required.';
+	        },
+	        method: 'POST',
+	        url:'update/chartofaccount',  
+	        title: 'Edit',
+	        send:'always',   
+	        params: function(params) {
+	            //originally params contain pk, name and value
+	            params._token = '{{ csrf_token() }}';
+	            return params;
+	        },
+	        source : [
+              {value: "1", text:"PL"},
+              {value: "2", text:"BS"},
+            ],       
+	    });
 	    $('.user.item-editable').editable({
 	        validate: function(value) {
 	            if($.trim(value) == '') 
