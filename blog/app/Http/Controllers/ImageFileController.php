@@ -14,6 +14,7 @@ use Redirect;
 use Response;
 use File;
 use Sentinel;
+use Log;
 use URL;
 use Carbon\Carbon;
     	// Debugbar::info($property); 
@@ -53,6 +54,9 @@ class ImageFileController extends Controller
             $imageFile->fileName = $file->getClientOriginalName();
             $imageFile->fileNameSlug = $request->documentID . '_' . $request->documentAutoID .'_'.time().'.' . $file->getClientOriginalExtension();
             Storage::put('uploads/images/'.$imageFile->fileNameSlug, file_get_contents($file));
+        }else{
+        	Log::error('file size is too large');
+        	return 'false';
         }
 
 		$imageFile->save();
