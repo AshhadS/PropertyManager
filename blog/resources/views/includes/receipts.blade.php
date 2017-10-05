@@ -35,15 +35,27 @@
           <td class="chequeDate format-date">{{$receipt->chequeDate}}</td>
           <td class="receiptDate format-date">{{$receipt->receiptDate}}</td>
           <td class="edit-button">
-            <a class="btn bg-green btn-sm pull-left receipt-edit" data-toggle="tooltip" title="Edit" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
-            <form class="delete-form pull-left" method="POST" action="/custom/receipt/{{$receipt->receiptID}}">
-              <a href="#" class="delete-btn-rp btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete">
-                <span><i class="fa fa-trash" aria-hidden="true"></i> </span>
-                <span class="after">Sure ?</span>
-              </a>
-              <input type="hidden" name="_method" value="DELETE">
-              <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            </form>
+            <div class="inner wide">
+              <a class="btn bg-green btn-sm pull-left receipt-edit" data-toggle="tooltip" title="Edit" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
+              <form class="delete-form confirm-submit" method="POST" action="/submit/receipt">
+                <input type="hidden" name="_token" value="{{csrf_token()}}">
+                <input type="hidden" name="receiptID" value="{{$receipt->receiptID}}">
+                <input type="hidden" name="flag" value="{{$receipt->submittedYN}}">
+                @if($receipt->submittedYN == 1)
+                  <button class="btn bg-green btn-sm btn-second" data-toggle="tooltip" title="Reverse" type="submit"><i class="fa fa-undo" aria-hidden="true"></i></button>
+                @else
+                  <button class="btn bg-green btn-sm btn-second" data-toggle="tooltip" title="Submit" type="submit" > <i class="fa fa-check-square-o" aria-hidden="true"></i></button>
+                @endif
+              </form> 
+              <form class="delete-form pull-left" method="POST" action="/custom/receipt/{{$receipt->receiptID}}">
+                <a href="#" class="delete-btn-rp btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete">
+                  <span><i class="fa fa-trash" aria-hidden="true"></i> </span>
+                  <span class="after">Sure ?</span>
+                </a>
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+              </form>
+            </div>
           </td>
         </tr>
         @endforeach

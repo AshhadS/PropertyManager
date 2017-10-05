@@ -16,6 +16,7 @@ use App\Model\BankAccount;
 use Redirect;
 use Sentinel;
 use App;
+use Carbon\Carbon;
 
 class ReceiptController extends Controller
 {
@@ -74,6 +75,17 @@ class ReceiptController extends Controller
 	// 	$pdf->loadView('pdf/jobcard_receipt_pdf', $data , $data);
 	// 	return $pdf->stream();
 	// }
+
+	function submitHandler(Request $request){
+        $receipt = Receipt::find($request->receiptID);
+
+        $receipt->submittedYN = ($request->flag == '1') ? '0' : '1';
+        $receipt->submittedDate = Carbon::now();
+        $receipt->submittedUserID = Sentinel::getUser()->id;
+        $receipt->save();
+
+        return Redirect::back();
+    }
 
 	function delete($receiptID){
 		$receipt = Receipt::find($receiptID);

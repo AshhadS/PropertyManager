@@ -14,6 +14,7 @@ use App\Model\PaymentType;
 use Redirect;
 use Sentinel;
 use App;
+use Carbon\Carbon;
 
 class PaymentController extends Controller
 {
@@ -56,6 +57,17 @@ class PaymentController extends Controller
 
 		return Redirect::back();
 	}
+
+	function submitHandler(Request $request){
+        $payment = Payment::find($request->paymentID);
+
+        $payment->submittedYN = ($request->flag == '1') ? '0' : '1';
+        $payment->submittedDate = Carbon::now();
+        $payment->submittedUserID = Sentinel::getUser()->id;
+        $payment->save();
+
+        return Redirect::back();
+    }
 
 
 	// function generatePDF($id){

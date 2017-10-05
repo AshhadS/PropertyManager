@@ -20,6 +20,10 @@ $(function() {
         e.preventDefault();
     });
 
+    if(window.location.hostname == "portal.ibsswjt.com"){
+        $('.phpdebugbar').hide();
+    }
+
     
 
     //Adding the required indicator and property to block form submit

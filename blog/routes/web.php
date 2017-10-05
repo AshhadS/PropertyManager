@@ -212,6 +212,9 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::get('customer/invoice/{id}/display',  'InvoiceController@customerInvoicePDF');
 		Route::get('supplier/invoice/{id}/display',  'InvoiceController@supplierInvoicePDF');
 
+		Route::post('invoice/submit',  'InvoiceController@invoiceSubmitHandler');
+
+
 		/**
 		 * Jobcard Payment
 		 */
@@ -339,6 +342,8 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::post('custom/receipt', 'ReceiptController@createReceipt');
 		Route::post('update/custom/receipt', 'ReceiptController@updateReceipt');
 		Route::delete('custom/receipt/{id}', 'ReceiptController@delete');
+		Route::post('submit/receipt', 'ReceiptController@submitHandler');
+		
 
 		/**
 		 * Payments
@@ -346,6 +351,8 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::post('custom/payment', 'PaymentController@createPayment');
 		Route::post('update/custom/payment', 'PaymentController@updatePayment');
 		Route::delete('custom/payment/{id}', 'PaymentController@delete');
+		Route::post('submit/payment', 'PaymentController@submitHandler');
+
 
 		/**
 		 * Customer

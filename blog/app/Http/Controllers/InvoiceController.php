@@ -39,6 +39,22 @@ class InvoiceController extends Controller
 	    return Redirect::to('jobcard/edit/'.$request->jobcardID.'/maintenance');		
 	}
 
+	function invoiceSubmitHandler(Request $request){
+		if($request->invoiceType == 1){//Supplier Invoice
+	        $invoice = SupplierInvoice::find($request->invoiceID);
+		}
+		if($request->invoiceType == 2){//Customer Invoice
+	        $invoice = CustomerInvoice::find($request->invoiceID);
+		}
+
+        $invoice->submittedYN = ($request->flag == '1') ? '0' : '1';
+        $invoice->submittedDate = Carbon::now();
+        $invoice->submittedUserID = Sentinel::getUser()->id;
+        $invoice->save();
+
+        return Redirect::back();
+    }
+
 	// Save the supplier invoice info to the db
 	function createSuppliersInvoice($supplierID, $jobcardID, $total){
 		$jobcard = Jobcard::find($jobcardID);

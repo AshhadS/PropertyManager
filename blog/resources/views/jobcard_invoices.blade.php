@@ -117,13 +117,13 @@
       </thead>
       <tbody> 
         <tr class="t-head">
-          <th class="amount-col">#</th>
+          <th class="amount-col" style="width: 10px;">#</th>
           <th>Invoice System Code</th>
           <th>Supplier Name</th>
           <th>Invoice Number</th>
           <th>Invoice Date</th>
           <th>Amount</th>
-          <th>Payment Status</th>
+          <th style="width: 130px;">Payment Status</th>
           <th>Actions</th>
         </tr>
         @foreach($supplierInvoices as $index => $supplierInvoice)
@@ -148,9 +148,20 @@
               @endif
             </td>            
             <td class="edit-button"> 
-              <div class="inner">
+              <div class="inner wide">
                 <a href="#" data-id="{{$supplierInvoice->supplierInvoiceID}}" data-toggle="tooltip" title="Edit" class="btn bg-yellow supplier-edit-invoice btn-sm pull-left" data-toggle="modal" data-target="#supplierModal"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
                 <a href="/invoice/{{$supplierInvoice->supplierInvoiceID}}/display" data-toggle="tooltip" title="PDF" class="btn btn-info btn-sm btn-second pull-left"><i class="fa fa-file-text" aria-hidden="true"></i> </a>
+                <form class="delete-form confirm-submit" method="POST" action="/invoice/submit">
+                  <input type="hidden" name="_token" value="{{csrf_token()}}">
+                  <input type="hidden" name="invoiceID" value="{{$supplierInvoice->supplierInvoiceID}}">
+                  <input type="hidden" name="invoiceType" value="1">
+                  <input type="hidden" name="flag" value="{{$supplierInvoice->submittedYN}}">
+                  @if($supplierInvoice->submittedYN == 1)
+                    <button class="btn bg-green btn-sm btn-second" data-toggle="tooltip" title="Reverse" type="submit"><i class="fa fa-undo" aria-hidden="true"></i></button>
+                  @else
+                    <button class="btn bg-green btn-sm btn-second" data-toggle="tooltip" title="Submit" type="submit" > <i class="fa fa-check-square-o" aria-hidden="true"></i></button>
+                  @endif
+                </form> 
                 @if($supplierInvoice->manuallyAdded == '1')
                   <form class="delete-form pull-left" method="POST" action="/custom/invoice/delete">
                     <a href="#" class="delete-btn-rp btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete">
@@ -206,9 +217,20 @@
               @endif
             </td>            
             <td class="edit-button"> 
-              <div class="inner">
+              <div class="inner wide">
                 <a href="#" data-id="{{$customerInvoice->customerInvoiceID}}" class="btn bg-yellow customer-edit-invoice btn-sm pull-left" data-toggle="modal" data-target="#clientModal"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
                 <a href="/customer/invoice/{{$customerInvoice->customerInvoiceID}}/display" class="btn btn-info btn-sm btn-second pull-left"><i class="fa fa-file-text" aria-hidden="true"></i> </a>
+                <form class="delete-form confirm-submit" method="POST" action="/invoice/submit">
+                  <input type="hidden" name="_token" value="{{csrf_token()}}">
+                  <input type="hidden" name="invoiceID" value="{{$customerInvoice->customerInvoiceID}}">
+                  <input type="hidden" name="invoiceType" value="2">
+                  <input type="hidden" name="flag" value="{{$customerInvoice->submittedYN}}">
+                  @if($customerInvoice->submittedYN == 1)
+                    <button class="btn bg-green btn-sm btn-second" data-toggle="tooltip" title="Reverse" type="submit"><i class="fa fa-undo" aria-hidden="true"></i></button>
+                  @else
+                    <button class="btn bg-green btn-sm btn-second" data-toggle="tooltip" title="Submit" type="submit" > <i class="fa fa-check-square-o" aria-hidden="true"></i></button>
+                  @endif
+                </form> 
                 @if($customerInvoice->manuallyAdded == '1')
                   <form class="delete-form pull-left" method="POST" action="/custom/invoice/delete">
                     <a href="#" class="delete-btn-rp btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete">
@@ -306,16 +328,20 @@
 
       $('.form-group.customer').hide();
       $('[name="invoiceType"]').on('change', function(){
-        console.log($(this).val());
         if($(this).val() == '0'){
           $('.form-group.supplier').show();
           $('.form-group.invoice-code').show();
           $('.form-group.customer').hide();
+
+          $('.form-group.customer select').removeAttr('required');
+          $('.form-group.supplier select').attr('required', true);
         }else{
           $('.form-group.customer').show();
           $('.form-group.invoice-code').hide();
           $('.form-group.supplier').hide();
 
+          $('.form-group.supplier select').removeAttr('required');
+          $('.form-group.customer select').attr('required', true);
         }
       });
     });

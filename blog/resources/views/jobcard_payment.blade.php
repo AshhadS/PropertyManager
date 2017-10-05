@@ -59,8 +59,18 @@
         </td>
         <td>{{$payment->paymentDate}}</td>
         <td class="edit-button">
-          <div class="inner">
+          <div class="inner wide">
             <a href="/jobcard/edit/payment/{{$payment->paymentID}}/pdf" data-toggle="tooltip" title="PDF" class="btn btn-info btn-sm"><i class="fa fa-file-text" aria-hidden="true"></i> </a>
+            <form class="delete-form confirm-submit" method="POST" action="/submit/payment">
+              <input type="hidden" name="_token" value="{{csrf_token()}}">
+              <input type="hidden" name="paymentID" value="{{$payment->paymentID}}">
+              <input type="hidden" name="flag" value="{{$payment->submittedYN}}">
+              @if($payment->submittedYN == 1)
+                <button class="btn bg-green btn-sm btn-second" data-toggle="tooltip" title="Reverse" type="submit"><i class="fa fa-undo" aria-hidden="true"></i></button>
+              @else
+                <button class="btn bg-green btn-sm btn-second" data-toggle="tooltip" title="Submit" type="submit" > <i class="fa fa-check-square-o" aria-hidden="true"></i></button>
+              @endif
+            </form> 
             <form class="delete-form" action="/payment/{{$payment->paymentID}}" method="POST">
               {{ csrf_field() }}
               {{ method_field('DELETE') }}

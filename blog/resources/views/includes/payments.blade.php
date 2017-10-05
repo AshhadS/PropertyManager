@@ -34,15 +34,27 @@
           <td class="chequeDate format-date">{{$payment->chequeDate}}</td>
           <td class="paymentDate format-date">{{$payment->paymentDate}}</td>
           <td class="edit-button">
-            <a class="btn bg-green btn-sm pull-left payment-edit" data-toggle="tooltip" title="Edit" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
-            <form class="delete-form pull-left  " method="POST" action="/custom/payment/{{$payment->paymentID}}">
-              <a href="#" class="delete-btn-rp btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete">
-                <span><i class="fa fa-trash" aria-hidden="true"></i> </span>
-                <span class="after">Sure ?</span>
-              </a>
-              <input type="hidden" name="_method" value="DELETE">
-              <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            </form>
+            <div class="inner wide">
+              <a class="btn bg-green btn-sm pull-left payment-edit" data-toggle="tooltip" title="Edit" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
+              <form class="delete-form confirm-submit" method="POST" action="/submit/payment">
+                <input type="hidden" name="_token" value="{{csrf_token()}}">
+                <input type="hidden" name="paymentID" value="{{$payment->paymentID}}">
+                <input type="hidden" name="flag" value="{{$payment->submittedYN}}">
+                @if($payment->submittedYN == 1)
+                  <button class="btn bg-green btn-sm btn-second" data-toggle="tooltip" title="Reverse" type="submit"><i class="fa fa-undo" aria-hidden="true"></i></button>
+                @else
+                  <button class="btn bg-green btn-sm btn-second" data-toggle="tooltip" title="Submit" type="submit" > <i class="fa fa-check-square-o" aria-hidden="true"></i></button>
+                @endif
+              </form> 
+              <form class="delete-form pull-left  " method="POST" action="/custom/payment/{{$payment->paymentID}}">
+                <a href="#" class="delete-btn-rp btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete">
+                  <span><i class="fa fa-trash" aria-hidden="true"></i> </span>
+                  <span class="after">Sure ?</span>
+                </a>
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+              </form>
+            </div>
           </td>
         </tr>
         @endforeach
