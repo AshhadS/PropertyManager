@@ -118,12 +118,13 @@
       <tbody> 
         <tr class="t-head">
           <th class="amount-col" style="width: 10px;">#</th>
-          <th>Invoice System Code</th>
+          <th style="width: 140px;">Invoice System Code</th>
           <th>Supplier Name</th>
-          <th>Invoice Number</th>
+          <th style="width: 140px;">Invoice Number</th>
           <th>Invoice Date</th>
-          <th>Amount</th>
+          <th  style="width: 100px;">Amount</th>
           <th style="width: 130px;">Payment Status</th>
+          <th style="width: 70px;">Submitted</th>
           <th>Actions</th>
         </tr>
         @foreach($supplierInvoices as $index => $supplierInvoice)
@@ -146,7 +147,14 @@
               @else
                 Fully Paid
               @endif
-            </td>            
+            </td > 
+            <td class="center-parent"> 
+              @if ($supplierInvoice->submittedYN == 0)
+                <span class="simple-box red"></span>
+              @else
+                <span class="simple-box green"></span>
+              @endif
+            </td>         
             <td class="edit-button"> 
               <div class="inner wide">
                 <a href="#" data-id="{{$supplierInvoice->supplierInvoiceID}}" data-toggle="tooltip" title="Edit" class="btn bg-yellow supplier-edit-invoice btn-sm pull-left" data-toggle="modal" data-target="#supplierModal"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
@@ -188,12 +196,13 @@
     </div>
     <table class="m-item  table table-striped"  >
       <tr class="t-head">
-        <th class="amount-col">#</th>
-        <th>Invoice System Code</th>
+        <th class="amount-col"  style="width: 10px;">#</th>
+        <th  style="width: 140px;">Invoice System Code</th>
         <th>Customer Name</th>
         <th>Invoice Date</th>
-        <th>Amount</th>
+        <th  style="width: 100px;">Amount</th>
         <th>Payment Status</th>
+        <th style="width: 70px;">Submitted</th>
         <th>Actions</th>
       </tr>
       @foreach($customerInvoices as $index => $customerInvoice)
@@ -215,7 +224,14 @@
               @else
                 Fully Received
               @endif
-            </td>            
+            </td>    
+            <td class="center-parent"> 
+              @if ($supplierInvoice->submittedYN == 0)
+                <span class="simple-box red"></span>
+              @else
+                <span class="simple-box green"></span>
+              @endif
+            </td>          
             <td class="edit-button"> 
               <div class="inner wide">
                 <a href="#" data-id="{{$customerInvoice->customerInvoiceID}}" class="btn bg-yellow customer-edit-invoice btn-sm pull-left" data-toggle="modal" data-target="#clientModal"><i class="fa fa-pencil" aria-hidden="true"></i> </a>

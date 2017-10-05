@@ -10,7 +10,7 @@
     <table class="m-item table table-striped">
       <tbody>
         <tr class="t-head">
-          <th>#</th>
+          <th style="width: 10px;">#</th>
           <th>Receipt Code</th>
           <th>Description</th>
           <th>Type</th>
@@ -18,6 +18,7 @@
           <th>Cheque Number</th>
           <th>Cheque Date</th>
           <th>Receipt Date</th>
+          <th>Submitted</th>
           <th>Actions</th>
         </tr>
         @foreach($receipts as $index => $receipt)
@@ -34,6 +35,13 @@
           <td class="chequeNumber">{{$receipt->chequeNumber}}</td>
           <td class="chequeDate format-date">{{$receipt->chequeDate}}</td>
           <td class="receiptDate format-date">{{$receipt->receiptDate}}</td>
+          <td class="center-parent"> 
+            @if ($receipt->submittedYN == 0)
+              <span class="simple-box red"></span>
+            @else
+              <span class="simple-box green"></span>
+            @endif
+          </td>  
           <td class="edit-button">
             <div class="inner wide">
               <a class="btn bg-green btn-sm pull-left receipt-edit" data-toggle="tooltip" title="Edit" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> </a>

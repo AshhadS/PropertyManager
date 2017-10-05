@@ -39,6 +39,7 @@
       <th>Amount</th>
       <th>Payment Type</th>
       <th>Payment Date</th>
+      <th>Submitted</th>
       <th>Actions</th>
     </tr>
     @foreach($payments as $payment)
@@ -58,6 +59,13 @@
           @endif
         </td>
         <td>{{$payment->paymentDate}}</td>
+        <td class="center-parent"> 
+          @if ($payment->submittedYN == 0)
+            <span class="simple-box red"></span>
+          @else
+            <span class="simple-box green"></span>
+          @endif
+        </td>  
         <td class="edit-button">
           <div class="inner wide">
             <a href="/jobcard/edit/payment/{{$payment->paymentID}}/pdf" data-toggle="tooltip" title="PDF" class="btn btn-info btn-sm"><i class="fa fa-file-text" aria-hidden="true"></i> </a>

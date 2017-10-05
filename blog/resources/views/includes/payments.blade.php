@@ -9,7 +9,7 @@
     <table class="m-item table table-striped">
       <tbody>
         <tr class="t-head">
-          <th>#</th>
+          <th style="width: 10px;">#</th>
           <th>Payment Code</th>
           <th>Description</th>
           <th>Type</th>
@@ -17,6 +17,7 @@
           <th>Cheque Number</th>
           <th>Cheque Date</th>
           <th>Payment Date</th>
+          <th>Submitted</th>
           <th>Actions</th>
         </tr>
         @foreach($payments as $index => $payment)
@@ -33,6 +34,13 @@
           <td class="chequeNumber">{{$payment->chequeNumber}}</td>
           <td class="chequeDate format-date">{{$payment->chequeDate}}</td>
           <td class="paymentDate format-date">{{$payment->paymentDate}}</td>
+          <td class="center-parent"> 
+            @if ($payment->submittedYN == 0)
+              <span class="simple-box red"></span>
+            @else
+              <span class="simple-box green"></span>
+            @endif
+          </td>
           <td class="edit-button">
             <div class="inner wide">
               <a class="btn bg-green btn-sm pull-left payment-edit" data-toggle="tooltip" title="Edit" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> </a>

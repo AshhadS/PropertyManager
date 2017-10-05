@@ -39,6 +39,7 @@
         <th>Amount</th>
         <th>Payment Type</th>
         <th>Receipt Date</th>
+        <th>Submitted</th>
         <th>Actions</th>
       </tr>
       @foreach($receipts as $receipt)
@@ -58,6 +59,13 @@
             @endif
           </td>
           <td>{{$receipt->receiptDate}}</td>
+          <td class="center-parent"> 
+            @if ($receipt->submittedYN == 0)
+              <span class="simple-box red"></span>
+            @else
+              <span class="simple-box green"></span>
+            @endif
+          </td>  
           <td class="edit-button">
             <div class="inner wide">
               <a href="/jobcard/edit/receipt/{{$receipt->receiptID}}/pdf" data-toggle="tooltip" title="PDF" class="btn btn-info btn-sm"><i class="fa fa-file-text" aria-hidden="true"></i></a>
