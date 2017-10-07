@@ -86,7 +86,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Invoice Date</label>
                   <div class="col-sm-10">
-                    <input type="text" name="invoiceDate" class="form-control datepicker" placeholder="Invoice Date">
+                    <input type="text" name="invoiceDate" class="form-control datepicker input-req" placeholder="Invoice Date">
                   </div>
                 </div>
 
@@ -127,65 +127,69 @@
           <th style="width: 70px;">Submitted</th>
           <th>Actions</th>
         </tr>
-        @foreach($supplierInvoices as $index => $supplierInvoice)
-          <tr class="maintenance-item">
-            <td> {{++$index}} </td>
-            <td> {{$supplierInvoice->invoiceSystemCode}} </td>
-            <td data-supplier-val="{{$supplierInvoice->supplierID}}">
-              @if(App\Model\Supplier::find($supplierInvoice->supplierID) && $supplierInvoice->supplierID != 0)
-                 {{App\Model\Supplier::find($supplierInvoice->supplierID)->supplierName}}
-              @endif
-            </td>
-            <td class="invoice-code"> {{$supplierInvoice->supplierInvoiceCode}} </td>
-            <td class="invoice-date format-date"> {{$supplierInvoice->invoiceDate}} </td>
-            <td><?= number_format((float)$supplierInvoice->amount, 3, '.', '') ?></td>
-            <td> 
-              @if ($supplierInvoice->paymentPaidYN == 0)
-                Not Paid
-              @elseif ($supplierInvoice->paymentPaidYN == 1)
-                Partially Paid
-              @else
-                Fully Paid
-              @endif
-            </td > 
-            <td class="center-parent"> 
-              @if ($supplierInvoice->submittedYN == 0)
-                <span class="simple-box red"></span>
-              @else
-                <span class="simple-box green"></span>
-              @endif
-            </td>         
-            <td class="edit-button"> 
-              <div class="inner wide">
-                <a href="#" data-id="{{$supplierInvoice->supplierInvoiceID}}" data-toggle="tooltip" title="Edit" class="btn bg-yellow supplier-edit-invoice btn-sm pull-left" data-toggle="modal" data-target="#supplierModal"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
-                <a href="/invoice/{{$supplierInvoice->supplierInvoiceID}}/display" data-toggle="tooltip" title="PDF" class="btn btn-info btn-sm btn-second pull-left"><i class="fa fa-file-text" aria-hidden="true"></i> </a>
-                <form class="delete-form confirm-submit" method="POST" action="/invoice/submit">
-                  <input type="hidden" name="_token" value="{{csrf_token()}}">
-                  <input type="hidden" name="invoiceID" value="{{$supplierInvoice->supplierInvoiceID}}">
-                  <input type="hidden" name="invoiceType" value="1">
-                  <input type="hidden" name="flag" value="{{$supplierInvoice->submittedYN}}">
-                  @if($supplierInvoice->submittedYN == 1)
-                    <button class="btn bg-green btn-sm btn-second" data-toggle="tooltip" title="Reverse" type="submit"><i class="fa fa-undo" aria-hidden="true"></i></button>
-                  @else
-                    <button class="btn bg-green btn-sm btn-second" data-toggle="tooltip" title="Submit" type="submit" > <i class="fa fa-check-square-o" aria-hidden="true"></i></button>
-                  @endif
-                </form> 
-                @if($supplierInvoice->manuallyAdded == '1')
-                  <form class="delete-form pull-left" method="POST" action="/custom/invoice/delete">
-                    <a href="#" class="delete-btn-rp btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete">
-                      <span><i class="fa fa-trash" aria-hidden="true"></i> </span>
-                      <span class="after">Sure ?</span>
-                    </a>
-                    <input type="hidden" name="invoiceID" value="{{$supplierInvoice->supplierInvoiceID}}">
-                    <input type="hidden" name="invoiceType" value="0">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                  </form>
+        @if($supplierInvoices->first())
+          @foreach($supplierInvoices as $index => $supplierInvoice)
+            <tr class="maintenance-item">
+              <td> {{++$index}} </td>
+              <td> {{$supplierInvoice->invoiceSystemCode}} </td>
+              <td data-supplier-val="{{$supplierInvoice->supplierID}}">
+                @if(App\Model\Supplier::find($supplierInvoice->supplierID) && $supplierInvoice->supplierID != 0)
+                   {{App\Model\Supplier::find($supplierInvoice->supplierID)->supplierName}}
                 @endif
-              </div>
-              </td>            
-          </tr>
-        @endforeach
+              </td>
+              <td class="invoice-code"> {{$supplierInvoice->supplierInvoiceCode}} </td>
+              <td class="invoice-date format-date"> {{$supplierInvoice->invoiceDate}} </td>
+              <td><?= number_format((float)$supplierInvoice->amount, 3, '.', '') ?></td>
+              <td> 
+                @if ($supplierInvoice->paymentPaidYN == 0)
+                  Not Paid
+                @elseif ($supplierInvoice->paymentPaidYN == 1)
+                  Partially Paid
+                @else
+                  Fully Paid
+                @endif
+              </td > 
+              <td class="center-parent"> 
+                @if ($supplierInvoice->submittedYN == 0)
+                  <span class="simple-box red"></span>
+                @else
+                  <span class="simple-box green"></span>
+                @endif
+              </td>         
+              <td class="edit-button"> 
+                <div class="inner wide">
+                  <span data-toggle="tooltip" title="Reverse">
+                    <a href="#" data-id="{{$supplierInvoice->supplierInvoiceID}}" data-toggle="modal" title="Edit" class="btn bg-yellow supplier-edit-invoice btn-sm pull-left" data-target="#supplierModal"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
+                  </span>
+                  <a href="/invoice/{{$supplierInvoice->supplierInvoiceID}}/display" data-toggle="tooltip" title="PDF" class="btn btn-info btn-sm btn-second pull-left"><i class="fa fa-file-text" aria-hidden="true"></i> </a>
+                  <form class="delete-form confirm-submit" method="POST" action="/invoice/submit">
+                    <input type="hidden" name="_token" value="{{csrf_token()}}">
+                    <input type="hidden" name="invoiceID" value="{{$supplierInvoice->supplierInvoiceID}}">
+                    <input type="hidden" name="invoiceType" value="1">
+                    <input type="hidden" name="flag" value="{{$supplierInvoice->submittedYN}}">
+                    @if($supplierInvoice->submittedYN == 1)
+                      <button class="btn bg-green btn-sm btn-second" data-toggle="tooltip" title="Reverse" type="submit"><i class="fa fa-undo" aria-hidden="true"></i></button>
+                    @else
+                      <button class="btn bg-green btn-sm btn-second" data-toggle="tooltip" title="Submit" type="submit" > <i class="fa fa-check-square-o" aria-hidden="true"></i></button>
+                    @endif
+                  </form> 
+                  @if($supplierInvoice->manuallyAdded == '1')
+                    <form class="delete-form pull-left" method="POST" action="/custom/invoice/delete">
+                      <a href="#" class="delete-btn-rp btn btn-danger btn-sm button--winona" data-toggle="tooltip" title="Delete">
+                        <span><i class="fa fa-trash" aria-hidden="true"></i> </span>
+                        <span class="after">Sure ?</span>
+                      </a>
+                      <input type="hidden" name="invoiceID" value="{{$supplierInvoice->supplierInvoiceID}}">
+                      <input type="hidden" name="invoiceType" value="0">
+                      <input type="hidden" name="_method" value="DELETE">
+                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    </form>
+                  @endif
+                </div>
+                </td>            
+            </tr>
+          @endforeach
+        @endif
       </tbody>
     </table>
 
@@ -226,7 +230,7 @@
               @endif
             </td>    
             <td class="center-parent"> 
-              @if ($supplierInvoice->submittedYN == 0)
+              @if ($customerInvoice->submittedYN == 0)
                 <span class="simple-box red"></span>
               @else
                 <span class="simple-box green"></span>
@@ -234,7 +238,9 @@
             </td>          
             <td class="edit-button"> 
               <div class="inner wide">
-                <a href="#" data-id="{{$customerInvoice->customerInvoiceID}}" class="btn bg-yellow customer-edit-invoice btn-sm pull-left" data-toggle="modal" data-target="#clientModal"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
+                <span data-toggle="tooltip" title="Reverse">
+                  <a href="#" data-id="{{$customerInvoice->customerInvoiceID}}" class="btn bg-yellow customer-edit-invoice btn-sm pull-left" data-toggle="modal" data-target="#clientModal"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
+                </span>
                 <a href="/customer/invoice/{{$customerInvoice->customerInvoiceID}}/display" class="btn btn-info btn-sm btn-second pull-left"><i class="fa fa-file-text" aria-hidden="true"></i> </a>
                 <form class="delete-form confirm-submit" method="POST" action="/invoice/submit">
                   <input type="hidden" name="_token" value="{{csrf_token()}}">
@@ -277,7 +283,7 @@
             <div class="form-group clearfix">
               <label class="col-sm-2 control-label">Invoice Date</label>
               <div class="col-sm-10">
-                <input type="text" name="invoiceDate" class="form-control datepicker" placeholder="Invoice Date">
+                <input type="text" name="invoiceDate" class="form-control datepicker input-req" placeholder="Invoice Date">
               </div>
             </div>
             <div class="box-footer">
@@ -303,7 +309,7 @@
             <div class="form-group clearfix">
               <label class="col-sm-2 control-label">Invoice Date</label>
               <div class="col-sm-10">
-                <input type="text" name="invoiceDate" class="form-control datepicker" placeholder="Invoice Date">
+                <input type="text" name="invoiceDate" class="form-control datepicker input-req" placeholder="Invoice Date">
               </div>
             </div>
             <div class="form-group clearfix">

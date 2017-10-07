@@ -45,9 +45,9 @@
       @foreach($receipts as $receipt)
         <tr>
           <td><?= sprintf("RC%'05d\n", $receipt->receiptID); ?></td>
-          <td>
-            @if(App\Model\RentalOwner::find($receipt->customerID) && $receipt->customerID != 0)
-              {{App\Model\RentalOwner::find($receipt->customerID)->firstName}}
+          <td data-id-"{{$receipt->customerID}}">
+            @if(App\Model\Customer::find($receipt->customerID) && $receipt->customerID != 0)
+              {{App\Model\Customer::find($receipt->customerID)->customerName}}
             @endif
           </td>
           <td>{{$receipt->invoiceSystemCode}}</td>
@@ -105,7 +105,7 @@
                  <div class="form-group clearfix">
                   <label class="col-sm-3 control-label">Select Customer</label>
                   <div class="col-sm-9">
-                    <select class="form-control customer-field" readonly name="customerID">
+                    <select class="form-control customer-field input-req" readonly name="customerID">
                       @if($customer)
                         <option value="{{$customer->rentalOwnerID}}" selected="selected">{{$customer->firstName}}</option>
                       @endif
@@ -115,7 +115,7 @@
                 <div class="form-group clearfix">
                   <label class="col-sm-3 control-label">Select Invoice</label>
                   <div class="col-sm-9">
-                    <select class="form-control invoice-field" name="invoiceID">
+                    <select class="form-control invoice-field input-req" name="invoiceID">
                       <option value="">Select Invoice</option>
                       @if($invoices)
                         @foreach($invoices as $invoice)
@@ -131,7 +131,7 @@
                 <div class="form-group clearfix">
                   <label class="col-sm-3 control-label">Enter Amount</label>
                   <div class="col-sm-9">
-                    <input type="text" name="receiptAmount" class="form-control">
+                    <input type="text" name="receiptAmount" class="form-control input-req">
                   </div>
                 </div>              
                 <div class="form-group clearfix">
@@ -159,14 +159,14 @@
                 <div class="form-group clearfix ">
                   <label class="col-sm-3 control-label">Receipt Date</label>
                   <div class="col-sm-9">
-                    <input name="receiptDate" class="form-control datepicker" />                      
+                    <input name="receiptDate" class="form-control input-req datepicker" />                      
                   </div>
                 </div>
                 <div class="form-group clearfix">
                   <label class="col-sm-3 control-label">Bank Name</label>
                   <div class="col-sm-9">
-                    <select class="form-control selection-parent-item-bank" name="bankmasterID">
-                        <option value="0">Select Bank</option>
+                    <select class="form-control selection-parent-item-bank input-req" name="bankmasterID">
+                        <option value="">Select Bank</option>
                       @foreach($banks as $bank)
                         <option value="{{$bank->bankmasterID}}">{{$bank->bankName}}</option>
                       @endforeach

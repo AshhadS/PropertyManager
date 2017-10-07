@@ -108,7 +108,7 @@
               <div class="form-group clearfix">
                 <label class="col-sm-3 control-label">Select Supplier</label>
                 <div class="col-sm-9">
-                  <select class="form-control supplier-field" name="supplierID">
+                  <select class="form-control supplier-field input-req" name="supplierID">
                     <option value="">Select Supplier</option>
                     @foreach($suppliers as $supplier)
                       <option value="{{$supplier->supplierID}}">{{$supplier->supplierName}}</option>
@@ -119,7 +119,7 @@
               <div class="form-group clearfix">
                 <label class="col-sm-3 control-label">Select Invoice</label>
                 <div class="col-sm-9">
-                  <select class="form-control invoice-field" name="invoiceID">
+                  <select class="form-control invoice-field input-req" name="invoiceID">
                     <option value="">Select Invoice</option>
                   </select>
                 </div>
@@ -130,7 +130,7 @@
               <div class="form-group clearfix">
                 <label class="col-sm-3 control-label">Enter Amount</label>
                 <div class="col-sm-9">
-                  <input type="text" name="paymentAmount" class="form-control">
+                  <input type="text" name="paymentAmount" class="form-control input-req">
                 </div>
               </div>              
               <div class="form-group clearfix">
@@ -158,14 +158,14 @@
               <div class="form-group clearfix">
                 <label class="col-sm-3 control-label">Payment Date</label>
                 <div class="col-sm-9">
-                  <input name="paymentDate" class="form-control datepicker" />                      
+                  <input name="paymentDate" class="form-control datepicker input-req" />                      
                 </div>
               </div>
               <div class="form-group clearfix">
                 <label class="col-sm-3 control-label">Bank Name</label>
                 <div class="col-sm-9">
-                  <select class="form-control selection-parent-item-bank" name="bankmasterID">
-                      <option value="0">Select Bank</option>
+                  <select class="form-control selection-parent-item-bank input-req" name="bankmasterID">
+                      <option value="">Select Bank</option>
                     @foreach($banks as $bank)
                       <option value="{{$bank->bankmasterID}}">{{$bank->bankName}}</option>
                     @endforeach
@@ -216,7 +216,7 @@
         $('.invoice-field').html(function(){
           // Generate the seletect list
           var output = '<select class="form-control invoice-field" name="invoiceID">';
-            output += '<option value="'+0+'">'+'Select Invoice'+'</option>';
+            output += '<option value="">'+'Select Invoice'+'</option>';
           data.forEach(function( index, element ){
             output += '<option value="'+data[element].supplierInvoiceID+'">'+data[element].invoiceSystemCode+'</option>';
           });
