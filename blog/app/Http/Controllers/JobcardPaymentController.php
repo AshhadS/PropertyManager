@@ -51,7 +51,11 @@ class JobcardPaymentController extends Controller
 		$payment->documentID = 5;
 		$payment->documentAutoID = $request->jobcardID;
 		$payment->paymentTypeID = $request->paymentTypeID;
+		
 		$payment->chequeNumber = $request->chequeNumber;
+		if($request->chequeNumber == '')
+			$payment->chequeNumber = 0;
+
 		if($request->chequeDate)
 			$payment->chequeDate = date_create_from_format("j/m/Y", $request->chequeDate)->format('Y-m-d');	
 		if($request->paymentDate)

@@ -12,6 +12,8 @@ use App\Model\Customer;
 use App\Model\SupplierInvoice;
 use App\Model\CustomerInvoice;
 use App\Model\RentalOwner;
+use App\Model\Payment;
+use App\Model\Receipt;
 use Redirect;
 use Sentinel;
 use App;
@@ -101,6 +103,8 @@ class InvoiceController extends Controller
     	if($jobcard->rentalOwnerID){
 			$customer = RentalOwner::find($jobcard->rentalOwnerID);			
 		}
+        // dd($supplierInvoices->first());
+
 
 		return view('jobcard_invoices', [
             'jobcard' => $jobcard,
@@ -246,7 +250,6 @@ class InvoiceController extends Controller
 			$invoice->unitID = $request->unitID;
 			$invoice->supplierInvoiceCode = $request->supplierInvoiceCode;
 			$invoice->invoiceSystemCode = 0;
-			$invoice->invoiceDate = date_create_from_format("j/m/Y", $request->invoiceDate)->format('Y-m-d');
 			$invoice->amount = $request->amount;
 			$invoice->paymentPaidYN = 0;
 			$invoice->manuallyAdded = 1;
@@ -254,6 +257,8 @@ class InvoiceController extends Controller
 			$invoice->lastUpdatedDateTime = Carbon::now();
 			$invoice->lastUpdatedByUserID = Sentinel::getUser()->id;
 			$invoice->description = 'invoice for '.$jobcard->jobCardCode ;
+			if($request->invoiceDate)
+				$invoice->invoiceDate = date_create_from_format("j/m/Y", $request->invoiceDate)->format('Y-m-d');
 
 			$invoice->save();
 			$invoice->invoiceSystemCode = sprintf("SINV%'05d\n", $invoice->supplierInvoiceID);
@@ -297,10 +302,18 @@ class InvoiceController extends Controller
 	function deleteManualInvoice(Request $request){
 		//Supplier
 		if($request->invoiceType == '0'){
+			if(Payment::where('supplierInvoiceID', $request->invoiceID)->first()){
+				$request->session()->flash('alert-success', 'Cannot delete this invoice because there is already payments created under this');
+                return Redirect::back();  
+			}
 			$invoice = SupplierInvoice::find($request->invoiceID);
 		}
 		//Customer
 		if($request->invoiceType == '1'){
+			if(Receipt::where('customerInvoiceID', $request->invoiceID)->first()){
+				$request->session()->flash('alert-success', 'Cannot delete this invoice because there is already receipts created under this');
+                return Redirect::back();  
+			}
 			$invoice = CustomerInvoice::find($request->invoiceID);
 		}
 		$invoice->delete();
