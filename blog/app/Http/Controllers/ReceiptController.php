@@ -13,6 +13,7 @@ use App\Model\Receipt;
 use App\Model\PaymentType;
 use App\Model\Bank;
 use App\Model\BankAccount;
+use App\Model\GeneralLedger;
 use Redirect;
 use Sentinel;
 use App;
@@ -78,6 +79,18 @@ class ReceiptController extends Controller
 
 	function submitHandler(Request $request){
         $receipt = Receipt::find($request->receiptID);
+		$receiptCode = sprintf("REC%'05d\n", $request->receiptID);
+
+		// Check if jobcard has invoice and get data from that
+		if(CustomerInvoice::find($receipt->customerInvoiceID)){
+			$jobcardID = CustomerInvoice::find($receipt->customerInvoiceID)->jobcardID;
+		}else{
+			// Manually populate jobcard 
+			$jobcardID = -1;
+		}
+
+
+        GeneralLedger::addEntry($receipt->receiptID, 9, $receiptCode, $receipt->receiptDate, $jobcardID, $receipt->customerID, 1, $receipt->description, 15, 10, $receipt->receiptAmount);
 
         $receipt->submittedYN = ($request->flag == '1') ? '0' : '1';
         $receipt->submittedDate = Carbon::now();

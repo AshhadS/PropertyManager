@@ -12,6 +12,7 @@ use App\Model\Country;
 use App\Model\Supplier;
 use App\Model\Customer;
 use App\Model\ChartOfAccount;
+use App\Model\GeneralLedger;
 use App\Model\Roles;
 use App\Model\Bank;
 use App\Model\BankAccount;
@@ -487,6 +488,20 @@ class SettingsController extends Controller
     static function getBanksAccounts($bank){
         return BankAccount::where('bankmasterID', $bank)->get();
 
+    }
+
+
+    /*************************************************************************/
+
+    /**
+     * General Ledger
+     */
+    function showEntries(){
+        $entries = GeneralLedger::orderBy('documentAuotID', 'ASC')->get();
+
+        return view('settings.entries', [
+            'entries' => $entries,
+        ]);
     }
 
 

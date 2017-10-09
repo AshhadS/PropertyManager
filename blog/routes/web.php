@@ -379,6 +379,13 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		
 		Route::post('/bank/getaccounts/{bank}', 'SettingsController@getBanksAccounts');
 
+		/**
+		 * General Ledger
+		 */
+		Route::get('/entries', 'SettingsController@showEntries');
+
+
+
 	/**
 	 * Reconciliation
 	 */		

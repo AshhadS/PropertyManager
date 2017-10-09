@@ -14,6 +14,7 @@ use App\Model\CustomerInvoice;
 use App\Model\RentalOwner;
 use App\Model\Payment;
 use App\Model\Receipt;
+use App\Model\GeneralLedger;
 use Redirect;
 use Sentinel;
 use App;
@@ -44,9 +45,15 @@ class InvoiceController extends Controller
 	function invoiceSubmitHandler(Request $request){
 		if($request->invoiceType == 1){//Supplier Invoice
 	        $invoice = SupplierInvoice::find($request->invoiceID);
+
+	        // Update General Ledger
+	        GeneralLedger::addEntry($invoice->supplierInvoiceID, 6, $invoice->invoiceSystemCode, $invoice->invoiceDate,	$invoice->jobCardID, $invoice->supplierID, 1, $invoice->description, 11, 8, $invoice->amount);
 		}
 		if($request->invoiceType == 2){//Customer Invoice
 	        $invoice = CustomerInvoice::find($request->invoiceID);
+
+	        // Update General Ledger
+	        GeneralLedger::addEntry($invoice->customerInvoiceID, 7, $invoice->CustomerInvoiceSystemCode, $invoice->invoiceDate,	$invoice->jobcardID, $invoice->propertyOwnerID, 1, $invoice->description, 10, 12, $invoice->amount);
 		}
 
         $invoice->submittedYN = ($request->flag == '1') ? '0' : '1';
