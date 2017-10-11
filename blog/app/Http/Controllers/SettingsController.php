@@ -27,8 +27,10 @@ class SettingsController extends Controller
 {
     function admin() {
         $propertytypes = PropertyType::all();
+        $chartofaccounts = ChartOfAccount::all();
         return view('admin_page',[
             'propertytypes' => $propertytypes,
+            'chartofaccounts' => $chartofaccounts,
         ]);
     }
 
@@ -457,10 +459,12 @@ class SettingsController extends Controller
     function showAccounts(){
         $bankAccounts = BankAccount::all();
         $banks = Bank::all();
+        $chartofaccounts = ChartOfAccount::all();
 
         return view('settings.accounts', [
             'bankAccounts' => $bankAccounts,
             'banks' => $banks,
+            'chartofaccounts' => $chartofaccounts,
         ]);
     }
 

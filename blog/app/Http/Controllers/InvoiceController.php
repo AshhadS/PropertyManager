@@ -47,13 +47,13 @@ class InvoiceController extends Controller
 	        $invoice = SupplierInvoice::find($request->invoiceID);
 
 	        // Update General Ledger
-	        GeneralLedger::addEntry($invoice->supplierInvoiceID, 6, $invoice->invoiceSystemCode, $invoice->invoiceDate,	$invoice->jobCardID, $invoice->supplierID, 1, $invoice->description, 11, 8, $invoice->amount);
+	        GeneralLedger::addEntry($invoice->supplierInvoiceID, 6, $invoice->invoiceSystemCode, $invoice->invoiceDate,	$invoice->jobCardID, $invoice->supplierID, 1, $invoice->description, 3, 1, $invoice->amount);
 		}
 		if($request->invoiceType == 2){//Customer Invoice
 	        $invoice = CustomerInvoice::find($request->invoiceID);
 
 	        // Update General Ledger
-	        GeneralLedger::addEntry($invoice->customerInvoiceID, 7, $invoice->CustomerInvoiceSystemCode, $invoice->invoiceDate,	$invoice->jobcardID, $invoice->propertyOwnerID, 1, $invoice->description, 10, 12, $invoice->amount);
+	        GeneralLedger::addEntry($invoice->customerInvoiceID, 7, $invoice->CustomerInvoiceSystemCode, $invoice->invoiceDate,	$invoice->jobcardID, $invoice->propertyOwnerID, 1, $invoice->description, 2, 4, $invoice->amount);
 		}
 
         $invoice->submittedYN = ($request->flag == '1') ? '0' : '1';

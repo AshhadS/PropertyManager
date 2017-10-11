@@ -353,6 +353,26 @@
               {value: "9", text:"Non-Operating Expense"},
             ],       
 	    });
+	    $('.accounts-chart.item-editable').editable({
+	        validate: function(value) {
+	            if($.trim(value) == '') 
+	                return 'Value is required.';
+	        },
+	        method: 'POST',
+	        url:'update/account',  
+	        title: 'Edit',
+	        send:'always',   
+	        params: function(params) {
+	            //originally params contain pk, name and value
+	            params._token = '{{ csrf_token() }}';
+	            return params;
+	        },
+	        source : [
+				@foreach ($chartofaccounts as $chartofaccount)
+					{value: "{{$chartofaccount->chartOfAccountID}}", text:"{{ $chartofaccount->accountDescription }}"},
+				@endforeach
+            ],       
+	    });
 	    $('.accounts-plbs.item-editable').editable({
 	        validate: function(value) {
 	            if($.trim(value) == '') 

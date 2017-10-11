@@ -7,6 +7,7 @@
         <th style="width: 10px">id</th>
         <th>Account Number</th>
         <th>Bank Name</th>
+        <th>Chart of Account</th>
         <th>Actions</th>
       </tr>
       @foreach ($bankAccounts as $account)
@@ -17,6 +18,11 @@
         <td class='account item-editable' data-bank="{{$account->bankmasterID}}" data-type="text" data-name="bankmasterID" data-pk="{{$account->bankAccountID}}" >
           @if(App\Model\Bank::where('bankmasterID', $account->bankmasterID)->first())
             {{App\Model\Bank::find($account->bankmasterID)->bankName}}
+          @endif
+        </td>
+        <td class='item-editable accounts-chart' data-coa="{{$account->chartOfAccountID}}" data-type="select" data-name="chartOfAccountID" data-pk="{{$account->bankAccountID}}" >
+          @if(App\Model\ChartOfAccount::where('chartOfAccountID', $account->chartOfAccountID)->first())
+            {{App\Model\ChartOfAccount::find($account->chartOfAccountID)->accountDescription}}
           @endif
         </td>
         <td>
@@ -44,14 +50,20 @@
         <input type="text" name="accountNumber" placeholder="Account Number" class="input-req  form-control">
       </div>  
       <div class="form-group">
-        <div class="">
-          <select class="form-control input-req" name="bankmasterID">
-              <option value="">Select a Bank</option>
-              @foreach ($banks as $bank)
-                <option value="{{$bank->bankmasterID}}">{{ $bank->bankName }}</option>
-              @endforeach
-          </select>
-        </div>
+        <select class="form-control input-req" name="bankmasterID">
+            <option value="">Select a Bank</option>
+            @foreach ($banks as $bank)
+              <option value="{{$bank->bankmasterID}}">{{ $bank->bankName }}</option>
+            @endforeach
+        </select>
+      </div>
+      <div class="form-group">
+        <select class="form-control input-req" name="chartOfAccountID">
+            <option value="">Select a chart ofaccount</option>
+            @foreach ($chartofaccounts as $chartofaccount)
+              <option value="{{$chartofaccount->chartOfAccountID}}">{{ $chartofaccount->accountDescription }}</option>
+            @endforeach
+        </select>
       </div>
 
       <button type="submit" class="btn btn-info " data-section="accounts"><i class="fa fa-plus"></i> Add</button>

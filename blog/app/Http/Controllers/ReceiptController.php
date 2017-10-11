@@ -80,6 +80,8 @@ class ReceiptController extends Controller
 	function submitHandler(Request $request){
         $receipt = Receipt::find($request->receiptID);
 		$receiptCode = sprintf("REC%'05d\n", $request->receiptID);
+		$GLCredit = BankAccount::find($receipt->bankAccountID)->chartOfAccountID;
+        $GLDebit = 2;
 
 		// Check if jobcard has invoice and get data from that
 		if(CustomerInvoice::find($receipt->customerInvoiceID)){
@@ -89,8 +91,7 @@ class ReceiptController extends Controller
 			$jobcardID = -1;
 		}
 
-
-        GeneralLedger::addEntry($receipt->receiptID, 9, $receiptCode, $receipt->receiptDate, $jobcardID, $receipt->customerID, 1, $receipt->description, 15, 10, $receipt->receiptAmount);
+        GeneralLedger::addEntry($receipt->receiptID, 9, $receiptCode, $receipt->receiptDate, $jobcardID, $receipt->customerID, 1, $receipt->description, $GLCredit, $GLDebit, $receipt->receiptAmount);
 
         $receipt->submittedYN = ($request->flag == '1') ? '0' : '1';
         $receipt->submittedDate = Carbon::now();

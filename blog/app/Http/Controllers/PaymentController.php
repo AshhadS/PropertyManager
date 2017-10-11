@@ -13,6 +13,7 @@ use App\Model\SupplierInvoice;
 use App\Model\Payment;
 use App\Model\PaymentType;
 use App\Model\GeneralLedger;
+use App\Model\BankAccount;
 use Redirect;
 use Sentinel;
 use App;
@@ -63,17 +64,16 @@ class PaymentController extends Controller
 	function submitHandler(Request $request){
         $payment = Payment::find($request->paymentID);
         $paymentCode = sprintf("PAY%'05d\n", $request->paymentID);
+        $GLCredit = BankAccount::find($payment->bankAccountID)->chartOfAccountID;
+        $GLDebit = 1;
+		// Manually populate jobcard 
+		$jobcardID = -1;
 
 		// Check if jobcard has invoice and get data from that
-		if(SupplierInvoice::find($payment->supplierInvoiceID)){
-			$jobcardID = CustomerInvoice::find($payemnt->supplierInvoiceID)->jobcardID;
-		}else{
-			// Manually populate jobcard 
-			$jobcardID = -1;
-		}
+		if(SupplierInvoice::find($payment->supplierInvoiceID))
+			$jobcardID = SupplierInvoice::find($payment->supplierInvoiceID)->jobCardID;
 
-
-        GeneralLedger::addEntry($payment->paymentID, 10, $paymentCode, $payment->paymentDate, $jobcardID, $payment->supplierID, 1, $payment->invoiceSystemCode, 8, 15, $payment->paymentAmount);
+        GeneralLedger::addEntry($payment->paymentID, 10, $paymentCode, $payment->paymentDate, $jobcardID, $payment->supplierID, 1, $payment->invoiceSystemCode, $GLDebit, $GLCredit, $payment->paymentAmount);
 
         $payment->submittedYN = ($request->flag == '1') ? '0' : '1';
         $payment->submittedDate = Carbon::now();
