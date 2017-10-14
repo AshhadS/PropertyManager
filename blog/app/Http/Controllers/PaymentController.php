@@ -64,12 +64,19 @@ class PaymentController extends Controller
 	function submitHandler(Request $request){
         $payment = Payment::find($request->paymentID);
         $paymentCode = sprintf("PAY%'05d\n", $request->paymentID);
-        $GLCredit = BankAccount::find($payment->bankAccountID)->chartOfAccountID;
-        $GLDebit = 1;
 		// Manually populate jobcard 
-		$jobcardID = -1;
+        $GLCredit = BankAccount::find($payment->bankAccountID)->chartOfAccountID; // get the dynamic gl code from 
+		$jobcardID = -1; // getting property data from agreement when payment does not belong to a jobcard
 
-		// Check if jobcard has invoice and get data from that
+		//From Jobcard 
+		if($payment->documentID == '5')
+	        $GLDebit = 1;			
+		
+		//From Agreement 
+		if($payment->documentID == '8')
+	        $GLDebit = 5;			
+		
+		// Check if jobcard has invoice and get data from that or else get from agreemnt -----/\
 		if(SupplierInvoice::find($payment->supplierInvoiceID))
 			$jobcardID = SupplierInvoice::find($payment->supplierInvoiceID)->jobCardID;
 
@@ -82,6 +89,9 @@ class PaymentController extends Controller
 
         return Redirect::back();
     }
+
+
+	//From Agreements 
 
 
 	// function generatePDF($id){

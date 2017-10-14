@@ -172,6 +172,14 @@ $(function() {
                 }, 5000);
             }
         });
+        
+        //Date picker
+        $('.datepicker').datepicker({
+          autoclose: true,
+          format: 'dd/mm/yyyy',
+        });
+
+
 
         
 

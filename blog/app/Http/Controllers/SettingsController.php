@@ -472,6 +472,7 @@ class SettingsController extends Controller
         $bankAccounts = new BankAccount;
         $bankAccounts->accountNumber = $request->accountNumber;
         $bankAccounts->bankmasterID = $request->bankmasterID;
+        $bankAccounts->chartOfAccountID = $request->chartOfAccountID;        
         $bankAccounts->save();
         return 'true';
     }
@@ -501,14 +502,104 @@ class SettingsController extends Controller
      * General Ledger
      */
     function showEntries(){
-        $entries = GeneralLedger::orderBy('documentAuotID', 'ASC')->get();
+        $entries = GeneralLedger::orderBy('timestamp', 'DESC')->get(); // latest first
+
+        $creditTot = GeneralLedger::where('amount','LIKE',"-%")->sum('amount'); //if negative then credit entry
+        $debitTot = GeneralLedger::where('amount','NOT LIKE',"-%")->sum('amount'); // if positive then debit entry
 
         return view('settings.entries', [
             'entries' => $entries,
+            'creditTot' => $creditTot,
+            'debitTot' => $debitTot,
         ]);
     }
 
+    function getFilteredEntriesData(Request $request){
+        // Defaults
+        $fromDate = '0';
+        $toDate = '@upperbound';
+
+        if($request->from)
+            $fromDate = date_create_from_format("d/m/Y", $request->from)->format('Y-m-d');
+
+        if($request->to)
+            $toDate = date_create_from_format("d/m/Y", $request->to)->format('Y-m-d');
+        
+        $entries = GeneralLedger::where('documentDate', '>', $fromDate)->where('documentDate', '<', $toDate)->get();
+
+        $creditTot = GeneralLedger::where('amount','LIKE',"-%")
+        ->where('documentDate', '>', $fromDate)
+        ->where('documentDate', '<', $toDate)
+        ->sum('amount'); //if negative then credit entry
+
+        $debitTot = GeneralLedger::where('amount','NOT LIKE',"-%")
+        ->where('documentDate', '>', $fromDate)
+        ->where('documentDate', '<', $toDate)
+        ->sum('amount'); // if positive then debit entry
+
+        $data = compact('entries', 'creditTot', 'debitTot');
+
+        return $data;
 
 
+    }
+
+    public function getFilteredEntries(Request $request){
+        $data = $this->getFilteredEntriesData($request);
+
+        $html = view('settings.entries_data', [
+                    'entries' => $data['entries'],
+                    'debitTot' => $data['debitTot'],
+                    'creditTot' => $data['creditTot'],
+                ])->render();
+
+        return  $html;
+    }
+
+    function excelExport(Request $request){
+        $data = $this->getFilteredEntriesData($request);
+        $entries = $data['entries'];
+        $name = "General Ledger";
+
+        $entriesArray[] = ['#','Document Code', 'Document Date', 'Description', 'GL Code', 'GL Description', 'Debit', 'Credit'];
+
+        foreach ($entries as $index => $entry) {
+            if($entry->amount > 0){
+                $debitAmount = $entry->amount;
+                $creditAmount = 0;
+            }else{
+                $debitAmount = 0;
+                $creditAmount = abs($entry->amount);
+            }
+
+            $account = ChartOfAccount::find($entry->accountCode);
+
+            $documentDate = date_format(date_create($entry->documentDate),"d/m/Y");
+
+            $entriesArray[] = array(++$index, $entry->documentCode, $documentDate, $entry->description, $account->chartOfAccountCode, $account->accountDescription, $debitAmount, $creditAmount);
+        }
+
+        $entriesArray[] = ['Total','', '', '', '', '', $data['debitTot'], $data['debitTot']];
+
+
+        // dd($entriesArray);
+
+        // Generate and return the spreadsheet
+        return \Excel::create($name, function($excel) use ($entriesArray,$name)  {
+
+            // Set the spreadsheet title, creator, and description
+            $excel->setTitle($name);
+            $excel->setCreator('System')->setCompany('IDSS, LLC');
+            $excel->setDescription('Currency : OMR');
+
+            // Build the spreadsheet, passing in the payments array
+            $excel->sheet('sheet1', function($sheet) use ($entriesArray) {
+                
+                $sheet->fromArray($entriesArray);
+            });
+
+
+        })->export('xlsx');
+    }
 }
  

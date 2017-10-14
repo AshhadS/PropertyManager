@@ -162,6 +162,7 @@
 	        }
 	      });
 
+
 	       $('.delete-btn-ajax').closest('form').on('submit', function(e) {
 	       	e.preventDefault();
 	        var section = $(this).data('section');
@@ -206,6 +207,7 @@
 	            }
 	        });
 	    });
+
 
 	    $('.proptype.item-editable').editable({
 	        validate: function(value) {

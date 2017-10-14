@@ -158,10 +158,12 @@
               </td>         
               <td class="edit-button"> 
                 <div class="inner wide">
-                  <span data-toggle="tooltip" title="Reverse">
-                    <a href="#" data-id="{{$supplierInvoice->supplierInvoiceID}}" data-toggle="modal" title="Edit" class="btn bg-yellow supplier-edit-invoice btn-sm pull-left" data-target="#supplierModal"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
-                  </span>
-                  <a href="/invoice/{{$supplierInvoice->supplierInvoiceID}}/display" data-toggle="tooltip" title="PDF" class="btn btn-info btn-sm btn-second pull-left"><i class="fa fa-file-text" aria-hidden="true"></i> </a>
+                  @if($supplierInvoice->submittedYN == 0)
+                    <span data-toggle="tooltip" title="Edit">
+                      <a href="#" data-id="{{$supplierInvoice->supplierInvoiceID}}" data-toggle="modal" title="Edit" class="btn bg-yellow supplier-edit-invoice btn-sm pull-left" data-target="#supplierModal"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
+                    </span>
+                  @endif
+                  <a href="/invoice/{{$supplierInvoice->supplierInvoiceID}}/display" data-toggle="tooltip" title="PDF" class="btn btn-info btn-sm pull-left <?php ($supplierInvoice->submittedYN == 0) ? print 'btn-second': '' ?>"><i class="fa fa-file-text" aria-hidden="true"></i> </a>
                   <form class="delete-form confirm-submit" method="POST" action="/invoice/submit">
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <input type="hidden" name="invoiceID" value="{{$supplierInvoice->supplierInvoiceID}}">
@@ -238,10 +240,12 @@
             </td>          
             <td class="edit-button"> 
               <div class="inner wide">
-                <span data-toggle="tooltip" title="Reverse">
-                  <a href="#" data-id="{{$customerInvoice->customerInvoiceID}}" class="btn bg-yellow customer-edit-invoice btn-sm pull-left" data-toggle="modal" data-target="#clientModal"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
-                </span>
-                <a href="/customer/invoice/{{$customerInvoice->customerInvoiceID}}/display" class="btn btn-info btn-sm btn-second pull-left"><i class="fa fa-file-text" aria-hidden="true"></i> </a>
+                @if ($customerInvoice->submittedYN == 0)
+                  <span data-toggle="tooltip" title="Edit">
+                    <a href="#" data-id="{{$customerInvoice->customerInvoiceID}}" class="btn bg-yellow customer-edit-invoice btn-sm pull-left" data-toggle="modal" data-target="#clientModal"><i class="fa fa-pencil" aria-hidden="true"></i> </a>
+                  </span>
+                @endif
+                <a href="/customer/invoice/{{$customerInvoice->customerInvoiceID}}/display" class="btn btn-info btn-sm pull-left <?php ($supplierInvoice->submittedYN == 0) ? print 'btn-second': '' ?>"><i class="fa fa-file-text" aria-hidden="true"></i> </a>
                 <form class="delete-form confirm-submit" method="POST" action="/invoice/submit">
                   <input type="hidden" name="_token" value="{{csrf_token()}}">
                   <input type="hidden" name="invoiceID" value="{{$customerInvoice->customerInvoiceID}}">

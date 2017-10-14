@@ -66,7 +66,7 @@
             <table class="table table-striped">
               <tbody >
               <tr>
-                <td><a class='link' data-section="entries" href="#entries">Entries</a></td>
+                <td><a class='link' data-section="entries" href="#entries">General Ledger</a></td>
               </tr>
             </tbody></table>
           </div>
@@ -119,6 +119,49 @@
         WinPrint.close();
 
       });
+
+      $('.link-ajaxed').on('click', function(event){
+        event.preventDefault();
+        $('.page-content').show();
+        $('.load-container').fadeIn();
+        $('.page-content .body').load( "/"+$(this).data('section')+"/");
+      });
+
+
+
+      $('.filter-entries').on('click', function(){
+        console.log('clicked');
+        var from = $('[name="from"]').val();
+        var to = $('[name="to"]').val();
+
+        if(from == '' || to == ''){
+          alert('From and To is Required');
+          return false;
+        }
+
+        $('.page-content').show();
+        $('.load-container').fadeIn();
+
+
+        console.log(from);
+        console.log(to);
+
+        $.get( '/entries/filter' , { from : from, to : to } , function(htmlCode){ 
+            $(".page-content table tbody").html(htmlCode);
+        });
+      });
+
+      $('.excel-export').on('click', function(event){
+        event.preventDefault();
+
+        var from = $('[name="from"]').val();
+        var to = $('[name="to"]').val();
+
+        $('.filter-form').submit();
+        // $.get( '/entries/export' , { from : from, to : to } , function(htmlCode){ 
+        //     console.log('exported');
+        // });
+      })
 
       $( "#supplier-state" ).change(function() {
         //this is the #state dom element

@@ -383,6 +383,8 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		 * General Ledger
 		 */
 		Route::get('/entries', 'SettingsController@showEntries');
+		Route::get('/entries/filter',  'SettingsController@getFilteredEntries');	
+		Route::get('/entries/export',  'SettingsController@excelExport');	
 
 
 

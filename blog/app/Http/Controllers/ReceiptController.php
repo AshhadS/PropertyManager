@@ -80,18 +80,22 @@ class ReceiptController extends Controller
 	function submitHandler(Request $request){
         $receipt = Receipt::find($request->receiptID);
 		$receiptCode = sprintf("REC%'05d\n", $request->receiptID);
-		$GLCredit = BankAccount::find($receipt->bankAccountID)->chartOfAccountID;
-        $GLDebit = 2;
+		$GLDebit = BankAccount::find($receipt->bankAccountID)->chartOfAccountID;
+		$jobcardID = -1; // getting property data from agreement when receipt does not belong to a jobcaard
+
+        //From Jobcard 
+		if($receipt->documentID == '5')
+	        $GLCredit = 2;			
+
+		//From Agreemente 
+		if($receipt->documentID == '8')
+	        $GLCredit = 6;			
 
 		// Check if jobcard has invoice and get data from that
-		if(CustomerInvoice::find($receipt->customerInvoiceID)){
+		if(CustomerInvoice::find($receipt->customerInvoiceID))
 			$jobcardID = CustomerInvoice::find($receipt->customerInvoiceID)->jobcardID;
-		}else{
-			// Manually populate jobcard 
-			$jobcardID = -1;
-		}
 
-        GeneralLedger::addEntry($receipt->receiptID, 9, $receiptCode, $receipt->receiptDate, $jobcardID, $receipt->customerID, 1, $receipt->description, $GLCredit, $GLDebit, $receipt->receiptAmount);
+        GeneralLedger::addEntry($receipt->receiptID, 9, $receiptCode, $receipt->receiptDate, $jobcardID, $receipt->customerID, 1, $receipt->invoiceSystemCode, $GLDebit, $GLCredit, $receipt->receiptAmount);
 
         $receipt->submittedYN = ($request->flag == '1') ? '0' : '1';
         $receipt->submittedDate = Carbon::now();
