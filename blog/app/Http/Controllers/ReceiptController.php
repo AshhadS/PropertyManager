@@ -80,8 +80,15 @@ class ReceiptController extends Controller
 	function submitHandler(Request $request){
         $receipt = Receipt::find($request->receiptID);
 		$receiptCode = sprintf("REC%'05d\n", $request->receiptID);
-		$GLDebit = BankAccount::find($receipt->bankAccountID)->chartOfAccountID;
 		$jobcardID = -1; // getting property data from agreement when receipt does not belong to a jobcaard
+
+		//Block submit if not back account has been added  
+		if($receipt->bankAccountID == ''){
+			$request->session()->flash('alert-success', 'Please add a back account to submit this');
+			return Redirect::back();
+		}
+		
+		$GLDebit = BankAccount::find($receipt->bankAccountID)->chartOfAccountID;
 
         //From Jobcard 
 		if($receipt->documentID == '5')
@@ -92,8 +99,9 @@ class ReceiptController extends Controller
 	        $GLCredit = 6;			
 
 		// Check if jobcard has invoice and get data from that
-		if(CustomerInvoice::find($receipt->customerInvoiceID))
-			$jobcardID = CustomerInvoice::find($receipt->customerInvoiceID)->jobcardID;
+		if($receipt->documentID == 5 && CustomerInvoice::where('customerInvoiceID', $receipt->customerInvoiceID)->first()){
+			$jobcardID = CustomerInvoice::where('customerInvoiceID', $receipt->customerInvoiceID)->jobcardID;
+	    }
 
         GeneralLedger::addEntry($receipt->receiptID, 9, $receiptCode, $receipt->receiptDate, $jobcardID, $receipt->customerID, 1, $receipt->invoiceSystemCode, $GLDebit, $GLCredit, $receipt->receiptAmount);
 
