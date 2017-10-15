@@ -73,11 +73,11 @@ class ReconciliationController extends Controller{
 			$reconciliation = Reconciliation::find($reconciliation);
 
 			if($reconciliation->submittedYN == 1){ //Reconciliation submitted - show only cleared items
-				$receipts = Receipt::where('bankAccountID', $reconciliation->bankAccountID)->where('clearedYN','1')->get();
-				$payments = Payment::where('bankAccountID', $reconciliation->bankAccountID)->where('clearedYN','1')->get();
+				$receipts = Receipt::where('bankAccountID', $reconciliation->bankAccountID)->where('submittedYN', 1)->where('clearedYN','1')->get();
+				$payments = Payment::where('bankAccountID', $reconciliation->bankAccountID)->where('submittedYN', 1)->where('clearedYN','1')->get();
 			}else{ //Reconciliation not submitted - show all items
-				$receipts = Receipt::where('bankAccountID', $reconciliation->bankAccountID)->get();
-				$payments = Payment::where('bankAccountID', $reconciliation->bankAccountID)->get();
+				$receipts = Receipt::where('bankAccountID', $reconciliation->bankAccountID)->where('submittedYN', 1)->get();
+				$payments = Payment::where('bankAccountID', $reconciliation->bankAccountID)->where('submittedYN', 1)->get();
 			}
 			$thisAccount = BankAccount::find($reconciliation->bankAccountID);
 			return view('reconciliationsitems', [
