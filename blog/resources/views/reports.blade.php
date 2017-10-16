@@ -53,15 +53,11 @@
           <!-- /.box-body -->
       </div>
 
-<<<<<<< HEAD
-       <div class="box simple-list">
+
+
+        <div class="box simple-list">
           <div class="box-header">
             <h3 class="box-title">Revenue</h3>
-=======
-      <div class="box simple-list">
-          <div class="box-header">
-            <h3 class="box-title">General Ledger</h3>
->>>>>>> 52db26f64ff479e5f2411aa99a5652ce6ec450f1
             <div class="box-tools pull-right">
                   <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                   </button>
@@ -72,27 +68,37 @@
             <table class="table table-striped">
               <tbody >
               <tr>
-<<<<<<< HEAD
                 <td><a class='link' href="#reports_revenuebycustomer" data-section="reports_revenuebycustomer">Revenue by Customer</a></td>
               </tr>
               <tr>
                 <td><a class='link' href="#reports_revenuebyunit" data-section="reports_revenuebyunit">Revenue by Unit</a></td>
-                
-=======
-                <td><a class='link' data-section="entries" href="#entries">General Ledger</a></td>
->>>>>>> 52db26f64ff479e5f2411aa99a5652ce6ec450f1
               </tr>
             </tbody></table>
           </div>
           <!-- /.box-body -->
       </div>
-<<<<<<< HEAD
 
 
-
-=======
->>>>>>> 52db26f64ff479e5f2411aa99a5652ce6ec450f1
-    </div>
+      <div class="box simple-list">
+          <div class="box-header">
+            <h3 class="box-title">General Ledger</h3>
+            <div class="box-tools pull-right">
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  </button>
+                </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body no-padding" >
+            <table class="table table-striped">
+              <tbody >
+              <tr>
+                <td><a class='link' data-section="entries" href="#entries">General Ledger</a></td>
+              </tr>
+            </tbody></table>
+          </div>
+          <!-- /.box-body -->
+      </div>
+</div>
 
 
     <div class="col-md-10">      
@@ -141,7 +147,6 @@
 
       });
 
-<<<<<<< HEAD
        $( "#rev-state" ).change(function() {
         //this is the #state dom element
         var state = $(this).val();
@@ -154,7 +159,18 @@
         });
       });
 
-=======
+       $( "#unit-state" ).change(function() {
+        //this is the #state dom element
+        var state = $(this).val();
+        
+        // parameter 1 : url
+        // parameter 2: post data
+        //parameter 3: callback function 
+        $.get( '/reports_revenuebyunit_data' , { state : state } , function(htmlCode){ //htmlCode is the code retured from your controller
+            $("#rev_table tbody").html(htmlCode);
+        });
+      });
+
       $('.link-ajaxed').on('click', function(event){
         event.preventDefault();
         $('.page-content').show();
@@ -197,7 +213,6 @@
         //     console.log('exported');
         // });
       })
->>>>>>> 52db26f64ff479e5f2411aa99a5652ce6ec450f1
 
       $( "#supplier-state" ).change(function() {
         //this is the #state dom element

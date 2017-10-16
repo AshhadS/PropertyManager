@@ -32,11 +32,7 @@
               <i class="fa fa-file-excel-o"></i> Export to Excel
             </button>
           </a>
-          <a href="/supplierSummary_pdf">
-            <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
-              <i class="fa fa-download"></i> Generate PDF 
-            </button>
-      </a>
+          
 
       </div>
 

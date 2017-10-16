@@ -754,7 +754,7 @@ class ReportsController extends Controller
 
            // dd($monthlyRevenueArray);
 
-            return view ('reports_revenuebycustomer',[
+            return view ('reports_revenuebyunit',[
             'monthlyRevenueArray' => $monthlyRevenueArray,
             'monthlyRevenueYear' => $monthlyRevenueYear,
             ]);
@@ -794,7 +794,7 @@ class ReportsController extends Controller
         
 
             
-            return view ('reports_revenuebycustomer_data',[
+            return view ('reports_revenuebyunit_data',[
             'monthlyRevenueArray' => $monthlyRevenueArray
             ]);
 
