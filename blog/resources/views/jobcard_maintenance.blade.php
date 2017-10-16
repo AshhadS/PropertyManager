@@ -1,6 +1,6 @@
 @extends('admin_template')
 @section('content')
-<title>IDSS | Maintenance</title>
+<title>IBSS | Maintenance</title>
 
 <div class="container-fluid">
     <!-- Modal -->

@@ -20,9 +20,13 @@ $(function() {
         e.preventDefault();
     });
 
+    if(window.location.hostname == "portal.ibsswjt.com"){
+        $('.phpdebugbar').hide();
+    }
+
     
 
-    // Adding the required indicator and property to block form submit
+    //Adding the required indicator and property to block form submit
     $( ".input-req" ).wrap( "<span class='input-req'></span>" );
     $( ".input-req" ).attr( "required", true );
     $( "span.input-req" ).append('<span class="input-req-inner"></span>');
@@ -47,6 +51,22 @@ $(function() {
             }, 5000);
         }
     });
+
+    // Confirm on delete
+  $('.delete-btn-rp').on('click', function(e){
+      e.preventDefault();
+          btn = this;
+          if($(btn).hasClass('activate')){
+          console.log('Now delete!'); 
+          $(btn).closest('form.delete-form').submit();
+      } else{
+          $(btn).addClass('activate');
+          setTimeout(function(){
+            $(btn).removeClass('activate');
+          }, 5000);
+      }
+  });
+
 
 
 
@@ -152,6 +172,14 @@ $(function() {
                 }, 5000);
             }
         });
+        
+        //Date picker
+        $('.datepicker').datepicker({
+          autoclose: true,
+          format: 'dd/mm/yyyy',
+        });
+
+
 
         
 
@@ -283,14 +311,16 @@ function childSelection(elem){
           url: "/bank/getaccounts/"+$(elem).val()+"",
           context: document.body,
           method: 'POST',
+          async: false,
           headers : {'X-CSRF-TOKEN': $('meta[name="_token_del"]').attr('content')}
       })
       .done(function(data) {
           // show message if no units for the selected property
           if(data.length){
-            $('.selection-child-item-account').html(function(){
+                console.log($('.selection-child-item-account').parent()); 
+            $('.selection-child-item-account').parent().html(function(){
                 // Generate the seletect list
-                var output = '<select class="form-control selection-child-item" name="bankAccountID">';
+                var output = '<span class="input-req"><select class="form-control selection-child-item-account" required="required" name="bankAccountID">';
                 output += '<option value="">Select a account</option>';
                 data.forEach(function( index, element ){
                     if(prev_selection == data[element].bankAccountID){
@@ -299,7 +329,7 @@ function childSelection(elem){
                       output += '<option value="'+data[element].bankAccountID+'">'+data[element].accountNumber+'</option>';
                     }
                 });
-                output += '</select>';
+                output += '</select><span class="input-req-inner"></span>';
                 return output;
             });
           }else{

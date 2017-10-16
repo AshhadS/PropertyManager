@@ -1,7 +1,7 @@
 @extends('admin_template')
 
 @section('content')
-<title>IDSS | Rental Owners</title>
+<title>IBSS | Rental Owners</title>
 
 <div class="container-fluid">
   <h3 class="pull-left">{{ $rentalowner->firstName}}  {{ $rentalowner->lastName}}</h3>
@@ -14,8 +14,8 @@
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab">Summary</a></li>
     <!-- <li role="presentation"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Edit</a></li> -->
-    <!-- <li role="presentation"><a href="#attachments" aria-controls="attachments" role="tab" data-toggle="tab">Attachments</a></li> -->
     <li role="presentation"><a href="#financials" aria-controls="financials" role="tab" data-toggle="tab">Financials</a></li>
+    <li role="presentation"><a href="#ownerImage" aria-controls="ownerImage" role="tab" data-toggle="tab">Image</a></li>
     <li role="presentation"><a href="#properties" aria-controls="properties" role="tab" data-toggle="tab">Properties</a></li>
   </ul>
 
@@ -27,6 +27,12 @@
             <div class="">
                   <div class="box-body">
                       <div class="container-fluid">
+                        <div class="row">
+                          @if($ownerImage)
+                            <img style="max-width: 100%;" src="/blog/storage/app/uploads/images/{{$ownerImage->fileNameSlug}}" >
+                          @endif
+                        </div>
+                            <br />
                         <div class="row">
                           <div class="col-md-1">
                             <p>Address</p>
@@ -282,6 +288,39 @@
         </div>
       </div>
     </div>
+    <div role="tabpanel" class="tab-pane" id="ownerImage">
+        <div class="container-fluid">
+          <h4><b>Rental Owner</b></h4>
+            <hr/>
+            <form action="/image/create" class="attachments-drop-box" id="images-dropzone">
+              {{ csrf_field() }}
+              <input type="hidden" name="documentAutoID" value="{{$rentalowner->rentalOwnerID}}">
+              <input type="hidden" name="documentID" value="2">
+              <div class="dz-message"><h4>Drop a file here to upload</h4></div>
+              <div class="dz-message"><p>Only one image is allowed</p></div>
+                <!-- <input type="file" name="file-upload"> -->
+              <br/>
+              <div class="">
+                @if($ownerImage)
+                  <div class="dz-preview dz-processing dz-image-preview dz-success dz-complete">
+                    <div class="dz-image">
+                      <span class="file-type"></span>
+                      @if(substr(File::mimeType(storage_path('app/uploads/images/' . $ownerImage->fileNameSlug)), 0, 5) == 'image')
+                        <img class="dz-server-file" data-dz-remove src="/blog/storage/app/uploads/images/{{$ownerImage->fileNameSlug}}" >
+                      @endif
+                    </div>
+                    <div class="dz-details">
+                        <div class="dz-size"><span data-dz-size="{{File::size(storage_path('app/uploads/images/' . $ownerImage->fileNameSlug))}}"></span></div>
+                        <div class="dz-filename"><span data-dz-name="">{{$ownerImage->fileName}}</span></div>
+                    </div>
+                    <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress="" style="width: 100%;"></span></div>
+                    <a href="#" attachemnt-id="{{$ownerImage->fileID}}" class="jc-attachment">Remove</a>
+                  </div>
+                @endif
+              </div>
+            </form>
+        </div>
+    </div>
     <div role="tabpanel" class="tab-pane" id="financials">
     <br/>
       <div class="container-fluid">
@@ -319,3 +358,30 @@
   </div>
 
 @endsection
+@push('scripts')
+<script>
+$(function() {
+    $('.jc-attachment').on('click', function(e){
+      e.preventDefault();
+      // Hide preview to show its deleted
+      $(this).closest('.dz-preview').hide();
+      // Send request to delete from db
+      $.ajax({
+        type: 'POST',
+        url: '/image/delete/'+ $(this).attr('attachemnt-id'),
+        data: { 
+          _token: '{{ csrf_token() }}',
+          _method: 'delete',
+        },
+        
+      })
+    });
+
+    var myDropzone = new Dropzone("#images-dropzone", {
+     addRemoveLinks: true,
+     maxFiles: 1,
+     acceptedFiles: 'image/*',
+   });
+});
+</script>
+@endpush

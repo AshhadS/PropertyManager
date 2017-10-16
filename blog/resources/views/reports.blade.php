@@ -1,7 +1,7 @@
 @extends('admin_template')
 
 @section('content')
-<title>IDSS | Reports</title>
+<title>IBSS | Reports</title>
 
 <div class="container-fluid">
   <div class="row">
@@ -53,9 +53,15 @@
           <!-- /.box-body -->
       </div>
 
+<<<<<<< HEAD
        <div class="box simple-list">
           <div class="box-header">
             <h3 class="box-title">Revenue</h3>
+=======
+      <div class="box simple-list">
+          <div class="box-header">
+            <h3 class="box-title">General Ledger</h3>
+>>>>>>> 52db26f64ff479e5f2411aa99a5652ce6ec450f1
             <div class="box-tools pull-right">
                   <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                   </button>
@@ -66,19 +72,26 @@
             <table class="table table-striped">
               <tbody >
               <tr>
+<<<<<<< HEAD
                 <td><a class='link' href="#reports_revenuebycustomer" data-section="reports_revenuebycustomer">Revenue by Customer</a></td>
               </tr>
               <tr>
                 <td><a class='link' href="#reports_revenuebyunit" data-section="reports_revenuebyunit">Revenue by Unit</a></td>
                 
+=======
+                <td><a class='link' data-section="entries" href="#entries">General Ledger</a></td>
+>>>>>>> 52db26f64ff479e5f2411aa99a5652ce6ec450f1
               </tr>
             </tbody></table>
           </div>
           <!-- /.box-body -->
       </div>
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 52db26f64ff479e5f2411aa99a5652ce6ec450f1
     </div>
 
 
@@ -128,6 +141,7 @@
 
       });
 
+<<<<<<< HEAD
        $( "#rev-state" ).change(function() {
         //this is the #state dom element
         var state = $(this).val();
@@ -140,6 +154,50 @@
         });
       });
 
+=======
+      $('.link-ajaxed').on('click', function(event){
+        event.preventDefault();
+        $('.page-content').show();
+        $('.load-container').fadeIn();
+        $('.page-content .body').load( "/"+$(this).data('section')+"/");
+      });
+
+
+
+      $('.filter-entries').on('click', function(){
+        console.log('clicked');
+        var from = $('[name="from"]').val();
+        var to = $('[name="to"]').val();
+
+        if(from == '' || to == ''){
+          alert('From and To is Required');
+          return false;
+        }
+
+        $('.page-content').show();
+        $('.load-container').fadeIn();
+
+
+        console.log(from);
+        console.log(to);
+
+        $.get( '/entries/filter' , { from : from, to : to } , function(htmlCode){ 
+            $(".page-content table tbody").html(htmlCode);
+        });
+      });
+
+      $('.excel-export').on('click', function(event){
+        event.preventDefault();
+
+        var from = $('[name="from"]').val();
+        var to = $('[name="to"]').val();
+
+        $('.filter-form').submit();
+        // $.get( '/entries/export' , { from : from, to : to } , function(htmlCode){ 
+        //     console.log('exported');
+        // });
+      })
+>>>>>>> 52db26f64ff479e5f2411aa99a5652ce6ec450f1
 
       $( "#supplier-state" ).change(function() {
         //this is the #state dom element

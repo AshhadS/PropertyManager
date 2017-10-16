@@ -1,7 +1,7 @@
 @extends('admin_template') 
 
 @section('content')
-<title>IDSS | Properties</title>
+<title>IBSS | Properties</title>
 <meta name="_token_del" content="{{ csrf_token() }}">
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -53,15 +53,15 @@
             <div class="form-group">
               <label for="inputEmail3" class="col-sm-2 control-label">Number of units</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputEmail3" name="numberOfUnits" placeholder="Number of units">
+                <input type="number" class="form-control input-req" id="inputEmail3" name="numberOfUnits" placeholder="Number of units">
               </div>
             </div>  
 
             <div class="form-group">
               <label for="inputEmail3" class="col-sm-2 control-label">Property Type</label>
               <div class="col-sm-10">
-                <select class="form-control selection-parent-item" name="propertyTypeID" ">
-                      <option value="0">Select a type</option>
+                <select class="form-control selection-parent-item input-req" name="propertyTypeID" ">
+                      <option value="">Select a type</option>
                     @foreach ($propTypes as $prop)
                       <option value="{{$prop->propertyTypeID}}">{{ $prop->propertyDescription }}</option>
                     @endforeach
@@ -72,8 +72,8 @@
             <div class="form-group">
               <label for="inputEmail3" class="col-sm-2 control-label">Property Sub Type</label>
               <div class="col-sm-10">
-                <select class="form-control selection-child-item" name="propertySubTypeID">
-                      <option value="0">Select a type</option>
+                <select class="form-control selection-child-item input-req" name="propertySubTypeID">
+                      <option value="">Select a type</option>
                     @foreach ($propSubTypes as $prop)
                       <option value="{{$prop->propertySubTypeID}}">{{ $prop->propertySubTypeDescription }}</option>
                     @endforeach
@@ -84,7 +84,7 @@
             <div class="form-group">
               <label for="inputEmail3" name="forRentOrOwn" class="col-sm-2 control-label">Rent / Own</label>
               <div class="col-sm-10">
-                <select class="form-control" name="forRentOrOwn">
+                <select class="form-control input-req" name="forRentOrOwn">
                     <option value="">Select an ownership type</option>
                     <option value="1">Rent</option>
                     <option value="2">Own</option>
@@ -95,7 +95,7 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Rental Owner</label>
               <div class="col-sm-10">
-                <select class="form-control" name="rentalOwnerID" >
+                <select class="form-control input-req" name="rentalOwnerID" >
                     <option value="">Select a rental owner</option>
                     @foreach ($rentalowners as $rentalowner)
                       <option value="{{$rentalowner->rentalOwnerID}}">{{ $rentalowner->firstName }}</option>
@@ -153,6 +153,7 @@
                           <th>Address</th>
                           <th>City</th>
                           <th>Rent/Own</th>
+                          <th>Status</th>
                           <th>Actions</th>
                         </tr>
                 </thead>
@@ -207,6 +208,18 @@ $(function() {
                   return 'Own';
               }
             },
+            { 
+              data: 'isSubmitted',
+              name: 'rentalowner.isSubmitted',
+              className: 'center-parent',
+              render: function( data, type, full, meta ){
+                if(data == '1'){
+                  return '<span data-val='+data+' class="simple-box green"></span>';
+                }else{
+                  return '<span data-val='+data+' class="simple-box red"></span>';
+                }
+              }
+            },  
             {
                 data: 'PropertiesID',
                 className: 'edit-button',

@@ -10,6 +10,8 @@ use App\Model\Country;
 use App\Model\Attachment;
 use App\Model\DocumentMaster;
 use App\Model\RentalOwner;
+use App\Model\Agreement;
+use App\Model\ImageFile;
 use App\Model\Note;
 use App\Model\Unit;
 use App\Model\JobCard;
@@ -46,7 +48,7 @@ class PropertyController extends Controller
 			->leftJoin('propertysubtypeid', 'properties.propertySubTypeID', '=', 'propertysubtypeid.propertySubTypeID')
 			->leftJoin('rentalowners', 'properties.rentalOwnerID', '=', 'rentalowners.rentalOwnerID')
 			->leftJoin('countries', 'properties.country', '=', 'countries.id')
-    		->select('PropertiesID', 'pPropertyName', 'description', 'countries.countryName', 'propertysubtypeid.propertySubTypeDescription', 'numberOfUnits', 'rentalowners.firstName', 'properties.address', 'properties.city', 'forRentOrOwn', 'rentalowners.isSubmitted', 'properties.rentalOwnerID');
+    		->select('PropertiesID', 'pPropertyName', 'description', 'countries.countryName', 'propertysubtypeid.propertySubTypeDescription', 'numberOfUnits', 'rentalowners.firstName', 'properties.address', 'properties.city', 'forRentOrOwn', 'rentalowners.isSubmitted', 'properties.rentalOwnerID', 'rentalowners.isSubmitted');
     	return Datatables::of($t)->make(true);
 
 
@@ -92,6 +94,7 @@ class PropertyController extends Controller
     	$countries = Country::all();
     	$documentmaster = DocumentMaster::all();
     	$attachments = Attachment::where('documentAutoID', $property->PropertiesID)->where('documentID', 1)->get();
+    	$propertyImages = ImageFile::where('documentID', 1)->where('documentAutoID', $property->PropertiesID)->get();
     	$notes = Note::where('documentAutoID', $property->PropertiesID)->where('documentID', 1)->get();
 	    
 
@@ -110,6 +113,7 @@ class PropertyController extends Controller
 	        'rentalowners' => $rentalowners,
 	        'documentmaster' => $documentmaster,
 	        'attachments' => $attachments,
+	        'propertyImages' => $propertyImages,
 	        'countries' => $countries,
 	        'property_type_name' => $property_type_name,
 	        'property_parent_type_name' => $property_parent_type_name,
@@ -153,9 +157,12 @@ class PropertyController extends Controller
 	    return Redirect::to('props');
     }
 
-    function delete(Property $property){
-    	$property = Property::find($property->PropertiesID);
-	    $property->delete();
+    function delete(Request $request, Property $property){
+    	if(Unit::where('PropertiesID', $property->PropertiesID)->first()){
+            $request->session()->flash('alert-success', 'You cannot delete this Property as this has a Unit created under it');
+        }else{
+		    $property->delete();
+		}
 	    return Redirect::to('props');
     }
 

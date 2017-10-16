@@ -8,6 +8,8 @@ use App\Model\Property;
 use App\Model\Attachment;
 use App\Model\DocumentMaster;
 use App\Model\Currency;
+use App\Model\Agreement;
+use App\Model\ImageFile;
 use Debugbar;
 use Datatables;
 use Sentinel;
@@ -47,6 +49,10 @@ class UnitsController extends Controller
 	    $units->PropertiesID = $request->PropertiesID;
 	    $units->marketRent = $request->marketRent;
 	    $units->currencyID = $request->currencyID;
+	    $units->roomsCount = $request->roomsCount;
+	    $units->bathroomCount = $request->bathroomCount;
+	    $units->kitchenCount = $request->kitchenCount;
+	    $units->hallCount = $request->hallCount;
 	    $units->companyID = Sentinel::getUser()->companyID;
 	    $units->documentID = 3;
 
@@ -69,6 +75,7 @@ class UnitsController extends Controller
 	    	$currencyName = Currency::where('currencyID', $unit->currencyID)->first()->currencyCode;
 
     	$property_name = (Property::find($unit->PropertiesID)) ? Property::find($unit->PropertiesID)->pPropertyName : '';
+    	$unitImages = ImageFile::where('documentID', 3)->where('documentAutoID', $unit->unitID)->get();
 	    return view('units_edit', [
 	        'unit' => $unit,
 	        'properties' => $properties,
@@ -77,6 +84,7 @@ class UnitsController extends Controller
 	        'property_name' => $property_name,
 	        'currencyName' => $currencyName,
 	        'currencies' => $currencies,
+	        'unitImages' => $unitImages,
 	    ]);
     }
 
@@ -88,13 +96,22 @@ class UnitsController extends Controller
 	    $unit->marketRent = $request->marketRent;
 	    $unit->PropertiesID = $request->PropertiesID;
 	    $unit->currencyID = $request->currencyID;
+	    $unit->roomsCount = $request->roomsCount;
+	    $unit->bathroomCount = $request->bathroomCount;
+	    $unit->kitchenCount = $request->kitchenCount;
+	    $unit->hallCount = $request->hallCount;
 	    $unit->save();
 	    
 	    return Redirect::to('units');
     }
 
-    function delete(Unit $unit){
-	    $unit->delete();
+    function delete(Request $request, Unit $unit){
+    	if(Agreement::where('unitID', $unit->unitID)->first()){
+            $request->session()->flash('alert-success', 'You cannot delete this unit as this has an Agreement created under it');
+        }else{
+		    $unit->delete();
+		}
 	    return Redirect::to('units');
     }
+
 }

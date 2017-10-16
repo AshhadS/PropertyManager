@@ -77,7 +77,7 @@
 			      <table class="table table-striped">
 			        <tbody>
 			        <tr>
-			          <td><a href="#accounts" data-section="accounts" class="link">Chart of Accounts</a></td>
+			          <td><a href="#chartofaccounts" data-section="chartofaccounts" class="link">Chart of Accounts</a></td>
 			        </tr>
 			        <tr>
 			          <td><a class='link' data-section="currency" href="#currency">Currency</a></td>
@@ -162,6 +162,7 @@
 	        }
 	      });
 
+
 	       $('.delete-btn-ajax').closest('form').on('submit', function(e) {
 	       	e.preventDefault();
 	        var section = $(this).data('section');
@@ -206,6 +207,7 @@
 	            }
 	        });
 	    });
+
 
 	    $('.proptype.item-editable').editable({
 	        validate: function(value) {
@@ -318,7 +320,7 @@
 	                return 'Value is required.';
 	        },
 	        method: 'POST',
-	        url:'update/account',  
+	        url:'update/chartofaccount',  
 	        title: 'Edit',
 	        send:'always',   
 	        params: function(params) {
@@ -333,7 +335,7 @@
 	                return 'Value is required.';
 	        },
 	        method: 'POST',
-	        url:'update/account',  
+	        url:'update/chartofaccount',  
 	        title: 'Edit',
 	        send:'always',   
 	        params: function(params) {
@@ -351,6 +353,45 @@
               {value: "7", text:"Equity"},
               {value: "8", text:"Non-Operating Income"},
               {value: "9", text:"Non-Operating Expense"},
+            ],       
+	    });
+	    $('.accounts-chart.item-editable').editable({
+	        validate: function(value) {
+	            if($.trim(value) == '') 
+	                return 'Value is required.';
+	        },
+	        method: 'POST',
+	        url:'update/account',  
+	        title: 'Edit',
+	        send:'always',   
+	        params: function(params) {
+	            //originally params contain pk, name and value
+	            params._token = '{{ csrf_token() }}';
+	            return params;
+	        },
+	        source : [
+				@foreach ($chartofaccounts as $chartofaccount)
+					{value: "{{$chartofaccount->chartOfAccountID}}", text:"{{ $chartofaccount->accountDescription }}"},
+				@endforeach
+            ],       
+	    });
+	    $('.accounts-plbs.item-editable').editable({
+	        validate: function(value) {
+	            if($.trim(value) == '') 
+	                return 'Value is required.';
+	        },
+	        method: 'POST',
+	        url:'update/chartofaccount',  
+	        title: 'Edit',
+	        send:'always',   
+	        params: function(params) {
+	            //originally params contain pk, name and value
+	            params._token = '{{ csrf_token() }}';
+	            return params;
+	        },
+	        source : [
+              {value: "1", text:"PL"},
+              {value: "2", text:"BS"},
             ],       
 	    });
 	    $('.user.item-editable').editable({

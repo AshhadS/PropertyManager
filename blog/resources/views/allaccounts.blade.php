@@ -1,6 +1,6 @@
 @extends('admin_template')
 @section('content')
-<title>IDSS | Reconciliation</title>
+<title>IBSS | Reconciliation</title>
 
 <div class="panel panel-default give-space">
     <div class="panel-body">

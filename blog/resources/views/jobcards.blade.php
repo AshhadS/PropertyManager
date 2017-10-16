@@ -1,7 +1,7 @@
 @extends('admin_template')
 
 @section('content')
-<title>IDSS | Jobcards</title>
+<title>IBSS | Jobcards</title>
 <meta name="_token_del" content="{{ csrf_token() }}">
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -22,13 +22,13 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Description</label>
               <div class="col-sm-10">
-                <textarea class="form-control" name="description" rows="2" placeholder="Description"></textarea>
+                <textarea class="form-control input-req" name="description" rows="2" placeholder="Description"></textarea>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-2 control-label">Property Name</label>
               <div class="col-sm-10">
-                <select name="PropertiesID" class="form-control selection-parent-item" >
+                <select name="PropertiesID" class="form-control selection-parent-item input-req" >
                         <option value="0">Select a property</option>
                     @foreach ($properties as $property)
                         <option value="{{$property->PropertiesID}}">{{ $property->pPropertyName }}</option>
@@ -40,7 +40,7 @@
             <div class="form-group">
               <label name="tenant" class="col-sm-2 control-label">Tenant Name</label>
               <div class="col-sm-10">
-                <select class="form-control" name="tenantsID">
+                <select class="form-control input-req" name="tenantsID">
                         <option value="">Select a tenant</option>
                     @foreach ($tenants as $tenant)
                         <option value="{{$tenant->tenantsID}}">{{ $tenant->firstName }}</option>
@@ -76,8 +76,8 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Job Card Priority</label>
               <div class="col-sm-10">
-                <select name="priorityID" class="form-control" >
-                        <option value="0">Select a priority</option>
+                <select name="priorityID" class="form-control  input-req" >
+                        <option value="">Select a priority</option>
                     @foreach ($jobcardprioritys as $jobcardpriority)
                         <option value="{{$jobcardpriority->priorityID}}">{{ $jobcardpriority->priorityDescription }}</option>
                     @endforeach
@@ -88,8 +88,8 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Job Card Type</label>
               <div class="col-sm-10">
-                <select name="jobcardTypeID" class="form-control" >
-                        <option value="0">Select a type</option>
+                <select name="jobcardTypeID" class="form-control input-req" >
+                        <option value="">Select a type</option>
                     @foreach ($jobcardtypes as $jobcardtype)
                         <option value="{{$jobcardtype->jobcardTypeID}}">{{ $jobcardtype->jobcardTypeDescription }}</option>
                     @endforeach
@@ -232,15 +232,15 @@ $(function()
         ]
     });
       // filter child selection on page load
-      childSelection($('.selection-parent-item'));
+      unit_childSelection($('.selection-parent-item'));
 
       // $('.no-units').hide();
       // Load content based on previous selection
       $('.selection-parent-item').on('change', function(){
-        childSelection(this)
+        unit_childSelection(this)
       });
 
-      function childSelection(elem){
+      function unit_childSelection(elem){
         if ($(elem).val() != 0) {
           $('.selection-child-item').show();
           $('.no-units').hide();
@@ -255,14 +255,18 @@ $(function()
               if(data.length){
                 $('.selection-child-item').html(function(){
                     // Generate the seletect list
-                    var output = '<select class="form-control selection-child-item" name="propertySubTypeID">';
+                    var output = '<select class="form-control selection-child-item input-req" name="propertySubTypeID">';
                     output += '<option value="">Select a unit</option>';
                     data.forEach(function( index, element ){
                         output += '<option value="'+data[element].unitID+'">'+data[element].unitNumber+'</option>';
                     });
                     output += '</select>';
                     return output;
-                });
+                })
+                .addClass('input-req');
+                $( ".input-req" ).wrap( "<span class='input-req'></span>" );
+                $( ".input-req" ).attr( "required", true );
+                $( "span.input-req" ).append('<span class="input-req-inner"></span>');
               }else{
                 $('.selection-child-item').hide();
                 $('.no-units').show();

@@ -2,7 +2,7 @@
 
 @section('content')
 <meta name="_token_del" content="{{ csrf_token() }}">
-<title>IDSS | Agreement</title>
+<title>IBSS | Agreement</title>
 <section class="content-header">
       <h4><b>Agreement</b></h4>
   </section>
@@ -26,6 +26,13 @@
                     'action' => ['AgreementsController@update', $agreement->agreementID]
                     ]) !!}
                     <div class="box-body">
+                    <div class="form-group">
+                        {!! Form::label('code', 'Agreement Code', ['class' => 'text-right col-sm-2 control-label']) !!}
+                        <div class="col-sm-10">
+                            {!! Form::text('', $agreement->agreementCode, ['class' => 'col-sm-10 form-control' , 'disabled' => 'true']) !!}
+                        </div>
+                    </div>
+                    <br><br>
                     <div class="form-group">
                         {!! Form::label('PropertiesID', 'Property', ['class' => 'text-right col-sm-2 control-label']) !!} 
                         <div class="col-sm-10">

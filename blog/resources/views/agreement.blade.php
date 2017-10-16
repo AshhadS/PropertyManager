@@ -1,7 +1,7 @@
 @extends('admin_template')
 
 @section('content')
-<title>IDSS | Agreement</title>
+<title>IBSS | Agreement</title>
 <meta name="_token_del" content="{{ csrf_token() }}">
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -127,6 +127,7 @@
                 <!-- Table Headings -->
                 <thead>
                     <tr>
+                          <th>Agreement Code</th>
                           <th>Property Name</th>
                           <th>Unit</th> 
                           <th>Tenant Name</th>
@@ -198,6 +199,7 @@ $(function() {
           { "width": "10%", "targets": 8 }
         ],
         columns: [
+            { data: 'agreementCode', name: 'agreement.agreementCode'},  
             { data: 'pPropertyName', name: 'Properties.pPropertyName'},  
             { data: 'unitNumber', name: 'units.unitNumber'},  
             { data: 'firstName', name: 'tenants.firstName'},  

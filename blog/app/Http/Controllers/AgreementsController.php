@@ -51,7 +51,7 @@ class AgreementsController extends Controller
     		->leftJoin('units', 'agreement.unitID', '=', 'units.unitID')
             ->leftJoin('properties', 'agreement.PropertiesID', '=', 'properties.PropertiesID')
     		->leftJoin('paymenttype', 'agreement.paymentTypeID', '=', 'paymenttype.paymentTypeID')
-    		->select('agreement.agreementID', 'properties.pPropertyName', 'units.unitNumber' , 'tenants.firstName', 'agreement.dateFrom','agreement.dateTo','agreement.marketRent','agreement.actualRent','agreement.isSubmitted', 'paymenttype.paymentDescription');
+    		->select('agreement.agreementID', 'properties.pPropertyName', 'units.unitNumber' , 'tenants.firstName', 'agreement.dateFrom','agreement.dateTo','agreement.marketRent','agreement.actualRent','agreement.isSubmitted','agreement.agreementCode', 'paymenttype.paymentDescription');
     	return Datatables::of($t)->make(true);
 
     }
@@ -67,16 +67,19 @@ class AgreementsController extends Controller
         $agreement->paymentTypeID  = $request->paymentTypeID;
         $agreement->companyID = Sentinel::getUser()->companyID;
         $agreement->isPDCYN  = (isset($request->pdcyn)) ? $request->pdcyn : '0';
+        $agreement->agreementCode = 0;
 
         if($request->dateFrom)
             $agreement->dateFrom = date_create_from_format("j/m/Y", $request->dateFrom)->format('Y-m-d');
         
         if($request->dateTo)
             $agreement->dateTo = date_create_from_format("j/m/Y", $request->dateTo)->format('Y-m-d');
-	
-	    $agreement->save();
+    
+        $agreement->save();
+        $agreement->agreementCode = sprintf("AGR%'05d\n", $agreement->agreementID);
+        $agreement->save();
 
-	    return Redirect::to('agreements');
+        return Redirect::to('agreements');
     }
 
     function getFields($agreementid){

@@ -1,4 +1,4 @@
-<title>IDSS | Agreement</title>
+<title>IBSS | Agreement</title>
 <div class="modal fade" id="agreement-viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog " role="document">
 

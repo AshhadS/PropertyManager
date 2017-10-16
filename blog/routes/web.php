@@ -35,6 +35,13 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	    return view('todo');
 	});
 
+	/**
+	 * Image Files
+	 */
+	Route::post('/image/create', 'ImageFileController@create');
+	Route::get('/image/{filename}',  'ImageFileController@getFile');
+	Route::delete('/image/delete/{fileid}', 'ImageFileController@delete');
+
 	
 	/**
 	 * Agreements
@@ -207,8 +214,14 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::post('update/customer-invoice',  'InvoiceController@updateCustomerInvoice');
 		Route::post('update/supplier-invoice',  'InvoiceController@updateSupplierInvoice');
 
+		Route::post('custom/invoice',  'InvoiceController@createInvoice');
+		Route::delete('custom/invoice/delete',  'InvoiceController@deleteManualInvoice');
+
 		Route::get('customer/invoice/{id}/display',  'InvoiceController@customerInvoicePDF');
 		Route::get('supplier/invoice/{id}/display',  'InvoiceController@supplierInvoicePDF');
+
+		Route::post('invoice/submit',  'InvoiceController@invoiceSubmitHandler');
+
 
 		/**
 		 * Jobcard Payment
@@ -326,10 +339,10 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		/**
 		 * Chart of accounts
 		 */		
-		Route::get('/accounts', 'SettingsController@showChartofaccounts');
-		Route::post('/account', 'SettingsController@createChartofaccounts');
-		Route::post('update/account', 'SettingsController@editChartofaccounts');
-		Route::delete('/account/{chartofaccounts}', 'SettingsController@deleteChartofaccounts');
+		Route::get('/chartofaccounts', 'SettingsController@showChartofaccounts');
+		Route::post('/chartofaccount', 'SettingsController@createChartofaccounts');
+		Route::post('update/chartofaccount', 'SettingsController@editChartofaccounts');
+		Route::delete('/chartofaccount/{chartofaccounts}', 'SettingsController@deleteChartofaccounts');
 
 		/**
 		 * Receipts
@@ -337,6 +350,8 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::post('custom/receipt', 'ReceiptController@createReceipt');
 		Route::post('update/custom/receipt', 'ReceiptController@updateReceipt');
 		Route::delete('custom/receipt/{id}', 'ReceiptController@delete');
+		Route::post('submit/receipt', 'ReceiptController@submitHandler');
+		
 
 		/**
 		 * Payments
@@ -344,6 +359,8 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		Route::post('custom/payment', 'PaymentController@createPayment');
 		Route::post('update/custom/payment', 'PaymentController@updatePayment');
 		Route::delete('custom/payment/{id}', 'PaymentController@delete');
+		Route::post('submit/payment', 'PaymentController@submitHandler');
+
 
 		/**
 		 * Customer
@@ -370,6 +387,15 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 		
 		Route::post('/bank/getaccounts/{bank}', 'SettingsController@getBanksAccounts');
 
+		/**
+		 * General Ledger
+		 */
+		Route::get('/entries', 'SettingsController@showEntries');
+		Route::get('/entries/filter',  'SettingsController@getFilteredEntries');	
+		Route::get('/entries/export',  'SettingsController@excelExport');	
+
+
+
 	/**
 	 * Reconciliation
 	 */		
@@ -382,6 +408,7 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 
 	Route::get('/reconciliation/{reconciliation}/items', 'ReconciliationController@showItems');
 	Route::post('/reconciliation/clearcheque', 'ReconciliationController@clearCheque');
+	Route::post('/reconciliation/submit', 'ReconciliationController@submitHandler');
 
 		
 

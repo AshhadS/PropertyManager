@@ -53,13 +53,13 @@ class UsersController extends Controller
     }
 
     function update(Request $request){
-        $user = Sentinel::findById($request->id);
-
+        $user = Sentinel::findById($request->pk);
         if($request->name == 'roles'){
             $role = Sentinel::findRoleByID($request->roles);
             $role->users()->attach($user);
         }else{
-            $updated_user = Sentinel::update($user,$request->all());           
+            $details = array($request->name => $request->value);
+            $updated_user = Sentinel::update($user, $details);           
         }
 
         $user->save();
