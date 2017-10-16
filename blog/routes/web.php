@@ -158,6 +158,14 @@ Route::group(['middleware' => ['CustomAuth']], function () {
 	Route::get('/customerSummary_pdf', 'ReportsController@pdfCustomerSummary');
 	Route::get('/customerSummary-print',  'ReportsController@printCustomerSummary');
 
+	
+
+	Route::get('/reports_revenuebycustomer',  'ReportsController@getRevenueReport');
+	Route::get('/reports_revenuebycustomer_data',  'ReportsController@getfilteredRevenueReport');
+
+	Route::get('/reports_revenuebyunit',  'ReportsController@getRevenueReportbyUnit');
+	Route::get('/reports_revenuebyunit_data',  'ReportsController@getfilteredRevenueReportbyUnit');
+
 
 	/**
 	 * Job Card

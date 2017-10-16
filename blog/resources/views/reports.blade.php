@@ -52,7 +52,35 @@
           </div>
           <!-- /.box-body -->
       </div>
+
+       <div class="box simple-list">
+          <div class="box-header">
+            <h3 class="box-title">Revenue</h3>
+            <div class="box-tools pull-right">
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  </button>
+                </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body no-padding" >
+            <table class="table table-striped">
+              <tbody >
+              <tr>
+                <td><a class='link' href="#reports_revenuebycustomer" data-section="reports_revenuebycustomer">Revenue by Customer</a></td>
+              </tr>
+              <tr>
+                <td><a class='link' href="#reports_revenuebyunit" data-section="reports_revenuebyunit">Revenue by Unit</a></td>
+                
+              </tr>
+            </tbody></table>
+          </div>
+          <!-- /.box-body -->
+      </div>
+
+
+
     </div>
+
 
     <div class="col-md-10">      
       <div class="page-content-wrapper">
@@ -99,6 +127,19 @@
         WinPrint.close();
 
       });
+
+       $( "#rev-state" ).change(function() {
+        //this is the #state dom element
+        var state = $(this).val();
+        
+        // parameter 1 : url
+        // parameter 2: post data
+        //parameter 3: callback function 
+        $.get( '/reports_revenuebycustomer_data' , { state : state } , function(htmlCode){ //htmlCode is the code retured from your controller
+            $("#rev_table tbody").html(htmlCode);
+        });
+      });
+
 
       $( "#supplier-state" ).change(function() {
         //this is the #state dom element

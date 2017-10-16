@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Collection;
 use App\Model\Company;
+use App\Model\Customer;
 use Debugbar;
 use Redirect;
 use Response;
@@ -639,6 +640,239 @@ class ReportsController extends Controller
             'company' => $company,
             ]);
         }
+
+
+        function getRevenueReport(){
+
+             $monthlyRevenueYear=DB::table('receipt')
+            ->Orderby('revYear', 'DESC')
+            ->selectRaw('DISTINCT Year(receiptDate) as revYear')
+            ->get();
+
+            $query='(select supplierOrCustomerID as customerID,sum(amount) as totalReceived, MONTH(documentDate) as receiptMonth,Year(documentDate) as receiptYear 
+                    FROM generalledger
+                    left join chartofaccounts ON 
+                    generalledger.accountCode = chartofaccounts.chartOfAccountID
+                    WHERE Year(documentDate) = Year(now()) AND chartofaccounts.type=2
+                    GROUP BY supplierOrCustomerID,receiptMonth,receiptYear, chartofaccounts.type)received';
+            
+            $revenueByCustomer = DB::table('customer')
+            ->leftJoin (DB::raw($query),'customer.customerID','=', 'received.customerID')
+            ->selectRaw('customer.customerName,customer.customerID, received.receiptMonth, received.receiptYear,
+                    received.totalReceived as receiptAmount')
+            ->get();
+
+            $customers = DB::table('customer')
+            ->select('customerID','customerName')
+            ->get();
+
+        
+             $monthlyRevenueArray = $this->getMonthlyView($customers,$revenueByCustomer);
+
+            //dd($monthlyRevenueArray);
+
+            return view ('reports_revenuebycustomer',[
+            'monthlyRevenueArray' => $monthlyRevenueArray,
+            'monthlyRevenueYear' => $monthlyRevenueYear,
+            ]);
+
+
+
+
+        }
+     
+
+        function getfilteredRevenueReport(Request $request){
+
+            $state = $request->state;
+
+         
+            $query='(select supplierOrCustomerID as customerID,sum(amount) as totalReceived, MONTH(documentDate) as receiptMonth,Year(documentDate) as receiptYear 
+                    FROM generalledger
+                    left join chartofaccounts ON 
+                    generalledger.accountCode = chartofaccounts.chartOfAccountID
+                    WHERE Year(documentDate) = '.$state.' AND chartofaccounts.type=2
+                    GROUP BY supplierOrCustomerID,receiptMonth,receiptYear, chartofaccounts.type)received';
+
+                    
+            
+            $revenueByCustomer = DB::table('customer')
+            ->leftJoin (DB::raw($query),'customer.customerID','=', 'received.customerID')
+            ->selectRaw('customer.customerName,customer.customerID, received.receiptMonth, received.receiptYear,
+                    received.totalReceived as receiptAmount')
+            ->get();
+
+            $customers = DB::table('customer')
+            ->select('customerID','customerName')
+            ->get();
+
+             $monthlyRevenueArray = $this->getMonthlyView($customers,$revenueByCustomer);
+        
+
+            
+
+            return view ('reports_revenuebycustomer_data',[
+            'monthlyRevenueArray' => $monthlyRevenueArray
+            ]);
+
+
+
+
+        }
+
+
+        function getRevenueReportbyUnit(){
+
+             $monthlyRevenueYear=DB::table('receipt')
+            ->Orderby('revYear', 'DESC')
+            ->selectRaw('DISTINCT Year(receiptDate) as revYear')
+            ->get();
+
+            $query='(select unitID,sum(amount) as totalReceived, MONTH(documentDate) as receiptMonth,Year(documentDate) as receiptYear 
+                    FROM generalledger
+                    left join chartofaccounts ON 
+                    generalledger.accountCode = chartofaccounts.chartOfAccountID
+                    WHERE Year(documentDate) = Year(now()) AND chartofaccounts.type=2
+                    GROUP BY unitID,receiptMonth,receiptYear, chartofaccounts.type)received';
+            
+            $revenueByUnit = DB::table('units')
+            ->leftJoin (DB::raw($query),'units.unitID','=', 'received.unitID')
+            ->leftJoin('properties','units.PropertiesID','=', 'properties.PropertiesID')
+            ->selectRaw('units.unitNumber,units.unitID,properties.pPropertyName, received.receiptMonth, received.receiptYear,
+                    received.totalReceived as receiptAmount')
+            ->get();
+           // dd($revenueByUnit);
+
+            $units = DB::table('units')
+            ->leftJoin('properties','units.PropertiesID','=', 'properties.PropertiesID')
+            ->select('unitNumber','unitID','properties.pPropertyName')
+            ->get();
+            
+            //dd($units);
+            
+             $monthlyRevenueArray = $this->getMonthlyViewunit($units,$revenueByUnit);
+
+           // dd($monthlyRevenueArray);
+
+            return view ('reports_revenuebycustomer',[
+            'monthlyRevenueArray' => $monthlyRevenueArray,
+            'monthlyRevenueYear' => $monthlyRevenueYear,
+            ]);
+
+
+
+
+        }
+
+        
+
+
+         function getfilteredRevenueReportbyUnit(Request $request){
+
+            $state = $request->state;
+
+            
+            $query='(select unitID,sum(amount) as totalReceived, MONTH(documentDate) as receiptMonth,Year(documentDate) as receiptYear 
+                    FROM generalledger
+                    left join chartofaccounts ON 
+                    generalledger.accountCode = chartofaccounts.chartOfAccountID
+                    WHERE Year(documentDate) = '.$state.' AND chartofaccounts.type=2
+                    GROUP BY unitID,receiptMonth,receiptYear, chartofaccounts.type)received';
+            
+            $revenueByUnit = DB::table('units')
+            ->leftJoin (DB::raw($query),'units.unitID','=', 'received.unitID')
+            ->selectRaw('units.unitNumber,units.unitID, received.receiptMonth, received.receiptYear,
+                    received.totalReceived as receiptAmount')
+            ->get();
+
+            $units = DB::table('units')
+            ->leftJoin('properties','units.PropertiesID','=', 'properties.PropertiesID')
+            ->select('unitNumber','unitID','properties.pPropertyName')
+            ->get();
+            
+             $monthlyRevenueArray = $this->getMonthlyViewunit($units,$revenueByUnit);
+        
+
+            
+            return view ('reports_revenuebycustomer_data',[
+            'monthlyRevenueArray' => $monthlyRevenueArray
+            ]);
+
+
+
+
+        }
+
+
+        public function getMonthlyView(Collection $customers,Collection $revenueByCustomer){
+
+            $monthlyRevenueArray=[];
+
+            foreach ($customers as $customer) {
+
+                for ($i=0; $i<13 ; $i++) { 
+
+                        foreach ($revenueByCustomer as $value) {
+
+                            if ($customer->customerID == $value->customerID){
+
+                                if ($value->receiptMonth==$i){
+                                    
+
+                                        $monthlyRevenueArray[$customer->customerName][$i]=$value->receiptAmount *-1;
+                                }  
+
+                            }
+                                                 
+                        }
+
+                                 if (empty($monthlyRevenueArray[$customer->customerName][$i])){
+
+                                     $monthlyRevenueArray[$customer->customerName][$i]=0;
+                                 }
+                    
+                }
+            }
+
+            return $monthlyRevenueArray;
+
+        }
+
+        public function getMonthlyViewunit(Collection $customers,Collection $revenueByCustomer){
+
+            $monthlyRevenueArray=[];
+
+            foreach ($customers as $customer) {
+                $unitName=$customer->pPropertyName." (Flat ".$customer->unitNumber.")";
+                for ($i=0; $i<13 ; $i++) { 
+
+                        foreach ($revenueByCustomer as $value) {
+
+                            if ($customer->unitID == $value->unitID){
+
+                                if ($value->receiptMonth==$i){
+                                    
+
+                                        $monthlyRevenueArray[$unitName][$i]=$value->receiptAmount*-1;
+                                }  
+
+                            }
+                                                 
+                        }
+
+                                 if (empty($monthlyRevenueArray[$unitName][$i])){
+
+                                     $monthlyRevenueArray[$unitName][$i]=0;
+                                 }
+                    
+                }
+            }
+
+            return $monthlyRevenueArray;
+
+        }
+
+
 
 
     
